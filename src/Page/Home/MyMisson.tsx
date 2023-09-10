@@ -22,7 +22,7 @@ const MyMisson = ({ mygrouplist }: { mygrouplist: GroupInfoType[] }): JSX.Elemen
       {/* FIXME: 사라질 코드 */}
       <h2>나의 작심 현황({mygrouplist.length}/3)</h2>
       <MyMissionULS>
-         <Carresel carreselProps={carreselProps} /> 
+        <Carresel carreselProps={carreselProps} />
         <ButtonList buttonListProps={buttonDataProps} />
       </MyMissionULS>
     </MyMissonS>
@@ -36,6 +36,7 @@ const MyMissonS = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-wrap: wrap;
 
   margin-bottom: 2rem;
 
