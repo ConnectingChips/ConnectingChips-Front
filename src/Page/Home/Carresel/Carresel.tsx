@@ -1,15 +1,79 @@
-import { CarreselProps } from "../../../Type/MissionType";
-import { MissionSingleWide, myGroupImages, myInfo, myGroupList, ChipList, styled } from "./CarreselBarrel";
-import useCarresel from "./useCarresel";
-import ImageBoxS from "../../../StyleComp/ImageBoxS";
-import CarreselSlideButton from "./CarreselSlideButton";
+import { CarreselProps } from '../../../Type/MissionType';
+
+// TODO: 갈아끼울 코드
+// import { MissionSingleWide, ChipList, styled, useState, useEffect } from './CarreselBarrel';
+
+// FIXME: 사라질 코드
+import {
+  MissionSingleWide,
+  myGroupImages,
+  myInfo,
+  myGroupList,
+  ChipList,
+  styled,
+} from './CarreselBarrel';
+import useCarresel from './useCarresel';
+import ImageBoxS from '../../../StyleComp/ImageBoxS';
+import CarreselSlideButton from './CarreselSlideButton';
+
+import { fetchMyList } from '../HomeBarrel';
+import { initMyList } from '../HomeBarrel';
 
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
+// TODO: 갈아끼울 코드
+// const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
+//   const { slideRef, count, setCount, sort, setSort, TOTAL_SLIDES } = carreselProps;
+
+//   const [myList, setMyList] = useState(initMyList.data);
+//   useEffect(() => {
+//     fetchMyList(setMyList);
+//   }, []);
+
+//   /** 2023-09-22 Carresel.tsx - 내 작심 현황 - Kadesti */
+//   const Mylist = myList.map((mygroup) => {
+//     const { type, name, id, image, boardCount, count } = mygroup;
+
+//     return (
+//       <li key={id}>
+//         <MyMissionInfoS href={`/groupPage/${id}`}>
+//           <img src={image} alt='main_image' />
+//           <MissionContentS>
+//             <MissionSingleWide text={type} />
+//             <h2>{name}</h2>
+//             <p>
+//               🔥 <span className='date'>{boardCount}</span>일자 맛보기 중
+//             </p>
+//           </MissionContentS>
+//           <ChipList count={count} />
+//         </MyMissionInfoS>
+//       </li>
+//     );
+//   });
+
+//   return (
+//     <div>
+//       <MissionListS>
+//         {/* 나의 작심 컨텐츠 */}
+//         <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
+//           {Mylist}
+//         </ImageBoxS>
+//         <CarreselSlideButton
+//           count={count}
+//           setSort={setSort}
+//           setCount={setCount}
+//           TOTAL_SLIDES={TOTAL_SLIDES}
+//         />
+//       </MissionListS>
+//     </div>
+//   );
+// };
+
+// FIXME: 사라질 코드
 const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
-  const { slideRef, count, setCount, sort, setSort, TOTAL_SLIDES, doneBind, countBind, uuidBind } = carreselProps;
+  const { slideRef, count, setCount, sort, setSort, TOTAL_SLIDES, doneBind, countBind, uuidBind } =
+    carreselProps;
   const { dateList, doneList, countList, uuidList } = useCarresel(doneBind, countBind, uuidBind);
 
-  /** 2023-09-22 Carresel.tsx - 내 작심 현황 - Kadesti */
   const Mylist = myGroupList.map((mygroup, index) => {
     const missionInfo = mygroup.memberList.find((member) => member.member_id === myInfo.my_id);
     if (missionInfo === undefined) return <></>;
@@ -17,15 +81,17 @@ const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
     const { tab, title } = mygroup;
 
     return (
-      // <li key={uuidList[index]}>
+      // FIXME: 사라질 코드
       <li key={index}>
+        {/* // TODO: 갈아끼울 코드 */}
+        {/* <li key={index}> */}
         <MyMissionInfoS href={`/groupPage/${uuidList[index]}`}>
-          <img src={myGroupImages[index]} alt="main_image" />
+          <img src={myGroupImages[index]} alt='main_image' />
           <MissionContentS>
             <MissionSingleWide text={tab} />
             <h2>{title}</h2>
             <p>
-              🔥 <span className="date">{dateList[index]}</span>일자 맛보기 중
+              🔥 <span className='date'>{dateList[index]}</span>일자 맛보기 중
             </p>
           </MissionContentS>
           <ChipList count={countList[index]} />
@@ -41,7 +107,12 @@ const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
         <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
           {Mylist}
         </ImageBoxS>
-        <CarreselSlideButton count={count} setSort={setSort} setCount={setCount} TOTAL_SLIDES={TOTAL_SLIDES} />
+        <CarreselSlideButton
+          count={count}
+          setSort={setSort}
+          setCount={setCount}
+          TOTAL_SLIDES={TOTAL_SLIDES}
+        />
       </MissionListS>
     </div>
   );

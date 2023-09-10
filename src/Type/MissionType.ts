@@ -44,7 +44,7 @@ export type GroupListTab = {
   title: string;
 };
 
-export type PageSort = "Page" | "Intro" | "Create";
+export type PageSort = 'Page' | 'Intro' | 'Create';
 
 export type doneBind = {
   doneList: boolean[];
@@ -59,13 +59,20 @@ export type uuidBind = {
   setUuidList: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
-interface CommonProps {
+export interface CommonProps {
   slideRef: React.MutableRefObject<null>;
   count: number;
   sort: string;
   TOTAL_SLIDES: number;
 }
 
+// TODO: 갈아끼울 코드
+// export interface CarreselProps extends CommonProps {
+//   setCount: React.Dispatch<React.SetStateAction<number>>;
+//   setSort: React.Dispatch<React.SetStateAction<string>>;
+// }
+
+// FIXME: 버려질 코드
 export interface CarreselProps extends CommonProps {
   setCount: React.Dispatch<React.SetStateAction<number>>;
   setSort: React.Dispatch<React.SetStateAction<string>>;

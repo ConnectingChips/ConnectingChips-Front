@@ -1,50 +1,26 @@
 import { styled, Link, useEffect, useState } from './HomeBarrel';
+import { scrollTop, fetchMyList, initMyList } from './HomeBarrel';
 import { MyMisson, GroupList } from './HomeBarrel';
-import { scrollTop, myInfo, myGroupList } from './HomeBarrel';
 import { Banner as BannerImage, Logo_002, 헤드셋칩스, 기본프로필 } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
 import { useNavigate } from 'react-router-dom';
 
-interface MyList {
-  status: number;
-  data: {
-    id: number;
-    type: string;
-    name: string;
-    count: number;
-    boardCount: number;
-    image: string;
-    isDoneToday: boolean;
-  };
-}
-
-const initMyList: MyList[] = [
-  {
-    status: 200,
-    data: {
-      id: 0,
-      type: '',
-      name: 'defaultName',
-      count: 0,
-      boardCount: 0,
-      image: '',
-      isDoneToday: false,
-    },
-  },
-];
-
-/** 나의 작심 호출 */
-const fetchMyList = async (setMyList: React.Dispatch<React.SetStateAction<MyList[]>>) => {
-  const result: MyList[] = await fetch('/minds/my-list').then((res) => res.json());
-  setMyList(result);
-};
+// FIXME: 사라질 코드
+import { myInfo, myGroupList } from './HomeBarrel';
 
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
   const [access_token, setAccess_token] = useState('');
-  // const tokenBind = { access_token, setAccess_token };
-  const [myList, setMyList] = useState(initMyList);
+
+  // TODO: 갈아끼울 코드
+  // const [myList, setMyList] = useState(initMyList.data);
+
+  // FIXME: 사라질 코드
+  // const [myList, setMyList] = useState(initMyList);
   const [istodayDone, setIsDone] = useState(false);
+
+  // FIXME: User ID 받아오기
+  const nickName = '{닉네임}';
 
   useEffect(() => {
     scrollTop();
@@ -54,11 +30,20 @@ const Home = (): JSX.Element => {
     const access_token = localStorage.getItem('access_token');
     if (access_token) setAccess_token(access_token);
 
-    fetchMyList(setMyList);
+    // TODO: 사용하게 될 코드
+    // fetchMyList(setMyList);
 
-    const isDone = myList.some((mind) => mind.data.isDoneToday);
+    const isDone = myGroupList.some((group) =>
+      group.memberList.find((member) => member.member_id === myInfo.my_id && member.done),
+    );
+    // const isDone = myList.some((mind) => mind.isDoneToday);
     setIsDone(isDone);
-  }, [access_token, myList]);
+
+    // TODO: 사용할 코드
+    // }, [access_token, myList]);
+
+    // FIXME: 삭제하게 될 코드
+  }, [access_token]);
 
   const navigate = useNavigate();
   const profileClick = () => {
@@ -78,12 +63,18 @@ const Home = (): JSX.Element => {
           <WelcomeTextS>
             {access_token && istodayDone ? (
               <h1>
+                {/* TODO: 갈아끼울 코드 */}
+                {/* 멋져요 {nickName}칩스! <br /> */}
+                {/* FIXME: 사라질 코드 */}
                 멋져요 {myInfo.my_id}칩스! <br />
                 내일도 함께 해<br />
                 주실 거죠?
               </h1>
             ) : access_token ? (
               <h1>
+                {/* TODO: 갈아끼울 코드 */}
+                {/* 반가워요 {nickName}칩스! <br /> */}
+                {/* FIXME: 사라질 코드 */}
                 반가워요 {myInfo.my_id}칩스! <br />
                 오늘도 함께 작심을
                 <br /> 성공해볼까요?
@@ -99,6 +90,10 @@ const Home = (): JSX.Element => {
           </WelcomeTextS>
           {!access_token && <img src={헤드셋칩스} alt='헤드셋칩스' />}
         </WelcomeHeadS>
+        {/* TODO: 갈아끼울 코드 */}
+        {/* {myList && access_token && <MyMisson myList={myList} />} */}
+
+        {/* FIXME: 사라질 코드 */}
         {myGroupList && access_token && <MyMisson mygrouplist={myGroupList} />}
         <Banner />
         <GroupList />
