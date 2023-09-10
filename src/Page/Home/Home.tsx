@@ -18,19 +18,32 @@ interface MyList {
   };
 }
 
-/** 오늘 작심 했으면 true */
-const todayDone = async (setIsDone: React.Dispatch<React.SetStateAction<boolean>>) => {
-  const result: boolean = await fetch('/minds/my-list')
-    .then((res) => res.json())
-    .then((res) => res.some((mind: MyList) => mind.data.isDoneToday));
+const initMyList: MyList[] = [
+  {
+    status: 200,
+    data: {
+      id: 0,
+      type: '',
+      name: 'defaultName',
+      count: 0,
+      boardCount: 0,
+      image: '',
+      isDoneToday: false,
+    },
+  },
+];
 
-  setIsDone(result);
+/** 나의 작심 호출 */
+const fetchMyList = async (setMyList: React.Dispatch<React.SetStateAction<MyList[]>>) => {
+  const result: MyList[] = await fetch('/minds/my-list').then((res) => res.json());
+  setMyList(result);
 };
 
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
   const [access_token, setAccess_token] = useState('');
   // const tokenBind = { access_token, setAccess_token };
+  const [myList, setMyList] = useState(initMyList);
   const [istodayDone, setIsDone] = useState(false);
 
   useEffect(() => {
@@ -41,8 +54,11 @@ const Home = (): JSX.Element => {
     const access_token = localStorage.getItem('access_token');
     if (access_token) setAccess_token(access_token);
 
-    todayDone(setIsDone);
-  }, [access_token]);
+    fetchMyList(setMyList);
+
+    const isDone = myList.some((mind) => mind.data.isDoneToday);
+    setIsDone(isDone);
+  }, [access_token, myList]);
 
   const navigate = useNavigate();
   const profileClick = () => {
@@ -56,7 +72,6 @@ const Home = (): JSX.Element => {
       <HomeHeaderS>
         <img src={Logo_002} alt='logo' className='Logo' />
         <img src={기본프로필} alt='기본 프로필' onClick={profileClick} />
-        {/* <HomeLogin tokenbind={tokenBind} /> */}
       </HomeHeaderS>
       <HomeContentS>
         <WelcomeHeadS>
