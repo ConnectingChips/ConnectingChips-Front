@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import postInfoData from "../../data/postInfoData";
-import 기본프로필 from "../../image/예시사진모음/default_profile.svg";
+import 기본프로필 from "../../image/예시사진모음/default_profile_W.png";
 import point3 from "../../image/Icon/3point_icon.svg";
 import { Link } from "react-router-dom";
 import { useState } from "react";
