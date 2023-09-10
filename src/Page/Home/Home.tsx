@@ -5,27 +5,44 @@ import { Banner as BannerImage, Logo_002, 헤드셋칩스, 기본프로필 } fro
 import { GNB } from '../../AppBarral';
 import { useNavigate } from 'react-router-dom';
 
+interface MyList {
+  status: number;
+  data: {
+    id: number;
+    type: string;
+    name: string;
+    count: number;
+    boardCount: number;
+    image: string;
+    isDoneToday: boolean;
+  };
+}
+
+/** 오늘 작심 했으면 true */
+const todayDone = async (setIsDone: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const result: boolean = await fetch('/minds/my-list')
+    .then((res) => res.json())
+    .then((res) => res.some((mind: MyList) => mind.data.isDoneToday));
+
+  setIsDone(result);
+};
+
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
   const [access_token, setAccess_token] = useState('');
-  const tokenBind = { access_token, setAccess_token };
-
-  useEffect(() => {
-    const access_token = localStorage.getItem('access_token');
-    if (access_token) setAccess_token(access_token);
-  }, [access_token]);
+  // const tokenBind = { access_token, setAccess_token };
+  const [istodayDone, setIsDone] = useState(false);
 
   useEffect(() => {
     scrollTop();
   }, []);
 
-  /** 2023-09-03 Home.tsx - 오늘 작심 했으면 true */
-  const todayDone = myGroupList.some(
-    (mygroup) =>
-      mygroup.memberList.filter((member) => {
-        if (member.member_id === myInfo.my_id) return member.done;
-      })[0].done,
-  );
+  useEffect(() => {
+    const access_token = localStorage.getItem('access_token');
+    if (access_token) setAccess_token(access_token);
+
+    todayDone(setIsDone);
+  }, [access_token]);
 
   const navigate = useNavigate();
   const profileClick = () => {
@@ -44,7 +61,7 @@ const Home = (): JSX.Element => {
       <HomeContentS>
         <WelcomeHeadS>
           <WelcomeTextS>
-            {access_token && todayDone ? (
+            {access_token && istodayDone ? (
               <h1>
                 멋져요 {myInfo.my_id}칩스! <br />
                 내일도 함께 해<br />
