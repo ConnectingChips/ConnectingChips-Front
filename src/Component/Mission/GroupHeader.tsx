@@ -48,16 +48,15 @@ const GroupHeaderS = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-
   // 아래 비치게 하기
   backdrop-filter: blur(10px);
 `;
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
 const GroupBGHeaderS = styled(GroupHeaderS)`
-  background-color: white
+  backdrop-filter: none;
+  background-color: white;
   cursor: default;
-
   z-index: 10;
 
   img {
