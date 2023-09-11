@@ -15,17 +15,19 @@ import useMission from '../../Hooks/useMission';
 const MyMisson = ({ mygrouplist }: { mygrouplist: GroupInfoType[] }): JSX.Element => {
   const { carreselProps, buttonDataProps } = useMission();
   return (
-    <MyMissonS>
+    <>
       {/* TODO: 갈아끼울 코드 */}
       {/* <h2>나의 작심 현황({myList.length}/3)</h2> */}
 
       {/* FIXME: 사라질 코드 */}
       <h2>나의 작심 현황({mygrouplist.length}/3)</h2>
-      <MyMissionULS>
-        <Carresel carreselProps={carreselProps} />
-        <ButtonList buttonListProps={buttonDataProps} />
-      </MyMissionULS>
-    </MyMissonS>
+      <MyMissonS>
+        <MyMissionULS>
+          <Carresel carreselProps={carreselProps} />
+          <ButtonList buttonListProps={buttonDataProps} />
+        </MyMissionULS>
+      </MyMissonS>
+    </>
   );
 };
 
