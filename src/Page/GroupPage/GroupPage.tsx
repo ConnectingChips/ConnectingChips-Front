@@ -1,10 +1,24 @@
-import { useState, styled } from "./GroupPageBarrel";
-import { useNavigate, useFindGroup, useLoginCheck } from "./GroupPageBarrel";
-import { GroupHeader, type LikeBind, Comment, DivideBaS, GroupActive, GroupArticle } from "./GroupPageBarrel";
+import { useState, styled } from './GroupPageBarrel';
+import { useNavigate, useFindGroup, useLoginCheck, useEffect } from './GroupPageBarrel';
+import {
+  GroupHeader,
+  type LikeBind,
+  Comment,
+  DivideBaS,
+  GroupActive,
+  GroupArticle,
+} from './GroupPageBarrel';
 
 /** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
+  const navigate = useNavigate();
   const { intro, rule, url } = useFindGroup('page');
+
+  useEffect(() => {
+    if (!localStorage.getItem('access_token')) {
+      navigate(-1);
+    }
+  }, []);
 
   return (
     <GroupPageS>
@@ -31,7 +45,7 @@ type GroupPostProps = {
 const GroupSummary = ({ intro, rule, selected }: GroupPostProps) => {
   return (
     <>
-      <GroupArticle groupText={intro} groupRule={rule} selected={selected} passsort="Page" />
+      <GroupArticle groupText={intro} groupRule={rule} selected={selected} passsort='Page' />
       <DivideBaS />
     </>
   );
@@ -45,7 +59,7 @@ const GroupPost = () => {
 
   return (
     <GroupPostS>
-      <GroupActive passsort="Page" setCommented={setCommented} likeBind={likeBind} />
+      <GroupActive passsort='Page' setCommented={setCommented} likeBind={likeBind} />
       <Comment Commented={Commented} />
     </GroupPostS>
   );
