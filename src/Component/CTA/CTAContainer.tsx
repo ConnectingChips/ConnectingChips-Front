@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 // TODO: 갈아끼울 부분
-import { fetchMyList } from '../../Hooks/fetchMyList';
+import { fetchMyList } from '../../API/fetchMyList';
 import { initMyList } from '../../data/initialData';
 
 // FIXME: 버려질 부분
