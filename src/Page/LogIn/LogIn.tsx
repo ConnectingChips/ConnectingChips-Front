@@ -21,33 +21,8 @@ const LogIn = (): JSX.Element => {
   const navigate = useNavigate();
 
   useLoginCheck(navigate, 'Done');
-  const referrer = document.referrer;
-
-  console.log('이전 페이지 URL: ' + referrer);
-
-  // const [password, setPassword] = useState("");
-  // const [showPassword, setShowPassword] = useState(false);
-
-  // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPassword(e.target.value);
-  // };
-  // const handleToggleShowPassword = (e: any) => {
-  //   e.preventDefault();
-  //   setShowPassword(!showPassword);
-  // };
 
   const isDefault = inputState === 'default';
-
-  /** 2023-08-24 LogIn.tsx - 로그인 ID PW 입력창 컨테이너 */
-  // const LoginInputContainer = (): JSX.Element => {
-  //   return (
-  //     <LoginInputContainerS>
-  //       <LoginInput sort="ID" isdefault={isDefault} inputbind={idBind} />
-  //       <LoginInput sort="PW" isdefault={isDefault} inputbind={pwBind} />
-  //       {!isDefault && <p>아이디 혹은 비밀번호가 일치하지 않습니다</p>}
-  //     </LoginInputContainerS>
-  //   );
-  // };
 
   /** 2023-08-24 LogIn.tsx - 로그인 요청 핸들러 */
   // FIXME: 버려질 코드
@@ -62,15 +37,6 @@ const LogIn = (): JSX.Element => {
       }
       localStorage.setItem('access_token', '1234564862169');
 
-      //     // const loginPost = await axios.post("/users/sign-in", {
-      //     //   nickname,
-      //     //   password,
-      //     // });
-
-      //     // const access_token = loginPost.data.access_token;
-      //     // localStorage.setItem("access_token", access_token);
-
-      //     // navigate(referrer);
       navigate(-1);
     } catch (error) {
       console.error('Login failed:', error);
@@ -82,9 +48,6 @@ const LogIn = (): JSX.Element => {
       <Loginheader type='로그인' />
       <Banner />
       <LoginOuterContainerS>
-        {/* TODO: 갈아끼울 코드 */}
-        {/* <LoginFormS> */}
-        {/* FIXME: 사라질 코드 */}
         <LoginFormS onSubmit={LoginSubmit}>
           <LoginContainerS>
             <LoginInnerContainerS>
@@ -206,39 +169,3 @@ const NudgeSignS = styled.div`
     margin-top: 0.3rem;
   }
 `;
-
-/* <LoginInputS placeholder="아이디를 입력해 주세요" className={isDefault ? "" : "failed"} />
-        <LoginInputS placeholder="비밀번호를 입력해 주세요" className={isDefault ? "" : "failed"} type={isDefault ? "password" : "text"} /> */
-
-/* <LoginInputPWS className={isDefault ? "" : "failed"}>
-          <input placeholder="비밀번호를 입력해 주세요" type={showPassword ? "text" : "password"} value={password} onChange={handlePasswordChange} />
-          <button onClick={handleToggleShowPassword}>{showPassword ? "H" : "S"}</button>
-        </LoginInputPWS> */
-
-/** 2023-08-24 LogIn.tsx - 로그인 비밀번호 */
-/*
-const LoginInputPWS = styled.div`
-display: flex;
-justify-content: space-between;
-
-padding: 1rem;
-border: 0.1rem solid;
-border-radius: 0.5rem;
-
-&:focus-within {
-  outline: 0.15rem solid;
-  border: none;
-}
-&.failed {
-  border-color: var(--system-red);
-}
-
-input {
-  font-size: 1rem;
-  border: none;
-  &:focus {
-    outline: none;
-  }
-}
-`;
-*/
