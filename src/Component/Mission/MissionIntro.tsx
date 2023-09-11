@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 /** 2023-08-22 MissionIntro.tsx - 미션 소개글 */
 const MissionIntro = ({ groupText }: { groupText: string }): JSX.Element => {
@@ -10,4 +10,5 @@ export default MissionIntro;
 /** 2023-08-22 MissionIntro.tsx - 미션 소개글 */
 const IntroduceS = styled.p`
   margin-top: 1rem;
+  line-height: 1.25rem;
 `;
