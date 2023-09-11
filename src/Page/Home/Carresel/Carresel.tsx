@@ -107,12 +107,6 @@ const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
         <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
           {Mylist}
         </ImageBoxS>
-        {/* <CarreselSlideButton
-          count={count}
-          setSort={setSort}
-          setCount={setCount}
-          TOTAL_SLIDES={TOTAL_SLIDES}
-        /> */}
       </MissionListS>
     </div>
   );
