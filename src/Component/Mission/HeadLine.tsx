@@ -48,7 +48,7 @@ export default HeadLine;
 const HeadLineS = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
 
   h1 {
     font-size: 1.5rem;
