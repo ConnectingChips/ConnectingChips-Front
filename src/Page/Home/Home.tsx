@@ -1,63 +1,99 @@
-import { styled, Link, useEffect, useState } from "./HomeBarrel";
-import { MyMisson, GroupList } from "./HomeBarrel";
-import { scrollTop, myInfo, myGroupList } from "./HomeBarrel";
-import { Banner as BannerImage, Logo_002, 헤드셋칩스 } from "./HomeImageBarrel";
-import { GNB } from "../../AppBarral";
+import { styled, Link, useEffect, useState } from './HomeBarrel';
+import { scrollTop, fetchMyList, initMyList } from './HomeBarrel';
+import { MyMisson, GroupList } from './HomeBarrel';
+import { Banner as BannerImage, Logo_002, 헤드셋칩스, 기본프로필 } from './HomeImageBarrel';
+import { GNB } from '../../AppBarral';
+import { useNavigate } from 'react-router-dom';
+
+// FIXME: 사라질 코드
+import { myInfo, myGroupList } from './HomeBarrel';
 
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
-  const [access_token, setAccess_token] = useState("");
-  const tokenBind = { access_token, setAccess_token };
+  const [access_token, setAccess_token] = useState('');
 
-  useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
-    if (access_token) setAccess_token(access_token);
-  }, [access_token]);
+  // TODO: 갈아끼울 코드
+  // const [myList, setMyList] = useState(initMyList.data);
+
+  // FIXME: 사라질 코드
+  // const [myList, setMyList] = useState(initMyList);
+  const [istodayDone, setIsDone] = useState(false);
+
+  // FIXME: User ID 받아오기
+  const nickName = '{닉네임}';
 
   useEffect(() => {
     scrollTop();
   }, []);
 
-  /** 2023-09-03 Home.tsx - 오늘 작심 했으면 true */
-  const todayDone = myGroupList.some(
-    (mygroup) =>
-      mygroup.memberList.filter((member) => {
-        if (member.member_id === myInfo.my_id) return member.done;
-      })[0].done
-  );
+  useEffect(() => {
+    const access_token = localStorage.getItem('access_token');
+    if (access_token) setAccess_token(access_token);
+
+    // TODO: 사용하게 될 코드
+    // fetchMyList(setMyList);
+
+    const isDone = myGroupList.some((group) =>
+      group.memberList.find((member) => member.member_id === myInfo.my_id && member.done),
+    );
+    // const isDone = myList.some((mind) => mind.isDoneToday);
+    setIsDone(isDone);
+
+    // TODO: 사용할 코드
+    // }, [access_token, myList]);
+
+    // FIXME: 삭제하게 될 코드
+  }, [access_token]);
+
+  const navigate = useNavigate();
+  const profileClick = () => {
+    if (access_token) return navigate('/myPage');
+
+    navigate('/LogIn');
+  };
 
   return (
     <HomeS>
       <HomeHeaderS>
-        <img src={Logo_002} alt="logo" />
-        <HomeLogin tokenbind={tokenBind} />
+        <img src={Logo_002} alt='logo' className='Logo' />
+        <img src={기본프로필} alt='기본 프로필' onClick={profileClick} />
       </HomeHeaderS>
       <HomeContentS>
         <WelcomeHeadS>
           <WelcomeTextS>
-            {access_token && todayDone ? (
+            {access_token && istodayDone ? (
               <h1>
+                {/* TODO: 갈아끼울 코드 */}
+                {/* 멋져요 {nickName}칩스! <br /> */}
+                {/* FIXME: 사라질 코드 */}
                 멋져요 {myInfo.my_id}칩스! <br />
                 내일도 함께 해<br />
                 주실 거죠?
               </h1>
             ) : access_token ? (
               <h1>
+                {/* TODO: 갈아끼울 코드 */}
+                {/* 반가워요 {nickName}칩스! <br /> */}
+                {/* FIXME: 사라질 코드 */}
                 반가워요 {myInfo.my_id}칩스! <br />
                 오늘도 함께 작심을
                 <br /> 성공해볼까요?
               </h1>
             ) : (
               <h1>
-                <p className="bold">딱 3일!</p>
+                <p className='bold'>딱 3일!</p>
                 {/* <br /> */}
                 재미있게
                 <br /> 삼칩하자!
               </h1>
             )}
           </WelcomeTextS>
-          {!access_token && <img src={헤드셋칩스} alt="헤드셋칩스" />}
+          {!access_token && <img src={헤드셋칩스} alt='헤드셋칩스' />}
         </WelcomeHeadS>
+        {/* TODO: 갈아끼울 코드 */}
+        {/* {myList && access_token && <MyMisson myList={myList} />} */}
+
+        {/* FIXME: 사라질 코드 */}
         {myGroupList && access_token && <MyMisson mygrouplist={myGroupList} />}
         <Banner />
         <GroupList />
@@ -85,13 +121,13 @@ const HomeLogin = ({ tokenbind }: { tokenbind: tokenbind }) => {
 
   const clearStorage = () => {
     localStorage.clear();
-    setAccess_token("");
+    setAccess_token('');
   };
 
   return access_token ? (
     <button onClick={clearStorage}>로그아웃</button>
   ) : (
-    <Link to="/login">
+    <Link to='/login'>
       <button>로그인</button>
     </Link>
   );
@@ -124,13 +160,18 @@ const WelcomeHeadS = styled.div`
 /** 2023-08-22 Home.tsx - 설문조사 배너 */
 const Banner = (): JSX.Element => {
   return (
-    <BannerS href={"https://docs.google.com/forms/d/e/1FAIpQLSfUEWLC19oM9kPgzitmki705aZxY8Wn5jkH1YtkMObi-1FHIg/viewform"} target="_blank">
+    <BannerS
+      href={
+        'https://docs.google.com/forms/d/e/1FAIpQLSfUEWLC19oM9kPgzitmki705aZxY8Wn5jkH1YtkMObi-1FHIg/viewform'
+      }
+      target='_blank'
+    >
       {/* <BannerS href={baseurl} target="_blank"> */}
-      <div className="bannerText">
+      <div className='bannerText'>
         <h2>칩스님의 의견을 들려주세요</h2>
         <p>작심삼칩을 부탁해</p>
       </div>
-      <img src={BannerImage} alt="bannerImage" />
+      <img src={BannerImage} alt='bannerImage' />
     </BannerS>
   );
 };
@@ -169,7 +210,6 @@ const BannerS = styled.a`
 const HomeHeaderS = styled.header`
   z-index: 10;
   display: flex;
-  height: 2.7rem;
   justify-content: space-between;
   align-items: center;
 
@@ -179,8 +219,8 @@ const HomeHeaderS = styled.header`
   position: sticky;
   top: 0;
 
-  img {
-    height: 1.8rem;
+  .Logo {
+    height: 1.3125rem;
   }
 
   button {

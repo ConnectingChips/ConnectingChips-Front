@@ -1,6 +1,12 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { styled } from "styled-components";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { styled } from 'styled-components';
+
+// TODO: 갈아끼울 부분
+import { fetchMyList } from '../../Hooks/fetchMyList';
+import { initMyList } from '../../data/initialData';
+
+// FIXME: 버려질 부분
 import { myGroupList } from "../../data/myInfo";
 
 /** 2023-08-22 CTAContainer.tsx - 참여하기 버튼 */
@@ -8,27 +14,34 @@ const JoinButtonCTA = (): JSX.Element => {
   const navigate = useNavigate();
   const { uuid } = useParams();
   const [isLogin, setIsLogin] = useState(false);
-  const [validJoin, setValidJoin] = useState("true");
+  const [validJoin, setValidJoin] = useState('true');
+
+  const [myList, setMyList] = useState(initMyList.data);
 
   useEffect(() => {
-    if (localStorage.getItem("access_token")) {
+    if (localStorage.getItem('access_token')) {
       setIsLogin(true);
+      fetchMyList(setMyList);
 
+      // TODO: 갈아끼울 부분
+      // if (myList.length === 3) setValidJoin('false');
+      
+      // FIXME: 버려질 부분
       if (myGroupList.length === 3) setValidJoin("false");
     }
-  }, []);
+  }, [myList.length]);
 
   const joinGroup = async () => {
-    if (!isLogin) return navigate("/logIn");
+    if (!isLogin) return navigate('/logIn');
 
     try {
       navigate(`/groupPage/${uuid}`);
     } catch (error) {
-      console.error("참여하기 실패: ", error);
+      console.error('참여하기 실패: ', error);
     }
   };
 
-  return validJoin === "true" ? (
+  return validJoin === 'true' ? (
     <CTAButtonS valid={validJoin} onClick={joinGroup}>
       참여하기
     </CTAButtonS>
@@ -51,7 +64,7 @@ const BackButton = (): JSX.Element => {
 
 /** 2023-08-22 CTAContainer.tsx - 인증하기 버튼 */
 const SubmitButtonCTA = (): JSX.Element => {
-  return <CTAButtonS valid={"true"}>인증하기</CTAButtonS>;
+  return <CTAButtonS valid={'true'}>인증하기</CTAButtonS>;
 };
 
 /** 2023-08-22 CTAContainer.tsx - CTA 참여하기 + GNB */
@@ -70,7 +83,7 @@ const ErrorCTA = (): JSX.Element => {
 
   return (
     <CTAContainerS>
-      <CTAButtonS valid={"true"} onClick={() => navigate("/")}>
+      <CTAButtonS valid={'true'} onClick={() => navigate('/')}>
         메인으로
       </CTAButtonS>
     </CTAContainerS>
@@ -105,13 +118,14 @@ const LinkButtonS = styled.button`
 
 /** 2023-08-22 CTAContainer.tsx - CTA 버튼(참여하기, 인증하기) */
 const CTAButtonS = styled(LinkButtonS)<{ valid: string }>`
-  background-color: ${(props) => (props.valid === "true" ? "var(--color-main)" : "var(--color-disabled2)")};
+  background-color: ${(props) =>
+    props.valid === 'true' ? 'var(--color-main)' : 'var(--color-disabled2)'};
   margin: 0 1rem;
   margin-bottom: 1rem;
   position: sticky;
   bottom: 0rem;
 
-  color: ${(props) => (props.valid === "true" ? "var(--font-color1)" : "var(--color-disabled1)")};
+  color: ${(props) => (props.valid === 'true' ? 'var(--font-color1)' : 'var(--color-disabled1)')};
   font-size: 1rem;
 `;
 

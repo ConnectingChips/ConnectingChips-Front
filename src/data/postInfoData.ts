@@ -1,6 +1,6 @@
 import { PostInfo } from "../Type/PostInfo";
 import 자전거운동 from "../image/예시사진모음/자전거운동.jpg";
-import 기본프로필 from "../image/예시사진모음/default_profile.svg";
+import 기본프로필 from "../image/예시사진모음/default_profile_W.png"
 
 const postInfoData: PostInfo = {
   nickName: "커넥팅칩스",

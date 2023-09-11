@@ -7,7 +7,7 @@ const ImageBoxS = styled.ul<{ count: number; sort: string; length: number }>`
   transition: ${(props) => (props.sort === "next" ? (!props.count ? "" : "all 0.5s ease-in-out") : props.sort === "prev" ? (props.count === props.length ? "" : "all 0.5s ease-in-out") : "")};
   transform: ${(props) => "translateX(-" + props.count * 190 + "px)"};
   gap: 0.75rem;
-  width: 100vw;
+  /* width: 100vw; */
 `;
 
 export default ImageBoxS;
