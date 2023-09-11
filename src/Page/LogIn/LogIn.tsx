@@ -6,7 +6,7 @@ import useLoginCheck from '../../Hooks/useLoginCheck';
 // FIXME: 사라질 코드
 import { myInfo } from '../Home/HomeBarrel';
 
-type bindVlaue = {
+type bindValue = {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -16,8 +16,8 @@ const LogIn = (): JSX.Element => {
   const [inputState, setInputState] = useState('default');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
-  const idBind: bindVlaue = { value: nickname, setValue: setNickname };
-  const pwBind: bindVlaue = { value: password, setValue: setPassword };
+  const idBind: bindValue = { value: nickname, setValue: setNickname };
+  const pwBind: bindValue = { value: password, setValue: setPassword };
   const navigate = useNavigate();
 
   useLoginCheck(navigate, 'Done');
@@ -125,7 +125,7 @@ const LoginInput = ({
 }: {
   sort: 'ID' | 'PW';
   isdefault: boolean;
-  inputbind: bindVlaue;
+  inputbind: bindValue;
 }): JSX.Element => {
   const { value, setValue } = inputbind;
 
