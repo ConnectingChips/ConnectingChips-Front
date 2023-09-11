@@ -47,7 +47,7 @@ const Home = (): JSX.Element => {
 
   const navigate = useNavigate();
   const profileClick = () => {
-    if (access_token) return navigate('/myPage');
+    if (access_token) return navigate(`/myPage/${myInfo.my_id}`);
 
     navigate('/LogIn');
   };
