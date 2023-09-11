@@ -13,3 +13,7 @@ const myGroupIds = myGroupList.map((group) => group.group_id);
 const myGroupImages = myGroupList.map((group) => group.defaultImage.main_url);
 
 export { myInfo, myGroupList, myGroupIds, myGroupImages };
+
+// FIXME: 갈아끼우기 위해 채워넣는 코드
+// const blank = '';
+// export default blank;
