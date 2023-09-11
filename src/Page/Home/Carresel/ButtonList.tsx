@@ -100,7 +100,7 @@ const ClearBtnS = styled.button`
 
 /** 2023-08-21 ButtonList.tsx - 작심 인증하기 버튼 */
 const NoneClearBtnS = styled.button`
-  border: 0.1rem solid yellow;
+  border: 0.1rem solid var(--color-main);
   padding: 1rem;
   width: var(--width-my-mission);
   border-radius: 2rem;
