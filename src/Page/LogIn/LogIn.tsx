@@ -159,13 +159,14 @@ const NudgeSignS = styled.div`
       margin-right: 0.4rem;
     }
   }
+  a {
+    font-size: 0.875rem;
+  }
   .img {
     width: 0.75rem;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  img {
-    margin-top: 0.3rem;
+    margin-left: 3px;
   }
 `;
