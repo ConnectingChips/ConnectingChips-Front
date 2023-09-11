@@ -6,8 +6,12 @@ import MyPageArticle from './MyPageArticle';
 
 // FIXME: 버려질 코드
 import { myInfo } from '../../data/myInfo';
+import { useEffect, useState } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+  const navigate = useNavigate();
+
   return (
     <MyPageS>
       <MyPageHeader />
@@ -26,7 +30,7 @@ const MyPage = () => {
       <MyPageArticle />
       <MyPageSetS>
         <h2>설정</h2>
-        <div onClick={() => {}}>로그아웃</div>
+        <div onClick={() => logOutFetch(navigate)}>로그아웃</div>
       </MyPageSetS>
     </MyPageS>
   );
@@ -36,6 +40,11 @@ export default MyPage;
 
 const goBack = (): void => {
   window.history.back();
+};
+
+const logOutFetch = (navigate: NavigateFunction) => {
+  localStorage.clear();
+  navigate(-1);
 };
 
 const MyPageHeader = (): JSX.Element => {

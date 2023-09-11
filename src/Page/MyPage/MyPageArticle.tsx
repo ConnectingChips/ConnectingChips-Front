@@ -9,6 +9,7 @@ import { myGroupList } from '../../data/myInfo';
 import { fetchMyList } from '../../API/fetchMyList'
 import { initMyList } from '../../data/initialData';
 
+/** 참여중인 작심 / 참여했던 작심 */
 const MyPageArticle = () => {
   const [articleIndex, setArticleIndex] = useState('CurrentMind');
   const isCurrentMind = articleIndex === 'CurrentMind';

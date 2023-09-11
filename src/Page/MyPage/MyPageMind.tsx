@@ -24,6 +24,15 @@ export const CurrentMind = (): JSX.Element => {
   );
 };
 
+/** 재참여 요청 */
+const reJoinFetch = async (mind_id: number) => {
+  try {
+    await fetch(`/joined-minds/${mind_id}/remind`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 /** 참여했던 작심 */
 export const FinishedMind = (): JSX.Element => {
   return (
@@ -37,7 +46,7 @@ export const FinishedMind = (): JSX.Element => {
               <p className='sub'>{myDate}일 작심 성공</p>
             </div>
             {myGroupList.length >= 3 ? (
-              <FullJoinButtonS>다시 참여하기</FullJoinButtonS>
+              <FullJoinButtonS onClick={() => reJoinFetch(myGroup.group_id)}>다시 참여하기</FullJoinButtonS>
             ) : (
               <ReMindButtonS>다시 참여하기</ReMindButtonS>
             )}
