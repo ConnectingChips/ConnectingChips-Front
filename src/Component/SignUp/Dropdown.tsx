@@ -20,7 +20,7 @@ const Dropdown = ({ data }: DropdownProps) => {
           <strong>{title}</strong>
         </TermsTitleS>
         <IconTouchAreaS onClick={() => setIsOpen(!isOpen)}>
-          <ArrowIcon />
+          <ArrowIcon className={isOpen ? 'open' : ''} />
         </IconTouchAreaS>
       </TermsTitleWrapperS>
       <TermsContentS className={isOpen ? 'open' : ''}>
@@ -93,4 +93,8 @@ const IconTouchAreaS = styled.div`
   width: 2rem;
   height: 2rem;
   cursor: pointer;
+
+  svg.open {
+    transform: rotate(180deg);
+  }
 `;
