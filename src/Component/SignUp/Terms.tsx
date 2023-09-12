@@ -33,8 +33,8 @@ const TermsTitleWrapperS = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   height: 3.5rem;
+  padding: 0 1rem;
   border-bottom: 0.0625rem solid var(--color-line);
   background-color: #fff;
 `;

@@ -135,17 +135,19 @@ const SignUp = (): JSX.Element => {
           <SignUpInput sort='PWconfirm' handlerBind={confirmBind} />
           {isFailed && <p className='error'>비밀번호가 일치하지 않습니다.</p>}
         </LoginInputContainerS>
-        <Terms />
+      </LoginFormS>
+      <Terms />
+      <BtnWrapperS>
         {isValid ? (
-          <SignClearBtnS type='submit'>
+          <SignClearBtnS type='submit' className='btn_width'>
             <p>회원가입</p>
           </SignClearBtnS>
         ) : (
-          <SignNotClearBtnS type='submit' disabled={!isValid}>
+          <SignNotClearBtnS type='submit' className='btn_width' disabled={!isValid}>
             <p>회원가입</p>
           </SignNotClearBtnS>
         )}
-      </LoginFormS>
+      </BtnWrapperS>
     </LogInS>
   );
 };
@@ -228,5 +230,14 @@ const LoginInputContainerS = styled.div`
     &.error {
       color: var(--system-red);
     }
+  }
+`;
+
+const BtnWrapperS = styled.div`
+  display: inline-block;
+  padding: 1rem;
+
+  button.btn_width {
+    width: 21.4375rem;
   }
 `;

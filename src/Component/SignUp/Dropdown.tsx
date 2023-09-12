@@ -19,9 +19,9 @@ const Dropdown = ({ data }: DropdownProps) => {
           <input type='checkbox' />
           <strong>{title}</strong>
         </TermsTitleS>
-        <IconTouchArea onClick={() => setIsOpen(!isOpen)}>
+        <IconTouchAreaS onClick={() => setIsOpen(!isOpen)}>
           <ArrowIcon />
-        </IconTouchArea>
+        </IconTouchAreaS>
       </TermsTitleWrapperS>
       <TermsContentS className={isOpen ? 'open' : ''}>
         <p>{contents}</p>
@@ -37,8 +37,8 @@ const TermsTitleWrapperS = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   height: 3.5rem;
+  padding: 0 1rem;
   border-bottom: 0.0625rem solid var(--color-line);
   background-color: #fff;
 `;
@@ -85,7 +85,7 @@ const TermsContentS = styled.div`
   }
 `;
 
-const IconTouchArea = styled.div`
+const IconTouchAreaS = styled.div`
   display: flex;
   justify-content: right;
   align-items: center;
