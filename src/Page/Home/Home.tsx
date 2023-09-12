@@ -178,7 +178,8 @@ const Banner = (): JSX.Element => {
 
 /** 2023-08-22 Home.tsx - 설문조사 배너 */
 const BannerS = styled.a`
-  display: block;
+  display: flex;
+  position: relative;
   height: 5.5rem;
   background-color: var(--color-line);
 
@@ -202,7 +203,8 @@ const BannerS = styled.a`
   img {
     width: 10.5625rem;
     position: absolute;
-    transform: translateX(9.5rem) translateY(-5.7rem);
+    right: 0;
+    top: 0;
   }
 `;
 

@@ -1,6 +1,6 @@
-import { styled } from "styled-components";
-import { GroupListTab } from "../../Type/MissionType";
-import missionTab from "../../data/missionTab";
+import { styled } from 'styled-components';
+import { GroupListTab } from '../../Type/MissionType';
+import missionTab from '../../data/missionTab';
 
 /** 2023-08-21 MyMisson.tsx - 작심 중인 리스트 Props */
 type MissonTabProps = {
@@ -27,7 +27,14 @@ const MissonTab = ({ missionTab, focusbind }: MissonTabProps): JSX.Element => {
   return (
     <MyMissonTabS>
       {missionTab.map((mission, index) => {
-        return <MissionSingle text={mission.title} focusBind={focusbind} index={index} key={mission.tab_id} />;
+        return (
+          <MissionSingle
+            text={mission.title}
+            focusBind={focusbind}
+            index={index}
+            key={mission.tab_id}
+          />
+        );
       })}
     </MyMissonTabS>
   );
@@ -43,7 +50,7 @@ const MissionSingle = ({ text, focusBind, index }: MissionSingleProps) => {
   };
 
   return (
-    <MissionSingleS className={`button ${text === curFocused ? "focused" : ""}`} onClick={setFocus}>
+    <MissionSingleS className={`button ${text === curFocused ? 'focused' : ''}`} onClick={setFocus}>
       {text}
     </MissionSingleS>
   );
@@ -97,5 +104,7 @@ const MissionSingleWideS = styled.div`
   border: 1px solid;
   width: fit-content;
 
-  font-size: 0.6875rem;
+  p {
+    font-size: 0.6875rem;
+  }
 `;

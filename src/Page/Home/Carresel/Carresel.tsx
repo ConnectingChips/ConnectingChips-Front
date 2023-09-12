@@ -101,20 +101,12 @@ const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
   });
 
   return (
-    <div>
-      <MissionListS>
-        {/* 나의 작심 컨텐츠 */}
-        <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
-          {Mylist}
-        </ImageBoxS>
-        <CarreselSlideButton
-          count={count}
-          setSort={setSort}
-          setCount={setCount}
-          TOTAL_SLIDES={TOTAL_SLIDES}
-        />
-      </MissionListS>
-    </div>
+    <MissionListS>
+      {/* 나의 작심 컨텐츠 */}
+      <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
+        {Mylist}
+      </ImageBoxS>
+    </MissionListS>
   );
 };
 
@@ -124,6 +116,8 @@ export default Carresel;
 const MissionListS = styled.div`
   display: flex;
   position: relative;
+
+  margin-bottom: 0.5rem;
 `;
 
 /** 2023-08-21 MyMisson.tsx - 나의 작심 현황 항목 정보 */
@@ -134,7 +128,6 @@ const MyMissionInfoS = styled.a`
 
   border: 0.1px solid;
   border-radius: 0.625rem;
-  margin-bottom: 1rem;
 
   color: white;
   position: relative;
@@ -163,4 +156,12 @@ const MyMissionInfoS = styled.a`
 const MissionContentS = styled.div`
   position: absolute;
   padding: 1rem;
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  > p {
+    font-weight: 500;
+  }
 `;

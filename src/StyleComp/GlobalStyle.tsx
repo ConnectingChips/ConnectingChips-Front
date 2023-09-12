@@ -34,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
   
   body {
     color: var(--font-color1);
-    font-family: Noto Sans KR;
+    font-family: 'Noto Sans KR', sans-serif;
     font-style: normal;
     line-height: normal;    
     margin:0;
@@ -91,7 +91,7 @@ const GlobalStyle = createGlobalStyle`
   button {
     background-color: transparent;
     border: 0;
-    font-family: Noto Sans KR;
+    font-family: 'Noto Sans KR', sans-serif;
 
     &:hover {
         cursor: pointer;
@@ -100,7 +100,7 @@ const GlobalStyle = createGlobalStyle`
 
   textarea{
     padding: 1rem;
-    font-family: Noto Sans KR;
+    font-family: 'Noto Sans KR', sans-serif;
     font-size: 1rem;
   }
 `;
