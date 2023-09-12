@@ -35,7 +35,7 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
           </CommentListS>
         </>
       ) : null}
-      {/* input에 입력하면 아이콘이 회색에서 노란색으로 변경 */}
+
       {Commented && (
         <CommentFormS>
           <input
@@ -143,7 +143,7 @@ const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContai
           </p>
         </div>
         <CommentOptionS>
-          <h2>답글</h2>
+          {sort === 'comment' ? <h2>답글</h2> : null}
           <p>삭제</p>
         </CommentOptionS>
       </CommentContentS>
