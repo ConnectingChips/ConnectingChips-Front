@@ -1,20 +1,20 @@
-import { styled } from "styled-components";
-import { MissionSingleWide } from "./MissionTab";
-import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import groupListData from "../../data/groupListData";
+import { styled } from 'styled-components';
+import { MissionSingleWide } from './MissionTab';
+import { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import groupListData from '../../data/groupListData';
 
 /** 2023-08-22 HeadLine.tsx - 타이틀 / 태그 / n일차 */
 const HeadLine = (): JSX.Element => {
   const { uuid } = useParams();
 
-  const [urlPath, setUrlPath] = useState("");
+  const [urlPath, setUrlPath] = useState('');
   const location = useLocation();
 
   useEffect(() => {
     const url = location.pathname;
-    const keyword = "groupIntro";
-    const extractedValue = url.split("/").find((part) => part === keyword);
+    const keyword = 'groupIntro';
+    const extractedValue = url.split('/').find((part) => part === keyword);
     if (extractedValue === undefined) return;
 
     setUrlPath(extractedValue);
@@ -23,11 +23,21 @@ const HeadLine = (): JSX.Element => {
   const groupInfo = groupListData.find((groupData) => groupData.group_id === Number(uuid));
   if (groupInfo === undefined) return <></>;
 
+  let message = '';
+
+  if (groupInfo.memberList.length === 0) {
+    message = '첫번째로 작심 맛보기!';
+  } else if (groupInfo.memberList.length === 1) {
+    message = '1명 맛보기 중';
+  } else {
+    message = `${groupInfo.memberList.length - 1}명과 함께 맛보기 중`;
+  }
+
   return (
     <HeadLineS>
       <MissionSingleWide text={groupInfo.tab} />
       <h1>{groupInfo.title}</h1>
-      <p className={urlPath === "groupIntro" ? "" : "subTitle"}>{groupInfo.memberList.length > 0 ? `${groupInfo.memberList.length - 1}명과 함께 맛보기 중` : "첫번째로 작심 맛보기!"}</p>
+      <p className={urlPath === 'groupIntro' ? '' : 'subTitle'}>{message}</p>
     </HeadLineS>
   );
 };
@@ -38,7 +48,7 @@ export default HeadLine;
 const HeadLineS = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
 
   h1 {
     font-size: 1.5rem;

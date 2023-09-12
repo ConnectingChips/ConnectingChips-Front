@@ -1,9 +1,9 @@
-import { styled } from "styled-components";
-import { PageSort } from "../../Type/MissionType";
-import PostHeader from "./PostHeader";
-import PostContent from "./PostContent";
-import LikeBind from "../../Type/LikeBind";
-import postInfoData from "../../data/postInfoData";
+import { styled } from 'styled-components';
+import { PageSort } from '../../Type/MissionType';
+import PostHeader from './PostHeader';
+import PostContent from './PostContent';
+import LikeBind from '../../Type/LikeBind';
+import postInfoData from '../../data/postInfoData';
 
 interface GroupActiveProps {
   passsort: PageSort;
@@ -16,11 +16,10 @@ const GroupActive = ({ passsort, setCommented, likeBind }: GroupActiveProps): JS
 
   return (
     <GroupActiveS passsort={passsort}>
-      <h2>작심 인증 글</h2>
       <PostS>
         <PostHeader nowTime={nowTime} />
         <PostImageS>
-          <img src={postInfoData.image[0].url} alt="업로드 사진" />
+          <img src={postInfoData.image[0].url} alt='업로드 사진' />
         </PostImageS>
         <PostContent setCommented={setCommented} likeBind={likeBind} />
       </PostS>
@@ -32,8 +31,8 @@ export default GroupActive;
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 */
 const GroupActiveS = styled.div<{ passsort: PageSort }>`
-  margin: ${(props) => (props.passsort === "Intro" ? "0 1rem 1rem 1rem" : "0 1rem")};
-  margin-top: 1.25rem;
+  margin: ${(props) => (props.passsort === 'Intro' ? '0 1rem 1rem 1rem' : null)};
+  border-radius: 0.5rem;
   h2 {
     margin-bottom: var(--height-gap);
   }
