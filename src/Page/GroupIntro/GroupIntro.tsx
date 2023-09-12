@@ -1,15 +1,15 @@
-import { styled } from "styled-components";
-import { GNB } from "../../AppBarral";
-import { CTAContainer } from "../../Component/CTA/CTAContainer";
-import { GroupIntroHeader } from "../../Component/Mission/GroupHeader";
-import { useFindGroup } from "../../Hooks/useFindGroup";
-import GroupContent from "../../Component/Mission/GroupContent";
-import { useEffect } from "react";
-import scrollTop from "../../Hooks/scrollTop";
+import { styled } from 'styled-components';
+import { GNB } from '../../AppBarral';
+import { CTAContainer } from '../../Component/CTA/CTAContainer';
+import { GroupIntroHeader } from '../../Component/Mission/GroupHeader';
+import { useFindGroup } from '../../Hooks/useFindGroup';
+import GroupContent from '../../Component/Mission/GroupContent';
+import { useEffect } from 'react';
+import scrollTop from '../../Hooks/scrollTop';
 
 /** 2023-08-21 GroupIntro.tsx - 메인 컴프 */
 const GroupIntro = (): JSX.Element => {
-  const { intro, rule, url } = useFindGroup("intro");
+  const { intro, rule, url } = useFindGroup('intro');
 
   useEffect(() => {
     scrollTop();
@@ -20,7 +20,8 @@ const GroupIntro = (): JSX.Element => {
       <BGDarkS>
         <GroupContainerS>
           <GroupIntroHeader />
-          <GroupContent intro={intro} rule={rule} selected={[0, 1, 2]} passsort="Intro" />
+          <GroupContent intro={intro} rule={rule} selected={[0, 1, 2]} passsort='Intro' />
+          {/* TODO: 참여하기 : 로그인 상태라면 참여 요청을 보내고 작심 그룹 페이지로 라우팅 / 비로그인 상태라면 로그인 페이지로 이동  */}
           <CTAContainer />
         </GroupContainerS>
       </BGDarkS>

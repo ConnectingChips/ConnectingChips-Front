@@ -1,21 +1,47 @@
-import { styled } from "styled-components";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, GroupIntro, Feed, GroupPage, LogIn, UploadPost, SignUp, NotFound, MyPage } from "./AppBarral";
+import { styled } from 'styled-components';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {
+  Home,
+  GroupIntro,
+  Feed,
+  GroupPage,
+  LogIn,
+  UploadPost,
+  SignUp,
+  NotFound,
+  MyPage,
+  OAuthPage,
+} from './AppBarral';
 
 function App() {
   return (
     <BrowserRouter>
       <MobileS>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/groupIntro/:mindID" element={<GroupIntro />} />
-          <Route path="/groupPage/:mindID" element={<GroupPage />} />
-          <Route path="/uploadPost/:mindID" element={<UploadPost />} />
-          <Route path="/feed" element={<Feed />} />
-          <Route path="/LogIn" element={<LogIn />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/myPage/:userID" element={<MyPage />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path='/' element={<Home />} />
+          <Route
+            path='/LogIn'
+            element={<OAuthPage component={<LogIn />} authenticated='block' />}
+          />
+          <Route
+            path='/LogIn'
+            element={<OAuthPage component={<SignUp />} authenticated='block' />}
+          />
+          <Route path='/groupIntro/:mindID' element={<GroupIntro />} />
+          <Route
+            path='/groupPage/:mindID'
+            element={<OAuthPage component={<GroupPage />} authenticated='access' />}
+          />
+          <Route
+            path='/uploadPost/:mindID'
+            element={<OAuthPage component={<UploadPost />} authenticated='access' />}
+          />
+          <Route path='/feed' element={<Feed />} />
+          <Route
+            path='/myPage/:userID'
+            element={<OAuthPage component={<MyPage />} authenticated='access' />}
+          />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </MobileS>
     </BrowserRouter>

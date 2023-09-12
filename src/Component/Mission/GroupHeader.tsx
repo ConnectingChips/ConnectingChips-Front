@@ -1,7 +1,7 @@
-import { styled } from "styled-components";
-import { Arrow_Left_B, Arrow_Left_W } from "../ArrowBarrel";
-import post_Icon from "../../image/Icon/post_Icon.svg";
-import { Link, useLocation } from "react-router-dom";
+import { styled } from 'styled-components';
+import { Arrow_Left_B, Arrow_Left_W } from '../ArrowBarrel';
+import post_Icon from '../../image/Icon/post_Icon.svg';
+import { Link, useLocation } from 'react-router-dom';
 
 /** 2023-08-25 GroupHeader.tsx - 뒤로가기 핸들러 */
 const goBack = (): void => {
@@ -11,14 +11,14 @@ const goBack = (): void => {
 /** 2023-08-25 GroupHeader.tsx - 그룹 페이지 헤더 */
 const GroupHeader = (): JSX.Element => {
   const path = useLocation().pathname;
-  const isUpload = path.indexOf("/upload") !== -1;
+  const isUpload = path.indexOf('/upload') !== -1;
 
   return (
     <GroupBGHeaderS>
-      <img src={Arrow_Left_B} onClick={goBack} alt="Arrow icon" />
+      <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
       {!isUpload && (
-        <Link to="/uploadPost/1">
-          <img src={post_Icon} alt="post icon" />
+        <Link to='/uploadPost/1'>
+          <img src={post_Icon} alt='post icon' />
         </Link>
       )}
     </GroupBGHeaderS>
@@ -29,7 +29,7 @@ const GroupHeader = (): JSX.Element => {
 const GroupIntroHeader = (): JSX.Element => {
   return (
     <GroupHeaderS onClick={goBack}>
-      <img src={Arrow_Left_W} alt="Arrow icon" />
+      <img src={Arrow_Left_W} alt='Arrow icon' />
     </GroupHeaderS>
   );
 };
@@ -48,16 +48,15 @@ const GroupHeaderS = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-
   // 아래 비치게 하기
   backdrop-filter: blur(10px);
 `;
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
 const GroupBGHeaderS = styled(GroupHeaderS)`
-  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: none;
+  background-color: white;
   cursor: default;
-
   z-index: 10;
 
   img {
