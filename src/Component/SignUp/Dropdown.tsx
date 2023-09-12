@@ -69,11 +69,11 @@ const TermsTitleS = styled.div`
 `;
 
 const TermsContentS = styled.div`
-  display: none;
-  height: 7.25rem;
-  padding: 1rem;
+  padding: 0 1rem 0 1rem;
   background: var(--color-bg);
   overflow-y: scroll;
+  max-height: 0;
+  transition: all 300ms;
 
   p {
     color: var(--font-color2);
@@ -81,7 +81,8 @@ const TermsContentS = styled.div`
   }
 
   &.open {
-    display: block;
+    max-height: 7.25rem;
+    padding: 1rem;
   }
 `;
 
