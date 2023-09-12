@@ -1,7 +1,7 @@
-import { styled } from "styled-components";
-import sendIcon from "../../../src/image/Icon/send_Icon.svg";
-import postInfoData from "../../data/postInfoData";
-import { CommentInfo } from "../../Type/PostInfo";
+import { styled } from 'styled-components';
+import sendIcon from '../../../src/image/Icon/send_Icon.svg';
+import postInfoData from '../../data/postInfoData';
+import { CommentInfo } from '../../Type/PostInfo';
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 */
 const Comment = ({ Commented }: { Commented: boolean }) => {
@@ -22,9 +22,9 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
       </CommentListS>
       {Commented && (
         <CommentFormS>
-          <input placeholder="응원의 댓글을 적어주세요!" />
+          <input placeholder='응원의 댓글을 적어주세요!' />
           <button>
-            <img src={sendIcon} alt="sendIcon" />
+            <img src={sendIcon} alt='sendIcon' />
           </button>
         </CommentFormS>
       )}
@@ -34,7 +34,7 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
 
 export default Comment;
 
-type CommentType = "comment" | "reply";
+type CommentType = 'comment' | 'reply';
 
 /** 2023-09-02 Comment.tsx - 그룹페이지 댓글+답글 박스 - Kadesti */
 const CommentBox = ({ comment }: { comment: CommentInfo }) => {
@@ -59,13 +59,27 @@ const CommentBox = ({ comment }: { comment: CommentInfo }) => {
 
   return (
     <CommentBoxS>
-      <SelectContainer sort="comment" username={comment_user} imgUrl={imgUrl} date={today} content={content} />
+      <SelectContainer
+        sort='comment'
+        username={comment_user}
+        imgUrl={imgUrl}
+        date={today}
+        content={content}
+      />
       {reply.map((reply) => {
         const reply_user = new userName(comment.username, reply.username);
         const imgUrl = reply.profileUrl;
         const content = reply.text;
 
-        return <SelectContainer sort="reply" username={reply_user} imgUrl={imgUrl} date={today} content={content} />;
+        return (
+          <SelectContainer
+            sort='reply'
+            username={reply_user}
+            imgUrl={imgUrl}
+            date={today}
+            content={content}
+          />
+        );
       })}
     </CommentBoxS>
   );
@@ -87,19 +101,19 @@ const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContai
   const isReply = username.reply_user !== undefined;
   return (
     <CommentContainerS sort={sort}>
-      <img src={imgUrl} alt="답글프로필" />
+      <img src={imgUrl} alt='답글프로필' />
       <CommentContentS sort={sort}>
         <div>
-          <div className="profile">
+          <div className='profile'>
             <h2>{!isReply ? username.comment_user : username.reply_user}</h2>
             <p>{date}</p>
           </div>
-          <p className="text">
+          <p className='text'>
             {!isReply ? (
               content
             ) : (
               <>
-                <p className="call">@{username.comment_user}</p> {content}
+                <p className='call'>@{username.comment_user}</p> {content}
               </>
             )}
           </p>
@@ -139,8 +153,8 @@ const CommentContainerS = styled.div<{ sort: CommentType }>`
   align-items: start;
   height: 6.375rem;
 
-  background-color: ${(props) => (props.sort === "reply" ? "var(--color-bg)" : "")};
-  padding: ${(props) => (props.sort === "reply" ? "1rem" : "")};
+  background-color: ${(props) => (props.sort === 'reply' ? 'var(--color-bg)' : '')};
+  padding: ${(props) => (props.sort === 'reply' ? '1rem' : '')};
 
   img {
     width: 1.875rem;
@@ -152,7 +166,7 @@ const CommentContentS = styled.div<{ sort: CommentType }>`
   margin-left: 0.5rem;
 
   margin-top: 0.31rem;
-  width: ${(props) => (props.sort === "comment" ? "19.0625rem" : "18.0625rem")};
+  width: ${(props) => (props.sort === 'comment' ? '19.0625rem' : '18.0625rem')};
   height: 6rem;
 
   display: flex;

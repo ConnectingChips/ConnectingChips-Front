@@ -57,7 +57,8 @@ const GroupSummary = ({ intro, rule, selected }: GroupPostProps) => {
 
 /** 2023-08-26 GroupPage.tsx - 그룹페이지 글 항목 */
 const GroupPost = () => {
-  const [Commented, setCommented] = useState(false);
+  // TODO: post업애려면 Commendted false로 바꾸기
+  const [Commented, setCommented] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
   const likeBind: LikeBind = { isLiked, setIsLiked };
 
