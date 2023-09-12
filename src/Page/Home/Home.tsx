@@ -1,14 +1,19 @@
-import { styled, Link, useEffect, useState } from './HomeBarrel';
-import { scrollTop, fetchMyList, initMyList } from './HomeBarrel';
+import { styled, useEffect, useState, useNavigate } from './HomeBarrel';
+import { scrollTop, fetchMyList, initMyList, shareKakao } from './HomeBarrel';
 import { MyMisson, GroupList } from './HomeBarrel';
-import { Banner as BannerImage, Logo_002, 헤드셋칩스, 기본프로필 } from './HomeImageBarrel';
+import {
+  Banner as BannerImage,
+  Logo_002,
+  헤드셋칩스,
+  기본프로필,
+  Share_Icon,
+} from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
-import { useNavigate } from 'react-router-dom';
 
 // FIXME: 사라질 코드
 import { myInfo, myGroupList } from './HomeBarrel';
 
-import ShareButton from '../../Component/ShareButton';
+const { Kakao } = window;
 
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
@@ -26,6 +31,13 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     scrollTop();
+
+    const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
+
+    Kakao.cleanup();
+    if (!Kakao.isInitialized()) {
+      Kakao.init(KAKAO_KEY);
+    }
   }, []);
 
   useEffect(() => {
@@ -58,9 +70,11 @@ const Home = (): JSX.Element => {
     <HomeS>
       <HomeHeaderS>
         <img src={Logo_002} alt='logo' className='Logo' />
-        <img src={기본프로필} alt='기본 프로필' onClick={profileClick} />
+        <div className='userInfo'>
+          <img src={Share_Icon} alt='share' onClick={() => shareKakao()} />
+          <img src={기본프로필} alt='기본 프로필' onClick={profileClick} />
+        </div>
       </HomeHeaderS>
-      <ShareButton />
       <HomeContentS>
         <WelcomeHeadS>
           <WelcomeTextS>
@@ -111,29 +125,6 @@ const Home = (): JSX.Element => {
 
 export default Home;
 
-interface tokenbind {
-  access_token: string;
-  setAccess_token: React.Dispatch<React.SetStateAction<string>>;
-}
-
-/** 2023-09-02 Home.tsx - 헤더 로그인 버튼 - adesti */
-const HomeLogin = ({ tokenbind }: { tokenbind: tokenbind }) => {
-  const { access_token, setAccess_token } = tokenbind;
-
-  const clearStorage = () => {
-    localStorage.clear();
-    setAccess_token('');
-  };
-
-  return access_token ? (
-    <button onClick={clearStorage}>로그아웃</button>
-  ) : (
-    <Link to='/login'>
-      <button>로그인</button>
-    </Link>
-  );
-};
-
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */
 const HomeS = styled.section`
   height: 100%;
@@ -167,7 +158,6 @@ const Banner = (): JSX.Element => {
       }
       target='_blank'
     >
-      {/* <BannerS href={baseurl} target="_blank"> */}
       <div className='bannerText'>
         <h2>칩스님의 의견을 들려주세요</h2>
         <p>작심삼칩을 부탁해</p>
@@ -226,12 +216,10 @@ const HomeHeaderS = styled.header`
     height: 1.3125rem;
   }
 
-  button {
-    color: var(--color-bg);
-    width: 5.125rem;
-    height: 2rem;
-    border: 0.1rem solid var(--color-bg);
-    border-radius: 2rem;
+  .userInfo {
+    :first-child {
+      margin-right: 0.75rem;
+    }
   }
 `;
 
@@ -243,9 +231,6 @@ const HomeContentS = styled.div`
 
 /** 2023-08-20 Home.tsx - 오늘도 득근한 하루 되세요 */
 const WelcomeTextS = styled.div`
-  /* padding: 2rem 0; */
-  /* border: 1px solid; */
-
   h1 {
     display: block;
     word-break: keep-all;
