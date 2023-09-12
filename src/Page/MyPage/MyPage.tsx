@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { Arrow_Left_B } from '../../Component/ArrowBarrel';
 import 기본프로필 from '../../image/예시사진모음/default_profile_W_MyPage.png';
 import infoIcon from '../../image/Icon/icon_Info.png';
@@ -7,8 +8,7 @@ import { CurrentMind, FinishedMind } from './MyPageMind';
 
 // FIXME: 버려질 코드
 import { myInfo, myGroupList } from '../../data/myInfo';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import ConfirmModal from '../../Component/ConfirmModal';
 
 const MyPage = () => {
   const tabText = [`참여중인 작심(${myGroupList.length}/3)`, '참여했던 작심'];
@@ -38,7 +38,7 @@ const MyPage = () => {
         </ul>
       </MyPageSetS>
 
-      {confirmLogout && <ConfirmLogoutModal setConfirmLogout={setConfirmLogout} />}
+      {confirmLogout && <ConfirmModal setConfirm={setConfirmLogout} />}
     </MyPageS>
   );
 };
@@ -47,11 +47,6 @@ export default MyPage;
 
 const goBack = (): void => {
   window.history.back();
-};
-
-const logOutFetch = (navigate: NavigateFunction) => {
-  localStorage.clear();
-  navigate(-1);
 };
 
 const MyPageHeader = (): JSX.Element => {
@@ -63,25 +58,6 @@ const MyPageHeader = (): JSX.Element => {
   );
 };
 
-type ConfirmLogoutProps = { setConfirmLogout: React.Dispatch<React.SetStateAction<boolean>> };
-const ConfirmLogoutModal = ({ setConfirmLogout }: ConfirmLogoutProps): JSX.Element => {
-  const navigate = useNavigate();
-  return (
-    <AlertBGS onClick={() => setConfirmLogout(false)}>
-      <AlertModalS onClick={(e) => e.stopPropagation()}>
-        <h2>로그아웃하시겠습니까?</h2>
-        <div>
-          <button className='cancel' onClick={() => setConfirmLogout(false)}>
-            취소
-          </button>
-          <button className='point' onClick={() => logOutFetch(navigate)}>
-            로그아웃
-          </button>
-        </div>
-      </AlertModalS>
-    </AlertBGS>
-  );
-};
 
 const MyPageS = styled.div`
   width: var(--width-mobile);
@@ -153,53 +129,3 @@ const MyPageSetS = styled.div`
   }
 `;
 
-const AlertBGS = styled.div`
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`;
-
-const AlertModalS = styled.div`
-  background: #fff;
-  width: 18.5rem;
-  height: 8.875rem;
-  border-radius: 0.625rem;
-
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-
-  div {
-    /* height: 2.5rem; */
-    display: flex;
-
-    button {
-      width: 100%;
-      font-size: 0.75rem;
-      padding: 0.62rem 0;
-
-      &.cancel {
-        background-color: var(--color-bg);
-      }
-
-      &.point {
-        background-color: var(--color-main);
-      }
-    }
-  }
-
-  h2 {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
-  }
-`;
