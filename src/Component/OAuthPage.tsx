@@ -12,7 +12,7 @@ type OAuthPageProps = {
  * @returns JSX.Element
  */
 const OAuthPage = ({ component, authenticated }: OAuthPageProps): JSX.Element => {
-  const isLogined = localStorage.getItem('access_tocken');
+  const isLogined = localStorage.getItem('access_token');
 
   const loginComp = (loginCeck: boolean, component: JSX.Element) => {
     return loginCeck ? component : <Navigate to='/' />;
