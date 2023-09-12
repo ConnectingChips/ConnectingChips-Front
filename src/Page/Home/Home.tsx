@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 // FIXME: 사라질 코드
 import { myInfo, myGroupList } from './HomeBarrel';
 
+import ShareButton from '../../Component/ShareButton';
+
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
   const [access_token, setAccess_token] = useState('');
@@ -58,6 +60,7 @@ const Home = (): JSX.Element => {
         <img src={Logo_002} alt='logo' className='Logo' />
         <img src={기본프로필} alt='기본 프로필' onClick={profileClick} />
       </HomeHeaderS>
+      <ShareButton />
       <HomeContentS>
         <WelcomeHeadS>
           <WelcomeTextS>
@@ -107,8 +110,6 @@ const Home = (): JSX.Element => {
 };
 
 export default Home;
-
-// const baseurl = process.env.REACT_APP_BASE_URL;
 
 interface tokenbind {
   access_token: string;
