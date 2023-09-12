@@ -8,5 +8,6 @@ import LogIn from "./Page/LogIn/LogIn";
 import UploadPost from "./Page/UploadPost/UploadPost";
 import SignUp from "./Page/SignUp/SignUp";
 import NotFound from "./Page/NotFound/NotFound";
+import OAuthPage from './Component/OAuthPage';
 
-export { GNB, Home, GroupIntro, Feed, MyPage, GroupPage, LogIn, UploadPost, SignUp, NotFound };
+export { GNB, Home, GroupIntro, Feed, MyPage, GroupPage, LogIn, UploadPost, SignUp, NotFound, OAuthPage };
