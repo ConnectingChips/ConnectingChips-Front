@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, GroupIntro, Feed, GroupPage, LogIn, UploadPost, SignUp, NotFound } from "./AppBarral";
+import { Home, GroupIntro, Feed, GroupPage, LogIn, UploadPost, SignUp, NotFound, MyPage } from "./AppBarral";
 
 function App() {
   return (
@@ -8,12 +8,13 @@ function App() {
       <MobileS>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/groupIntro/:uuid" element={<GroupIntro />} />
-          <Route path="/groupPage/:uuid" element={<GroupPage />} />
-          <Route path="/uploadPost/:postID" element={<UploadPost />} />
+          <Route path="/groupIntro/:mindID" element={<GroupIntro />} />
+          <Route path="/groupPage/:mindID" element={<GroupPage />} />
+          <Route path="/uploadPost/:mindID" element={<UploadPost />} />
           <Route path="/feed" element={<Feed />} />
           <Route path="/LogIn" element={<LogIn />} />
           <Route path="/signUp" element={<SignUp />} />
+          <Route path="/myPage/:userID" element={<MyPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MobileS>

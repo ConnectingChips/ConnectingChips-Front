@@ -63,7 +63,7 @@ const groupListData: GroupInfoType[] = [
   {
     group_id: 17850,
     tab: "헬스",
-    title: "헬스 OOTD",
+    title: "헬스 OOTD 인증하기",
     intro: "이렇게 입으면 중량 더 칠 수 있그등요\n목표 : 기왕 운동복 입은 거 헬스장까지 가버리기",
     rule: "오늘 입은 착장 찍어 올리기\n(얼굴 노출 자유)",
     defaultImage: {
