@@ -8,7 +8,10 @@ import {
   GroupActive,
   GroupArticle,
 } from './GroupPageBarrel';
+import url from '../../image/예시사진모음/놀라칩.png';
 
+// TODO: GroupPost 하나도 없다면 noMind이미지 뜨게하기
+// TODO: GroupPost 2개씩 넣으면 이미지 두개들어가는거 고치기
 /** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
   const navigate = useNavigate();
@@ -26,8 +29,9 @@ const GroupPage = (): JSX.Element => {
       <GroupImageS url={url} />
       <GroupSummary intro={intro} rule={rule} selected={[0, 1, 3]} />
       <GroupPostListS>
+        <h2>작심 인증글</h2>
         <GroupPost />
-        <GroupPost />
+        {/* <GroupPost /> */}
       </GroupPostListS>
     </GroupPageS>
   );
@@ -59,8 +63,19 @@ const GroupPost = () => {
 
   return (
     <GroupPostS>
-      <GroupActive passsort='Page' setCommented={setCommented} likeBind={likeBind} />
-      <Comment Commented={Commented} />
+      {Commented ? (
+        <>
+          <GroupActive passsort='Page' setCommented={setCommented} likeBind={likeBind} />
+          <Comment Commented={Commented} />
+        </>
+      ) : (
+        <GroupNoMindS>
+          {/* TODO: 이미지 다른곳에 저장하기 */}
+          <img src={`${process.env.PUBLIC_URL}/noMind.png`} alt='noMind'></img>
+          <h2>등록된 인증글이 없습니다.</h2>
+          <p>가장 먼저 작심을 인증해 보세요!</p>
+        </GroupNoMindS>
+      )}
     </GroupPostS>
   );
 };
@@ -81,6 +96,8 @@ const GroupImageS = styled.div<{ url: string }>`
 const GroupPostListS = styled.div`
   display: flex;
   flex-direction: column;
+  // TODO: 이거 맞나?
+  margin: 0 1rem;
   gap: var(--height-gap);
 `;
 
@@ -89,4 +106,19 @@ const GroupPostS = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+`;
+
+/** 2023-09-12 GroupPage.tsx - 그룹페이지 글 없을 때 사진 */
+const GroupNoMindS = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  img {
+    width: 7.5rem;
+    margin-bottom: 1rem;
+  }
+  p {
+    color: var(--font-color3);
+  }
 `;
