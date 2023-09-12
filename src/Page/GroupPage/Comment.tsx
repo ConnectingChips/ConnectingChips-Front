@@ -8,31 +8,47 @@ import { useState } from 'react';
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 */
 const Comment = ({ Commented }: { Commented: boolean }) => {
   const commentList = postInfoData.commentList;
-  const [commentFlip, setCommentFlip] = useState<boolean>(false);
-  console.log(commentFlip);
+  const [commentFlip, setCommentFlip] = useState(false);
+  const [commentInput, setCommentInput] = useState<string>('');
+  console.log(commentInput);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCommentInput(e.target.value);
+  };
 
   return (
     <CommentS>
       {commentList.length > 0 ? (
-        <CommentHeaderS>
-          <h2>댓글 {commentList.length}</h2>
-          {/* TODO: api로 댓글 개수 가져오기 */}
-          <div onClick={() => setCommentFlip(!commentFlip)}>
-            <img src={Arrow_icon_Up} alt='댓글접기' />
-          </div>
-        </CommentHeaderS>
+        <>
+          {' '}
+          <CommentHeaderS>
+            <h2>댓글 {commentList.length}</h2>
+            {/* TODO: api로 댓글 개수 가져오기 */}
+            <div onClick={() => setCommentFlip(!commentFlip)}>
+              <img src={Arrow_icon_Up} alt='댓글접기' />
+            </div>
+          </CommentHeaderS>
+          <CommentListS commentFlip={commentFlip}>
+            {commentList.map((comment) => {
+              return <CommentBox comment={comment} key={comment.commnet_id} />;
+            })}
+          </CommentListS>
+        </>
       ) : null}
-
-      <CommentListS commentFlip={commentFlip}>
-        {commentList.map((comment) => {
-          return <CommentBox comment={comment} key={comment.commnet_id} />;
-        })}
-      </CommentListS>
+      {/* input에 입력하면 아이콘이 회색에서 노란색으로 변경 */}
       {Commented && (
         <CommentFormS>
-          <input placeholder='응원의 댓글을 적어주세요!' />
+          <input
+            placeholder='응원의 댓글을 적어주세요!'
+            value={commentInput}
+            onChange={handleInputChange}
+          />
           <button>
-            <img src={sendIcon} alt='sendIcon' />
+            {commentInput.trimStart().length === 0 ? (
+              <img src={`${process.env.PUBLIC_URL}/commentInputButtonOFF.svg`} alt='sendIcon' />
+            ) : (
+              <img src={`${process.env.PUBLIC_URL}/commentInputButtonON.svg`} alt='sendIcon' />
+            )}
           </button>
         </CommentFormS>
       )}
@@ -140,15 +156,11 @@ const CommentS = styled.article``;
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 리스트 */
 const CommentListS = styled.div<{ commentFlip: boolean }>`
-  heigth: auto;
-
-  /* height: ${(props) => (props.commentFlip ? '0px' : 'auto')}; */
+  height: ${(props) => (props.commentFlip ? '0px' : 'auto')};
   overflow: hidden;
-  transition: height 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 0.69rem;
 `;
 
 /** 2023-09-02 Comment.tsx - 댓글+ 답글 / 답글 간격 - Kadesti */
@@ -163,7 +175,6 @@ const CommentContainerS = styled.div<{ sort: CommentType }>`
   display: flex;
   align-items: start;
   height: 6.375rem;
-
   background-color: ${(props) => (props.sort === 'reply' ? 'var(--color-bg)' : '')};
   padding: ${(props) => (props.sort === 'reply' ? '1rem' : '')};
 
@@ -175,7 +186,6 @@ const CommentContainerS = styled.div<{ sort: CommentType }>`
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 내용, 답글 탭 */
 const CommentContentS = styled.div<{ sort: CommentType }>`
   margin-left: 0.5rem;
-
   margin-top: 0.31rem;
   width: ${(props) => (props.sort === 'comment' ? '19.0625rem' : '18.0625rem')};
   height: 6rem;
@@ -236,7 +246,9 @@ const CommentFormS = styled.form`
   align-items: center;
   padding: 0 1rem;
   z-index: 10;
-
+  button {
+    color: gray;
+  }
   input {
     width: 16.375rem;
     height: 1.25rem;
