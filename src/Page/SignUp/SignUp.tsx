@@ -7,6 +7,7 @@ import {
   SignNotClearBtnS,
   Loginheader,
   infoIcon,
+  Terms,
 } from './SignUpBarrel';
 import { type handlerBind, useSignup } from './SignUpBarrel';
 
@@ -134,7 +135,7 @@ const SignUp = (): JSX.Element => {
           <SignUpInput sort='PWconfirm' handlerBind={confirmBind} />
           {isFailed && <p className='error'>비밀번호가 일치하지 않습니다.</p>}
         </LoginInputContainerS>
-
+        <Terms />
         {isValid ? (
           <SignClearBtnS type='submit'>
             <p>회원가입</p>
