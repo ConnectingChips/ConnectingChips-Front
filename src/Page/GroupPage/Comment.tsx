@@ -1,21 +1,29 @@
 import { styled } from 'styled-components';
 import sendIcon from '../../../src/image/Icon/send_Icon.svg';
+import Arrow_icon_Up from '../../image/Icon/Arrow/Arrow_icon_Up.svg';
 import postInfoData from '../../data/postInfoData';
 import { CommentInfo } from '../../Type/PostInfo';
+import { useState } from 'react';
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 */
 const Comment = ({ Commented }: { Commented: boolean }) => {
   const commentList = postInfoData.commentList;
-
-  // const commentname = "칩스1234";
-  // const replyname = "커넥팅칩스";
-  // const date = "1일 전";
-  // const text = ["대박대박 대단합니다!!! 저도 칩스님처럼 작심삼칩 열심히 해야겠어요ㅜㅜ", "ㅎㅎㅎㅎ 감사합니다~! 칩스님도 득근한 하루 보내세요! :-)"];
+  const [commentFlip, setCommentFlip] = useState<boolean>(false);
+  console.log(commentFlip);
 
   return (
     <CommentS>
-      <h2>댓글</h2>
-      <CommentListS>
+      {commentList.length > 0 ? (
+        <CommentHeaderS>
+          <h2>댓글 {commentList.length}</h2>
+          {/* TODO: api로 댓글 개수 가져오기 */}
+          <div onClick={() => setCommentFlip(!commentFlip)}>
+            <img src={Arrow_icon_Up} alt='댓글접기' />
+          </div>
+        </CommentHeaderS>
+      ) : null}
+
+      <CommentListS commentFlip={commentFlip}>
         {commentList.map((comment) => {
           return <CommentBox comment={comment} key={comment.commnet_id} />;
         })}
@@ -128,12 +136,15 @@ const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContai
 };
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 */
-const CommentS = styled.article`
-  margin: 0 1rem;
-`;
+const CommentS = styled.article``;
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 리스트 */
-const CommentListS = styled.div`
+const CommentListS = styled.div<{ commentFlip: boolean }>`
+  heigth: auto;
+
+  /* height: ${(props) => (props.commentFlip ? '0px' : 'auto')}; */
+  overflow: hidden;
+  transition: height 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -215,7 +226,6 @@ const CommentOptionS = styled.div`
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 입력 창 */
 const CommentFormS = styled.form`
-  position: fixed;
   bottom: 1.7rem;
   background-color: #fff;
 
@@ -241,4 +251,9 @@ const CommentFormS = styled.form`
       outline: none;
     }
   }
+`;
+
+const CommentHeaderS = styled.div`
+  display: flex;
+  gap: 0.4rem;
 `;

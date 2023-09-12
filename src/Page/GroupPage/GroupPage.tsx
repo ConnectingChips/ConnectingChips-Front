@@ -8,7 +8,6 @@ import {
   GroupActive,
   GroupArticle,
 } from './GroupPageBarrel';
-import url from '../../image/예시사진모음/놀라칩.png';
 
 // TODO: GroupPost 하나도 없다면 noMind이미지 뜨게하기
 // TODO: GroupPost 2개씩 넣으면 이미지 두개들어가는거 고치기
