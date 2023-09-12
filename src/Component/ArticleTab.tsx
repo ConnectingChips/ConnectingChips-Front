@@ -57,6 +57,7 @@ const TabHeadS = styled.ul`
   display: flex;
   height: 3rem;
   margin: 0 1rem;
+  font-weight: 500;
 
   li {
     width: 50%;
