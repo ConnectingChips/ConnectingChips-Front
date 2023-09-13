@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { Arrow_Left_B } from '../../Component/ArrowBarrel';
 import 기본프로필 from '../../image/예시사진모음/default_profile_W_MyPage.png';
 import infoIcon from '../../image/Icon/icon_Info.png';
@@ -7,12 +8,12 @@ import { CurrentMind, FinishedMind } from './MyPageMind';
 
 // FIXME: 버려질 코드
 import { myInfo, myGroupList } from '../../data/myInfo';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import ConfirmModal from '../../Component/ConfirmModal';
 
 const MyPage = () => {
-  const navigate = useNavigate();
-  const tabText = [`참여중인 작심${myGroupList.length}/3`, '참여했던 작심'];
+  const tabText = [`참여중인 작심(${myGroupList.length}/3)`, '참여했던 작심'];
   const compArr = [<CurrentMind />, <FinishedMind />];
+  const [confirmLogout, setConfirmLogout] = useState(false);
 
   return (
     <MyPageS>
@@ -27,13 +28,17 @@ const MyPage = () => {
       </ProfileHeaderS>
       <LimitInfoS>
         <img src={infoIcon} alt='기본프로필' />
-        <p>최대 3개의 그룹까지 참여 가능합니다.</p>
+        {myGroupList.length === 3 && <p>최대 3개의 그룹까지 참여 가능합니다.</p>}
       </LimitInfoS>
       <ArticleTab tabText={tabText} compArr={compArr} />
       <MyPageSetS>
         <h2>설정</h2>
-        <div onClick={() => logOutFetch(navigate)}>로그아웃</div>
+        <ul>
+          <li onClick={() => setConfirmLogout(true)}>로그아웃</li>
+        </ul>
       </MyPageSetS>
+
+      {confirmLogout && <ConfirmModal setConfirm={setConfirmLogout} />}
     </MyPageS>
   );
 };
@@ -44,11 +49,6 @@ const goBack = (): void => {
   window.history.back();
 };
 
-const logOutFetch = (navigate: NavigateFunction) => {
-  localStorage.clear();
-  navigate(-1);
-};
-
 const MyPageHeader = (): JSX.Element => {
   return (
     <GroupBGHeaderS>
@@ -57,6 +57,7 @@ const MyPageHeader = (): JSX.Element => {
     </GroupBGHeaderS>
   );
 };
+
 
 const MyPageS = styled.div`
   width: var(--width-mobile);
@@ -118,11 +119,13 @@ const LimitInfoS = styled.div`
 const MyPageSetS = styled.div`
   margin: 1.75rem 1rem;
 
-  display: flex;
-  flex-direction: column;
-  gap: 1.06rem;
-
-  div {
+  ul {
+    margin-top: 1.06rem;
+    display: flex;
+    flex-direction: column;
+  }
+  li {
     color: #000;
   }
 `;
+
