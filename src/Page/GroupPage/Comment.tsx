@@ -132,15 +132,7 @@ const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContai
             <h2>{!isReply ? username.comment_user : username.reply_user}</h2>
             <p>{date}</p>
           </div>
-          <p className='text'>
-            {!isReply ? (
-              content
-            ) : (
-              <>
-                <p className='call'>@{username.comment_user}</p> {content}
-              </>
-            )}
-          </p>
+          <p className='text'>{content}</p>
         </div>
         <CommentOptionS>
           {sort === 'comment' ? <h2>답글</h2> : null}
