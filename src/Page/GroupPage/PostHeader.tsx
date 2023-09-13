@@ -6,10 +6,16 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 /** 2023-08-22 PostHeader.tsx - 작심 인증 프로필 + 더보기 */
-const PostHeader = ({ nowTime }: { nowTime: string }): JSX.Element => {
-  const [year, month, day, time] = nowTime.split('.');
+const PostHeader = ({
+  nowTime,
+  editbind,
+}: {
+  nowTime: string;
+  editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
+}): JSX.Element => {
+  const [year, month, day, time] = nowTime.split('');
   const [isToggle, setIsToggle] = useState(false);
-
+  const { edit, setEdit } = editbind;
   const handlerToogleSwitch = () => {
     setIsToggle((prev) => !prev);
   };
@@ -32,7 +38,13 @@ const PostHeader = ({ nowTime }: { nowTime: string }): JSX.Element => {
         {isToggle && (
           // <ModalBGS>
           <ModalS>
-            <div>수정하기</div>
+            <div
+              onClick={() => {
+                setEdit(true);
+              }}
+            >
+              수정하기
+            </div>
             <div>삭제하기</div>
           </ModalS>
           // </ModalBGS>

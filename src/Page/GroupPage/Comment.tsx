@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import sendIcon from '../../../src/image/Icon/send_Icon.svg';
 import Arrow_icon_Up from '../../image/Icon/Arrow/Arrow_icon_Up.svg';
+import Arrow_icon_Down from '../../image/Icon/Arrow/Arrow_icon_Down.svg';
 import postInfoData from '../../data/postInfoData';
 import { CommentInfo } from '../../Type/PostInfo';
 import { useState } from 'react';
@@ -8,31 +8,59 @@ import { useState } from 'react';
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 */
 const Comment = ({ Commented }: { Commented: boolean }) => {
   const commentList = postInfoData.commentList;
-  const [commentFlip, setCommentFlip] = useState<boolean>(false);
-  console.log(commentFlip);
+  const [commentFlip, setCommentFlip] = useState(true);
+  const [commentInput, setCommentInput] = useState<string>('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCommentInput(e.target.value);
+  };
 
   return (
     <CommentS>
       {commentList.length > 0 ? (
-        <CommentHeaderS>
-          <h2>댓글 {commentList.length}</h2>
-          {/* TODO: api로 댓글 개수 가져오기 */}
-          <div onClick={() => setCommentFlip(!commentFlip)}>
-            <img src={Arrow_icon_Up} alt='댓글접기' />
-          </div>
-        </CommentHeaderS>
+        <>
+          {/* 댓글헤더 */}
+          <CommentHeaderS>
+            <h2>댓글 {commentList.length}</h2>
+            {/* TODO: api로 댓글 개수 가져오기 */}
+            <div onClick={() => setCommentFlip(!commentFlip)}>
+              {commentFlip ? (
+                <img src={Arrow_icon_Down} alt='댓글열기' />
+              ) : (
+                <img src={Arrow_icon_Up} alt='댓글접기' />
+              )}
+            </div>
+          </CommentHeaderS>
+
+          {/* 댓글과 답글 */}
+          <CommentListS commentFlip={commentFlip}>
+            {commentList.map((comment) => {
+              return <CommentBox comment={comment} key={comment.commnet_id} />;
+            })}
+          </CommentListS>
+        </>
       ) : null}
 
-      <CommentListS commentFlip={commentFlip}>
-        {commentList.map((comment) => {
-          return <CommentBox comment={comment} key={comment.commnet_id} />;
-        })}
-      </CommentListS>
+      {/* 댓글 input */}
       {Commented && (
         <CommentFormS>
-          <input placeholder='응원의 댓글을 적어주세요!' />
-          <button>
-            <img src={sendIcon} alt='sendIcon' />
+          <input
+            placeholder='응원의 댓글을 적어주세요!'
+            value={commentInput}
+            onChange={handleInputChange}
+            type='text'
+          />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              commentFlip && setCommentFlip(false);
+            }}
+          >
+            {commentInput.trimStart().length === 0 ? (
+              <img src={`${process.env.PUBLIC_URL}/commentInputButtonOFF.svg`} alt='sendIcon' />
+            ) : (
+              <img src={`${process.env.PUBLIC_URL}/commentInputButtonON.svg`} alt='sendIcon' />
+            )}
           </button>
         </CommentFormS>
       )}
@@ -116,18 +144,10 @@ const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContai
             <h2>{!isReply ? username.comment_user : username.reply_user}</h2>
             <p>{date}</p>
           </div>
-          <p className='text'>
-            {!isReply ? (
-              content
-            ) : (
-              <>
-                <p className='call'>@{username.comment_user}</p> {content}
-              </>
-            )}
-          </p>
+          <p className='text'>{content}</p>
         </div>
         <CommentOptionS>
-          <h2>답글</h2>
+          {sort === 'comment' ? <h2>답글</h2> : null}
           <p>삭제</p>
         </CommentOptionS>
       </CommentContentS>
@@ -140,15 +160,11 @@ const CommentS = styled.article``;
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 리스트 */
 const CommentListS = styled.div<{ commentFlip: boolean }>`
-  heigth: auto;
-
-  /* height: ${(props) => (props.commentFlip ? '0px' : 'auto')}; */
+  height: ${(props) => (props.commentFlip ? '0px' : 'auto')};
   overflow: hidden;
-  transition: height 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 0.69rem;
 `;
 
 /** 2023-09-02 Comment.tsx - 댓글+ 답글 / 답글 간격 - Kadesti */
@@ -163,7 +179,6 @@ const CommentContainerS = styled.div<{ sort: CommentType }>`
   display: flex;
   align-items: start;
   height: 6.375rem;
-
   background-color: ${(props) => (props.sort === 'reply' ? 'var(--color-bg)' : '')};
   padding: ${(props) => (props.sort === 'reply' ? '1rem' : '')};
 
@@ -175,7 +190,6 @@ const CommentContainerS = styled.div<{ sort: CommentType }>`
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 내용, 답글 탭 */
 const CommentContentS = styled.div<{ sort: CommentType }>`
   margin-left: 0.5rem;
-
   margin-top: 0.31rem;
   width: ${(props) => (props.sort === 'comment' ? '19.0625rem' : '18.0625rem')};
   height: 6rem;
@@ -236,7 +250,9 @@ const CommentFormS = styled.form`
   align-items: center;
   padding: 0 1rem;
   z-index: 10;
-
+  button {
+    color: gray;
+  }
   input {
     width: 16.375rem;
     height: 1.25rem;
@@ -246,14 +262,12 @@ const CommentFormS = styled.form`
     color: var(--font-color3);
     font-size: 0.875rem;
     font-family: Noto Sans KR;
-
-    &:focus {
-      outline: none;
-    }
   }
 `;
 
 const CommentHeaderS = styled.div`
   display: flex;
   gap: 0.4rem;
+  img {
+  }
 `;

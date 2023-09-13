@@ -1,5 +1,5 @@
 import { useState, styled } from './GroupPageBarrel';
-import { useNavigate, useFindGroup, useLoginCheck, useEffect } from './GroupPageBarrel';
+import { useFindGroup, useLoginCheck, useEffect } from './GroupPageBarrel';
 import {
   GroupHeader,
   type LikeBind,
@@ -13,18 +13,12 @@ import {
 // TODO: GroupPost 2개씩 넣으면 이미지 두개들어가는거 고치기
 /** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
-  const navigate = useNavigate();
   const { intro, rule, url } = useFindGroup('page');
-
-  useEffect(() => {
-    if (!localStorage.getItem('access_token')) {
-      navigate(-1);
-    }
-  }, []);
 
   return (
     <GroupPageS>
       <GroupHeader />
+      {/* FIXME: url 안먹힘 */}
       <GroupImageS url={url} />
       <GroupSummary intro={intro} rule={rule} selected={[0, 1, 3]} />
       <GroupPostListS>
@@ -96,7 +90,6 @@ const GroupImageS = styled.div<{ url: string }>`
 const GroupPostListS = styled.div`
   display: flex;
   flex-direction: column;
-  // TODO: 이거 맞나?
   margin: 0 1rem;
   gap: var(--height-gap);
 `;
@@ -105,6 +98,7 @@ const GroupPostListS = styled.div`
 const GroupPostS = styled.div`
   display: flex;
   flex-direction: column;
+  border-radius: 1rem;
   gap: 0.5rem;
 `;
 
