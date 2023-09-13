@@ -16,7 +16,7 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
   };
-
+  commentList.length = 0;
   return (
     <CommentS>
       {commentList.length > 0 ? (
@@ -27,7 +27,7 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
             {/* TODO: api로 댓글 개수 가져오기 */}
             <div onClick={() => setCommentFlip(!commentFlip)}>
               {commentFlip ? (
-                <img src={Arrow_icon_Down} alt='댓글열기' />
+                <img style={{ paddingTop: '5px' }} src={Arrow_icon_Down} alt='댓글열기' />
               ) : (
                 <img src={Arrow_icon_Up} alt='댓글접기' />
               )}
@@ -63,11 +63,11 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
             value={commentInput}
             onChange={handleInputChange}
             type='text'
+            maxLength={400}
           />
           <button
             onClick={(e) => {
               e.preventDefault();
-              commentFlip && setCommentFlip(false);
               setInputToggle(true);
             }}
           >
@@ -181,6 +181,7 @@ const CommentS = styled.article``;
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 리스트 */
 const CommentListS = styled.div<{ commentFlip: boolean }>`
   height: ${(props) => (props.commentFlip ? '0px' : 'auto')};
+  margin: ${(props) => (props.commentFlip ? 'none' : '1rem 0')};
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -198,7 +199,8 @@ const CommentBoxS = styled.div`
 const CommentContainerS = styled.div<{ sort: CommentType }>`
   display: flex;
   align-items: start;
-  height: 6.375rem;
+  min-height: 2rem;
+  border-radius: 1rem;
   background-color: ${(props) => (props.sort === 'reply' ? 'var(--color-bg)' : '')};
   padding: ${(props) => (props.sort === 'reply' ? '1rem' : '')};
 
@@ -212,8 +214,6 @@ const CommentContentS = styled.div<{ sort: CommentType }>`
   margin-left: 0.5rem;
   margin-top: 0.31rem;
   width: ${(props) => (props.sort === 'comment' ? '19.0625rem' : '18.0625rem')};
-  height: 6rem;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -267,7 +267,7 @@ const FakeCommentFormS = styled.div`
   align-items: center;
   padding: 0 1rem;
   z-index: 10;
-
+  margin: 0.5rem 0 0.5rem 0;
   p {
     width: 16.6rem;
     height: 1.25rem;
@@ -288,10 +288,10 @@ const CommentFormS = styled.form`
   height: 3.5rem;
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 1.1rem;
   z-index: 10;
   input {
-    width: 16.375rem;
+    width: 16.4rem;
     height: 1.25rem;
     border: none;
     background-color: transparent;
@@ -301,7 +301,5 @@ const CommentFormS = styled.form`
 
 const CommentHeaderS = styled.div`
   display: flex;
-  gap: 0.4rem;
-  img {
-  }
+  gap: 0.5rem;
 `;

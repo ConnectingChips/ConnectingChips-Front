@@ -92,6 +92,9 @@ const GroupPostListS = styled.div`
   flex-direction: column;
   margin: 0 1rem;
   gap: var(--height-gap);
+  h2 {
+    font-size: 1rem;
+  }
 `;
 
 /** 2023-08-22 GroupPage.tsx - 그룹페이지 아티클 + 인증 글 */
@@ -99,7 +102,7 @@ const GroupPostS = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
-  gap: 0.5rem;
+  gap: 0.75rem;
 `;
 
 /** 2023-09-12 GroupPage.tsx - 그룹페이지 글 없을 때 사진 */

@@ -29,16 +29,16 @@ const Home = (): JSX.Element => {
   // FIXME: User ID 받아오기
   const nickName = '{닉네임}';
 
-  useEffect(() => {
-    scrollTop();
+  // useEffect(() => {
+  //   scrollTop();
 
-    const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
+  //   const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
 
-    Kakao.cleanup();
-    if (!Kakao.isInitialized()) {
-      Kakao.init(KAKAO_KEY);
-    }
-  }, []);
+  //   Kakao.cleanup();
+  //   if (!Kakao.isInitialized()) {
+  //     Kakao.init(KAKAO_KEY);
+  //   }
+  // }, []);
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
@@ -96,7 +96,8 @@ const Home = (): JSX.Element => {
                 {/* 반가워요 {nickName}칩스! <br /> */}
                 {/* FIXME: 사라질 코드 */}
                 반가워요 {myInfo.my_id}칩스! <br />
-                아래 리스트에서<br />
+                아래 리스트에서
+                <br />
                 미션을 골라보세요 😊
               </h1>
             ) : access_token ? (
