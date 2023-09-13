@@ -25,7 +25,7 @@ const LogInS = styled.div`
 const LoginInputS = styled.input`
   padding: 1rem;
   font-size: 1rem;
-  border: 0.1rem solid #e3e3e3;
+  border: 0.1rem solid var(--color-disabled2);
   border-radius: 0.5rem;
   box-shadow: none;
   height: 1.5rem;
