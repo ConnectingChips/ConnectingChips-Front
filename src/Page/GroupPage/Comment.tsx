@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import Arrow_icon_Up from '../../image/Icon/Arrow/Arrow_icon_Up.svg';
 import Arrow_icon_Down from '../../image/Icon/Arrow/Arrow_icon_Down.svg';
 import postInfoData from '../../data/postInfoData';
+import { myInfo } from '../../data/myInfo';
 import { CommentInfo } from '../../Type/PostInfo';
 import { useState } from 'react';
 
@@ -9,6 +10,7 @@ import { useState } from 'react';
 const Comment = ({ Commented }: { Commented: boolean }) => {
   const commentList = postInfoData.commentList;
   const [commentFlip, setCommentFlip] = useState(true);
+  const [inputToggle, setInputToggle] = useState<boolean>(true);
   const [commentInput, setCommentInput] = useState<string>('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +44,19 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
       ) : null}
 
       {/* 댓글 input */}
-      {Commented && (
+      {/* 자신이 클릭한 input의 postid를 가져와서 그걸 없애주고  */}
+      {inputToggle ? (
+        <FakeCommentFormS
+          onClick={() => {
+            setInputToggle(false);
+          }}
+        >
+          <p>응원의 댓글을 적어주세요!</p>
+          <button>
+            <img src={`${process.env.PUBLIC_URL}/commentInputButtonOFF.svg`} alt='sendIcon' />
+          </button>
+        </FakeCommentFormS>
+      ) : (
         <CommentFormS>
           <input
             placeholder='응원의 댓글을 적어주세요!'
@@ -54,6 +68,7 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
             onClick={(e) => {
               e.preventDefault();
               commentFlip && setCommentFlip(false);
+              setInputToggle(true);
             }}
           >
             {commentInput.trimStart().length === 0 ? (
@@ -135,6 +150,7 @@ interface selectContainerProps {
 /** 2023-09-02 Comment.tsx - 그룹페이지 댓글/답글 항목 - Kadesti */
 const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContainerProps) => {
   const isReply = username.reply_user !== undefined;
+  const userId = myInfo.my_id;
   return (
     <CommentContainerS sort={sort}>
       <img src={imgUrl} alt='답글프로필' />
@@ -148,7 +164,11 @@ const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContai
         </div>
         <CommentOptionS>
           {sort === 'comment' ? <h2>답글</h2> : null}
-          <p>삭제</p>
+          {/* 내데이터 가져와서 댓글또는 답글 user네임이랑 같으면 삭제 보여주기 */}
+          {(sort === 'comment' && userId === username.comment_user) ||
+          (sort === 'reply' && userId === username.reply_user) ? (
+            <p>삭제</p>
+          ) : null}
         </CommentOptionS>
       </CommentContentS>
     </CommentContainerS>
@@ -238,11 +258,8 @@ const CommentOptionS = styled.div`
   }
 `;
 
-/** 2023-08-25 Comment.tsx - 그룹페이지 댓글 입력 창 */
-const CommentFormS = styled.form`
-  bottom: 1.7rem;
+const FakeCommentFormS = styled.div`
   background-color: #fff;
-
   border: 1px solid #e3e3e3;
   border-radius: 0.5rem;
   height: 3.5rem;
@@ -250,18 +267,35 @@ const CommentFormS = styled.form`
   align-items: center;
   padding: 0 1rem;
   z-index: 10;
-  button {
-    color: gray;
+
+  p {
+    width: 16.6rem;
+    height: 1.25rem;
+    border: none;
+    background-color: transparent;
+    font-size: 0.8rem;
+    color: var(--font-color3);
   }
+`;
+
+/** 2023-08-25 Comment.tsx - 그룹페이지 댓글 입력 창 */
+const CommentFormS = styled.form`
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 0.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 10;
   input {
     width: 16.375rem;
     height: 1.25rem;
     border: none;
     background-color: transparent;
-
     color: var(--font-color3);
-    font-size: 0.875rem;
-    font-family: Noto Sans KR;
   }
 `;
 

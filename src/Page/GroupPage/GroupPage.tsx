@@ -24,7 +24,7 @@ const GroupPage = (): JSX.Element => {
       <GroupPostListS>
         <h2>작심 인증글</h2>
         <GroupPost />
-        {/* <GroupPost /> */}
+        <GroupPost />
       </GroupPostListS>
     </GroupPageS>
   );
