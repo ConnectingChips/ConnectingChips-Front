@@ -53,7 +53,7 @@ const MyPageHeader = (): JSX.Element => {
   return (
     <GroupBGHeaderS>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      <h2>마이 페이지</h2>
+      <h2>MY</h2>
     </GroupBGHeaderS>
   );
 };

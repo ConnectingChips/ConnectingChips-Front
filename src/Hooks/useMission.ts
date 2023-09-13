@@ -74,7 +74,6 @@ const useMission = () => {
     doneList,
     uuidList,
     countList,
-    IMG,
   };
 
   const [carreselProps, setCarreselProps] = useState(initCarreselData);
@@ -95,7 +94,7 @@ const useMission = () => {
 
     // FIXME: 버려질 코드
     // const buttonListProps = { ...commonProps, IMG };
-    const buttonListProps = { ...commonProps, IMG, doneList, uuidList, countList };
+    const buttonListProps = { ...commonProps, doneList, uuidList, countList };
     setButtonDataProps(buttonListProps);
     // TODO: 갈아끼울 코드
     // }, [IMG, TOTAL_SLIDES, count, sort]);

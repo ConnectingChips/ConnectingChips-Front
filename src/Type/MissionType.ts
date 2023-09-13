@@ -85,7 +85,6 @@ export interface ButtonListProps extends CommonProps {
   doneList: boolean[];
   uuidList: number[];
   countList: number[];
-  IMG: (string | undefined)[];
   // TODO: 값 다 채워지면 아래로 교체
   // IMG: string[];
 }
