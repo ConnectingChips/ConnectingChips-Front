@@ -15,6 +15,7 @@ import { type handlerBind, useSignup } from './SignUpBarrel';
 const SignUp = (): JSX.Element => {
   const [isValid, setIsValid] = useState(true);
   const [inputState, setInputState] = useState('default');
+  const [isAllAgreed, setIsAllAgreed] = useState(false);
   const isFailed = inputState === 'failed';
   const {
     id,
@@ -86,7 +87,6 @@ const SignUp = (): JSX.Element => {
     }
   };
 
-  // TODO: 컴포넌트 분리하기
   return (
     <LogInS>
       <Loginheader type='회원가입' />
@@ -136,14 +136,14 @@ const SignUp = (): JSX.Element => {
           {isFailed && <p className='error'>비밀번호가 일치하지 않습니다.</p>}
         </LoginInputContainerS>
       </LoginFormS>
-      <Terms />
+      <Terms isAllAgreed={isAllAgreed} setIsAllAgreed={setIsAllAgreed} />
       <BtnWrapperS>
-        {isValid ? (
+        {isValid && isAllAgreed ? (
           <SignClearBtnS type='submit' className='btn_width'>
             <p>회원가입</p>
           </SignClearBtnS>
         ) : (
-          <SignNotClearBtnS type='submit' className='btn_width' disabled={!isValid}>
+          <SignNotClearBtnS type='submit' className='btn_width' disabled={isValid && isAllAgreed}>
             <p>회원가입</p>
           </SignNotClearBtnS>
         )}

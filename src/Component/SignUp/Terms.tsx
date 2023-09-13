@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
-const Terms = (): JSX.Element => {
-  const [isAllAgreed, setIsAllAgreed] = useState(false);
+interface TermsProps {
+  isAllAgreed: boolean;
+  setIsAllAgreed: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
   const [isAgreed, setIsAgreed] = useState({
     terms: false,
     privacy: false,
