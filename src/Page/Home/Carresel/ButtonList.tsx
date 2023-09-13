@@ -41,7 +41,7 @@ const ButtonList = ({ buttonListProps }: { buttonListProps: ButtonListProps }): 
           <CarreselBtnList
             myCount={countList[index]}
             completedToday={doneList[index]}
-            uuid={uuidList[index]}
+            mind_id={uuidList[index]}
             key={index}
           />
         );
@@ -55,14 +55,15 @@ export default ButtonList;
 const CarreselBtnList = ({
   myCount,
   completedToday,
-  uuid,
+  mind_id,
 }: {
   myCount: number;
   completedToday: boolean;
-  uuid: number;
+  mind_id: number;
 }) => {
   const remind = async () => {
-    await fetch('/joined-minds/{mind_id}/remind', { method: 'PUT' });
+    // await fetch(`/joined-minds/${mind_id}/remind`, { method: 'PUT' });
+    await fetch(`/joined-minds/${mind_id}/remind`, { method: 'PUT' });
   };
 
   return (
@@ -72,7 +73,7 @@ const CarreselBtnList = ({
       ) : completedToday ? (
         <TodayClearBtnS>오늘 작심 성공!</TodayClearBtnS>
       ) : (
-        <Link to={`/uploadPost/${uuid}`}>
+        <Link to={`/uploadPost/${mind_id}`}>
           <NoneClearBtnS>작심 인증하기</NoneClearBtnS>
         </Link>
       )}
