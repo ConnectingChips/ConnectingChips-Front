@@ -136,8 +136,8 @@ const MyMissionInfoS = styled.a`
 
   h2 {
     font-size: 1.3rem;
-    margin-top: 0.2rem;
-    height: 4rem;
+    margin-top: 0.38rem;
+    margin-bottom: 0.5rem;
   }
 
   div,
@@ -158,7 +158,7 @@ const MissionContentS = styled.div`
   padding: 1rem;
 
   h2 {
-    font-size: 1rem;
+    font-size: 1rem;    
   }
 
   > p {

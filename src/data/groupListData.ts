@@ -24,12 +24,12 @@ const groupListData: GroupInfoType[] = [
       group_url: co_walk_stroll_group,
     },
     memberList: [
-      {
-        member_id: "aa11",
-        day: 6,
-        count: 3,
-        done: true,
-      },
+      // {
+      //   member_id: "aa11",
+      //   day: 6,
+      //   count: 3,
+      //   done: true,
+      // },
       {
         member_id: "aa222",
         day: 2,
@@ -74,12 +74,12 @@ const groupListData: GroupInfoType[] = [
       group_url: co_fit_ootd_group,
     },
     memberList: [
-      {
-        member_id: "aa11",
-        day: 2,
-        count: 2,
-        done: false,
-      },
+      // {
+      //   member_id: "aa11",
+      //   day: 2,
+      //   count: 2,
+      //   done: false,
+      // },
       {
         member_id: "aa222",
         day: 2,
@@ -124,12 +124,12 @@ const groupListData: GroupInfoType[] = [
       group_url: co_bike_work_group,
     },
     memberList: [
-      {
-        member_id: "aa11",
-        day: 2,
-        count: 2,
-        done: true,
-      },
+      // {
+      //   member_id: "aa11",
+      //   day: 2,
+      //   count: 2,
+      //   done: true,
+      // },
       {
         member_id: "aa222",
         day: 2,

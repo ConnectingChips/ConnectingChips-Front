@@ -113,7 +113,7 @@ const Home = (): JSX.Element => {
                 <p className='bold'>딱 3일!</p>
                 {/* <br /> */}
                 재미있게
-                <br /> 삼칩하자!
+                <br /> 운동하자!
               </h1>
             )}
           </WelcomeTextS>
@@ -171,7 +171,7 @@ const Banner = (): JSX.Element => {
       target='_blank'
     >
       <div className='bannerText'>
-        <h2>칩스님의 의견을 들려주세요</h2>
+        <h2>칩스님의 의견을 들려주세요!</h2>
         <p>작심삼칩을 부탁해</p>
       </div>
       <img src={BannerImage} alt='bannerImage' />
@@ -201,6 +201,7 @@ const BannerS = styled.a`
       cursor: pointer;
       font-size: 0.8125rem;
       margin-top: 0.25rem;
+      color: var(--font-color2);
     }
   }
   img {
@@ -223,6 +224,9 @@ const HomeHeaderS = styled.header`
 
   position: sticky;
   top: 0;
+
+  box-sizing: border-box;
+  height: 3.5rem;
 
   .Logo {
     height: 1.3125rem;

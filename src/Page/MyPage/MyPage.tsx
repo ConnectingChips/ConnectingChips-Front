@@ -20,6 +20,7 @@ const MyPage = () => {
       <MyPageHeader />
       <ProfileHeaderS>
         <h2>
+          {/* TODO: 닉네임으로 변환 */}
           {myInfo.my_id}칩스’s
           <br />
           작심서랍

@@ -54,8 +54,4 @@ const ButtonS = styled.button<{ isvalid: string; side: string }>`
   padding-top: 0.3rem;
   width: 2rem;
   aspect-ratio: 1/1;
-
-  &:hover {
-    opacity: 70%;
-  }
 `;

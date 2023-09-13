@@ -32,8 +32,7 @@ import { fetchMyList, initMyList, useEffect, useState } from '../HomeBarrel';
 
 // FIXME: 사라질 코드
 const ButtonList = ({ buttonListProps }: { buttonListProps: ButtonListProps }): JSX.Element => {
-  const { slideRef, count, sort, TOTAL_SLIDES, doneList, uuidList, countList } =
-    buttonListProps;
+  const { slideRef, count, sort, TOTAL_SLIDES, doneList, uuidList, countList } = buttonListProps;
   return (
     <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
       {uuidList.map((_, index) => {
@@ -41,7 +40,7 @@ const ButtonList = ({ buttonListProps }: { buttonListProps: ButtonListProps }): 
           <CarreselBtnList
             myCount={countList[index]}
             completedToday={doneList[index]}
-            uuid={uuidList[index]}
+            mind_id={uuidList[index]}
             key={index}
           />
         );
@@ -55,14 +54,15 @@ export default ButtonList;
 const CarreselBtnList = ({
   myCount,
   completedToday,
-  uuid,
+  mind_id,
 }: {
   myCount: number;
   completedToday: boolean;
-  uuid: number;
+  mind_id: number;
 }) => {
   const remind = async () => {
-    await fetch('/joined-minds/{mind_id}/remind', { method: 'PUT' });
+    // await fetch(`/joined-minds/${mind_id}/remind`, { method: 'PUT' });
+    await fetch(`/joined-minds/${mind_id}/remind`, { method: 'PUT' });
   };
 
   return (
@@ -70,9 +70,12 @@ const CarreselBtnList = ({
       {myCount === 3 ? (
         <ClearBtnS onClick={remind}>재작심하기</ClearBtnS>
       ) : completedToday ? (
-        <TodayClearBtnS>오늘 작심 성공!</TodayClearBtnS>
+        <TodayClearBtnS>
+          <p>오늘 작심 성공!</p>
+        </TodayClearBtnS>
       ) : (
-        <Link to={`/uploadPost/${uuid}`}>
+        <Link to={`/uploadPost/${mind_id}`}>
+          {/* <NoneClearBtnS>작심 인증하기</NoneClearBtnS> */}
           <NoneClearBtnS>작심 인증하기</NoneClearBtnS>
         </Link>
       )}
@@ -85,21 +88,24 @@ const CommonBtnS = styled.button`
   border-radius: 2rem;
   box-sizing: border-box;
   height: 2.5rem;
-`
+  font-size: 0.75rem;
+
+  text-align: center;
+`;
 
 /** 2023-08-21 ButtonList.tsx - 다른 작심 둘러보기 버튼 */
 const TodayClearBtnS = styled(CommonBtnS)`
   color: var(--color-main);
   background-color: black;
+  p {
+    margin-top: -2px;
+  }
 `;
 
 /** 2023-08-27 ButtonList.tsx - 오늘 작심 성공! 버튼 */
 const ClearBtnS = styled(CommonBtnS)`
   background-color: var(--color-main);
   color: black;
-  &:hover {
-    cursor: default;
-  }
 `;
 
 /** 2023-08-21 ButtonList.tsx - 작심 인증하기 버튼 */
