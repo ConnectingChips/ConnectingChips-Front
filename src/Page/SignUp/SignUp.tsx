@@ -67,7 +67,7 @@ const SignUp = (): JSX.Element => {
     else return setFalse(4);
 
     const findFalse = isValidArr.find((isvalid) => isvalid === false);
-    if (findFalse === undefined) setIsValid(true);
+    if (findFalse === undefined) setIsValid(true); // 여기서 조건 2개 다 만족해야 true로 바뀌어야 함
   }, [id, password, confirmPassword, email, nickname]);
 
   /** 2023-08-24 SignUp.tsx - 로그인 요청 핸들러 */
@@ -167,12 +167,13 @@ interface SignUpInputProps {
  * @param sort id인지 password인지 식별
  * @returns id입력창 또는 pw입력창
  */
+
+// TODO: 컴포넌트 분리
 const SignUpInput = ({ sort, handlerBind, isFailed }: SignUpInputProps): JSX.Element => {
   const { value, setValue } = handlerBind;
   const handlerOnChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
 
-  // TODO: 다른 폴더로 분리하는것은 어떤지? (ex. utils 또는 한 폴더 안에 함께 두기)
-  const generateInputProperty = (sort: Sort) => {
+  const generateInputType = (sort: Sort) => {
     switch (sort) {
       case 'ID':
         return { type: 'text', placeholder: '아이디를 입력해 주세요' };
@@ -189,7 +190,7 @@ const SignUpInput = ({ sort, handlerBind, isFailed }: SignUpInputProps): JSX.Ele
     }
   };
 
-  const { type, placeholder } = generateInputProperty(sort);
+  const { type, placeholder } = generateInputType(sort);
 
   return (
     <LoginInputS
