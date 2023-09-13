@@ -7,11 +7,18 @@ import { initMyList } from '../../data/initialData';
 // FIXME: 버려질 코드
 import { useState } from 'react';
 import { myGroupList, myInfo } from '../../data/myInfo';
+import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
+import { useNavigate } from 'react-router-dom';
 
 /** 참여중인 작심 */
 export const CurrentMind = (): JSX.Element => {
+  const isExist = myGroupList.length > 0;
+  return <CurrentMindListS>{isExist ? <ExistComp /> : <NoneExistComp />}</CurrentMindListS>;
+};
+
+const ExistComp = (): JSX.Element => {
   return (
-    <CurrentMindListS>
+    <>
       {myGroupList.map((myGroup, idx) => {
         return (
           <MindS key={idx}>
@@ -20,7 +27,20 @@ export const CurrentMind = (): JSX.Element => {
           </MindS>
         );
       })}
-    </CurrentMindListS>
+    </>
+  );
+};
+
+const NoneExistComp = (): JSX.Element => {
+  const navigate = useNavigate();
+
+  return (
+    <MindS>
+      <p className='nonExist'>참여한 작심이 없어요!</p>
+      <div onClick={() => navigate('/')}>
+        그룹 둘러보기 <img src={Arrow_Right} alt='Arrow_Right' />
+      </div>
+    </MindS>
   );
 };
 
@@ -34,9 +54,17 @@ const reJoinFetch = async (mind_id: number) => {
 };
 
 /** 참여했던 작심 */
-export const FinishedMind = (): JSX.Element => {
+export const FinishedMindList = (): JSX.Element => {
+  const isExist = myGroupList.length > 0;
+
+  return <CurrentMindListS>
+    {isExist ? <FinishedMind /> : <NoneExistComp />}
+  </CurrentMindListS>;
+};
+
+const FinishedMind = () => {
   return (
-    <CurrentMindListS>
+    <>
       {myGroupList.map((myGroup, index) => {
         const myDate = myGroup.memberList.find((member) => member.member_id === myInfo.my_id)?.day;
         return (
@@ -57,7 +85,7 @@ export const FinishedMind = (): JSX.Element => {
           </MindS>
         );
       })}
-    </CurrentMindListS>
+    </>
   );
 };
 
@@ -79,6 +107,11 @@ const MindS = styled.li`
   box-sizing: border-box;
   height: 4.375rem;
   border-radius: 5px;
+
+  p.nonExist {
+    color: var(--color-disabled1);
+    font-size: 1rem;
+  }
 
   p.main {
     font-size: 1rem;
