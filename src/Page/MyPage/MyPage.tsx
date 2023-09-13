@@ -20,6 +20,7 @@ const MyPage = () => {
       <MyPageHeader />
       <ProfileHeaderS>
         <h2>
+          {/* TODO: 닉네임으로 변환 */}
           {myInfo.my_id}칩스’s
           <br />
           작심서랍
@@ -53,7 +54,7 @@ const MyPageHeader = (): JSX.Element => {
   return (
     <GroupBGHeaderS>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      <h2>마이 페이지</h2>
+      <h2>MY</h2>
     </GroupBGHeaderS>
   );
 };

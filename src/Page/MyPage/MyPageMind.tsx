@@ -43,10 +43,14 @@ export const FinishedMind = (): JSX.Element => {
           <MindS key={index}>
             <div>
               <p className='main'>{myGroup.title}</p>
-              <p className='sub'>{myDate}일 작심 성공</p>
+              <p className='sub'>
+                <span className='date'>{myDate}</span>일 작심 성공
+              </p>
             </div>
             {myGroupList.length >= 3 ? (
-              <FullJoinButtonS onClick={() => reJoinFetch(myGroup.group_id)}>다시 참여하기</FullJoinButtonS>
+              <FullJoinButtonS onClick={() => reJoinFetch(myGroup.group_id)}>
+                다시 참여하기
+              </FullJoinButtonS>
             ) : (
               <ReMindButtonS>다시 참여하기</ReMindButtonS>
             )}
@@ -82,6 +86,10 @@ const MindS = styled.li`
   }
   p.sub {
     color: var(--font-color2);
+
+    .date {
+      font-weight: 500;
+    }
   }
 `;
 

@@ -128,25 +128,37 @@ const GroupListItem = ({ groupInfo }: { groupInfo: GroupInfoType }): JSX.Element
   // const imageUrl = groupInfo.backgroundImage;
 
   // FIXME: 버려질 코드
-  const isFirst = groupInfo.memberList.length === 0;
   const groupID = groupInfo.group_id;
   const imageUrl = groupInfo.defaultImage.list_url;
   if (imageUrl === undefined) return <></>;
 
   return (
-    <GroupListItemS key={groupID} img={imageUrl}>
-      <div>
-        <h2>{groupInfo.title}</h2>
-        {isFirst ? (
-          <p>작심의 첫 주인공이 되어보세요!</p>
-        ) : (
-          <p>{groupInfo.memberList.length}명 참여중</p>
-        )}
-      </div>
-      <Link to={`/groupIntro/${groupID}`}>
+    <Link to={`/groupIntro/${groupID}`}>
+      <GroupListItemS key={groupID} img={imageUrl}>
+        <ItemContent groupInfo={groupInfo} />
         <button>참여하기</button>
-      </Link>
-    </GroupListItemS>
+      </GroupListItemS>
+    </Link>
+  );
+};
+
+const ItemContent = ({ groupInfo }: { groupInfo: GroupInfoType }): JSX.Element => {
+  const isFirst = groupInfo.memberList.length === 0;
+
+  return (
+    <ItemContentS>
+      <div className='Item-Name'>
+        <ItemTabS>{groupInfo.tab}</ItemTabS>
+        <h2>{groupInfo.title}</h2>
+      </div>
+      {isFirst ? (
+        <p>작심의 첫 주인공이 되어 보세요!</p>
+      ) : (
+        <p>
+          <span className='people'>{groupInfo.memberList.length}</span>명 함께 맛보기 중
+        </p>
+      )}
+    </ItemContentS>
   );
 };
 
@@ -160,33 +172,59 @@ const GroupListListS = styled.ul`
 const GroupListItemS = styled.li<{ img: string }>`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
+  align-items: end;
+  padding: 1.06rem;
 
-  border: 1px solid;
-  border-radius: 1.25rem;
+  border-radius: 0.625rem;
 
   background-image: url(${(props) => props.img});
 
   color: white;
 
-  h2 {
-    font-size: 1rem;
-    margin-bottom: var(--height-gap);
-  }
-
   button {
-    padding: 0.5rem;
-    border: 0.15rem solid;
-    border-radius: 2rem;
+    outline: 1px solid;
+    border-radius: 1rem;
 
     font-size: 0.8125rem;
+    width: 4.3125rem;
+    height: 1.625rem;
     color: white;
 
-    &:hover {
-      background-color: black;
+    a {
       color: white;
-      border: 0.15rem solid black;
     }
   }
+`;
+
+const ItemContentS = styled.div`
+  height: 3.88rem;
+
+  .Item-Name {
+    display: flex;
+    flex-direction: column;
+    height: 2.81rem;
+    gap: 0.125rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+    margin-top: 0;
+  }
+
+  .people {
+    color: var(--color-main);
+    font-weight: 500;
+  }
+
+  p {
+    margin-top: 3px;
+  }
+`;
+
+const ItemTabS = styled.div`
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 0.12rem 0.86rem;
+  font-size: 0.6875rem;
+  width: fit-content;
 `;

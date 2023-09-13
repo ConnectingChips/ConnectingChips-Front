@@ -48,10 +48,6 @@ const GlobalStyle = createGlobalStyle`
     list-style: none;
 
     &.button{
-      &:hover{
-          cursor: pointer;
-          opacity: 60%;
-      }
       &.active{
         background: #000;
         color: white;
@@ -92,10 +88,6 @@ const GlobalStyle = createGlobalStyle`
     background-color: transparent;
     border: 0;
     font-family: 'Noto Sans KR', sans-serif;
-
-    &:hover {
-        cursor: pointer;
-    }
   }
 
   textarea{

@@ -79,7 +79,7 @@ const MissionSingleS = styled.li`
   justify-content: center;
   align-items: center;
 
-  border: 1px solid;
+  outline: 1px solid var(--color-disabled2);
   border-radius: 1.5rem;
 
   font-size: 0.8125rem;
@@ -90,6 +90,7 @@ const MissionSingleS = styled.li`
   }
 
   &.focused {
+    outline: none;
     background-color: black;
     color: white;
   }
