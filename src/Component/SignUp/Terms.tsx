@@ -1,21 +1,64 @@
 import styled from 'styled-components';
-import { termsAndConditions, privacyPolicyAgreement } from './terms_data';
+import { useState } from 'react';
 
-import Dropdown from './Dropdown';
-
-// TODO: Title 컴포넌트 분리
 const Terms = (): JSX.Element => {
+  const [isAllAgreed, setIsAllAgreed] = useState(false);
+  const [isAgreed, setIsAgreed] = useState({
+    terms: false,
+    privacy: false,
+  });
+
+  const handleAllAgreedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    setIsAgreed(() => ({ terms: checked, privacy: checked }));
+    setIsAllAgreed(checked);
+  };
+
+  const handleAgreedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setIsAgreed((prev) => ({ ...prev, [name]: checked }));
+    const allChecked = Object.values({ ...isAgreed, [name]: checked }).every(
+      (value) => value === true,
+    );
+    setIsAllAgreed(allChecked);
+  };
+
   return (
     <div>
       <DividerS />
       <TermsTitleWrapperS>
         <TermsTitleS>
-          <input type='checkbox' />
+          <input
+            type='checkbox'
+            name='all'
+            checked={isAllAgreed}
+            onChange={handleAllAgreedChange}
+          />
           <strong>약관 전체 동의</strong>
         </TermsTitleS>
       </TermsTitleWrapperS>
-      <Dropdown data={termsAndConditions} />
-      <Dropdown data={privacyPolicyAgreement} />
+      <TermsTitleWrapperS>
+        <TermsTitleS>
+          <input
+            type='checkbox'
+            name='terms'
+            checked={isAgreed.terms}
+            onChange={handleAgreedChange}
+          />
+          <strong>이용약관 동의&#40;필수&#41;</strong>
+        </TermsTitleS>
+      </TermsTitleWrapperS>
+      <TermsTitleWrapperS>
+        <TermsTitleS>
+          <input
+            type='checkbox'
+            name='privacy'
+            checked={isAgreed.privacy}
+            onChange={handleAgreedChange}
+          />
+          <strong>개인정보 수집 및 이용 동의&#40;필수&#41;</strong>
+        </TermsTitleS>
+      </TermsTitleWrapperS>
     </div>
   );
 };
@@ -28,7 +71,6 @@ const DividerS = styled.div`
   background-color: var(--color-line);
 `;
 
-// TODO: Title styled-components 분리 필요
 const TermsTitleWrapperS = styled.div`
   display: flex;
   justify-content: space-between;
