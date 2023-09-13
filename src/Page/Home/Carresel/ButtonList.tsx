@@ -93,7 +93,6 @@ const CommonBtnS = styled.button`
   text-align: center;
 `;
 
-/** 2023-08-21 ButtonList.tsx - 다른 작심 둘러보기 버튼 */
 const TodayClearBtnS = styled(CommonBtnS)`
   color: var(--color-main);
   background-color: black;
@@ -102,13 +101,11 @@ const TodayClearBtnS = styled(CommonBtnS)`
   }
 `;
 
-/** 2023-08-27 ButtonList.tsx - 오늘 작심 성공! 버튼 */
 const ClearBtnS = styled(CommonBtnS)`
   background-color: var(--color-main);
   color: black;
 `;
 
-/** 2023-08-21 ButtonList.tsx - 작심 인증하기 버튼 */
 const NoneClearBtnS = styled(CommonBtnS)`
   border: 0.1rem solid var(--color-main);
 `;
