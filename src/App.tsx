@@ -24,7 +24,7 @@ function App() {
             element={<OAuthPage component={<LogIn />} authenticated='block' />}
           />
           <Route
-            path='/LogIn'
+            path='/SignUp'
             element={<OAuthPage component={<SignUp />} authenticated='block' />}
           />
           <Route path='/groupIntro/:mindID' element={<GroupIntro />} />

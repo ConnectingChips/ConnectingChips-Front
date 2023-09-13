@@ -22,10 +22,10 @@ const MyMisson = ({ mygrouplist }: { mygrouplist: GroupInfoType[] }): JSX.Elemen
       {/* FIXME: 사라질 코드 */}
       <h2>나의 작심 현황({mygrouplist.length}/3)</h2>
       <CarreselContainerS>
-        <MyMissionULS>
+        <div className='myMission'>
           <Carresel carreselProps={carreselProps} />
           <ButtonList buttonListProps={buttonDataProps} />
-        </MyMissionULS>
+        </div>
       </CarreselContainerS>
     </MyMissonS>
   );
@@ -33,9 +33,7 @@ const MyMisson = ({ mygrouplist }: { mygrouplist: GroupInfoType[] }): JSX.Elemen
 
 export default MyMisson;
 
-const MyMissonS = styled.article`
-
-`
+const MyMissonS = styled.article``;
 
 /** 캐러샐 + 버튼 */
 const CarreselContainerS = styled.section`
@@ -44,6 +42,7 @@ const CarreselContainerS = styled.section`
   justify-content: space-between;
   flex-wrap: wrap;
 
+  margin-top: 0.5rem;
   margin-bottom: 1.25rem;
 
   /* overscroll-behavior: contain; */
@@ -51,11 +50,8 @@ const CarreselContainerS = styled.section`
   &::-webkit-scrollbar {
     display: none;
   }
-`;
 
-/** 2023-08-20 MyMisson.tsx - 나의 작심 현황 리스트 */
-const MyMissionULS = styled.div`
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  position: relative;
+  div.myMission {
+    position: relative;
+  }
 `;

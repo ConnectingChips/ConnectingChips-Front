@@ -72,7 +72,9 @@ const Home = (): JSX.Element => {
         <img src={Logo_002} alt='logo' className='Logo' />
         <div className='userInfo'>
           <img src={Share_Icon} alt='share' onClick={() => shareKakao()} />
+
           <img src={기본프로필} alt='기본 프로필' onClick={profileClick} />
+          <p>MY</p>
         </div>
       </HomeHeaderS>
       <HomeContentS>
@@ -83,9 +85,19 @@ const Home = (): JSX.Element => {
                 {/* TODO: 갈아끼울 코드 */}
                 {/* 멋져요 {nickName}칩스! <br /> */}
                 {/* FIXME: 사라질 코드 */}
-                멋져요 {myInfo.my_id}칩스! <br />
-                내일도 함께 해<br />
-                주실 거죠?
+                {myInfo.my_id}칩스! <br />
+                작지만 확실한
+                <br />
+                성공 적립 완료!
+              </h1>
+            ) : access_token && myGroupList.length === 0 ? (
+              <h1>
+                {/* TODO: 갈아끼울 코드 */}
+                {/* 반가워요 {nickName}칩스! <br /> */}
+                {/* FIXME: 사라질 코드 */}
+                반가워요 {myInfo.my_id}칩스! <br />
+                아래 리스트에서<br />
+                미션을 골라보세요 😊
               </h1>
             ) : access_token ? (
               <h1>
@@ -217,8 +229,17 @@ const HomeHeaderS = styled.header`
   }
 
   .userInfo {
+    display: flex;
+    align-items: center;
+
     :first-child {
       margin-right: 0.75rem;
+    }
+
+    p {
+      font-size: 0.8125rem;
+      margin-left: 0.37rem;
+      color: white;
     }
   }
 `;

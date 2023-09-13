@@ -32,11 +32,11 @@ import { fetchMyList, initMyList, useEffect, useState } from '../HomeBarrel';
 
 // FIXME: 사라질 코드
 const ButtonList = ({ buttonListProps }: { buttonListProps: ButtonListProps }): JSX.Element => {
-  const { slideRef, count, sort, TOTAL_SLIDES, IMG, doneList, uuidList, countList } =
+  const { slideRef, count, sort, TOTAL_SLIDES, doneList, uuidList, countList } =
     buttonListProps;
   return (
     <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
-      {IMG.map((_, index) => {
+      {uuidList.map((_, index) => {
         return (
           <CarreselBtnList
             myCount={countList[index]}
@@ -80,20 +80,21 @@ const CarreselBtnList = ({
   );
 };
 
-/** 2023-08-21 ButtonList.tsx - 다른 작심 둘러보기 버튼 */
-const TodayClearBtnS = styled.button`
-  padding: 1rem;
+const CommonBtnS = styled.button`
   width: var(--width-my-mission);
   border-radius: 2rem;
-  background-color: black;
+  box-sizing: border-box;
+  height: 2.5rem;
+`
+
+/** 2023-08-21 ButtonList.tsx - 다른 작심 둘러보기 버튼 */
+const TodayClearBtnS = styled(CommonBtnS)`
   color: var(--color-main);
+  background-color: black;
 `;
 
 /** 2023-08-27 ButtonList.tsx - 오늘 작심 성공! 버튼 */
-const ClearBtnS = styled.button`
-  padding: 1rem;
-  width: var(--width-my-mission);
-  border-radius: 2rem;
+const ClearBtnS = styled(CommonBtnS)`
   background-color: var(--color-main);
   color: black;
   &:hover {
@@ -102,9 +103,6 @@ const ClearBtnS = styled.button`
 `;
 
 /** 2023-08-21 ButtonList.tsx - 작심 인증하기 버튼 */
-const NoneClearBtnS = styled.button`
+const NoneClearBtnS = styled(CommonBtnS)`
   border: 0.1rem solid var(--color-main);
-  padding: 1rem;
-  width: var(--width-my-mission);
-  border-radius: 2rem;
 `;
