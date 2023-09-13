@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 /** 2023-08-24 LogIn.tsx - 로그인 페이지 스타일 */
 const LogInS = styled.div`
@@ -25,13 +25,18 @@ const LogInS = styled.div`
 const LoginInputS = styled.input`
   padding: 1rem;
   font-size: 1rem;
-  border: 0.1rem solid;
+  border: 0.1rem solid var(--color-disabled2);
   border-radius: 0.5rem;
-  /* margin: 0.5rem 0; */
+  box-shadow: none;
   height: 1.5rem;
 
   &.failed {
     border-color: var(--system-red);
+  }
+
+  &:focus {
+    border: 0.1rem solid var(--color-main);
+    outline: none;
   }
 `;
 
