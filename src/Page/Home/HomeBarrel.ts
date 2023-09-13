@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import MyMisson from './MyMisson';
 import GroupList from './GroupList';
@@ -13,8 +14,10 @@ import { myInfo, myGroupList } from '../../data/myInfo';
 import { fetchMyList, fetchTotalList } from '../../API/fetchMyList';
 import { initMyList, initTotalList } from '../../data/initialData';
 
-export { styled, Link, useEffect, useState };
-export { scrollTop, fetchMyList, initMyList, fetchTotalList, initTotalList };
+import shareKakao from '../../API/shareKakao';
+
+export { styled, Link, useEffect, useState, useNavigate };
+export { scrollTop, fetchMyList, initMyList, fetchTotalList, initTotalList, shareKakao };
 export { MyMisson, GroupList };
 
 // FIXME: 사라질 코드
