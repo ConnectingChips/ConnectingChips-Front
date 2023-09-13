@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import sendIcon from '../../../src/image/Icon/send_Icon.svg';
 import Arrow_icon_Up from '../../image/Icon/Arrow/Arrow_icon_Up.svg';
+import Arrow_icon_Down from '../../image/Icon/Arrow/Arrow_icon_Down.svg';
 import postInfoData from '../../data/postInfoData';
 import { CommentInfo } from '../../Type/PostInfo';
 import { useState } from 'react';
@@ -8,9 +8,8 @@ import { useState } from 'react';
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 */
 const Comment = ({ Commented }: { Commented: boolean }) => {
   const commentList = postInfoData.commentList;
-  const [commentFlip, setCommentFlip] = useState(false);
+  const [commentFlip, setCommentFlip] = useState(true);
   const [commentInput, setCommentInput] = useState<string>('');
-  console.log(commentInput);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
@@ -20,14 +19,20 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
     <CommentS>
       {commentList.length > 0 ? (
         <>
-          {' '}
+          {/* 댓글헤더 */}
           <CommentHeaderS>
             <h2>댓글 {commentList.length}</h2>
             {/* TODO: api로 댓글 개수 가져오기 */}
             <div onClick={() => setCommentFlip(!commentFlip)}>
-              <img src={Arrow_icon_Up} alt='댓글접기' />
+              {commentFlip ? (
+                <img src={Arrow_icon_Down} alt='댓글열기' />
+              ) : (
+                <img src={Arrow_icon_Up} alt='댓글접기' />
+              )}
             </div>
           </CommentHeaderS>
+
+          {/* 댓글과 답글 */}
           <CommentListS commentFlip={commentFlip}>
             {commentList.map((comment) => {
               return <CommentBox comment={comment} key={comment.commnet_id} />;
@@ -36,14 +41,21 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
         </>
       ) : null}
 
+      {/* 댓글 input */}
       {Commented && (
         <CommentFormS>
           <input
             placeholder='응원의 댓글을 적어주세요!'
             value={commentInput}
             onChange={handleInputChange}
+            type='text'
           />
-          <button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              commentFlip && setCommentFlip(false);
+            }}
+          >
             {commentInput.trimStart().length === 0 ? (
               <img src={`${process.env.PUBLIC_URL}/commentInputButtonOFF.svg`} alt='sendIcon' />
             ) : (
@@ -250,14 +262,12 @@ const CommentFormS = styled.form`
     color: var(--font-color3);
     font-size: 0.875rem;
     font-family: Noto Sans KR;
-
-    &:focus {
-      outline: none;
-    }
   }
 `;
 
 const CommentHeaderS = styled.div`
   display: flex;
   gap: 0.4rem;
+  img {
+  }
 `;
