@@ -3,14 +3,40 @@ import { ReactComponent as CloseIcon } from '../../image/Icon/close_icon.svg';
 
 interface TermsModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  data: {
+  termsData: {
+    type: string;
     title: string;
     contents: string;
   };
+  setIsAgreed: React.Dispatch<
+    React.SetStateAction<{
+      terms: boolean;
+      privacy: boolean;
+    }>
+  >;
 }
 
-const TermsModal = ({ setIsOpen, data }: TermsModalProps) => {
+const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
   const handleCloseButtonClick = () => {
+    setIsOpen(false);
+    document.body.style.overflow = 'unset';
+  };
+
+  const handleAgreeButtonClick = () => {
+    if (termsData.type === 'terms') {
+      setIsAgreed((prev) => ({
+        ...prev,
+        terms: true,
+      }));
+    }
+
+    if (termsData.type === 'privacy') {
+      setIsAgreed((prev) => ({
+        ...prev,
+        privacy: true,
+      }));
+    }
+
     setIsOpen(false);
     document.body.style.overflow = 'unset';
   };
@@ -19,13 +45,13 @@ const TermsModal = ({ setIsOpen, data }: TermsModalProps) => {
     <Container>
       <ModalHeaderS>
         <CloseIcon onClick={handleCloseButtonClick} />
-        <h2>{data.title}</h2>
+        <h2>{termsData.title}</h2>
       </ModalHeaderS>
-      <ModalContentS className='modal_contents'>
-        <p>{data.contents}</p>
+      <ModalContentS>
+        <p>{termsData.contents}</p>
       </ModalContentS>
       <ButtonWrapperS>
-        <button>동의</button>
+        <button onClick={handleAgreeButtonClick}>동의</button>
       </ButtonWrapperS>
     </Container>
   );
@@ -64,7 +90,7 @@ const ModalHeaderS = styled.div`
 `;
 
 const ModalContentS = styled.div`
-  max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
 
   p {

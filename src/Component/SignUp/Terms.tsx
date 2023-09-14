@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TermsModal from './TermsModal';
 import { termsAndConditions, privacyPolicyAgreement } from './terms_data';
@@ -10,17 +10,23 @@ interface TermsProps {
 }
 
 interface TermsData {
+  type: string;
   title: string;
   contents: string;
 }
 
 const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
-  const [termsData, setTermsData] = useState<TermsData>({ title: '', contents: '' });
+  const [termsData, setTermsData] = useState<TermsData>({ title: '', contents: '', type: '' });
   const [isAgreed, setIsAgreed] = useState({
     terms: false,
     privacy: false,
   });
+
+  useEffect(() => {
+    const isAllChecked = Object.values(isAgreed).every((value) => value === true);
+    setIsAllAgreed(isAllChecked);
+  }, [isAgreed, setIsAllAgreed]);
 
   const handleAllAgreedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
@@ -94,7 +100,9 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
           <img src={Arrow_Left_B} alt='상세보기' />
         </ArrowRIghtIconS>
       </TermsTitleWrapperS>
-      {isOpen && <TermsModal setIsOpen={setIsOpen} data={termsData} />}
+      {isOpen && (
+        <TermsModal setIsOpen={setIsOpen} termsData={termsData} setIsAgreed={setIsAgreed} />
+      )}
     </>
   );
 };
