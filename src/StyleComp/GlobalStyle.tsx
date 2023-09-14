@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
     --color-disabled1: #999999;
     --color-disabled2: #E5E5EC;
     --system-green: #04B014;
+    --color-white: #ffffff;
 
     /* 가로 폭 */
     --width-mobile: 375px;

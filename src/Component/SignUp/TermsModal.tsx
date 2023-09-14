@@ -8,6 +8,7 @@ interface TermsModalProps {
     contents: string;
   };
 }
+
 const TermsModal = ({ setIsOpen, data }: TermsModalProps) => {
   const handleCloseButtonClick = () => {
     setIsOpen(false);
@@ -40,7 +41,7 @@ const Container = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--color-bg);
+  background-color: var(--color-white);
 `;
 
 const ModalHeaderS = styled.div`
@@ -51,7 +52,7 @@ const ModalHeaderS = styled.div`
   height: 3.5rem;
   font-size: 1.25rem;
   font-weight: 500;
-  background-color: var(--color-bg);
+  background-color: var(--color-white);
   position: relative;
 
   svg {
@@ -78,7 +79,7 @@ const ButtonWrapperS = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--color-bg);
+  background-color: var(--color-white);
 
   button {
     width: 100%;

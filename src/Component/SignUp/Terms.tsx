@@ -13,6 +13,7 @@ interface TermsData {
   title: string;
   contents: string;
 }
+
 const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [termsData, setTermsData] = useState<TermsData>({ title: '', contents: '' });
