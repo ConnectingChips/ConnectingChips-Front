@@ -16,7 +16,7 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
   };
-  commentList.length = 0;
+  // commentList.length = 0;
   return (
     <CommentS>
       {commentList.length > 0 ? (
@@ -51,7 +51,11 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
             setInputToggle(false);
           }}
         >
-          <p>응원의 댓글을 적어주세요!</p>
+          <p>
+            {commentList.length > 0
+              ? '응원의 댓글을 적어주세요!'
+              : '가장 먼저 응원의 댓글을 적어주세요!'}
+          </p>
           <button>
             <img src={`${process.env.PUBLIC_URL}/commentInputButtonOFF.svg`} alt='sendIcon' />
           </button>
@@ -59,7 +63,11 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
       ) : (
         <CommentFormS>
           <input
-            placeholder='응원의 댓글을 적어주세요!'
+            placeholder={
+              commentList.length > 0
+                ? '응원의 댓글을 적어주세요!'
+                : '가장 먼저 응원의 댓글을 적어주세요!'
+            }
             value={commentInput}
             onChange={handleInputChange}
             type='text'
