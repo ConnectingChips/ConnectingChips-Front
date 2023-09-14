@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import TermsModal from './TermsModal';
+import { termsAndConditions, privacyPolicyAgreement } from './terms_data';
 import { Arrow_Left_B } from '../ArrowBarrel';
 
 interface TermsProps {
   isAllAgreed: boolean;
   setIsAllAgreed: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+interface TermsData {
+  title: string;
+  contents: string;
+}
 const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [termsData, setTermsData] = useState<TermsData>({ title: '', contents: '' });
   const [isAgreed, setIsAgreed] = useState({
     terms: false,
     privacy: false,
@@ -27,8 +36,23 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
     setIsAllAgreed(allChecked);
   };
 
+  const handleTermsDetailClick = () => {
+    setTermsData(termsAndConditions);
+    showModal();
+  };
+
+  const handlePrivacyDetailClick = () => {
+    setTermsData(privacyPolicyAgreement);
+    showModal();
+  };
+
+  const showModal = () => {
+    setIsOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
   return (
-    <div>
+    <>
       <DividerS />
       <TermsTitleWrapperS>
         <TermsTitleS>
@@ -51,7 +75,7 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
           />
           <strong>이용약관 동의&#40;필수&#41;</strong>
         </TermsTitleS>
-        <ArrowRIghtIconS>
+        <ArrowRIghtIconS onClick={handleTermsDetailClick}>
           <img src={Arrow_Left_B} alt='상세보기' />
         </ArrowRIghtIconS>
       </TermsTitleWrapperS>
@@ -65,11 +89,12 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
           />
           <strong>개인정보 수집 및 이용 동의&#40;필수&#41;</strong>
         </TermsTitleS>
-        <ArrowRIghtIconS>
+        <ArrowRIghtIconS onClick={handlePrivacyDetailClick}>
           <img src={Arrow_Left_B} alt='상세보기' />
         </ArrowRIghtIconS>
       </TermsTitleWrapperS>
-    </div>
+      {isOpen && <TermsModal setIsOpen={setIsOpen} data={termsData} />}
+    </>
   );
 };
 
