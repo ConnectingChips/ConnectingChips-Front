@@ -90,6 +90,12 @@ const SignUp = (): JSX.Element => {
     setValidation((prev) => ({ ...prev, nickname: isValidNickname }));
   };
 
+  const passwordValidationCheck = () => {
+    const passwordReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{10,20}$/g;
+    const isValidPassword = passwordReg.test(password);
+    setValidation((prev) => ({ ...prev, password: isValidPassword }));
+  };
+
   /** 2023-08-24 SignUp.tsx - 로그인 요청 핸들러 */
   const SignupSubmit = async (e: React.MouseEvent<HTMLFormElement, MouseEvent>): Promise<void> => {
     e.preventDefault();
@@ -153,14 +159,14 @@ const SignUp = (): JSX.Element => {
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>비밀번호</h2>
-          <SignUpInput sort='PW' handlerBind={passBind} validationCheck={emailValidationCheck} />
-          {!isFailed && (
-            <p>
-              <img src={infoIcon} alt='infoIcon' />
-              영문+숫자 10~20자 조합, 공백 및 특수문자 불가
-            </p>
+          <SignUpInput sort='PW' handlerBind={passBind} validationCheck={passwordValidationCheck} />
+          <p className={password && validation.password === false ? 'hidden' : ''}>
+            <img src={infoIcon} alt='infoIcon' />
+            영문+숫자 10~20자 조합, 공백 및 특수문자 불가
+          </p>
+          {password && validation.password === false && (
+            <p className='error'>영문+숫자 10~20자 조합, 공백 불가</p>
           )}
-          {isFailed && <p className='error'>영문+숫자 10~20자 조합, 공백 불가</p>}
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>비밀번호 재입력</h2>
