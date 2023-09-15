@@ -1,7 +1,4 @@
-import { styled } from 'styled-components';
 import postInfoData from '../../data/postInfoData';
-import { myInfo } from '../../data/myInfo';
-import { CommentInfo } from '../../Type/PostInfo';
 import { useState } from 'react';
 import { CommentHeader } from './CommentHeader';
 import { CommentList } from './CommentList';
@@ -25,10 +22,6 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
     commentInput,
     setCommentInput,
   };
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCommentInput(e.target.value);
-  };
-
   return (
     <>
       {commentList.length > 0 ? (

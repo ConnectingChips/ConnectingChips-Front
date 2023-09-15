@@ -1,6 +1,6 @@
 import { useState, styled } from './GroupPageBarrel';
-import { useFindGroup, useLoginCheck, useEffect } from './GroupPageBarrel';
 import {
+  useFindGroup,
   GroupHeader,
   type LikeBind,
   Comment,
@@ -104,6 +104,8 @@ const GroupPostS = styled.div`
   flex-direction: column;
   border-radius: 1rem;
   gap: 0.75rem;
+  // FIXME: commentinput의 하단자리가 부족해서 댓글을 가려버려서 임시로 넣음
+  margin-bottom: 50px;
 `;
 
 /** 2023-09-12 GroupPage.tsx - 그룹페이지 글 없을 때 사진 */

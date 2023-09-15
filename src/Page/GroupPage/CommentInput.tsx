@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import postInfoData from '../../data/postInfoData';
 
@@ -21,80 +22,48 @@ const CommentInput = ({ commentInputBind, inputToggleBind }: commentInputProps) 
     setCommentInput(e.target.value);
   };
 
+  const handleFormClickFalse = () => {
+    setInputToggle(false);
+  };
+
+  const handleFormClickTrue = (e: any) => {
+    e.preventDefault();
+    setInputToggle(true);
+  };
+
+  // 댓글없으면 input placeholder 변경
+  const placeholderText =
+    commentList.length > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
+
+  // input에 적으면 img변경
+  const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
+
+  useEffect(() => {
+    console.log(inputToggle); // inputToggle이 변경될 때마다 호출됩니다.
+  }, [inputToggle]);
+
   return (
-    <>
-      {inputToggle ? (
-        <FakeCommentFormS
-          onClick={() => {
-            setInputToggle(false);
-          }}
-        >
-          <p>
-            {commentList.length > 0
-              ? '응원의 댓글을 적어주세요!'
-              : '가장 먼저 응원의 댓글을 적어주세요!'}
-          </p>
-          <button>
-            <img src={`${process.env.PUBLIC_URL}/commentInputButtonOFF.svg`} alt='sendIcon' />
-          </button>
-        </FakeCommentFormS>
-      ) : (
-        <CommentFormS>
-          <input
-            placeholder={
-              commentList.length > 0
-                ? '응원의 댓글을 적어주세요!'
-                : '가장 먼저 응원의 댓글을 적어주세요!'
-            }
-            value={commentInput}
-            onChange={handleInputChange}
-            type='text'
-            maxLength={400}
-          />
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setInputToggle(true);
-            }}
-          >
-            {commentInput.trimStart().length === 0 ? (
-              <img src={`${process.env.PUBLIC_URL}/commentInputButtonOFF.svg`} alt='sendIcon' />
-            ) : (
-              <img src={`${process.env.PUBLIC_URL}/commentInputButtonON.svg`} alt='sendIcon' />
-            )}
-          </button>
-        </CommentFormS>
-      )}
-    </>
+    <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
+      <input
+        placeholder={placeholderText}
+        value={commentInput}
+        onChange={handleInputChange}
+        type='text'
+        maxLength={400}
+      />
+      {/* FIXME: 클릭해도 true로 안바뀜 비동기때문인가.*/}
+      <button onClick={handleFormClickTrue}>
+        {<img src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`} alt='sendIcon' />}
+      </button>
+    </CommentFormS>
   );
 };
 
 export { CommentInput };
 
-const FakeCommentFormS = styled.div`
-  background-color: #fff;
-  border: 1px solid #e3e3e3;
-  border-radius: 0.5rem;
-  height: 3.5rem;
-  display: flex;
-  align-items: center;
-  padding: 0 1rem;
-  z-index: 10;
-  margin: 0.5rem 0 0.5rem 0;
-  p {
-    width: 16.6rem;
-    height: 1.25rem;
-    border: none;
-    background-color: transparent;
-    font-size: 0.8rem;
-    color: var(--font-color3);
-  }
-`;
+const CommentFormS = styled.form<{ inputToggle: boolean }>`
+  ${(props) => (props.inputToggle ? '' : 'position: fixed; bottom: 0;')}
 
-/** 2023-08-25 Comment.tsx - 그룹페이지 댓글 입력 창 */
-const CommentFormS = styled.form`
-  position: fixed;
-  bottom: 0;
   background-color: #fff;
   border: 1px solid #e3e3e3;
   border-radius: 0.5rem;

@@ -16,7 +16,6 @@ const CommentHeader = ({ commentFlipBind }: CommentHeaderProps) => {
   return (
     <CommentHeaderS>
       <h2>댓글 {commentList.length}</h2>
-      {/* TODO: api로 댓글 개수 가져오기 */}
       <div onClick={() => setCommentFlip(!commentFlip)}>
         {commentFlip ? (
           <img style={{ paddingTop: '5px' }} src={Arrow_icon_Down} alt='댓글열기' />
