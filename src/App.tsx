@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import {
   Home,
   GroupIntro,
@@ -12,10 +12,12 @@ import {
   MyPage,
   OAuthPage,
 } from './AppBarral';
+import RouteChangeTracker from './RouteChangeTracker';
 
 function App() {
+  RouteChangeTracker();
+
   return (
-    <BrowserRouter>
       <MobileS>
         <Routes>
           <Route path='/' element={<Home />} />
@@ -44,7 +46,6 @@ function App() {
           <Route path='*' element={<NotFound />} />
         </Routes>
       </MobileS>
-    </BrowserRouter>
   );
 }
 
