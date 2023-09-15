@@ -40,43 +40,49 @@ const SignUp = (): JSX.Element => {
 
   useLoginCheck(navigate, 'Done');
 
-  useEffect(() => {
-    const isValidArr = [false, false, false, false, false];
+  // useEffect(() => {
+  // const isValidArr = [false, false, false, false, false];
 
-    const idReg = /^(?!^\d+$)[a-zA-Z0-9]{2,10}$/;
-    const passReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{10,20}$/;
-    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[com]{3,}$/;
-    const nicknameReg = /^[가-힣]{2,6}$/;
+  // const idReg = /^(?!^\d+$)[a-zA-Z0-9]{2,10}$/;
+  // const passReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{10,20}$/;
+  // const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[com]{3,}$/;
+  // const nicknameReg = /^[가-힣]{2,6}$/;
 
-    /** 2023-08-24 SignUp.tsx  조건 중 하나라도 안맞을시 false로 바꾸는 함수 */
-    const setFalse = (index: number) => {
-      setIsValid(false);
-      isValidArr[index] = false;
-    };
+  /** 2023-08-24 SignUp.tsx  조건 중 하나라도 안맞을시 false로 바꾸는 함수 */
+  // const setFalse = (index: number) => {
+  //   setIsValid(false);
+  //   isValidArr[index] = false;
+  // };
 
-    // id는 영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가
-    if (idReg.test(id) && id.length <= 10) isValidArr[0] = true;
-    else return setFalse(0);
+  // id는 영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가
+  // if (idReg.test(id) && id.length <= 10) isValidArr[0] = true;
+  // else return setFalse(0);
 
-    // pw는 영문+숫자 10~20자 조합, 공백 불가
-    if (passReg.test(password) === true) isValidArr[1] = true;
-    else return setFalse(1);
+  // pw는 영문+숫자 10~20자 조합, 공백 불가
+  // if (passReg.test(password) === true) isValidArr[1] = true;
+  // else return setFalse(1);
 
-    // pw는 pwconfirm과 동일해야함
-    if (password === confirmPassword) isValidArr[2] = true;
-    else return setFalse(2);
+  // pw는 pwconfirm과 동일해야함
+  // if (password === confirmPassword) isValidArr[2] = true;
+  // else return setFalse(2);
 
-    // email은 @, .com 포함
-    if (emailReg.test(email) === true) isValidArr[3] = true;
-    else return setFalse(3);
+  // email은 @, .com 포함
+  // if (emailReg.test(email) === true) isValidArr[3] = true;
+  // else return setFalse(3);
 
-    // nickname은 한글 2-6자
-    if (nicknameReg.test(nickname) === true) isValidArr[4] = true;
-    else return setFalse(4);
+  // nickname은 한글 2-6자
+  // if (nicknameReg.test(nickname) === true) isValidArr[4] = true;
+  // else return setFalse(4);
 
-    const findFalse = isValidArr.find((isvalid) => isvalid === false);
-    if (findFalse === undefined) setIsValid(true);
-  }, [id, password, confirmPassword, email, nickname]);
+  // const findFalse = isValidArr.find((isvalid) => isvalid === false);
+  // if (findFalse === undefined) setIsValid(true);
+  // }, [id, password, confirmPassword, email, nickname]);
+
+  const emailValidationCheck = () => {
+    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/g;
+    const isValidEmail = emailReg.test(email);
+    setValidation((prev) => ({ ...prev, email: isValidEmail }));
+  };
 
   /** 2023-08-24 SignUp.tsx - 로그인 요청 핸들러 */
   const SignupSubmit = async (e: React.MouseEvent<HTMLFormElement, MouseEvent>): Promise<void> => {
@@ -101,7 +107,12 @@ const SignUp = (): JSX.Element => {
       <LoginFormS onSubmit={SignupSubmit}>
         <LoginInputContainerS>
           <h2>아이디</h2>
-          <SignUpInput sort='ID' handlerBind={idBind} isFailed={isFailed} />
+          <SignUpInput
+            sort='ID'
+            handlerBind={idBind}
+            isFailed={isFailed}
+            validationCheck={emailValidationCheck}
+          />
           {!isFailed && (
             <p>
               <img src={infoIcon} alt='infoIcon' />
@@ -112,12 +123,22 @@ const SignUp = (): JSX.Element => {
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>이메일</h2>
-          <SignUpInput sort='Email' handlerBind={emailBind} />
-          {isFailed && <p className='error'>이메일 형식이 올바르지 않습니다.</p>}
+          <SignUpInput
+            sort='Email'
+            handlerBind={emailBind}
+            validationCheck={emailValidationCheck}
+          />
+          {email && validation.email === false && (
+            <p className='error'>이메일 형식이 올바르지 않습니다.</p>
+          )}
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>닉네임</h2>
-          <SignUpInput sort='Nickname' handlerBind={nicknameBind} />
+          <SignUpInput
+            sort='Nickname'
+            handlerBind={nicknameBind}
+            validationCheck={emailValidationCheck}
+          />
           {!isFailed && (
             <p>
               <img src={infoIcon} alt='infoIcon' />
@@ -128,7 +149,7 @@ const SignUp = (): JSX.Element => {
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>비밀번호</h2>
-          <SignUpInput sort='PW' handlerBind={passBind} />
+          <SignUpInput sort='PW' handlerBind={passBind} validationCheck={emailValidationCheck} />
           {!isFailed && (
             <p>
               <img src={infoIcon} alt='infoIcon' />
@@ -139,7 +160,11 @@ const SignUp = (): JSX.Element => {
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>비밀번호 재입력</h2>
-          <SignUpInput sort='PWconfirm' handlerBind={confirmBind} />
+          <SignUpInput
+            sort='PWconfirm'
+            handlerBind={confirmBind}
+            validationCheck={emailValidationCheck}
+          />
           {isFailed && <p className='error'>비밀번호가 일치하지 않습니다.</p>}
         </LoginInputContainerS>
       </LoginFormS>
@@ -167,6 +192,7 @@ interface SignUpInputProps {
   sort: Sort;
   handlerBind: handlerBind;
   isFailed?: boolean;
+  validationCheck: () => void;
 }
 
 /**
@@ -176,9 +202,20 @@ interface SignUpInputProps {
  */
 
 // TODO: 컴포넌트 분리
-const SignUpInput = ({ sort, handlerBind, isFailed }: SignUpInputProps): JSX.Element => {
+const SignUpInput = ({
+  sort,
+  handlerBind,
+  isFailed,
+  validationCheck,
+}: SignUpInputProps): JSX.Element => {
   const { value, setValue } = handlerBind;
-  const handlerOnChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
+  const handlerOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  useEffect(() => {
+    validationCheck();
+  }, [value]);
 
   const generateInputType = (sort: Sort) => {
     switch (sort) {
