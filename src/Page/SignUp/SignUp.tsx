@@ -78,6 +78,12 @@ const SignUp = (): JSX.Element => {
   // if (findFalse === undefined) setIsValid(true);
   // }, [id, password, confirmPassword, email, nickname]);
 
+  const idValidationCheck = () => {
+    const idReg = /^(?!^\d+$)[a-zA-Z0-9]{2,10}$/g;
+    const isValidId = idReg.test(id);
+    setValidation((prev) => ({ ...prev, id: isValidId }));
+  };
+
   const emailValidationCheck = () => {
     const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/g;
     const isValidEmail = emailReg.test(email);
@@ -129,13 +135,14 @@ const SignUp = (): JSX.Element => {
             sort='ID'
             handlerBind={idBind}
             isFailed={isFailed}
-            validationCheck={emailValidationCheck}
+            validationCheck={idValidationCheck}
           />
-          {!isFailed && (
-            <p>
-              <img src={infoIcon} alt='infoIcon' />
-              영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가
-            </p>
+          <p className={id && validation.id === false ? 'hidden' : ''}>
+            <img src={infoIcon} alt='infoIcon' />
+            영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가
+          </p>
+          {id && validation.id === false && (
+            <p className='error'>영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가</p>
           )}
           {isFailed && <p className='error'>이미 존재하는 아이디입니다</p>}
         </LoginInputContainerS>
