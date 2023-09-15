@@ -45,14 +45,14 @@ const MyPage = () => {
       <MyPageSetS>
         <h2>설정</h2>
         <ul>
-          <li onClick={() => console.log('강희님꺼 꺼억쓰')}>
-            이용약관
-          </li>
+          <li onClick={() => console.log('강희님꺼 꺼억쓰')}>이용약관</li>
           <li onClick={() => setConfirmLogout(true)}>로그아웃</li>
         </ul>
       </MyPageSetS>
 
-      {confirmLogout && <ConfirmModal setConfirm={setConfirmLogout} />}
+      {confirmLogout && (
+        <ConfirmModal setConfirm={setConfirmLogout} confirmText='로그아웃하시겠습니까?' />
+      )}
     </MyPageS>
   );
 };
