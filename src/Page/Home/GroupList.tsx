@@ -75,10 +75,10 @@ const GroupList = (): JSX.Element => {
     //       : groupListData.filter((group) => group.tab === curFocused);
 
     setNewGroup(setGroup);
-    //   // TODO: 갈아끼울 코드
-    //   // }, [curFocused, access_token, myGroupIds, totalList]);
+    // TODO: 갈아끼울 코드
+    // }, [curFocused, access_token, myGroupIds, totalList]);
 
-    //   // FIXME: 버려질 코드
+    // FIXME: 버려질 코드
   }, [curFocused, access_token]);
 
   return (
@@ -185,7 +185,8 @@ const GroupListItemS = styled.li<{ img: string }>`
     outline: 1px solid;
     border-radius: 1rem;
 
-    font-size: 0.8125rem;
+    font-size: var(--button-mid);
+    /* font-size: 14px; */
     width: 4.3125rem;
     height: 1.625rem;
     color: white;

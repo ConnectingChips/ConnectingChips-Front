@@ -23,6 +23,23 @@ const GlobalStyle = createGlobalStyle`
     --height-banner: 3.5rem;
     --height-gap: 0.5rem;
 
+    /* 폰트 크기 */
+    --welcome: 28px;
+    --header: 20px;
+    --head-a: 24px;
+    --head-b: 18px;
+    --head-c: 16px;
+    --body-a: 16px;
+    --body-b: 14px;
+    --body-c: 12px;
+    --button-big: 1rem;
+    --button-mid: 0.875rem;
+    --button-mid-bold: 14px;  // 볼드 속성 
+    --Button-Small: 11px
+    
+    /* 가로 폭 */
+    --width-mobile: 375px;
+
     
     &::-webkit-scrollbar {
       display: none;
