@@ -16,6 +16,13 @@ const SignUp = (): JSX.Element => {
   const [isValid, setIsValid] = useState(true);
   const [inputState, setInputState] = useState('default');
   const [isAllAgreed, setIsAllAgreed] = useState(false);
+  const [validation, setValidation] = useState({
+    id: false,
+    email: false,
+    nickname: false,
+    password: false,
+    confirmPassword: false,
+  });
   const isFailed = inputState === 'failed';
   const {
     id,
@@ -34,112 +41,117 @@ const SignUp = (): JSX.Element => {
   useLoginCheck(navigate, 'Done');
 
   useEffect(() => {
-    const isValidArr = [false, false, false, false, false];
+    const isAllChecked = Object.values(validation).every((value) => value);
+    setIsValid(isAllChecked);
+  }, [validation]);
 
-    const idReg = /^(?!^\d+$)[a-zA-Z0-9]{2,10}$/;
-    const passReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{10,20}$/;
-    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[com]{3,}$/;
-    const nicknameReg = /^[가-힣]{2,6}$/;
+  const idValidationCheck = () => {
+    const idReg = /^(?!^\d+$)[a-zA-Z0-9]{2,10}$/g;
+    const isValidId = idReg.test(id);
+    setValidation((prev) => ({ ...prev, id: isValidId }));
+  };
 
-    /** 2023-08-24 SignUp.tsx  조건 중 하나라도 안맞을시 false로 바꾸는 함수 */
-    const setFalse = (index: number) => {
-      setIsValid(false);
-      isValidArr[index] = false;
-    };
+  const emailValidationCheck = () => {
+    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/g;
+    const isValidEmail = emailReg.test(email);
+    setValidation((prev) => ({ ...prev, email: isValidEmail }));
+  };
 
-    // id는 영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가
-    if (idReg.test(id) && id.length <= 10) isValidArr[0] = true;
-    else return setFalse(0);
+  const nicknameValidationCheck = () => {
+    const nicknameReg = /^[가-힣]{2,6}$/g;
+    const isValidNickname = nicknameReg.test(nickname);
+    setValidation((prev) => ({ ...prev, nickname: isValidNickname }));
+  };
 
-    // pw는 영문+숫자 10~20자 조합, 공백 불가
-    if (passReg.test(password) === true) isValidArr[1] = true;
-    else return setFalse(1);
+  const passwordValidationCheck = () => {
+    const passwordReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{10,20}$/g;
+    const isValidPassword = passwordReg.test(password);
+    setValidation((prev) => ({ ...prev, password: isValidPassword }));
+    passwordConfirmCheck();
+  };
 
-    // pw는 pwconfirm과 동일해야함
-    if (password === confirmPassword) isValidArr[2] = true;
-    else return setFalse(2);
+  const passwordConfirmCheck = () => {
+    const isSamePassword = password === confirmPassword;
+    setValidation((prev) => ({ ...prev, confirmPassword: isSamePassword }));
+  };
 
-    // email은 @, .com 포함
-    if (emailReg.test(email) === true) isValidArr[3] = true;
-    else return setFalse(3);
-
-    // nickname은 한글 2-6자
-    if (nicknameReg.test(nickname) === true) isValidArr[4] = true;
-    else return setFalse(4);
-
-    const findFalse = isValidArr.find((isvalid) => isvalid === false);
-    if (findFalse === undefined) setIsValid(true); // 여기서 조건 2개 다 만족해야 true로 바뀌어야 함
-  }, [id, password, confirmPassword, email, nickname]);
-
-  /** 2023-08-24 SignUp.tsx - 로그인 요청 핸들러 */
-  const SignupSubmit = async (e: React.MouseEvent<HTMLFormElement, MouseEvent>): Promise<void> => {
-    e.preventDefault();
-    try {
-      // await axios.post("/users/sign-up", {
-      //   nickname,
-      //   password,
-      //   confirmPassword,
-      // });
-      navigate('/LogIn');
-    } catch (error) {
-      console.error('회원가입 오류: ', error);
-      setInputState('failed');
-    }
+  const handleSubmitButtonClick = () => {
+    navigate('/LogIn');
   };
 
   return (
     <LogInS>
       <Loginheader type='회원가입' />
       <Banner />
-      <LoginFormS onSubmit={SignupSubmit}>
+      <LoginFormS>
         <LoginInputContainerS>
           <h2>아이디</h2>
-          <SignUpInput sort='ID' handlerBind={idBind} isFailed={isFailed} />
-          {!isFailed && (
-            <p>
-              <img src={infoIcon} alt='infoIcon' />
-              영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가
-            </p>
+          <SignUpInput
+            sort='ID'
+            handlerBind={idBind}
+            isFailed={isFailed}
+            validationCheck={idValidationCheck}
+          />
+          <p className={id && validation.id === false ? 'hidden' : ''}>
+            <img src={infoIcon} alt='infoIcon' />
+            영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가
+          </p>
+          {id && validation.id === false && (
+            <p className='error'>영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가</p>
           )}
           {isFailed && <p className='error'>이미 존재하는 아이디입니다</p>}
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>이메일</h2>
-          <SignUpInput sort='Email' handlerBind={emailBind} />
-          {isFailed && <p className='error'>이메일 형식이 올바르지 않습니다.</p>}
+          <SignUpInput
+            sort='Email'
+            handlerBind={emailBind}
+            validationCheck={emailValidationCheck}
+          />
+          {email && validation.email === false && (
+            <p className='error'>이메일 형식이 올바르지 않습니다.</p>
+          )}
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>닉네임</h2>
-          <SignUpInput sort='Nickname' handlerBind={nicknameBind} />
-          {!isFailed && (
-            <p>
-              <img src={infoIcon} alt='infoIcon' />
-              한글 2-6자, 욕설 및 비속어 사용 시 서비스 제한
-            </p>
-          )}
-          {isFailed && <p className='error'>한글 2-6자</p>}
+          <SignUpInput
+            sort='Nickname'
+            handlerBind={nicknameBind}
+            validationCheck={nicknameValidationCheck}
+          />
+          <p className={nickname && validation.nickname === false ? 'hidden' : ''}>
+            <img src={infoIcon} alt='infoIcon' />
+            한글 2-6자, 욕설 및 비속어 사용 시 서비스 제한
+          </p>
+          {nickname && validation.nickname === false && <p className='error'>한글 2-6자</p>}
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>비밀번호</h2>
-          <SignUpInput sort='PW' handlerBind={passBind} />
-          {!isFailed && (
-            <p>
-              <img src={infoIcon} alt='infoIcon' />
-              영문+숫자 10~20자 조합, 공백 및 특수문자 불가
-            </p>
+          <SignUpInput sort='PW' handlerBind={passBind} validationCheck={passwordValidationCheck} />
+          <p className={password && validation.password === false ? 'hidden' : ''}>
+            <img src={infoIcon} alt='infoIcon' />
+            영문+숫자 10~20자 조합, 공백 및 특수문자 불가
+          </p>
+          {password && validation.password === false && (
+            <p className='error'>영문+숫자 10~20자 조합, 공백 불가</p>
           )}
-          {isFailed && <p className='error'>영문+숫자 10~20자 조합, 공백 불가</p>}
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>비밀번호 재입력</h2>
-          <SignUpInput sort='PWconfirm' handlerBind={confirmBind} />
-          {isFailed && <p className='error'>비밀번호가 일치하지 않습니다.</p>}
+          <SignUpInput
+            sort='PWconfirm'
+            handlerBind={confirmBind}
+            validationCheck={passwordConfirmCheck}
+          />
+          {confirmPassword && validation.confirmPassword === false && (
+            <p className='error'>비밀번호가 일치하지 않습니다.</p>
+          )}
         </LoginInputContainerS>
       </LoginFormS>
       <Terms isAllAgreed={isAllAgreed} setIsAllAgreed={setIsAllAgreed} />
       <BtnWrapperS>
         {isValid && isAllAgreed ? (
-          <SignClearBtnS type='submit' className='btn_width'>
+          <SignClearBtnS type='submit' className='btn_width' onClick={handleSubmitButtonClick}>
             <p>회원가입</p>
           </SignClearBtnS>
         ) : (
@@ -160,6 +172,7 @@ interface SignUpInputProps {
   sort: Sort;
   handlerBind: handlerBind;
   isFailed?: boolean;
+  validationCheck: () => void;
 }
 
 /**
@@ -169,9 +182,21 @@ interface SignUpInputProps {
  */
 
 // TODO: 컴포넌트 분리
-const SignUpInput = ({ sort, handlerBind, isFailed }: SignUpInputProps): JSX.Element => {
+const SignUpInput = ({
+  sort,
+  handlerBind,
+  isFailed,
+  validationCheck,
+}: SignUpInputProps): JSX.Element => {
   const { value, setValue } = handlerBind;
-  const handlerOnChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
+  const handlerOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    setValue(inputValue.trim());
+  };
+
+  useEffect(() => {
+    validationCheck();
+  }, [value]);
 
   const generateInputType = (sort: Sort) => {
     switch (sort) {
@@ -230,6 +255,10 @@ const LoginInputContainerS = styled.div`
 
     &.error {
       color: var(--system-red);
+    }
+
+    &.hidden {
+      display: none;
     }
   }
 `;
