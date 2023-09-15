@@ -68,7 +68,7 @@ const CarreselBtnList = ({
   return (
     <>
       {myCount === 3 ? (
-        <ClearBtnS onClick={remind}>재작심하기</ClearBtnS>
+        <ClearBtnS onClick={remind}>재작심 하기</ClearBtnS>
       ) : completedToday ? (
         <TodayClearBtnS>
           <p>오늘 작심 성공!</p>
@@ -88,7 +88,7 @@ const CommonBtnS = styled.button`
   border-radius: 2rem;
   box-sizing: border-box;
   height: 2.5rem;
-  font-size: 0.75rem;
+  font-size: var(--button-mid);
 
   text-align: center;
 `;

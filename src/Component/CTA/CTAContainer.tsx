@@ -140,5 +140,5 @@ const BackButtonS = styled(MissionButtonS)`
   height: 2.5rem;
   width: 11.25rem;
 
-  font-size: 0.75rem;
+  font-size: var(--button-mid);
 `;

@@ -59,11 +59,11 @@ const ConfirmModalS = styled.div`
 
     button {
       width: 100%;
-      font-size: 0.75rem;
+      font-size: var(--button-mid);
       padding: 0.62rem 0;
 
       &.cancel {
-        background-color: var(--color-bg);
+        background-color: var(--color-line);
       }
 
       &.point {

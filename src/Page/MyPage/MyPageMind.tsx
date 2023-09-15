@@ -37,7 +37,7 @@ const NoneExistComp = (): JSX.Element => {
   return (
     <MindS>
       <p className='nonExist'>참여한 작심이 없어요!</p>
-      <div onClick={() => navigate('/')}>
+      <div onClick={() => navigate('/')} className='findGroup'>
         그룹 둘러보기 <img src={Arrow_Right} alt='Arrow_Right' />
       </div>
     </MindS>
@@ -57,9 +57,7 @@ const reJoinFetch = async (mind_id: number) => {
 export const FinishedMindList = (): JSX.Element => {
   const isExist = myGroupList.length > 0;
 
-  return <CurrentMindListS>
-    {isExist ? <FinishedMind /> : <NoneExistComp />}
-  </CurrentMindListS>;
+  return <CurrentMindListS>{isExist ? <FinishedMind /> : <NoneExistComp />}</CurrentMindListS>;
 };
 
 const FinishedMind = () => {
@@ -101,7 +99,7 @@ const MindS = styled.li`
   justify-content: space-between;
   align-items: center;
 
-  background-color: var(--color-line);
+  background-color: var(--color-bg);
   padding: 1rem;
 
   box-sizing: border-box;
@@ -111,6 +109,10 @@ const MindS = styled.li`
   p.nonExist {
     color: var(--color-disabled1);
     font-size: 1rem;
+  }
+
+  div.findGroup {
+    font-size: var(--button-mid);
   }
 
   p.main {
@@ -129,12 +131,13 @@ const MindS = styled.li`
 const myPageButton = styled.button`
   height: 2rem;
   border-radius: 1.25rem;
+  font-size: var(--button-mid);
 `;
 
 const ExitButtonS = styled(myPageButton)`
   background-color: #fff;
-  border: 1px solid var(--font-color3);
   padding: 0 0.75rem;
+  border: 1px solid var(--font-color3);
 `;
 
 const ReMindButtonS = styled(myPageButton)`

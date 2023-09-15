@@ -17,9 +17,10 @@ const MyPage = () => {
   const compArr = [<CurrentMind />, <FinishedMindList />];
   const [confirmLogout, setConfirmLogout] = useState(false);
 
-  useEffect(() => {
-    scrollTop();
-  }, []);
+  // TODO: 잠깐 비활성화
+  // useEffect(() => {
+  //   scrollTop();
+  // }, []);
 
   return (
     <MyPageS>
@@ -44,6 +45,9 @@ const MyPage = () => {
       <MyPageSetS>
         <h2>설정</h2>
         <ul>
+          <li onClick={() => console.log('강희님꺼 꺼억쓰')}>
+            이용약관
+          </li>
           <li onClick={() => setConfirmLogout(true)}>로그아웃</li>
         </ul>
       </MyPageSetS>
@@ -132,8 +136,13 @@ const MyPageSetS = styled.div`
     margin-top: 1.06rem;
     display: flex;
     flex-direction: column;
+    gap: 2.125rem;
   }
   li {
     color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.2rem;
   }
 `;
