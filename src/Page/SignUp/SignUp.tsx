@@ -68,7 +68,7 @@ const SignUp = (): JSX.Element => {
     else return setFalse(4);
 
     const findFalse = isValidArr.find((isvalid) => isvalid === false);
-    if (findFalse === undefined) setIsValid(true); // 여기서 조건 2개 다 만족해야 true로 바뀌어야 함
+    if (findFalse === undefined) setIsValid(true);
   }, [id, password, confirmPassword, email, nickname]);
 
   /** 2023-08-24 SignUp.tsx - 로그인 요청 핸들러 */
