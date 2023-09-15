@@ -94,6 +94,12 @@ const SignUp = (): JSX.Element => {
     const passwordReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{10,20}$/g;
     const isValidPassword = passwordReg.test(password);
     setValidation((prev) => ({ ...prev, password: isValidPassword }));
+    passwordConfirmCheck();
+  };
+
+  const passwordConfirmCheck = () => {
+    const isSamePassword = password === confirmPassword;
+    setValidation((prev) => ({ ...prev, confirmPassword: isSamePassword }));
   };
 
   /** 2023-08-24 SignUp.tsx - 로그인 요청 핸들러 */
@@ -173,9 +179,11 @@ const SignUp = (): JSX.Element => {
           <SignUpInput
             sort='PWconfirm'
             handlerBind={confirmBind}
-            validationCheck={emailValidationCheck}
+            validationCheck={passwordConfirmCheck}
           />
-          {isFailed && <p className='error'>비밀번호가 일치하지 않습니다.</p>}
+          {confirmPassword && validation.confirmPassword === false && (
+            <p className='error'>비밀번호가 일치하지 않습니다.</p>
+          )}
         </LoginInputContainerS>
       </LoginFormS>
       <Terms isAllAgreed={isAllAgreed} setIsAllAgreed={setIsAllAgreed} />
