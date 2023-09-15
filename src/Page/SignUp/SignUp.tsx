@@ -84,6 +84,12 @@ const SignUp = (): JSX.Element => {
     setValidation((prev) => ({ ...prev, email: isValidEmail }));
   };
 
+  const nicknameValidationCheck = () => {
+    const nicknameReg = /^[가-힣]{2,6}$/g;
+    const isValidNickname = nicknameReg.test(nickname);
+    setValidation((prev) => ({ ...prev, nickname: isValidNickname }));
+  };
+
   /** 2023-08-24 SignUp.tsx - 로그인 요청 핸들러 */
   const SignupSubmit = async (e: React.MouseEvent<HTMLFormElement, MouseEvent>): Promise<void> => {
     e.preventDefault();
@@ -137,15 +143,13 @@ const SignUp = (): JSX.Element => {
           <SignUpInput
             sort='Nickname'
             handlerBind={nicknameBind}
-            validationCheck={emailValidationCheck}
+            validationCheck={nicknameValidationCheck}
           />
-          {!isFailed && (
-            <p>
-              <img src={infoIcon} alt='infoIcon' />
-              한글 2-6자, 욕설 및 비속어 사용 시 서비스 제한
-            </p>
-          )}
-          {isFailed && <p className='error'>한글 2-6자</p>}
+          <p className={nickname && validation.nickname === false ? 'hidden' : ''}>
+            <img src={infoIcon} alt='infoIcon' />
+            한글 2-6자, 욕설 및 비속어 사용 시 서비스 제한
+          </p>
+          {nickname && validation.nickname === false && <p className='error'>한글 2-6자</p>}
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>비밀번호</h2>
@@ -210,7 +214,8 @@ const SignUpInput = ({
 }: SignUpInputProps): JSX.Element => {
   const { value, setValue } = handlerBind;
   const handlerOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    const inputValue = e.target.value;
+    setValue(inputValue.trim());
   };
 
   useEffect(() => {
@@ -274,6 +279,10 @@ const LoginInputContainerS = styled.div`
 
     &.error {
       color: var(--system-red);
+    }
+
+    &.hidden {
+      display: none;
     }
   }
 `;
