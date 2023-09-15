@@ -6,6 +6,7 @@ import {
   Comment,
   DivideBaS,
   GroupActive,
+  // Mind,
   GroupArticle,
 } from './GroupPageBarrel';
 
@@ -21,9 +22,9 @@ const GroupPage = (): JSX.Element => {
       {/* FIXME: url 안먹힘 */}
       <GroupImageS url={url} />
       <GroupSummary intro={intro} rule={rule} selected={[0, 1, 3]} />
+
       <GroupPostListS>
         <h2>작심 인증글</h2>
-        <GroupPost />
         <GroupPost />
       </GroupPostListS>
     </GroupPageS>
