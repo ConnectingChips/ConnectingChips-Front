@@ -16,6 +16,13 @@ const SignUp = (): JSX.Element => {
   const [isValid, setIsValid] = useState(true);
   const [inputState, setInputState] = useState('default');
   const [isAllAgreed, setIsAllAgreed] = useState(false);
+  const [validation, setValidation] = useState({
+    id: '',
+    email: '',
+    nickname: '',
+    password: '',
+    confirmPassword: '',
+  });
   const isFailed = inputState === 'failed';
   const {
     id,
