@@ -25,7 +25,7 @@ const MissionRuleS = styled.div<{ passsort: PageSort }>`
     props.passsort === 'Create' ? 'var(--color-bg)' : 'rgba(255, 255, 255, 0.7)'};
   color: black;
   padding: 1rem;
-  margin-top: 1.25rem;
+  margin-top: ${(props) => (props.passsort === 'Create' ? '' : '1.25rem')};
   border-radius: 1rem;
 
   p {
