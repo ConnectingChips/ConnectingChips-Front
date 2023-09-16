@@ -103,7 +103,7 @@ const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContai
           {/* 내데이터 가져와서 댓글또는 답글 user네임이랑 같으면 삭제 보여주기 */}
           {(sort === 'comment' && userId === username.comment_user) ||
           (sort === 'reply' && userId === username.reply_user) ? (
-            <p>삭제</p>
+            <h2 className='delete'>삭제</h2>
           ) : null}
         </CommentOptionS>
       </CommentContentS>
@@ -182,10 +182,8 @@ const CommentOptionS = styled.div`
 
   h2 {
     font-size: 0.875rem;
-  }
-  p {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--font-color3);
+    &.delete {
+      color: var(--font-color3);
+    }
   }
 `;
