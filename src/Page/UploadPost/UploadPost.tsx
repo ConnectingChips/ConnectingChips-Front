@@ -21,6 +21,10 @@ const UploadPost = () => {
     fileInputLength && setImageUrl(URL.createObjectURL(fileRef.current!.files![0]));
   };
 
+  const handleDeleteIconClick = () => {
+    setImageUrl('');
+  };
+
   return (
     <CreatePostS>
       <UploadPostHeaderS>
@@ -41,7 +45,7 @@ const UploadPost = () => {
               <ImageS>
                 <img src={imageUrl} alt='추가된 이미지' />
               </ImageS>
-              <DeleteIcon className='delete_icon' />
+              <DeleteIcon className='delete_icon' onClick={handleDeleteIconClick} />
             </AddedImageS>
           ) : (
             <UploadImageS htmlFor='image-upload'>
