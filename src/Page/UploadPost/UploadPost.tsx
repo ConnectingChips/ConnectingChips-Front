@@ -5,7 +5,8 @@ import groupList from '../../data/groupListData';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 import { useLoginCheck, useNavigate } from '../GroupPage/GroupPageBarrel';
-import 업로드아이콘 from '../../image/Icon/image_upload_icon.png';
+import UploadImageIcon from '../../image/Icon/image_input_icon.png';
+import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
@@ -49,7 +50,8 @@ const UploadPost = () => {
             </AddedImageS>
           ) : (
             <UploadImageS htmlFor='image-upload'>
-              <img src={업로드아이콘} alt='업로드아이콘' />
+              <img src={UploadImageIcon} alt='이미지 업로드' />
+              <AddIcon className='add_icon' />
             </UploadImageS>
           )}
           <input
@@ -166,6 +168,18 @@ const ImageS = styled.div`
 `;
 
 const UploadImageS = styled.label`
-  width: 5.51775rem;
-  height: 5.70525rem;
+  width: 5rem;
+  height: 5rem;
+  position: relative;
+
+  img {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .add_icon {
+    position: absolute;
+    bottom: -11.28px;
+    right: -8.28px;
+  }
 `;
