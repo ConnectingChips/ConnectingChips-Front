@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
+import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import groupList from '../../data/groupListData';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
@@ -8,6 +9,7 @@ import { useLoginCheck, useNavigate } from '../GroupPage/GroupPageBarrel';
 import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
+import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
@@ -15,6 +17,7 @@ const UploadPost = () => {
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   // useLoginCheck(navigate, "None");
 
   const handleFileInputChange = () => {
@@ -24,6 +27,10 @@ const UploadPost = () => {
 
   const handleDeleteIconClick = () => {
     setImageUrl('');
+  };
+
+  const handleInfoIconClick = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -37,10 +44,12 @@ const UploadPost = () => {
       </GroupTitleS>
       <GroupContent intro={intro} rule={rule} selected={[0, 2]} passsort='Create' />
       <CreateFormS>
-        {/* enctype="multipart/form-data" */}
         <CreateFormUploadS>
-          <h2>인증샷 올리기</h2>
-          {/* <SettingUserThumbnail /> */}
+          <UploadImageTitleS>
+            <h2>인증샷 올리기</h2>
+            <InfoIcon onClick={handleInfoIconClick} />
+            {isOpen && <InfoMessage className='info_message_position' setIsOpen={setIsOpen} />}
+          </UploadImageTitleS>
           {imageUrl ? (
             <AddedImageS>
               <ImageS>
@@ -131,6 +140,25 @@ const CreateFormUploadS = styled.div`
 
   input[type='file'] {
     display: none;
+  }
+`;
+
+const UploadImageTitleS = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+  position: relative;
+
+  svg {
+    position: relative;
+    top: 1px;
+  }
+
+  .info_message_position {
+    position: absolute;
+    top: 2.13rem;
+    left: 0;
+    z-index: 1;
   }
 `;
 
