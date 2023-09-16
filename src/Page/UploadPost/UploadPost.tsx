@@ -18,6 +18,10 @@ const UploadPost = () => {
       <UploadPostHeaderS>
         <h1>작심 글쓰기</h1>
       </UploadPostHeaderS>
+      <GroupTitleS>
+        <ItemTabS>헬스</ItemTabS>
+        <h1>몸에서 닭다리 빼기</h1>
+      </GroupTitleS>
       <GroupContent intro={intro} rule={rule} selected={[0, 2]} passsort='Create' />
       <CreateFormS>
         {/* enctype="multipart/form-data" */}
@@ -91,5 +95,20 @@ const CreateFormUploadS = styled.div`
 
   input[type='file'] {
     display: none;
+  }
+`;
+
+const ItemTabS = styled.div`
+  border: 1px solid var(--font-color1);
+  border-radius: 1rem;
+  padding: 0.12rem 0.81rem;
+  font-size: 0.6875rem;
+  width: fit-content;
+`;
+
+const GroupTitleS = styled.div`
+  padding: 1.25rem 0 0 1rem;
+  h1 {
+    font-size: var(--head-a);
   }
 `;
