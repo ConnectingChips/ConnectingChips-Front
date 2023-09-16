@@ -29,16 +29,16 @@ const Home = (): JSX.Element => {
   // FIXME: User ID 받아오기
   const nickName = '{닉네임}';
 
-  useEffect(() => {
-    scrollTop();
+  // useEffect(() => {
+  //   scrollTop();
 
-    const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
+  //   const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
 
-    Kakao.cleanup();
-    if (!Kakao.isInitialized()) {
-      Kakao.init(KAKAO_KEY);
-    }
-  }, []);
+  //   Kakao.cleanup();
+  //   if (!Kakao.isInitialized()) {
+  //     Kakao.init(KAKAO_KEY);
+  //   }
+  // }, []);
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
