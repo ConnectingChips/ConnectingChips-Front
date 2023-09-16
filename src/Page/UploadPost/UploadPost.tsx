@@ -74,6 +74,13 @@ const UploadPost = () => {
 
 export default UploadPost;
 
+/** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
+const CreatePostS = styled.div`
+  width: var(--width-mobile);
+  /* border: 1px solid; */
+  height: 100vh;
+`;
+
 const UploadPostHeaderS = styled(GroupHeader)`
   justify-content: center;
 
@@ -93,13 +100,6 @@ const GroupTitleS = styled.div`
   h1 {
     font-size: var(--head-a);
   }
-`;
-
-/** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
-const CreatePostS = styled.div`
-  width: var(--width-mobile);
-  /* border: 1px solid; */
-  height: 100vh;
 `;
 
 /** 2023-08-25 CreatePost.tsx - 인증글쓰기 폼 */
