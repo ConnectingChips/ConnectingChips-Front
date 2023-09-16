@@ -61,10 +61,9 @@ const CreateHeaderS = styled.div`
   justify-content: space-between;
 
   button {
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    div {
-      cursor: pointer;
-    }
   }
 `;
 
