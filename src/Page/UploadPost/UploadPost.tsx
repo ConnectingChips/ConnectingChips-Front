@@ -1,10 +1,10 @@
-import { styled } from "styled-components";
-import { GroupHeader } from "../../Component/Mission/GroupHeader";
-import groupList from "../../data/groupListData";
-import GroupContent from "../../Component/Mission/GroupContent";
-import { SubmitButtonCTA } from "../../Component/CTA/CTAContainer";
-import { useLoginCheck, useNavigate } from "../GroupPage/GroupPageBarrel";
-import 업로드아이콘 from "../../image/Icon/image_upload_icon.png";
+import { styled } from 'styled-components';
+import { GroupHeader } from '../../Component/Mission/GroupHeader';
+import groupList from '../../data/groupListData';
+import GroupContent from '../../Component/Mission/GroupContent';
+import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
+import { useLoginCheck, useNavigate } from '../GroupPage/GroupPageBarrel';
+import 업로드아이콘 from '../../image/Icon/image_upload_icon.png';
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
@@ -15,21 +15,23 @@ const UploadPost = () => {
 
   return (
     <CreatePostS>
-      <GroupHeader />
-      <GroupContent intro={intro} rule={rule} selected={[0, 2]} passsort="Create" />
+      <UploadPostHeaderS>
+        <h1>작심 글쓰기</h1>
+      </UploadPostHeaderS>
+      <GroupContent intro={intro} rule={rule} selected={[0, 2]} passsort='Create' />
       <CreateFormS>
         {/* enctype="multipart/form-data" */}
         <CreateFormUploadS>
           <h2>인증샷 올리기</h2>
           {/* <SettingUserThumbnail /> */}
-          <label htmlFor="image-upload">
-            <img src={업로드아이콘} alt="업로드아이콘" />
+          <label htmlFor='image-upload'>
+            <img src={업로드아이콘} alt='업로드아이콘' />
           </label>
-          <input type="file" id="image-upload" />
+          <input type='file' id='image-upload' />
         </CreateFormUploadS>
         <CreateFormUploadS>
           <h2>오늘의 작심은 어땠나요?</h2>
-          <textarea placeholder="오늘 작심 성공!" />
+          <textarea placeholder='오늘 작심 성공!' />
         </CreateFormUploadS>
         <SubmitButtonCTA />
       </CreateFormS>
@@ -38,6 +40,20 @@ const UploadPost = () => {
 };
 
 export default UploadPost;
+
+const UploadPostHeaderS = styled(GroupHeader)`
+  justify-content: center;
+
+  h1 {
+    font-size: var(--header);
+    font-weight: 500;
+  }
+
+  img {
+    position: absolute;
+    left: 1rem;
+  }
+`;
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const CreatePostS = styled.div`
@@ -62,6 +78,7 @@ const CreateFormUploadS = styled.div`
   margin: 0 1rem;
 
   textarea {
+    resize: none;
     height: 16.3125rem;
     border: 1px solid #e3e3e3;
     border-radius: 1rem;
@@ -71,7 +88,7 @@ const CreateFormUploadS = styled.div`
     cursor: pointer;
   }
 
-  input[type="file"] {
+  input[type='file'] {
     display: none;
   }
 `;
