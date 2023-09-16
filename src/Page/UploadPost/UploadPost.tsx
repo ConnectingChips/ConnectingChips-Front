@@ -77,7 +77,6 @@ export default UploadPost;
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const CreatePostS = styled.div`
   width: var(--width-mobile);
-  /* border: 1px solid; */
   height: 100vh;
 `;
 
@@ -107,7 +106,6 @@ const CreateFormS = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  /* height: 100%; */
 `;
 
 /** 2023-08-25 CreatePost.tsx - 인증글쓰기 이미지/채팅 컨테이너 */
