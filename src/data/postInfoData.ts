@@ -15,7 +15,7 @@ const postInfoData: PostInfo = {
   commentList: [
     {
       commnet_id: 0,
-      username: '칩스1234',
+      username: 'aa11',
       text: '대박대박 대단합니다!!! 저도 칩스님처럼 작심삼칩 열심히 해야겠어요ㅜㅜ',
       profileUrl: 기본프로필,
       reply: [

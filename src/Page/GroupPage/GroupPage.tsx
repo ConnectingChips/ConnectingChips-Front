@@ -1,11 +1,12 @@
 import { useState, styled } from './GroupPageBarrel';
-import { useFindGroup, useLoginCheck, useEffect } from './GroupPageBarrel';
 import {
+  useFindGroup,
   GroupHeader,
   type LikeBind,
   Comment,
   DivideBaS,
   GroupActive,
+  // Mind,
   GroupArticle,
 } from './GroupPageBarrel';
 
@@ -21,10 +22,10 @@ const GroupPage = (): JSX.Element => {
       {/* FIXME: url 안먹힘 */}
       <GroupImageS url={url} />
       <GroupSummary intro={intro} rule={rule} selected={[0, 1, 3]} />
+
       <GroupPostListS>
         <h2>작심 인증글</h2>
         <GroupPost />
-        {/* <GroupPost /> */}
       </GroupPostListS>
     </GroupPageS>
   );
@@ -92,6 +93,9 @@ const GroupPostListS = styled.div`
   flex-direction: column;
   margin: 0 1rem;
   gap: var(--height-gap);
+  h2 {
+    font-size: 1rem;
+  }
 `;
 
 /** 2023-08-22 GroupPage.tsx - 그룹페이지 아티클 + 인증 글 */
@@ -99,7 +103,9 @@ const GroupPostS = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  // FIXME: commentinput의 하단자리가 부족해서 댓글을 가려버려서 임시로 넣음
+  margin-bottom: 50px;
 `;
 
 /** 2023-09-12 GroupPage.tsx - 그룹페이지 글 없을 때 사진 */

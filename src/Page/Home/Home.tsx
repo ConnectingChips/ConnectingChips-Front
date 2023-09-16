@@ -49,13 +49,13 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     scrollTop();
 
-    const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
+  //   const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
 
-    Kakao.cleanup();
-    if (!Kakao.isInitialized()) {
-      Kakao.init(KAKAO_KEY);
-    }
-  }, []);
+  //   Kakao.cleanup();
+  //   if (!Kakao.isInitialized()) {
+  //     Kakao.init(KAKAO_KEY);
+  //   }
+  // }, []);
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
