@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import groupList from '../../data/groupListData';
@@ -5,13 +6,20 @@ import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 import { useLoginCheck, useNavigate } from '../GroupPage/GroupPageBarrel';
 import 업로드아이콘 from '../../image/Icon/image_upload_icon.png';
+import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
   const { intro, rule } = groupList[0];
   const navigate = useNavigate();
-
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>('');
   // useLoginCheck(navigate, "None");
+
+  const handleFileInputChange = () => {
+    const fileInputLength = fileRef.current?.files?.length;
+    fileInputLength && setImageUrl(URL.createObjectURL(fileRef.current!.files![0]));
+  };
 
   return (
     <CreatePostS>
@@ -28,10 +36,25 @@ const UploadPost = () => {
         <CreateFormUploadS>
           <h2>인증샷 올리기</h2>
           {/* <SettingUserThumbnail /> */}
-          <label htmlFor='image-upload'>
-            <img src={업로드아이콘} alt='업로드아이콘' />
-          </label>
-          <input type='file' id='image-upload' accept='image/png, image/jpeg' />
+          {imageUrl ? (
+            <AddedImageS>
+              <ImageS>
+                <img src={imageUrl} alt='추가된 이미지' />
+              </ImageS>
+              <DeleteIcon className='delete_icon' />
+            </AddedImageS>
+          ) : (
+            <UploadImageS htmlFor='image-upload'>
+              <img src={업로드아이콘} alt='업로드아이콘' />
+            </UploadImageS>
+          )}
+          <input
+            type='file'
+            id='image-upload'
+            accept='image/png, image/jpeg'
+            ref={(ref) => (fileRef.current = ref)}
+            onChange={handleFileInputChange}
+          />
         </CreateFormUploadS>
         <CreateFormUploadS>
           <h2>오늘의 작심은 어땠나요?</h2>
@@ -56,6 +79,13 @@ const UploadPostHeaderS = styled(GroupHeader)`
   img {
     position: absolute;
     left: 1rem;
+  }
+`;
+
+const GroupTitleS = styled.div`
+  padding: 1.25rem 0 0 1rem;
+  h1 {
+    font-size: var(--head-a);
   }
 `;
 
@@ -106,9 +136,32 @@ const ItemTabS = styled.div`
   width: fit-content;
 `;
 
-const GroupTitleS = styled.div`
-  padding: 1.25rem 0 0 1rem;
-  h1 {
-    font-size: var(--head-a);
+const AddedImageS = styled.div`
+  width: 5rem;
+  height: 5rem;
+  position: relative;
+
+  .delete_icon {
+    position: absolute;
+    bottom: -7.14px;
+    right: -4.14px;
   }
+`;
+
+const ImageS = styled.div`
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.625rem;
+  overflow: hidden;
+
+  img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+  }
+`;
+
+const UploadImageS = styled.label`
+  width: 5.51775rem;
+  height: 5.70525rem;
 `;
