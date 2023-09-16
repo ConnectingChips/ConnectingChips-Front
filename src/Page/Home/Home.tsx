@@ -9,11 +9,21 @@ import {
   Share_Icon,
 } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
+import axios from 'axios';
 
 // FIXME: 사라질 코드
 import { myInfo, myGroupList } from './HomeBarrel';
+import { GetUser, getUser } from '../../API/userService';
+import { getisDoneAll } from '../../API/userMind';
 
 const { Kakao } = window;
+
+const userInit = {
+  userId: 0,
+  nickname: '',
+  profileImage: '',
+  roles: '',
+};
 
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
@@ -26,8 +36,15 @@ const Home = (): JSX.Element => {
   // const [myList, setMyList] = useState(initMyList);
   const [istodayDone, setIsDone] = useState(false);
 
+  const [my_Info, set_My_Info] = useState<GetUser>(userInit);
+
   // FIXME: User ID 받아오기
   const nickName = '{닉네임}';
+
+  type isDone = {
+    joinedMindId: number;
+    isDoneToday: boolean;
+  };
 
   useEffect(() => {
     scrollTop();
@@ -42,7 +59,8 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
-    if (access_token) setAccess_token(access_token);
+    if (access_token === null) return;
+    setAccess_token(access_token);
 
     // TODO: 사용하게 될 코드
     // fetchMyList(setMyList);
@@ -51,13 +69,18 @@ const Home = (): JSX.Element => {
       group.memberList.find((member) => member.member_id === myInfo.my_id && member.done),
     );
     // const isDone = myList.some((mind) => mind.isDoneToday);
-    setIsDone(isDone);
+
+    getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
+    getisDoneAll().then((res: isDone[]) => {
+      const doneValid = res.some((data) => data.isDoneToday);
+      setIsDone(doneValid);
+    });
 
     // TODO: 사용할 코드
     // }, [access_token, myList]);
 
     // FIXME: 삭제하게 될 코드
-  }, [access_token]);
+  }, [access_token, my_Info.userId]);
 
   const navigate = useNavigate();
   const profileClick = () => {
