@@ -1,15 +1,32 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
+import TermsModal from './TermsModal';
+import { termsAndConditions, privacyPolicyAgreement } from './terms_data';
+import { Arrow_Left_B } from '../ArrowBarrel';
 
 interface TermsProps {
   isAllAgreed: boolean;
   setIsAllAgreed: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+interface TermsData {
+  type: string;
+  title: string;
+  contents: string;
+}
+
 const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [termsData, setTermsData] = useState<TermsData>({ title: '', contents: '', type: '' });
   const [isAgreed, setIsAgreed] = useState({
     terms: false,
     privacy: false,
   });
+
+  useEffect(() => {
+    const isAllChecked = Object.values(isAgreed).every((value) => value === true);
+    setIsAllAgreed(isAllChecked);
+  }, [isAgreed, setIsAllAgreed]);
 
   const handleAllAgreedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
@@ -26,8 +43,23 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
     setIsAllAgreed(allChecked);
   };
 
+  const handleTermsDetailClick = () => {
+    setTermsData(termsAndConditions);
+    showModal();
+  };
+
+  const handlePrivacyDetailClick = () => {
+    setTermsData(privacyPolicyAgreement);
+    showModal();
+  };
+
+  const showModal = () => {
+    setIsOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
   return (
-    <div>
+    <>
       <DividerS />
       <TermsTitleWrapperS>
         <TermsTitleS>
@@ -50,6 +82,9 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
           />
           <strong>이용약관 동의&#40;필수&#41;</strong>
         </TermsTitleS>
+        <ArrowRIghtIconS onClick={handleTermsDetailClick}>
+          <img src={Arrow_Left_B} alt='상세보기' />
+        </ArrowRIghtIconS>
       </TermsTitleWrapperS>
       <TermsTitleWrapperS>
         <TermsTitleS>
@@ -61,8 +96,14 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
           />
           <strong>개인정보 수집 및 이용 동의&#40;필수&#41;</strong>
         </TermsTitleS>
+        <ArrowRIghtIconS onClick={handlePrivacyDetailClick}>
+          <img src={Arrow_Left_B} alt='상세보기' />
+        </ArrowRIghtIconS>
       </TermsTitleWrapperS>
-    </div>
+      {isOpen && (
+        <TermsModal setIsOpen={setIsOpen} termsData={termsData} setIsAgreed={setIsAgreed} />
+      )}
+    </>
   );
 };
 
@@ -106,5 +147,18 @@ const TermsTitleS = styled.div`
 
   strong {
     color: var(--font-color1);
+  }
+`;
+
+const ArrowRIghtIconS = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  transform: rotate(180deg);
+
+  img {
+    transform: scale(0.8);
   }
 `;

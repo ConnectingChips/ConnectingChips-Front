@@ -82,7 +82,7 @@ const MissionSingleS = styled.li`
   outline: 1px solid var(--color-disabled2);
   border-radius: 1.5rem;
 
-  font-size: 0.8125rem;
+  font-size: var(--button-mid);
   padding: 0.4rem 0.8rem;
 
   &:not(:first-child) {

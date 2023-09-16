@@ -74,12 +74,12 @@ const groupListData: GroupInfoType[] = [
       group_url: co_fit_ootd_group,
     },
     memberList: [
-      // {
-      //   member_id: "aa11",
-      //   day: 2,
-      //   count: 2,
-      //   done: false,
-      // },
+      {
+        member_id: "aa11",
+        day: 2,
+        count: 2,
+        done: false,
+      },
       {
         member_id: "aa222",
         day: 2,

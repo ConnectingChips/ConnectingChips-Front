@@ -70,12 +70,14 @@ const Home = (): JSX.Element => {
     <HomeS>
       <HomeHeaderS>
         <img src={Logo_002} alt='logo' className='Logo' />
-        <div className='userInfo'>
-          <img src={Share_Icon} alt='share' onClick={() => shareKakao()} />
+        <UserInfoS>
+          <img className='share' src={Share_Icon} alt='share' onClick={() => shareKakao()} />
 
-          <img src={기본프로필} alt='기본 프로필' onClick={profileClick} />
-          <p>MY</p>
-        </div>
+          <div className='profile' onClick={profileClick}>
+            <img src={기본프로필} alt='기본 프로필' />
+            <p>MY</p>
+          </div>
+        </UserInfoS>
       </HomeHeaderS>
       <HomeContentS>
         <WelcomeHeadS>
@@ -124,7 +126,7 @@ const Home = (): JSX.Element => {
         {/* {myList && access_token && <MyMisson myList={myList} />} */}
 
         {/* FIXME: 사라질 코드 */}
-        {myGroupList && access_token && <MyMisson mygrouplist={myGroupList} />}
+        {myGroupList.length !== 0 && access_token && <MyMisson mygrouplist={myGroupList} />}
         <Banner />
         <GroupList />
       </HomeContentS>
@@ -232,20 +234,26 @@ const HomeHeaderS = styled.header`
   .Logo {
     height: 1.3125rem;
   }
+`;
 
-  .userInfo {
+const UserInfoS = styled.div`
+  display: flex;
+  align-items: center;
+
+  .share {
+    margin-right: 0.75rem;
+  }
+
+  .profile {
     display: flex;
     align-items: center;
+    gap: 0.38rem;
+  }
 
-    :first-child {
-      margin-right: 0.75rem;
-    }
-
-    p {
-      font-size: 0.8125rem;
-      margin-left: 0.37rem;
-      color: white;
-    }
+  p {
+    font-size: 0.8125rem;
+    margin-left: 0.37rem;
+    color: white;
   }
 `;
 
