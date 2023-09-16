@@ -64,7 +64,7 @@ const UploadPost = () => {
         </CreateFormUploadS>
         <CreateFormUploadS>
           <h2>오늘의 작심은 어땠나요?</h2>
-          <textarea placeholder='오늘 작심 성공!' />
+          <textarea placeholder='오늘 작심 성공!' maxLength={800} />
         </CreateFormUploadS>
         <SubmitButtonCTA />
       </CreateFormS>
