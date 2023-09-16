@@ -31,7 +31,7 @@ const UploadPost = () => {
           <label htmlFor='image-upload'>
             <img src={업로드아이콘} alt='업로드아이콘' />
           </label>
-          <input type='file' id='image-upload' />
+          <input type='file' id='image-upload' accept='image/png, image/jpeg' />
         </CreateFormUploadS>
         <CreateFormUploadS>
           <h2>오늘의 작심은 어땠나요?</h2>
