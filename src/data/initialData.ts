@@ -1,5 +1,5 @@
 import { GroupInfoType } from '../Type/MissionType';
-import { MyList, TotalMind } from '../Type/ListType';
+import { MyListDummy, TotalMind } from '../Type/ListType';
 
 export const initImage = {
   image_id: 0,
@@ -40,7 +40,7 @@ export const initTotalList: TotalMind = {
   ],
 };
 
-export const initMyList: MyList = {
+export const initMyList: MyListDummy = {
   status: 200,
   data: [
     {

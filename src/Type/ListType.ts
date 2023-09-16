@@ -24,7 +24,7 @@ export interface MyListData extends CommonData {
   isDoneToday: boolean;
 }
 
-export interface MyList {
+export interface MyListDummy {
   status: number;
   data: MyListData[];
 }

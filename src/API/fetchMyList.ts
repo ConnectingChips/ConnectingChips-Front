@@ -1,4 +1,4 @@
-import { MyList, MyListData } from '../Type/ListType';
+import { MyListDummy, MyListData } from '../Type/ListType';
 import { TotalMind, TotalMindData } from '../Type/ListType';
 
 type FetchMyListType = (
@@ -12,7 +12,7 @@ type FetchTotalType = (
 /** 나의 작심 호출 */
 const fetchMyList: FetchMyListType = async (setMyList) => {
   try {
-    const result: MyList = await fetch('/minds/my-list').then((res) => res.json());
+    const result: MyListDummy = await fetch('/minds/my-list').then((res) => res.json());
     setMyList(result.data);
   } catch (error) {
     console.error(error);

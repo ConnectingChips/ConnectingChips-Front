@@ -16,7 +16,7 @@ function logText(arg: LoggableObject) {
   }
 }
 
-interface Mind {
+export interface Mind {
   id: number;
   mindType: string;
   name: string;
@@ -27,11 +27,11 @@ interface Mind {
   backgroundImage: string;
 }
 
-export const getMindAll = async (): Promise<Mind> => {
+export const getMindAll = async (): Promise<Mind[]> => {
   try {
-    const response = await getData<Mind>('/minds');
+    const response = await getData<Mind[]>('/minds');
 
-    logText(response.result);
+    response.result.forEach((mind) => logText(mind));
     return response.result;
   } catch (error) {
     console.error(error);
@@ -90,7 +90,7 @@ export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSin
   }
 };
 
-interface Mylist {
+export interface Mylist {
   id: number;
   type: string;
   name: string;
@@ -100,13 +100,13 @@ interface Mylist {
   isDoneToday: boolean;
 }
 
-export const getMyList = async (): Promise<Mylist> => {
+export const getMyList = async (): Promise<Mylist[]> => {
   const user_id = (await getUser()).userId;
 
   try {
-    const response = await getData<Mylist>(`/minds/today-check/${user_id}`, tockenHeader);
+    const response = await getData<Mylist[]>(`/minds/today-check/${user_id}`, tockenHeader);
 
-    logText(response.result);
+    response.result.forEach((myList: Mylist) => logText(myList));
     return response.result;
   } catch (error) {
     console.error(error);
