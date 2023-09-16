@@ -66,7 +66,9 @@ const UploadPost = () => {
           <h2>오늘의 작심은 어땠나요?</h2>
           <textarea placeholder='오늘 작심 성공!' maxLength={800} />
         </CreateFormUploadS>
-        <SubmitButtonCTA />
+        <SubmitButtonWrapperS>
+          <SubmitButtonCTA />
+        </SubmitButtonWrapperS>
       </CreateFormS>
     </CreatePostS>
   );
@@ -179,5 +181,17 @@ const UploadImageS = styled.label`
     position: absolute;
     bottom: -11.28px;
     right: -8.28px;
+  }
+`;
+
+const SubmitButtonWrapperS = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+
+  button {
+    width: 100%;
   }
 `;
