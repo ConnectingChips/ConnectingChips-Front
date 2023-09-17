@@ -12,6 +12,6 @@ interface Login {
 
 export const postLogin = async (id: string, password: string): Promise<Login> => {
   const loginData = { id, password };
-  const response = await postData<Login>('/login', loginData);
+  const response = await postData<Login>('/users/login', loginData);
   return response.result;
 };
