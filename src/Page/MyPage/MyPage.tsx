@@ -1,47 +1,57 @@
-import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { Arrow_Left_B } from '../../Component/ArrowBarrel';
-import 기본프로필 from '../../image/예시사진모음/default_profile_W_MyPage.png';
-// import infoIcon from '../../image/Icon/icon_Info.png';
-import Info_icon_B from '../../image/Icon/Info_icon_B.svg';
-import ArticleTab from '../../Component/ArticleTab';
-import { CurrentMind, FinishedMindList } from './MyPageMind';
-
-// FIXME: 버려질 코드
-import { myInfo, myGroupList } from '../../data/myInfo';
-import ConfirmModal from '../../Component/ConfirmModal';
-import { scrollTop } from '../Home/HomeBarrel';
+import { styled, useEffect, useState } from './MypageBarrel';
+import { Arrow_Left_B, 기본프로필, Info_icon_B } from './MypageBarrel';
+import { ArticleTab, ConfirmModal } from './MypageBarrel';
+import { scrollTop, type GetUser, getUser, type Mylist, getMyList, userInit } from './MypageBarrel';
+import { myInfo, myGroupList, type GroupInfoType, initGroup } from './MypageBarrel';
 
 const MyPage = () => {
-  const tabText = [`참여중인 작심(${myGroupList.length}/3)`, '참여했던 작심'];
-  const compArr = [<CurrentMind />, <FinishedMindList />];
-  const [confirmLogout, setConfirmLogout] = useState(false);
+  const [access_token, setAccess_token] = useState<string>('');
 
-  // TODO: 잠깐 비활성화
+  // TODO: 갈아끼울 코드
+  // const [my_Info, set_My_Info] = useState<GetUser>(userInit);
+  // const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
+  // FIXME: 더미 코드
+  const [my_Info, set_My_Info] = useState<GetUser>(userInit);
+  const [myList, setMylist] = useState<GroupInfoType[]>([initGroup]);
+
+  const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
+
+  // TODO: 실제 사용할 코드
   // useEffect(() => {
   //   scrollTop();
+  //   setAccess_token(localStorage.getItem('access_token') || '');
+
+  //   getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
+  //   getMyList().then((res: Mylist[]) => setMylist(res));
   // }, []);
+
+  // FIXME: 더미 코드
+  useEffect(() => {
+    scrollTop();
+    setAccess_token(localStorage.getItem('access_token') || '');
+    setMylist(myGroupList);
+    set_My_Info(myInfo);
+  }, []);
 
   return (
     <MyPageS>
       <MyPageHeader />
       <ProfileHeaderS>
         <h2>
-          {/* TODO: 닉네임으로 변환 */}
-          {myInfo.my_id}칩스’s
+          {my_Info.nickname}칩스’s
           <br />
           작심서랍
         </h2>
-        <img src={기본프로필} alt='기본프로필' />
+        <img src={my_Info.profileImage} alt='기본프로필' />
       </ProfileHeaderS>
-      {myGroupList.length === 3 && (
+      {myList.length === 3 && (
         <LimitInfoS>
           <img src={Info_icon_B} alt='인포프로필' />
           <p>최대 3개의 그룹까지 참여 가능합니다.</p>
         </LimitInfoS>
       )}
 
-      <ArticleTab tabText={tabText} compArr={compArr} />
+      <ArticleTab />
       <MyPageSetS>
         <h2>설정</h2>
         <ul>
@@ -51,7 +61,12 @@ const MyPage = () => {
       </MyPageSetS>
 
       {confirmLogout && (
-        <ConfirmModal setConfirm={setConfirmLogout} confirmText='로그아웃하시겠습니까?' />
+        <ConfirmModal
+          setConfirm={setConfirmLogout}
+          confirmText='로그아웃하시겠습니까?'
+          action='로그아웃'
+          url='/users/logout'
+        />
       )}
     </MyPageS>
   );

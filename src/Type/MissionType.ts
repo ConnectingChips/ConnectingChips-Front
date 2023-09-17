@@ -1,6 +1,6 @@
 /** 2023-08-22 MissionType.tsx - 미션 그룹 멤버 정보 */
 export interface MemberInfo {
-  member_id: string;
+  member_id: number;
   day: number;
   count: number;
   done: boolean;

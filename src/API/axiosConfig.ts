@@ -1,6 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 
-axios.defaults.baseURL = 'https://samchips.com';
+// axios.defaults.baseURL = 'https://samchips.com';
+// API 테스트 주소
+axios.defaults.baseURL = 'http://dev.samchips.com:8080';
 
 const client: AxiosInstance = axios.create();
 const tocken_instance: AxiosInstance = axios.create();

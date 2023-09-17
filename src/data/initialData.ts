@@ -1,5 +1,8 @@
 import { GroupInfoType } from '../Type/MissionType';
 import { MyListDummy, TotalMind } from '../Type/ListType';
+import { GetUser } from '../API/userService';
+import { MyInfoType } from '../Type/User';
+import 기본프로필 from '../../image/예시사진모음/default_profile_W.png';
 
 export const initImage = {
   image_id: 0,
@@ -13,7 +16,7 @@ export const initGroup: GroupInfoType = {
   title: '',
   intro: '',
   rule: '',
-  memberList: [{ member_id: '', day: 0, count: 0, done: false }],
+  memberList: [{ member_id: 0, day: 0, count: 0, done: false }],
   posts: [{ post_id: 0, title: '', image: initImage }],
   defaultImage: {
     defaultImage_id: 0,
@@ -54,3 +57,16 @@ export const initMyList: MyListDummy = {
     },
   ],
 };
+
+export const userInit: GetUser = {
+  userId: 0,
+  nickname: '',
+  profileImage: '',
+  // roles: '',
+};
+
+// export const userInitDummy: MyInfoType = {
+//   my_id: '',
+//   password: '',
+//   profileimg: 기본프로필,
+// };

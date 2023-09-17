@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { logoutUser } from '../API/userService';
 
 type ConfirmProps = {
   setConfirm: React.Dispatch<React.SetStateAction<boolean>>;
   confirmText: string;
+  action: '로그아웃';
+  url: string;
 };
 
-const ConfirmModal = ({ setConfirm, confirmText }: ConfirmProps): JSX.Element => {
+const ConfirmModal = ({ setConfirm, confirmText, action, url }: ConfirmProps): JSX.Element => {
   const navigate = useNavigate();
   return (
     <ConfirmBGS onClick={() => setConfirm(false)}>
@@ -18,18 +21,13 @@ const ConfirmModal = ({ setConfirm, confirmText }: ConfirmProps): JSX.Element =>
           </button>
           <button
             className='point'
-            onClick={async () => {
-              await fetch('/users/logout', {
-                method: 'PUT',
-                headers: {
-                  accessToken: localStorage.getItem('access_token') || '',
-                },
-              });
+            onClick={() => {
+              logoutUser()
               localStorage.clear();
               navigate(-1);
             }}
           >
-            로그아웃
+            {action}
           </button>
         </div>
       </ConfirmModalS>
