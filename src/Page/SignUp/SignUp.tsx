@@ -1,3 +1,4 @@
+import { createUser } from '../../API/userService';
 import { styled, useEffect, useState, useNavigate, useLoginCheck } from './SignUpBarrel';
 import {
   Banner,
@@ -76,7 +77,21 @@ const SignUp = (): JSX.Element => {
   };
 
   const handleSubmitButtonClick = () => {
-    navigate('/LogIn');
+    try {
+      const newUser = {
+        accountId: id,
+        password: password,
+        email,
+        nickname,
+      };
+      console.log(1);
+      createUser(newUser);
+      
+      console.log(2);
+      navigate('/LogIn');
+    } catch (error) {
+      throw Error('회원가입에 실패하였습니다.')
+    }
   };
 
   return (
