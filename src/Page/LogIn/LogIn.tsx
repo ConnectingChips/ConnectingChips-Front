@@ -24,14 +24,14 @@ const LogIn = (): JSX.Element => {
 
   const isDefault = inputState === 'default';
 
-  const LoginSubmit = async (e: React.MouseEvent<HTMLFormElement, MouseEvent>): Promise<void> => {
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const { accessToken } = await postLogin(nickname, password);
       localStorage.setItem('access_token', accessToken);
       navigate(-1);
     } catch (error) {
-      console.error('로그인 실패!!');
+      console.error('로그인 실패');
       setInputState('failed');
     }
   };
@@ -41,7 +41,7 @@ const LogIn = (): JSX.Element => {
       <Loginheader type='로그인' />
       <Banner />
       <LoginOuterContainerS>
-        <LoginFormS onSubmit={LoginSubmit}>
+        <LoginFormS onSubmit={handleLoginSubmit}>
           <LoginContainerS>
             <LoginInnerContainerS>
               <LoginInput sort='ID' isdefault={isDefault} inputbind={idBind} />
