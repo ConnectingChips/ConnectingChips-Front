@@ -1,23 +1,14 @@
 import { styled, useEffect, useState, useNavigate } from './HomeBarrel';
 import { scrollTop, shareKakao } from './HomeBarrel';
 import { MyMisson, GroupList } from './HomeBarrel';
-import {
-  Banner as BannerImage,
-  Logo_002,
-  헤드셋칩스,
-  Share_Icon,
-} from './HomeImageBarrel';
+import { Banner as BannerImage, Logo_002, 헤드셋칩스, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
 
-// FIXME: 사라질 코드
-import { myInfo, myGroupList } from './HomeBarrel';
-import { GroupInfoType } from '../../Type/MissionType';
-import { initGroup, userInit } from '../../data/initialData';
-
-// TODO: 사용할 코드
-import { GetUser, getUser } from '../../API/userService';
-import { Mylist, getMyList, getisDoneAll } from '../../API/userMind';
-import { MyInfoType } from '../../Type/User';
+import { initMyList, userInit } from '../../data/initialData';
+import { getUser } from '../../API/userService';
+import { GetUser } from '../../Type/User';
+import { getMyList, getisDoneAll } from '../../API/userMind';
+import { Mylist } from '../../Type/userMind';
 
 const { Kakao } = window;
 
@@ -26,84 +17,53 @@ const Home = (): JSX.Element => {
   const [access_token, setAccess_token] = useState<string>('');
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
-  // TODO: 갈아끼울 코드
-  // const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  // const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
-
-  // FIXME: 더미 코드
   const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  const [myList, setMylist] = useState<GroupInfoType[]>([initGroup]);
+  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
 
   type isDone = {
     joinedMindId: number;
     isDoneToday: boolean;
   };
 
-  // TODO: 실제 사용할 코드
-  // useEffect(() => {
-  //   scrollTop();
-  // setAccess_token(localStorage.getItem(access_token) || '');
-
-  //   // 네트워크 실제 요청
-  //   getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
-  //   getMyList().then((res: Mylist[]) => setMylist(res));
-  //   getisDoneAll().then((res: isDone[]) => {
-  //     const doneValid = res.some((data) => data.isDoneToday);
-  //     setIsDone(doneValid);
-  //   });
-
-  //   // 카카오 공유하기
-  //   const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
-
-  //   Kakao.cleanup();
-  //   if (!Kakao.isInitialized()) {
-  //     Kakao.init(KAKAO_KEY);
-  //   }
-  // }, [access_token]);
-
-  // FIXME: 더미데이터
   useEffect(() => {
     scrollTop();
     setAccess_token(localStorage.getItem('access_token') || '');
-    setMylist(myGroupList);
-    set_My_Info(myInfo);
+    console.log('access_token: ', access_token);
 
-    const isDone: boolean = myList.some((group) =>
-      group.memberList.find((member) => member.member_id === myInfo.userId && member.done),
-    );
-    setIsDone(isDone);
-  }, [myList]);
+    if (access_token !== '') {
+      console.log(1);
+      getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
+      getMyList().then((res: Mylist[]) => setMylist(res));
+      getisDoneAll().then((res: isDone[]) => {
+        const doneValid = res.some((data) => data.isDoneToday);
+        setIsDone(doneValid);
+      });
+    }
+
+    // 카카오 공유하기
+    // const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
+
+    // Kakao.cleanup();
+    // if (!Kakao.isInitialized()) {
+    //   Kakao.init(KAKAO_KEY);
+    // }
+  }, [access_token]);
 
   const navigate = useNavigate();
 
-  // TODO: 실제 사용할 코드
-  // const profileClick = () => {
-  //   if (access_token !== '') return navigate(`/myPage/${my_Info.userId}`);
-
-  //   navigate('/LogIn');
-  // };
-  // FIXME: 더미 코드
-  const profileClick = (): void => {
-    if (access_token !== '') return navigate(`/myPage/${myInfo.userId}`);
-
-    navigate('/LogIn');
+  const profileClick = () => {
+    if (access_token !== '') return getUser().then(() => navigate(`/myPage/${my_Info.userId}`));
+    return navigate('/LogIn');
   };
 
-  // TODO: 실제 사용할 코드
-  // const nickName: string  = my_Info.nickname;
-  // FIXME: 더미 코드
-  const nickName: string = myInfo.nickname;
+  const nickName: string = my_Info.nickname;
   return (
     <HomeS>
       <HomeHeaderS>
         <img src={Logo_002} alt='logo' className='Logo' />
         <UserInfoS>
           <img className='share' src={Share_Icon} alt='share' onClick={() => shareKakao()} />
-
           <div className='profile' onClick={profileClick}>
-            {/* TODO: 실제 네트워크 */}
-            {/* <img src={my_Info.profileImage} alt='기본 프로필' /> */}
-            {/* FIXME: 버려질 코드 */}
             <img src={my_Info.profileImage} alt='기본 프로필' />
             <p>MY</p>
           </div>
@@ -112,7 +72,6 @@ const Home = (): JSX.Element => {
       <HomeContentS>
         <WelcomeHeadS>
           <WelcomeTextS>
-            {/* TODO: 갈아끼울 코드 */}
             {access_token && istodayDone ? (
               <h1>
                 멋져요 {nickName}칩스! <br />
@@ -120,8 +79,7 @@ const Home = (): JSX.Element => {
                 <br />
                 성공 적립 완료!
               </h1>
-            ) : // ) : access_token && myGroupList.length === 0 ? (
-            access_token && myGroupList.length === 0 ? (
+            ) : access_token && myList.length === 0 ? (
               <h1>
                 반가워요 {nickName}칩스! <br />
                 아래 리스트에서
@@ -144,11 +102,7 @@ const Home = (): JSX.Element => {
           </WelcomeTextS>
           {!access_token && <img src={헤드셋칩스} alt='헤드셋칩스' />}
         </WelcomeHeadS>
-        {/* TODO: 갈아끼울 코드 */}
-        {/* {myList.length !== 0 && access_token && <MyMisson myList={myList} />} */}
-
-        {/* FIXME: 사라질 코드 */}
-        {myGroupList.length !== 0 && access_token && <MyMisson mygrouplist={myGroupList} />}
+        {myList.length !== 0 && access_token && <MyMisson />}
         <Banner />
         <GroupList />
       </HomeContentS>

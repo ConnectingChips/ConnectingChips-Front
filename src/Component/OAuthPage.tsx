@@ -14,29 +14,18 @@ type OAuthPageProps = {
  */
 const OAuthPage = ({ component, authenticated }: OAuthPageProps): JSX.Element => {
   const navigate = useNavigate();
+  
+  const ResultComp = () => {
+    const successHome = async () => await getUser().then(() => navigate('/'));
+    const failedHome = async () => await getUser().catch(() => navigate('/'));
 
-  // FIXME: 로컬스토리지 내 토큰 로컬적인 확인
-  const isLogined = localStorage.getItem('access_token');
-  const loginComp = (loginCeck: boolean, component: JSX.Element) => {
-    return loginCeck ? component : <Navigate to='/' />;
+    if (authenticated === 'access') failedHome();
+    else successHome();
+
+    return component;
   };
 
-  return authenticated === 'access'
-    ? loginComp(!!isLogined, component)
-    : loginComp(!isLogined, component);
-
-  // TODO: getUser를 사용한 유저 정보 조회
-  // const ResultComp = () => {
-  //   const successHome = async () => await getUser().then(() => navigate('/'));
-  //   const failedHome = async () => await getUser().catch(() => navigate('/'));
-
-  //   if (authenticated === 'access') failedHome();
-  //   else successHome();
-
-  //   return component;
-  // };
-
-  // return <ResultComp />;
+  return <ResultComp />;
 };
 
 export default OAuthPage;
