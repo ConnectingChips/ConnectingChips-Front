@@ -11,13 +11,10 @@ import scrollTop from '../../Hooks/scrollTop';
 // FIXME: 사라질 코드
 import { myInfo, myGroupList } from '../../data/myInfo';
 
-import { fetchMyList, fetchTotalList } from '../../API/fetchMyList';
-import { initMyList, initTotalList } from '../../data/initialData';
-
 import shareKakao from '../../API/shareKakao';
 
 export { styled, Link, useEffect, useState, useNavigate };
-export { scrollTop, fetchMyList, initMyList, fetchTotalList, initTotalList, shareKakao };
+export { scrollTop, shareKakao };
 export { MyMisson, GroupList };
 
 // FIXME: 사라질 코드

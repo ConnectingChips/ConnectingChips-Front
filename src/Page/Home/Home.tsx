@@ -1,45 +1,25 @@
 import { styled, useEffect, useState, useNavigate } from './HomeBarrel';
-import { scrollTop, fetchMyList, initMyList, shareKakao } from './HomeBarrel';
+import { scrollTop, shareKakao } from './HomeBarrel';
 import { MyMisson, GroupList } from './HomeBarrel';
 import {
   Banner as BannerImage,
   Logo_002,
   헤드셋칩스,
-  기본프로필,
   Share_Icon,
 } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
-import axios from 'axios';
 
 // FIXME: 사라질 코드
 import { myInfo, myGroupList } from './HomeBarrel';
 import { GroupInfoType } from '../../Type/MissionType';
-import { initGroup } from '../../data/initialData';
+import { initGroup, userInit } from '../../data/initialData';
 
 // TODO: 사용할 코드
 import { GetUser, getUser } from '../../API/userService';
 import { Mylist, getMyList, getisDoneAll } from '../../API/userMind';
+import { MyInfoType } from '../../Type/User';
 
 const { Kakao } = window;
-
-const userInit = {
-  userId: 0,
-  nickname: '',
-  profileImage: '',
-  // roles: '',
-};
-
-const initMylist = [
-  {
-    id: 0,
-    type: '',
-    name: '',
-    count: 0,
-    boardCount: 0,
-    image: '',
-    isDoneToday: false,
-  },
-];
 
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
@@ -47,10 +27,11 @@ const Home = (): JSX.Element => {
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
   // TODO: 갈아끼울 코드
-  const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  // const [myList, setMylist] = useState<Mylist[]>(initMylist);
+  // const [my_Info, set_My_Info] = useState<GetUser>(userInit);
+  // const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
 
   // FIXME: 더미 코드
+  const [my_Info, set_My_Info] = useState<GetUser>(userInit);
   const [myList, setMylist] = useState<GroupInfoType[]>([initGroup]);
 
   type isDone = {
@@ -83,14 +64,15 @@ const Home = (): JSX.Element => {
   // FIXME: 더미데이터
   useEffect(() => {
     scrollTop();
-    setAccess_token(localStorage.getItem(access_token) || '');
+    setAccess_token(localStorage.getItem('access_token') || '');
     setMylist(myGroupList);
+    set_My_Info(myInfo);
 
-    const isDone: boolean = myGroupList.some((group) =>
-      group.memberList.find((member) => member.member_id === myInfo.my_id && member.done),
+    const isDone: boolean = myList.some((group) =>
+      group.memberList.find((member) => member.member_id === myInfo.userId && member.done),
     );
     setIsDone(isDone);
-  }, [access_token]);
+  }, [myList]);
 
   const navigate = useNavigate();
 
@@ -102,7 +84,7 @@ const Home = (): JSX.Element => {
   // };
   // FIXME: 더미 코드
   const profileClick = (): void => {
-    if (access_token !== '') return navigate(`/myPage/${myInfo.my_id}`);
+    if (access_token !== '') return navigate(`/myPage/${myInfo.userId}`);
 
     navigate('/LogIn');
   };
@@ -110,7 +92,7 @@ const Home = (): JSX.Element => {
   // TODO: 실제 사용할 코드
   // const nickName: string  = my_Info.nickname;
   // FIXME: 더미 코드
-  const nickName: string = myInfo.my_id;
+  const nickName: string = myInfo.nickname;
   return (
     <HomeS>
       <HomeHeaderS>
@@ -122,7 +104,7 @@ const Home = (): JSX.Element => {
             {/* TODO: 실제 네트워크 */}
             {/* <img src={my_Info.profileImage} alt='기본 프로필' /> */}
             {/* FIXME: 버려질 코드 */}
-            <img src={기본프로필} alt='기본 프로필' />
+            <img src={my_Info.profileImage} alt='기본 프로필' />
             <p>MY</p>
           </div>
         </UserInfoS>
