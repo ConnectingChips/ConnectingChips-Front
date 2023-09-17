@@ -47,7 +47,6 @@ const LogIn = (): JSX.Element => {
               <LoginInput sort='ID' isdefault={isDefault} inputbind={idBind} />
               <LoginInput sort='PW' isdefault={isDefault} inputbind={pwBind} />
             </LoginInnerContainerS>
-            {/* {!isDefault && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>} */}
             {!isDefault && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>}
           </LoginContainerS>
 
