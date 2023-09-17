@@ -24,8 +24,6 @@ const LogIn = (): JSX.Element => {
 
   const isDefault = inputState === 'default';
 
-  /** 2023-08-24 LogIn.tsx - 로그인 요청 핸들러 */
-  // FIXME: 버려질 코드
   const LoginSubmit = async (e: React.MouseEvent<HTMLFormElement, MouseEvent>): Promise<void> => {
     e.preventDefault();
     try {
@@ -36,19 +34,6 @@ const LogIn = (): JSX.Element => {
       console.error('로그인 실패!!');
       setInputState('failed');
     }
-
-    // TODO: User ID 받아오기
-    // try {
-    //   if (nickname !== myInfo.my_id || password !== myInfo.password) {
-    //     setInputState('false');
-    //     throw Error('아이디 혹은 비밀번호가 일치하지 않습니다');
-    //   }
-    //   localStorage.setItem('access_token', '1234564862169');
-
-    //   navigate(-1);
-    // } catch (error) {
-    //   console.error('Login failed:', error);
-    // }
   };
 
   return (
