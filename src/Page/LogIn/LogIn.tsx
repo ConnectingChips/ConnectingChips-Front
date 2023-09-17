@@ -31,10 +31,11 @@ const LogIn = (): JSX.Element => {
 
     // TODO: User ID 받아오기
     try {
-      if (nickname !== myInfo.my_id || password !== myInfo.password) {
-        setInputState('false');
-        throw Error('아이디 혹은 비밀번호가 일치하지 않습니다');
-      }
+      // FIXME: 더미데이터 코드
+      // if (nickname !== myInfo.my_id || password !== myInfo.password) {
+      //   setInputState('false');
+      //   throw Error('아이디 혹은 비밀번호가 일치하지 않습니다');
+      // }
       localStorage.setItem('access_token', '1234564862169');
 
       navigate(-1);

@@ -16,11 +16,11 @@ import { Mylist, getMyList } from '../../API/userMind';
 import { GroupInfoType } from '../../Type/MissionType';
 import { initGroup } from '../../data/initialData';
 import { MyInfoType } from '../../Type/User';
-import { userInit, userInitDummy } from '../../data/initialData';
+import { userInit } from '../../data/initialData';
 
 
 export { styled, useEffect, useState };
 export { Arrow_Left_B, 기본프로필, Info_icon_B };
 export { ArticleTab, CurrentMind, FinishedMindList, ConfirmModal };
 export { scrollTop, type GetUser, getUser, type Mylist, getMyList ,userInit };
-export { myInfo, myGroupList, type GroupInfoType, initGroup, type MyInfoType, userInitDummy };
+export { myInfo, myGroupList, type GroupInfoType, initGroup, type MyInfoType };

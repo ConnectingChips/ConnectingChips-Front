@@ -39,11 +39,8 @@ interface User {
 // User 생성 -> POST 요청
 export const createUser = async (newUser: User): Promise<User> => {
   try {
-    console.log(4);
-
     const response = await postData<User>('/users', newUser);
     const createdUser = response.result;
-    console.log(5);
     console.log('createdUser: ', createdUser);
     return createdUser;
   } catch (error) {

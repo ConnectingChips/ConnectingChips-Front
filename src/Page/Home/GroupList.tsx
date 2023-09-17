@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import missionTab from '../../data/missionTab';
 
 // TODO: 갈아끼울 코드
-import { initTotalList, initMyList, fetchTotalList, fetchMyList } from './HomeBarrel';
 import { TotalMindData } from '../../Type/ListType';
 
 // FIXME: 갈아끼울 코드

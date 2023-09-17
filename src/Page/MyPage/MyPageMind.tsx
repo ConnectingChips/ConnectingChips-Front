@@ -64,7 +64,7 @@ const FinishedMind = () => {
   return (
     <>
       {myGroupList.map((myGroup, index) => {
-        const myDate = myGroup.memberList.find((member) => member.member_id === myInfo.my_id)?.day;
+        const myDate = myGroup.memberList.find((member) => member.member_id === myInfo.userId)?.day;
         return (
           <MindS key={index}>
             <div>

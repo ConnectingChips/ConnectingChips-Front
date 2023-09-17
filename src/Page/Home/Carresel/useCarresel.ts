@@ -16,7 +16,7 @@ const useCarresel = (doneBind: doneBind, countBind: countBind, uuidBind: uuidBin
     const { uuidList, setUuidList } = uuidBind;
 
     myGroupList.map((mygroup, index) => {
-      const missionInfo = mygroup.memberList.find((member) => member.member_id === myInfo.my_id);
+      const missionInfo = mygroup.memberList.find((member) => member.member_id === myInfo.userId);
       if (missionInfo === undefined) return null;
 
       const makeDateList = dateList;

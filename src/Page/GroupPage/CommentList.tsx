@@ -86,7 +86,7 @@ interface selectContainerProps {
 /** 댓글과 답글 box */
 const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContainerProps) => {
   const isReply = username.reply_user !== undefined;
-  const userId = myInfo.my_id;
+  const userId = myInfo.userId;
   return (
     <CommentContainerS sort={sort}>
       <img src={imgUrl} alt='답글프로필' />
@@ -101,8 +101,8 @@ const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContai
         <CommentOptionS>
           {sort === 'comment' ? <h2>답글</h2> : null}
           {/* 내데이터 가져와서 댓글또는 답글 user네임이랑 같으면 삭제 보여주기 */}
-          {(sort === 'comment' && userId === username.comment_user) ||
-          (sort === 'reply' && userId === username.reply_user) ? (
+          {(sort === 'comment' && String(userId) === username.comment_user) ||
+          (sort === 'reply' && String(userId) === username.reply_user) ? (
             <h2 className='delete'>삭제</h2>
           ) : null}
         </CommentOptionS>
