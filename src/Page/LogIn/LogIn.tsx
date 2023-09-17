@@ -4,6 +4,8 @@ import Banner from '../../Component/SignUp/Banner';
 import Loginheader from '../../Component/SignUp/Loginheader';
 import useLoginCheck from '../../Hooks/useLoginCheck';
 
+import { postLogin } from '../../API/login';
+
 type bindValue = {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -14,6 +16,7 @@ const LogIn = (): JSX.Element => {
   const [inputState, setInputState] = useState('default');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
   const idBind: bindValue = { value: nickname, setValue: setNickname };
   const pwBind: bindValue = { value: password, setValue: setPassword };
   const navigate = useNavigate();
@@ -26,14 +29,27 @@ const LogIn = (): JSX.Element => {
   // FIXME: 버려질 코드
   const LoginSubmit = async (e: React.MouseEvent<HTMLFormElement, MouseEvent>): Promise<void> => {
     e.preventDefault();
-
     try {
-      localStorage.setItem('access_token', '1234564862169');
-
+      const { accessToken } = await postLogin(nickname, password);
+      localStorage.setItem('access_token', accessToken);
       navigate(-1);
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('로그인 실패!!');
+      setError(true);
     }
+
+    // TODO: User ID 받아오기
+    // try {
+    //   if (nickname !== myInfo.my_id || password !== myInfo.password) {
+    //     setInputState('false');
+    //     throw Error('아이디 혹은 비밀번호가 일치하지 않습니다');
+    //   }
+    //   localStorage.setItem('access_token', '1234564862169');
+
+    //   navigate(-1);
+    // } catch (error) {
+    //   console.error('Login failed:', error);
+    // }
   };
 
   return (
@@ -47,7 +63,8 @@ const LogIn = (): JSX.Element => {
               <LoginInput sort='ID' isdefault={isDefault} inputbind={idBind} />
               <LoginInput sort='PW' isdefault={isDefault} inputbind={pwBind} />
             </LoginInnerContainerS>
-            {!isDefault && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>}
+            {/* {!isDefault && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>} */}
+            {error && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>}
           </LoginContainerS>
 
           <SignClearBtnS type='submit'>
