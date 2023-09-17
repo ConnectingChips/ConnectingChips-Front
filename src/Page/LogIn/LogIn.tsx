@@ -16,7 +16,6 @@ const LogIn = (): JSX.Element => {
   const [inputState, setInputState] = useState('default');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
   const idBind: bindValue = { value: nickname, setValue: setNickname };
   const pwBind: bindValue = { value: password, setValue: setPassword };
   const navigate = useNavigate();
@@ -35,7 +34,7 @@ const LogIn = (): JSX.Element => {
       navigate(-1);
     } catch (error) {
       console.error('로그인 실패!!');
-      setError(true);
+      setInputState('failed');
     }
 
     // TODO: User ID 받아오기
@@ -64,7 +63,7 @@ const LogIn = (): JSX.Element => {
               <LoginInput sort='PW' isdefault={isDefault} inputbind={pwBind} />
             </LoginInnerContainerS>
             {/* {!isDefault && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>} */}
-            {error && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>}
+            {!isDefault && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>}
           </LoginContainerS>
 
           <SignClearBtnS type='submit'>
