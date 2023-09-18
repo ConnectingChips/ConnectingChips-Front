@@ -40,6 +40,9 @@ const Home = (): JSX.Element => {
       });
     }
 
+
+    console.log('깃 수리중');
+    
     // 카카오 공유하기
     // const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
 
