@@ -29,5 +29,5 @@ export const postSignup = async (signupParam: SignupParam) => {
 
 export const idDuplicateCheck = async (accountId: string) => {
   const response = await getData<Duplicated>(`/users/check-id?accountId=${accountId}`);
-  return response;
+  return response.data.isUsable;
 };

@@ -82,8 +82,8 @@ const SignUp = (): JSX.Element => {
   const handleSubmitButtonClick = async () => {
     const signupData = { id, email, nickname, password };
     try {
-      const response = await idDuplicateCheck(id);
-      if (response.data.isUsable) {
+      const isUsable = await idDuplicateCheck(id);
+      if (isUsable) {
         await postSignup(signupData);
         return navigate('/LogIn');
       } else {
