@@ -1,8 +1,8 @@
 import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
-import { useState } from 'react';
+import { DetailedHTMLProps, ImgHTMLAttributes, useState } from 'react';
 import { BoardsType } from '../../API/Boards';
-/** 2023-08-22 PostHeader.tsx - 작심 인증 프로필 + 더보기 */
+
 interface PostHeaderProps {
   editbind: {
     edit: boolean;
@@ -18,11 +18,17 @@ const PostHeader = ({ editbind, post }: PostHeaderProps): JSX.Element => {
     setIsToggle((prev) => !prev);
   };
 
+  const defalutPofileImage = (imageUrl: string) => {
+    if (imageUrl === 'default') {
+      return `${process.env.PUBLIC_URL}/defalutProfileImage.jpg`;
+    }
+  };
+
   return (
     <PostHeaderS>
       <PostHeaderProfileS>
         <PostProfileImageS>
-          <img src={post.profileImage} alt='프로필 사진' />
+          <img src={defalutPofileImage(post.profileImage)} alt='프로필 사진' />
         </PostProfileImageS>
         <PostProfileNickNameS>
           <h2>{post.nickname}</h2>
