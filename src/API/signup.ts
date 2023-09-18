@@ -1,15 +1,18 @@
-// signup.ts
-import { postData } from './axiosConfig';
+import { getData, postData } from './axiosConfig';
 
-interface Signup {
-  accountId: string;
+interface SignupParam {
+  id: string;
   email: string;
   nickname: string;
   password: string;
 }
 
-interface SignupParam extends Omit<Signup, 'accountId'> {
-  id: string;
+interface Signup {
+  statusCode: number;
+}
+
+interface Duplicated {
+  isUsable: boolean;
 }
 
 export const postSignup = async (signupParam: SignupParam) => {
@@ -20,8 +23,11 @@ export const postSignup = async (signupParam: SignupParam) => {
     nickname,
     password,
   };
-  // TODO: 확인하고 주석 삭제
-  console.log('Test: ', test);
   const response = await postData<Signup>('/users', signupData);
+  return response;
+};
+
+export const idDuplicateCheck = async (accountId: string) => {
+  const response = await getData<Duplicated>(`/users/check-id?accountId=${accountId}`);
   return response;
 };
