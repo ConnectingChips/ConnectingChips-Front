@@ -11,6 +11,7 @@ import {
   Terms,
 } from './SignUpBarrel';
 import { type handlerBind, useSignup } from './SignUpBarrel';
+import { postSignup, idDuplicateCheck } from '../../API/signup';
 
 /** 2023-08-24 SignUp - 회원가입 페이지 */
 const SignUp = (): JSX.Element => {
@@ -50,6 +51,8 @@ const SignUp = (): JSX.Element => {
     const idReg = /^(?!^\d+$)[a-zA-Z0-9]{2,10}$/g;
     const isValidId = idReg.test(id);
     setValidation((prev) => ({ ...prev, id: isValidId }));
+
+    setInputState('default');
   };
 
   const emailValidationCheck = () => {
@@ -76,19 +79,18 @@ const SignUp = (): JSX.Element => {
     setValidation((prev) => ({ ...prev, confirmPassword: isSamePassword }));
   };
 
-  const handleSubmitButtonClick = () => {
+  const handleSubmitButtonClick = async () => {
+    const signupData = { id, email, nickname, password };
     try {
-      const newUser = {
-        accountId: id,
-        password: password,
-        email,
-        nickname,
-      };
-      createUser(newUser);
-      
-      navigate('/LogIn');
+      const response = await idDuplicateCheck(id);
+      if (response.data.isUsable) {
+        await postSignup(signupData);
+        return navigate('/LogIn');
+      } else {
+        return setInputState('failed');
+      }
     } catch (error) {
-      throw Error('회원가입에 실패하였습니다.')
+      console.error(error);
     }
   };
 
@@ -105,7 +107,7 @@ const SignUp = (): JSX.Element => {
             isFailed={isFailed}
             validationCheck={idValidationCheck}
           />
-          <p className={id && validation.id === false ? 'hidden' : ''}>
+          <p className={(id && validation.id === false) || isFailed ? 'hidden' : ''}>
             <img src={infoIcon} alt='infoIcon' />
             영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가
           </p>
