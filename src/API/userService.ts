@@ -18,11 +18,11 @@ export interface GetUser {
 export const getUser = async (): Promise<GetUser> => {
   try {
     const response = await getData<GetUser>('/users', tockenHeader);
-    const { nickname, profileImage } = response.result;
+    const { nickname, profileImage } = response.data;
     console.log('nickname: ', nickname);
     console.log('profileImage: ', profileImage);
 
-    return response.result;
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get user');
@@ -40,7 +40,7 @@ interface User {
 export const createUser = async (newUser: User): Promise<User> => {
   try {
     const response = await postData<User>('/users', newUser);
-    const createdUser = response.result;
+    const createdUser = response.data;
     console.log('createdUser: ', createdUser);
     return createdUser;
   } catch (error) {
@@ -54,7 +54,7 @@ export const logoutUser = async (): Promise<void> => {
   try {
     const response = await putData('/users/logout', tockenHeader);
 
-    const result = response.result;
+    const result = response.data;
     console.log('result: ', result);
   } catch (error) {
     console.error(error);
@@ -74,7 +74,7 @@ export const ImageUpload = async (data: Object) => {
       },
     });
 
-    console.log(response.result);
+    console.log(response.data);
   } catch (error) {
     console.error(error);
   }

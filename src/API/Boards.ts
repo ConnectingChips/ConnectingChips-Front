@@ -6,7 +6,7 @@ const tockenHeader = {
   },
 };
 
-interface Boards {
+export interface BoardsType {
   boardId: number;
   userId: number;
   nickname: string;
@@ -15,20 +15,20 @@ interface Boards {
   createDate: string;
   image: string;
   commentCount: number;
-  commentList: Comment[];
+  commentList: CommentType[];
 }
 
-interface Comment {
+export interface CommentType {
   commentId: number;
   userId: number;
   nickname: string;
   content: string;
   profileImage: string;
   createDate: string;
-  replyList: Reply[];
+  replyList: ReplyType[];
 }
 
-interface Reply {
+export interface ReplyType {
   replyId: number;
   userId: number;
   nickname: string;
@@ -38,18 +38,18 @@ interface Reply {
 }
 
 // boards 조회 -> GET 요청
-export const getBoards = async (mind_id: number): Promise<Boards> => {
+export const getBoards = async (mind_id: number): Promise<BoardsType[]> => {
   try {
-    const response = await getData<Boards>(`/boards/${mind_id}`);
-    console.log(response.result);
-    return response.result;
+    const response = await getData<BoardsType[]>(`/boards/${mind_id}`);
+    // console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get user');
   }
 };
 
-interface BoardCheck {
+export interface BoardCheck {
   canEdit: boolean;
 }
 
@@ -60,15 +60,15 @@ export const getBoardCheck = async (board_id: string, user_id: string): Promise<
       `/boards/authentication?board_id=${board_id}&user_id=${user_id}`,
       tockenHeader,
     );
-    console.log(response.result);
-    return response.result;
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get user');
   }
 };
 
-interface CreateBoard {
+export interface CreateBoard {
   mindId: number;
   userId: number;
   content: string;
@@ -85,14 +85,14 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
   }
 };
 
-interface EditBoard {
+export interface EditBoard {
   mindId: number;
   userId: number;
   content: string;
   image: string;
 }
 
-interface RsEditBoard {
+export interface RsEditBoard {
   boardId: number;
   content: string;
 }
@@ -101,7 +101,7 @@ interface RsEditBoard {
 export const putEditBoard = async (BoardData: EditBoard): Promise<RsEditBoard> => {
   try {
     const response = await putData<RsEditBoard>(`/boards`, BoardData, tockenHeader);
-    return response.result;
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to post Join');

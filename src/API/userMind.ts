@@ -31,8 +31,8 @@ export const getMindAll = async (): Promise<Mind[]> => {
   try {
     const response = await getData<Mind[]>('/minds');
 
-    response.result.forEach((mind) => logText(mind));
-    return response.result;
+    response.data.forEach((mind) => logText(mind));
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get All Minds');
@@ -43,8 +43,8 @@ export const getMindSingle = async (mind_id: number): Promise<Mind> => {
   try {
     const response = await getData<Mind>(`/minds/${mind_id}`);
 
-    logText(response.result);
-    return response.result;
+    logText(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get All Minds');
@@ -65,8 +65,8 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
   try {
     const response = await getData<isDone[]>(`/minds/today-check/${user_id}`, tockenHeader);
 
-    response.result.map((mind) => logText(mind));
-    return response.result;
+    response.data.map((mind) => logText(mind));
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get isDone All Valid');
@@ -82,8 +82,8 @@ export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSin
       tockenHeader,
     );
 
-    logText(response.result);
-    return response.result;
+    logText(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get isDone All Valid');
@@ -106,8 +106,8 @@ export const getMyList = async (): Promise<Mylist[]> => {
   try {
     const response = await getData<Mylist[]>(`/minds/today-check/${user_id}`, tockenHeader);
 
-    response.result.forEach((myList: Mylist) => logText(myList));
-    return response.result;
+    response.data.forEach((myList: Mylist) => logText(myList));
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get isDone All Valid');
