@@ -1,18 +1,16 @@
 import { styled } from 'styled-components';
-import postInfoData from '../../data/postInfoData';
-import { likeIcon, likeFill, commentIcon } from '../../Component/Like_CommentBarrel';
-import LikeBind from '../../Type/LikeBind';
 import { useEffect, useRef } from 'react';
+import { BoardsType, putEditBoard } from '../../API/Boards';
 
 interface PostContentProps {
   setCommented: React.Dispatch<React.SetStateAction<boolean>>;
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
+  post: BoardsType;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({ setCommented, editbind }: PostContentProps): JSX.Element => {
+const PostContent = ({ setCommented, editbind, post }: PostContentProps): JSX.Element => {
   const { edit, setEdit } = editbind;
-  const maxCharacterCount = 800; // 원하는 최대 글자수
 
   const textarea = useRef<HTMLTextAreaElement | null>(null);
 
@@ -34,14 +32,14 @@ const PostContent = ({ setCommented, editbind }: PostContentProps): JSX.Element 
             onChange={handleResizeHeight}
             rows={2} // 기본 높이 설정
             placeholder='인증글을 입력해주세요.'
-            maxLength={maxCharacterCount}
+            maxLength={800}
           >
-            {postInfoData.postText}
+            {post.content}
           </textarea>
           <CheckBtn editbind={editbind} />
         </>
       ) : (
-        <p className='post'>{postInfoData.postText}</p>
+        <p className='post'>{post.content}</p>
       )}
     </PostContentS>
   );
@@ -64,13 +62,7 @@ const CheckBtn = ({ editbind }: CheckBtnProps): JSX.Element => {
       >
         취소
       </button>
-      <button
-        onClick={() => {
-          setEdit(false);
-        }}
-      >
-        확인
-      </button>
+      <button onClick={() => {}}>확인</button>
     </BtnContainerS>
   );
 };

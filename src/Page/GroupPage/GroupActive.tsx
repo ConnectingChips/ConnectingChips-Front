@@ -2,7 +2,6 @@ import { styled } from 'styled-components';
 import { PageSort } from '../../Type/MissionType';
 import PostHeader from './PostHeader';
 import PostContent from './PostContent';
-import postInfoData from '../../data/postInfoData';
 import { useState } from 'react';
 import { BoardsType } from '../../API/Boards';
 
@@ -19,7 +18,6 @@ const GroupActive = ({ passsort, setCommented, post }: GroupActiveProps): JSX.El
     edit,
     setEdit,
   };
-  // console.log(postData);
 
   return (
     <GroupActiveS passsort={passsort}>
@@ -27,9 +25,9 @@ const GroupActive = ({ passsort, setCommented, post }: GroupActiveProps): JSX.El
         {/* TODO: api시간가져오기 */}
         <PostHeader editbind={editbind} post={post} />
         <PostImageS>
-          <img src={postInfoData.image[0].url} alt='업로드 사진' />
+          <img src={post.image} alt='업로드 사진' />
         </PostImageS>
-        <PostContent setCommented={setCommented} editbind={editbind} />
+        <PostContent setCommented={setCommented} editbind={editbind} post={post} />
       </PostS>
     </GroupActiveS>
   );
@@ -56,7 +54,6 @@ const PostS = styled.article`
 const PostImageS = styled.div`
   width: 100%;
   overflow: hidden;
-
   display: flex;
   justify-content: center;
   align-items: center;
