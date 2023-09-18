@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../API/userService';
-import { initMyList } from '../../data/initialData';
 import { styled, useEffect, useState } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal } from './MypageBarrel';
-import { scrollTop, type GetUser, getUser, type Mylist, getMyList, userInit } from './MypageBarrel';
+import { scrollTop, type GetUser, getUser, type Mylist, getMyList } from './MypageBarrel';
+import { useContext } from 'react';
+import { MyInfoContext, MyListContext } from '../Home/HomeBarrel';
 
-const MyPage = () => {
-  const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
+const MyPage = (): JSX.Element => {
+  const { myInfo, setMyInfo } = useContext(MyInfoContext);
+  const { myList, setMylist } = useContext(MyListContext);
 
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
 
@@ -17,7 +18,7 @@ const MyPage = () => {
   useEffect(() => {
     scrollTop();
 
-    getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
+    getUser().then((userInfo: GetUser) => setMyInfo(userInfo));
     getMyList().then((res: Mylist[]) => setMylist(res));
   }, []);
 
@@ -26,11 +27,11 @@ const MyPage = () => {
       <MyPageHeader />
       <ProfileHeaderS>
         <h2>
-          {my_Info.nickname}칩스’s
+          {myInfo.nickname}칩스’s
           <br />
           작심서랍
         </h2>
-        <img src={my_Info.profileImage} alt='기본프로필' />
+        <img src={myInfo.profileImage} alt='기본프로필' />
       </ProfileHeaderS>
       {myList.length === 3 && (
         <LimitInfoS>

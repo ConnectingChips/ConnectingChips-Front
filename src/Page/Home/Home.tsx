@@ -1,14 +1,17 @@
-import { styled, useEffect, useState, useNavigate } from './HomeBarrel';
-import { scrollTop, shareKakao } from './HomeBarrel';
+import { styled, useEffect, useState, useNavigate, useContext } from './HomeBarrel';
 import { MyMisson, GroupList } from './HomeBarrel';
+import type { GetUser, Mylist } from './HomeBarrel';
+import {
+  scrollTop,
+  shareKakao,
+  getUser,
+  getMyList,
+  getisDoneAll,
+  MyInfoContext,
+  MyListContext,
+} from './HomeBarrel';
 import { Banner as BannerImage, Logo_002, 헤드셋칩스, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
-
-import { initMyList, userInit } from '../../data/initialData';
-import { getUser } from '../../API/userService';
-import { GetUser } from '../../Type/User';
-import { getMyList, getisDoneAll } from '../../API/userMind';
-import { Mylist } from '../../Type/userMind';
 
 const { Kakao } = window;
 
@@ -17,8 +20,8 @@ const Home = (): JSX.Element => {
   const [access_token, setAccess_token] = useState<string>('');
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
-  const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
+  const { myInfo, setMyInfo } = useContext(MyInfoContext);
+  const { myList, setMylist } = useContext(MyListContext);
 
   type isDone = {
     joinedMindId: number;
@@ -28,11 +31,9 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     scrollTop();
     setAccess_token(localStorage.getItem('access_token') || '');
-    console.log('access_token: ', access_token);
 
     if (access_token !== '') {
-      console.log(1);
-      getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
+      getUser().then((userInfo: GetUser) => setMyInfo(userInfo));
       getMyList().then((res: Mylist[]) => setMylist(res));
       getisDoneAll().then((res: isDone[]) => {
         const doneValid = res.some((data) => data.isDoneToday);
@@ -52,11 +53,11 @@ const Home = (): JSX.Element => {
   const navigate = useNavigate();
 
   const profileClick = (): void | Promise<void> => {
-    if (access_token !== '') return getUser().then(() => navigate(`/myPage/${my_Info.userId}`));
+    if (access_token !== '') return getUser().then(() => navigate(`/myPage/${myInfo.userId}`));
     return navigate('/LogIn');
   };
 
-  const nickName: string = my_Info.nickname;
+  const nickName: string = myInfo.nickname;
   return (
     <HomeS>
       <HomeHeaderS>
@@ -64,7 +65,7 @@ const Home = (): JSX.Element => {
         <UserInfoS>
           <img className='share' src={Share_Icon} alt='share' onClick={() => shareKakao()} />
           <div className='profile' onClick={profileClick}>
-            <img src={my_Info.profileImage} alt='기본 프로필' />
+            <img src={myInfo.profileImage} alt='기본 프로필' />
             <p>MY</p>
           </div>
         </UserInfoS>

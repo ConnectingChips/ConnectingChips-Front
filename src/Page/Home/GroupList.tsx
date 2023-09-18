@@ -22,7 +22,7 @@ const mindInit = [
 /** 23-08-20 GroupList.tsx - 메인 컴프 */
 const GroupList = (): JSX.Element => {
   const [showList, setShowList] = useState<Mind[]>(mindInit);
-  const [curFocused, setCurFocused] = useState(missionTab[0].title);
+  const [curFocused, setCurFocused] = useState<string>(missionTab[0].title);
   const curFocusBind = { curFocused, setCurFocused };
 
   useEffect(() => {

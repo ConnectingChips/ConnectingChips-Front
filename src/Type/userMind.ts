@@ -9,6 +9,17 @@ export interface Mind {
   backgroundImage: string;
 }
 
+export interface TotalMind {
+  id: number;
+  type: string;
+  name: string;
+  introduce: string;
+  userCount: number;
+  writeFormat: string;
+  canJoin: number;
+  backgroundImage: string;
+}
+
 export interface isDoneSingle {
   isDoneToday: true;
 }

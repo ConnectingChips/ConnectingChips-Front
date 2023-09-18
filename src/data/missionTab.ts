@@ -7,14 +7,18 @@ const missionTab: GroupListTab[] = [
   },
   {
     tab_id: 1,
-    title: "걷기",
+    title: "일상",
   },
   {
     tab_id: 2,
-    title: "헬스",
+    title: "달리기",
   },
   {
     tab_id: 3,
+    title: "헬스",
+  },
+  {
+    tab_id: 4,
     title: "자전거",
   },
 ];

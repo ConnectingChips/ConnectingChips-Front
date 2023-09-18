@@ -11,10 +11,3 @@ export interface GetUser {
   profileImage: string;
   roles: string;
 }
-
-// export type MyInfoType = {
-//   my_id: string;
-//   password: string;
-//   profileimg: string;
-// };
-

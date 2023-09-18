@@ -1,6 +1,5 @@
 import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MyMisson from './MyMisson';
@@ -8,14 +7,14 @@ import GroupList from './GroupList';
 
 import scrollTop from '../../Hooks/scrollTop';
 
-// FIXME: 사라질 코드
-import { myInfo, myGroupList } from '../../data/myInfo';
-
+import { GetUser } from '../../Type/User';
+import { Mylist } from '../../Type/userMind';
 import shareKakao from '../../API/shareKakao';
+import { getUser } from '../../API/userService';
+import { getMyList, getisDoneAll } from '../../API/userMind';
+import { MyInfoContext, MyListContext } from '../../API/Context';
 
-export { styled, Link, useEffect, useState, useNavigate };
-export { scrollTop, shareKakao };
+export { styled, useEffect, useState, useNavigate, useContext };
 export { MyMisson, GroupList };
-
-// FIXME: 사라질 코드
-export { myInfo, myGroupList };
+export type { GetUser, Mylist };
+export { scrollTop, shareKakao, getUser, getMyList, getisDoneAll, MyInfoContext, MyListContext };
