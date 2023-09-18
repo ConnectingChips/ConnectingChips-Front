@@ -1,24 +1,39 @@
 /** 2023-08-26 GroupPage.tsx - 그룹페이지 글 항목 */
-import { useState, styled } from './GroupPageBarrel';
+import { useState, styled, useEffect } from './GroupPageBarrel';
 import { type LikeBind, Comment, GroupActive } from './GroupPageBarrel';
-
+import { getBoards, BoardsType } from '../../API/Boards';
 const GroupPostList = () => {
   // TODO: post업애려면 Commendted false로 바꾸기
   const [Commented, setCommented] = useState(true);
-  const [isLiked, setIsLiked] = useState(false);
-  const likeBind: LikeBind = { isLiked, setIsLiked };
+  const [postData, setPostData] = useState<BoardsType[]>([]);
+
+  useEffect(() => {
+    getBoards(1).then((res: BoardsType[]) => {
+      setPostData(res);
+    });
+  }, []);
+
+  // console.log(postData[0]);
 
   return (
     <GroupPostListS>
       <h2>작심 인증글</h2>
-      {Commented ? (
+      <>
+        {postData.map((post) => (
+          <>
+            <div>{post.nickname}</div>
+            <div>123</div>
+          </>
+        ))}
+      </>
+      {/* {postData ? (
         <>
           <GroupActive passsort='Page' setCommented={setCommented} likeBind={likeBind} />
           <Comment Commented={Commented} />
         </>
       ) : (
         <GroupNoPost />
-      )}
+      )} */}
     </GroupPostListS>
   );
 };

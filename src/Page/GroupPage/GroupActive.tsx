@@ -9,11 +9,10 @@ import { useState } from 'react';
 interface GroupActiveProps {
   passsort: PageSort;
   setCommented: React.Dispatch<React.SetStateAction<boolean>>;
-  likeBind: LikeBind;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 */
-const GroupActive = ({ passsort, setCommented, likeBind }: GroupActiveProps): JSX.Element => {
+const GroupActive = ({ passsort, setCommented }: GroupActiveProps): JSX.Element => {
   const nowTime: string = new Date().toLocaleString();
   const [edit, setEdit] = useState<boolean>(false);
   const editbind = {
@@ -28,7 +27,7 @@ const GroupActive = ({ passsort, setCommented, likeBind }: GroupActiveProps): JS
         <PostImageS>
           <img src={postInfoData.image[0].url} alt='업로드 사진' />
         </PostImageS>
-        <PostContent setCommented={setCommented} likeBind={likeBind} editbind={editbind} />
+        <PostContent setCommented={setCommented} editbind={editbind} />
       </PostS>
     </GroupActiveS>
   );

@@ -6,12 +6,11 @@ import { useEffect, useRef } from 'react';
 
 interface PostContentProps {
   setCommented: React.Dispatch<React.SetStateAction<boolean>>;
-  likeBind: LikeBind;
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({ setCommented, likeBind, editbind }: PostContentProps): JSX.Element => {
+const PostContent = ({ setCommented, editbind }: PostContentProps): JSX.Element => {
   const { edit, setEdit } = editbind;
   const maxCharacterCount = 800; // 원하는 최대 글자수
 
