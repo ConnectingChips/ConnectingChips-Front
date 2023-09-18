@@ -7,7 +7,6 @@ import reportWebVitals from './reportWebVitals';
 // import axios from "axios";
 import ReactGA from 'react-ga4';
 
-
 // axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 if (process.env.REACT_APP_GOOGLE_ANALYTICS) {
