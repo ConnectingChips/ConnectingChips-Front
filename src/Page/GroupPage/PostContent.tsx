@@ -3,13 +3,12 @@ import { useEffect, useRef } from 'react';
 import { BoardsType, putEditBoard } from '../../API/Boards';
 
 interface PostContentProps {
-  setCommented: React.Dispatch<React.SetStateAction<boolean>>;
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
-  post: BoardsType;
+  postData: BoardsType;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({ setCommented, editbind, post }: PostContentProps): JSX.Element => {
+const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
   const { edit, setEdit } = editbind;
 
   const textarea = useRef<HTMLTextAreaElement | null>(null);
@@ -34,12 +33,12 @@ const PostContent = ({ setCommented, editbind, post }: PostContentProps): JSX.El
             placeholder='인증글을 입력해주세요.'
             maxLength={800}
           >
-            {post.content}
+            {postData.content}
           </textarea>
           <CheckBtn editbind={editbind} />
         </>
       ) : (
-        <p className='post'>{post.content}</p>
+        <p className='post'>{postData.content}</p>
       )}
     </PostContentS>
   );

@@ -7,12 +7,11 @@ import { BoardsType } from '../../API/Boards';
 
 interface GroupActiveProps {
   passsort: PageSort;
-  setCommented: React.Dispatch<React.SetStateAction<boolean>>;
-  post: BoardsType;
+  postData: BoardsType;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 */
-const GroupActive = ({ passsort, setCommented, post }: GroupActiveProps): JSX.Element => {
+const GroupActive = ({ passsort, postData }: GroupActiveProps): JSX.Element => {
   const [edit, setEdit] = useState<boolean>(false);
   const editbind = {
     edit,
@@ -23,11 +22,11 @@ const GroupActive = ({ passsort, setCommented, post }: GroupActiveProps): JSX.El
     <GroupActiveS passsort={passsort}>
       <PostS>
         {/* TODO: api시간가져오기 */}
-        <PostHeader editbind={editbind} post={post} />
+        <PostHeader editbind={editbind} postData={postData} />
         <PostImageS>
-          <img src={post.image} alt='업로드 사진' />
+          <img src={postData.image} alt='업로드 사진' />
         </PostImageS>
-        <PostContent setCommented={setCommented} editbind={editbind} post={post} />
+        <PostContent editbind={editbind} postData={postData} />
       </PostS>
     </GroupActiveS>
   );

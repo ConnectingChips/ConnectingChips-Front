@@ -8,10 +8,10 @@ interface PostHeaderProps {
     edit: boolean;
     setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   };
-  post: BoardsType;
+  postData: BoardsType;
 }
 
-const PostHeader = ({ editbind, post }: PostHeaderProps): JSX.Element => {
+const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
   const [isToggle, setIsToggle] = useState(false);
   const { edit, setEdit } = editbind;
   const handlerToogleSwitch = () => {
@@ -28,11 +28,11 @@ const PostHeader = ({ editbind, post }: PostHeaderProps): JSX.Element => {
     <PostHeaderS>
       <PostHeaderProfileS>
         <PostProfileImageS>
-          <img src={defalutPofileImage(post.profileImage)} alt='프로필 사진' />
+          <img src={defalutPofileImage(postData.profileImage)} alt='프로필 사진' />
         </PostProfileImageS>
         <PostProfileNickNameS>
-          <h2>{post.nickname}</h2>
-          <p>{post.createDate}</p>
+          <h2>{postData.nickname}</h2>
+          <p>{postData.createDate}</p>
         </PostProfileNickNameS>
       </PostHeaderProfileS>
       <MoreIconS onClick={handlerToogleSwitch}>
