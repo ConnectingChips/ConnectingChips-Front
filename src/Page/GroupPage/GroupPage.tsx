@@ -18,7 +18,7 @@ const GroupPage = (): JSX.Element => {
   return (
     <GroupPageS>
       <GroupHeader />
-      {/* FIXME: url 안먹힘 */}
+
       <GroupImageS url={url} />
       <GroupArticle groupText={intro} groupRule={rule} selected={[0, 1, 3]} passsort='Page' />
       <DivideBaS />
@@ -30,7 +30,8 @@ const GroupPage = (): JSX.Element => {
 export default GroupPage;
 
 const GroupPageS = styled.div`
-  width: var(--width-mobile);
+  width: 100%;
+  margin-bottom: 5rem;
   position: relative;
 `;
 
