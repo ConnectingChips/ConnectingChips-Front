@@ -11,6 +11,7 @@ import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 import { getMindSingle, Mind } from '../../API/userMind';
+import { getUser } from '../../API/userService';
 import { useParams } from 'react-router-dom';
 
 type MindSingle = Pick<Mind, 'mindType' | 'name'>;
@@ -24,6 +25,7 @@ const UploadPost = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // useLoginCheck(navigate, "None");
   const [mindData, setMindData] = useState<MindSingle>();
+  const [userId, setUserId] = useState<number>(0);
   const { mindID } = useParams();
 
   useEffect(() => {
@@ -31,7 +33,9 @@ const UploadPost = () => {
       // TODO: url에서 mindId 가져와서 전달하기
       try {
         const mind = await getMindSingle(1);
+        const res = await getUser();
         setMindData(mind);
+        setUserId(res.userId);
       } catch (error) {
         console.error(error);
       }
