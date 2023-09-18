@@ -3,24 +3,30 @@ import { Arrow_Left_B, Arrow_Left_W } from '../ArrowBarrel';
 import post_Icon from '../../image/Icon/post_Icon.svg';
 import { Link, useLocation } from 'react-router-dom';
 
+interface GroupHeaderProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
 /** 2023-08-25 GroupHeader.tsx - 뒤로가기 핸들러 */
 const goBack = (): void => {
   window.history.back();
 };
 
 /** 2023-08-25 GroupHeader.tsx - 그룹 페이지 헤더 */
-const GroupHeader = (): JSX.Element => {
+const GroupHeader = ({ children, className }: GroupHeaderProps): JSX.Element => {
   const path = useLocation().pathname;
   const isUpload = path.indexOf('/upload') !== -1;
 
   return (
-    <GroupBGHeaderS>
+    <GroupBGHeaderS className={className}>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
       {!isUpload && (
         <Link to='/uploadPost/1'>
           <img src={post_Icon} alt='post icon' />
         </Link>
       )}
+      {children}
     </GroupBGHeaderS>
   );
 };

@@ -40,8 +40,35 @@ const Home = (): JSX.Element => {
       });
     }
 
-    // 카카오 공유하기
-    // const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
+    //   const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
+
+    //   Kakao.cleanup();
+    //   if (!Kakao.isInitialized()) {
+    //     Kakao.init(KAKAO_KEY);
+    //   }
+  }, []);
+
+  useEffect(() => {
+    const access_token = localStorage.getItem('access_token');
+    if (access_token === null) return;
+    setAccess_token(access_token);
+
+    // TODO: 사용하게 될 코드
+    // fetchMyList(setMyList);
+
+    const isDone = myGroupList.some((group) =>
+      group.memberList.find((member) => member.member_id === myInfo.my_id && member.done),
+    );
+    // const isDone = myList.some((mind) => mind.isDoneToday);
+
+    getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
+    getisDoneAll().then((res: isDone[]) => {
+      const doneValid = res.some((data) => data.isDoneToday);
+      setIsDone(doneValid);
+    });
+
+    // TODO: 사용할 코드
+    // }, [access_token, myList]);
 
     // Kakao.cleanup();
     // if (!Kakao.isInitialized()) {
