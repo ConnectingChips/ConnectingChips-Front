@@ -1,18 +1,13 @@
 import { styled, useEffect, useState, useNavigate } from './HomeBarrel';
 import { scrollTop, shareKakao } from './HomeBarrel';
 import { MyMisson, GroupList } from './HomeBarrel';
-import {
-  Banner as BannerImage,
-  Logo_002,
-  헤드셋칩스,
-  Share_Icon,
-} from './HomeImageBarrel';
+import { Banner as BannerImage, Logo_002, 헤드셋칩스, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
 
 // FIXME: 사라질 코드
 import { myInfo, myGroupList } from './HomeBarrel';
 import { GroupInfoType } from '../../Type/MissionType';
-import { initGroup, userInit } from '../../data/initialData';
+import { initGroup, initMyList, userInit } from '../../data/initialData';
 
 // TODO: 사용할 코드
 import { GetUser, getUser } from '../../API/userService';
@@ -27,39 +22,13 @@ const Home = (): JSX.Element => {
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
   // TODO: 갈아끼울 코드
-  // const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  // const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
-
-  // FIXME: 더미 코드
   const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  const [myList, setMylist] = useState<GroupInfoType[]>([initGroup]);
+  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
 
   type isDone = {
     joinedMindId: number;
     isDoneToday: boolean;
   };
-
-  // TODO: 실제 사용할 코드
-  // useEffect(() => {
-  //   scrollTop();
-  // setAccess_token(localStorage.getItem(access_token) || '');
-
-  //   // 네트워크 실제 요청
-  //   getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
-  //   getMyList().then((res: Mylist[]) => setMylist(res));
-  //   getisDoneAll().then((res: isDone[]) => {
-  //     const doneValid = res.some((data) => data.isDoneToday);
-  //     setIsDone(doneValid);
-  //   });
-
-  //   // 카카오 공유하기
-  //   const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
-
-  //   Kakao.cleanup();
-  //   if (!Kakao.isInitialized()) {
-  //     Kakao.init(KAKAO_KEY);
-  //   }
-  // }, [access_token]);
 
   // FIXME: 더미데이터
   useEffect(() => {
@@ -77,9 +46,8 @@ const Home = (): JSX.Element => {
       });
     }
 
-
     console.log('깃 수리중');
-    
+
     // 카카오 공유하기
     // const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
 
@@ -91,12 +59,6 @@ const Home = (): JSX.Element => {
 
   const navigate = useNavigate();
 
-  // TODO: 실제 사용할 코드
-  // const profileClick = () => {
-  //   if (access_token !== '') return navigate(`/myPage/${my_Info.userId}`);
-
-  //   navigate('/LogIn');
-  // };
   // FIXME: 더미 코드
   const profileClick = (): void => {
     if (access_token !== '') return navigate(`/myPage/${myInfo.userId}`);
@@ -105,9 +67,8 @@ const Home = (): JSX.Element => {
   };
 
   // TODO: 실제 사용할 코드
-  // const nickName: string  = my_Info.nickname;
-  // FIXME: 더미 코드
-  const nickName: string = myInfo.nickname;
+  const nickName: string = my_Info.nickname;
+
   return (
     <HomeS>
       <HomeHeaderS>
