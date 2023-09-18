@@ -20,7 +20,7 @@ interface AddComment {
 export const postAddComment = async (commentData: AddComment): Promise<AddComment> => {
   try {
     const response = await postData<AddComment>(`/comments`, commentData, tockenHeader);
-    return response.result;
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to post Join');
@@ -51,7 +51,7 @@ interface AddReply {
 export const postAddReply = async (replyData: AddReply): Promise<AddReply> => {
   try {
     const response = await postData<AddReply>(`/replies`, replyData, tockenHeader);
-    return response.result;
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to post Join');

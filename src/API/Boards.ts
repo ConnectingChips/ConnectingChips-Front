@@ -41,8 +41,8 @@ interface Reply {
 export const getBoards = async (mind_id: number): Promise<Boards> => {
   try {
     const response = await getData<Boards>(`/boards/${mind_id}`);
-    console.log(response.result);
-    return response.result;
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get user');
@@ -60,8 +60,8 @@ export const getBoardCheck = async (board_id: string, user_id: string): Promise<
       `/boards/authentication?board_id=${board_id}&user_id=${user_id}`,
       tockenHeader,
     );
-    console.log(response.result);
-    return response.result;
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get user');
@@ -101,7 +101,7 @@ interface RsEditBoard {
 export const putEditBoard = async (BoardData: EditBoard): Promise<RsEditBoard> => {
   try {
     const response = await putData<RsEditBoard>(`/boards`, BoardData, tockenHeader);
-    return response.result;
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to post Join');
