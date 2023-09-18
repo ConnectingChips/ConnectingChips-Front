@@ -23,6 +23,8 @@ const GroupPostList = () => {
           <>
             <div>{post.nickname}</div>
             <div>123</div>
+
+            <GroupActive passsort='Page' setCommented={setCommented} post={post} />
           </>
         ))}
       </>

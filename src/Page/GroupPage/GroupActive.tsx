@@ -2,28 +2,30 @@ import { styled } from 'styled-components';
 import { PageSort } from '../../Type/MissionType';
 import PostHeader from './PostHeader';
 import PostContent from './PostContent';
-import LikeBind from '../../Type/LikeBind';
 import postInfoData from '../../data/postInfoData';
 import { useState } from 'react';
+import { BoardsType } from '../../API/Boards';
 
 interface GroupActiveProps {
   passsort: PageSort;
   setCommented: React.Dispatch<React.SetStateAction<boolean>>;
+  post: BoardsType;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 */
-const GroupActive = ({ passsort, setCommented }: GroupActiveProps): JSX.Element => {
-  const nowTime: string = new Date().toLocaleString();
+const GroupActive = ({ passsort, setCommented, post }: GroupActiveProps): JSX.Element => {
   const [edit, setEdit] = useState<boolean>(false);
   const editbind = {
     edit,
     setEdit,
   };
+  // console.log(postData);
+
   return (
     <GroupActiveS passsort={passsort}>
       <PostS>
         {/* TODO: api시간가져오기 */}
-        <PostHeader nowTime={nowTime} editbind={editbind} />
+        <PostHeader editbind={editbind} post={post} />
         <PostImageS>
           <img src={postInfoData.image[0].url} alt='업로드 사진' />
         </PostImageS>

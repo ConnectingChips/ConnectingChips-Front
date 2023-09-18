@@ -1,19 +1,17 @@
 import { styled } from 'styled-components';
-import postInfoData from '../../data/postInfoData';
-import 기본프로필 from '../../image/예시사진모음/default_profile_W.png';
 import point3 from '../../image/Icon/3point_icon.svg';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
-
+import { BoardsType } from '../../API/Boards';
 /** 2023-08-22 PostHeader.tsx - 작심 인증 프로필 + 더보기 */
-const PostHeader = ({
-  nowTime,
-  editbind,
-}: {
-  nowTime: string;
-  editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
-}): JSX.Element => {
-  const [year, month, day, time] = nowTime.split('');
+interface PostHeaderProps {
+  editbind: {
+    edit: boolean;
+    setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  post: BoardsType;
+}
+
+const PostHeader = ({ editbind, post }: PostHeaderProps): JSX.Element => {
   const [isToggle, setIsToggle] = useState(false);
   const { edit, setEdit } = editbind;
   const handlerToogleSwitch = () => {
@@ -24,19 +22,16 @@ const PostHeader = ({
     <PostHeaderS>
       <PostHeaderProfileS>
         <PostProfileImageS>
-          <img src={기본프로필} alt='프로필 사진' />
-          {/* <Link to={ 마이페이지 }/>  */}
+          <img src={post.profileImage} alt='프로필 사진' />
         </PostProfileImageS>
         <PostProfileNickNameS>
-          <h2>{postInfoData.nickName}</h2>
-          {/* <Link to={ 마이페이지 }/>  */}
-          <p>{`${year}년 ${month}월 ${day}일 `}</p>
+          <h2>{post.nickname}</h2>
+          <p>{post.createDate}</p>
         </PostProfileNickNameS>
       </PostHeaderProfileS>
       <MoreIconS onClick={handlerToogleSwitch}>
         <img src={point3} alt='point3_icon' />
         {isToggle && (
-          // <ModalBGS>
           <ModalS>
             <div
               onClick={() => {
@@ -47,7 +42,6 @@ const PostHeader = ({
             </div>
             <div>삭제하기</div>
           </ModalS>
-          // </ModalBGS>
         )}
       </MoreIconS>
     </PostHeaderS>
