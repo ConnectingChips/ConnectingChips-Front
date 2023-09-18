@@ -27,7 +27,7 @@ const UploadPost = () => {
   const { mindID } = useParams();
 
   useEffect(() => {
-    const getMindSingleData = async () => {
+    (async () => {
       // TODO: url에서 mindId 가져와서 전달하기
       try {
         const mind = await getMindSingle(1);
@@ -35,8 +35,7 @@ const UploadPost = () => {
       } catch (error) {
         console.error(error);
       }
-    };
-    getMindSingleData();
+    })();
   }, []);
 
   const handleFileInputChange = () => {
