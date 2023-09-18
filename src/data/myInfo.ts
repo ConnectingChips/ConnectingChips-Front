@@ -1,5 +1,6 @@
+import { MyInfoType } from '../Type/User';
+import { GetUser } from '../API/userService';
 import { GroupInfoType } from '../Type/MissionType';
-import { GetUser } from '../Type/User';
 import groupListData from '../data/groupListData';
 import 기본프로필 from '../image/예시사진모음/default_profile_W.png';
 
@@ -7,7 +8,6 @@ const myInfo: GetUser = {
   userId: 0,
   nickname: 'aa11',
   profileImage: 기본프로필,
-  roles: '',
 };
 
 // const myInfo: MyInfoType = {

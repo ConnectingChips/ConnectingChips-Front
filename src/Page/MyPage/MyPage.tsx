@@ -1,24 +1,36 @@
-import { useNavigate } from 'react-router-dom';
-import { logoutUser } from '../../API/userService';
-import { initMyList } from '../../data/initialData';
 import { styled, useEffect, useState } from './MypageBarrel';
-import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
+import { Arrow_Left_B, 기본프로필, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal } from './MypageBarrel';
 import { scrollTop, type GetUser, getUser, type Mylist, getMyList, userInit } from './MypageBarrel';
+import { myInfo, myGroupList, type GroupInfoType, initGroup } from './MypageBarrel';
 
 const MyPage = () => {
+  const [access_token, setAccess_token] = useState<string>('');
+
+  // TODO: 갈아끼울 코드
+  // const [my_Info, set_My_Info] = useState<GetUser>(userInit);
+  // const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
+  // FIXME: 더미 코드
   const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
+  const [myList, setMylist] = useState<GroupInfoType[]>([initGroup]);
 
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  // TODO: 실제 사용할 코드
+  // useEffect(() => {
+  //   scrollTop();
+  //   setAccess_token(localStorage.getItem('access_token') || '');
 
+  //   getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
+  //   getMyList().then((res: Mylist[]) => setMylist(res));
+  // }, []);
+
+  // FIXME: 더미 코드
   useEffect(() => {
     scrollTop();
-
-    getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
-    getMyList().then((res: Mylist[]) => setMylist(res));
+    setAccess_token(localStorage.getItem('access_token') || '');
+    setMylist(myGroupList);
+    set_My_Info(myInfo);
   }, []);
 
   return (
@@ -53,7 +65,7 @@ const MyPage = () => {
           setConfirm={setConfirmLogout}
           confirmText='로그아웃하시겠습니까?'
           action='로그아웃'
-          method={() => logoutUser(navigate)}
+          url='/users/logout'
         />
       )}
     </MyPageS>

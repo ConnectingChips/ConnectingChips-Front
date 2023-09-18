@@ -1,36 +1,29 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
+// TODO: 사용할 코드
+import { fetchMyList } from '../../API/fetchMyList';
 import { initMyList } from '../../data/initialData';
-import { FinishList } from '../../Type/userMind';
+
+// FIXME: 버려질 코드
+import { useState } from 'react';
+import { myGroupList, myInfo } from '../../data/myInfo';
 import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
-import { Mylist, getMyList } from './MypageBarrel';
-import { getMindAFinished, putMindExit, putMindRejoin } from '../../API/userMind';
+import { useNavigate } from 'react-router-dom';
 
 /** 참여중인 작심 */
 export const CurrentMind = (): JSX.Element => {
-  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
-
-  useEffect(() => {
-    getMyList().then((res: Mylist[]) => setMylist(res));
-  }, []);
-
-  const isExist = myList.length > 0;
-  return (
-    <CurrentMindListS>
-      {isExist ? <ExistComp myList={myList} /> : <NoneExistComp />}
-    </CurrentMindListS>
-  );
+  const isExist = myGroupList.length > 0;
+  return <CurrentMindListS>{isExist ? <ExistComp /> : <NoneExistComp />}</CurrentMindListS>;
 };
 
-const ExistComp = ({ myList }: { myList: Mylist[] }): JSX.Element => {
+const ExistComp = (): JSX.Element => {
   return (
     <>
-      {myList.map((myGroup, idx) => {
+      {myGroupList.map((myGroup, idx) => {
         return (
           <MindS key={idx}>
-            <p className='main'>{myGroup.name}</p>
-            <ExitButtonS onClick={() => putMindExit(myGroup.id)}>그룹 나가기</ExitButtonS>
+            <p className='main'>{myGroup.title}</p>
+            <ExitButtonS>그룹 나가기</ExitButtonS>
           </MindS>
         );
       })}
@@ -51,43 +44,37 @@ const NoneExistComp = (): JSX.Element => {
   );
 };
 
+/** 재참여 요청 */
+const reJoinFetch = async (mind_id: number) => {
+  try {
+    await fetch(`/joined-minds/${mind_id}/remind`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 /** 참여했던 작심 */
 export const FinishedMindList = (): JSX.Element => {
-  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
-
-  useEffect(() => {
-    getMyList().then((res: Mylist[]) => setMylist(res));
-  }, []);
-
-  const isExist = myList.length > 0;
+  const isExist = myGroupList.length > 0;
 
   return <CurrentMindListS>{isExist ? <FinishedMind /> : <NoneExistComp />}</CurrentMindListS>;
 };
 
-const initFinish: FinishList[] = [];
-
 const FinishedMind = () => {
-  const [finishList, setFinishList] = useState<FinishList[]>(initFinish);
-
-  useEffect(() => {
-    getMindAFinished().then((list: FinishList[]) => setFinishList(list));
-  }, []);
-
   return (
     <>
-      {finishList.map((list, index) => {
-        // const myDate = list.data;
-        const myDate = 0;
+      {myGroupList.map((myGroup, index) => {
+        const myDate = myGroup.memberList.find((member) => member.member_id === myInfo.userId)?.day;
         return (
           <MindS key={index}>
             <div>
-              <p className='main'>{list.name}</p>
+              <p className='main'>{myGroup.title}</p>
               <p className='sub'>
                 <span className='date'>{myDate}</span>일 작심 성공
               </p>
             </div>
-            {finishList.length >= 3 ? (
-              <FullJoinButtonS onClick={() => putMindRejoin(list.mindId)}>
+            {myGroupList.length >= 3 ? (
+              <FullJoinButtonS onClick={() => reJoinFetch(myGroup.group_id)}>
                 다시 참여하기
               </FullJoinButtonS>
             ) : (

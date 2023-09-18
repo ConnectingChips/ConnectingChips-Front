@@ -1,5 +1,5 @@
 import { MyListDummy, MyListData } from '../Type/ListType';
-import { TotalMindData } from '../Type/ListType';
+import { TotalMind, TotalMindData } from '../Type/ListType';
 
 type FetchMyListType = (
   setMyList: React.Dispatch<React.SetStateAction<MyListData[]>>,
@@ -20,13 +20,13 @@ const fetchMyList: FetchMyListType = async (setMyList) => {
 };
 
 /** 나의 작심 호출 */
-// const fetchTotalList: FetchTotalType = async (setTotalList) => {
-//   try {
-//     const result: TotalMindData[] = await fetch('/minds').then((res) => res.json());
-//     setTotalList(result.data);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+const fetchTotalList: FetchTotalType = async (setTotalList) => {
+  try {
+    const result: TotalMind = await fetch('/minds').then((res) => res.json());
+    setTotalList(result.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-export { fetchMyList };
+export { fetchMyList, fetchTotalList };

@@ -1,13 +1,16 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { logoutUser } from '../API/userService';
 
 type ConfirmProps = {
   setConfirm: React.Dispatch<React.SetStateAction<boolean>>;
   confirmText: string;
   action: '로그아웃';
-  method: () => Promise<any>;
+  url: string;
 };
 
-const ConfirmModal = ({ setConfirm, confirmText, action, method }: ConfirmProps): JSX.Element => {
+const ConfirmModal = ({ setConfirm, confirmText, action, url }: ConfirmProps): JSX.Element => {
+  const navigate = useNavigate();
   return (
     <ConfirmBGS onClick={() => setConfirm(false)}>
       <ConfirmModalS onClick={(e) => e.stopPropagation()}>
@@ -16,7 +19,14 @@ const ConfirmModal = ({ setConfirm, confirmText, action, method }: ConfirmProps)
           <button className='cancel' onClick={() => setConfirm(false)}>
             취소
           </button>
-          <button className='point' onClick={() => method()}>
+          <button
+            className='point'
+            onClick={() => {
+              logoutUser()
+              localStorage.clear();
+              navigate(-1);
+            }}
+          >
             {action}
           </button>
         </div>

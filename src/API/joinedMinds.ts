@@ -22,8 +22,8 @@ export const getMindAll = async (mind_id: number): Promise<{ isJoining: true }> 
       tockenHeader,
     );
 
-    logText(response.data);
-    return response.data;
+    logText(response.result);
+    return response.result;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get All Minds');
