@@ -3,8 +3,6 @@ import { LogInS, LoginInputS, SignClearBtnS, Arrow_Right } from './LoginBarrel';
 import Banner from '../../Component/SignUp/Banner';
 import Loginheader from '../../Component/SignUp/Loginheader';
 import useLoginCheck from '../../Hooks/useLoginCheck';
-// FIXME: 사라질 코드
-import { myInfo } from '../Home/HomeBarrel';
 
 type bindValue = {
   value: string;
@@ -29,13 +27,7 @@ const LogIn = (): JSX.Element => {
   const LoginSubmit = async (e: React.MouseEvent<HTMLFormElement, MouseEvent>): Promise<void> => {
     e.preventDefault();
 
-    // TODO: User ID 받아오기
     try {
-      // FIXME: 더미데이터 코드
-      // if (nickname !== myInfo.my_id || password !== myInfo.password) {
-      //   setInputState('false');
-      //   throw Error('아이디 혹은 비밀번호가 일치하지 않습니다');
-      // }
       localStorage.setItem('access_token', '1234564862169');
 
       navigate(-1);
