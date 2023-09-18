@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
@@ -10,6 +10,10 @@ import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
+import { getMindSingle, Mind } from '../../API/userMind';
+import { useParams } from 'react-router-dom';
+
+type MindSingle = Pick<Mind, 'mindType' | 'name'>;
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
@@ -19,6 +23,21 @@ const UploadPost = () => {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // useLoginCheck(navigate, "None");
+  const [mindData, setMindData] = useState<MindSingle>();
+  const { mindID } = useParams();
+
+  useEffect(() => {
+    const getMindSingleData = async () => {
+      // TODO: url에서 mindId 가져와서 전달하기
+      try {
+        const mind = await getMindSingle(1);
+        setMindData(mind);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getMindSingleData();
+  }, []);
 
   const handleFileInputChange = () => {
     const fileInputLength = fileRef.current?.files?.length;
@@ -39,8 +58,8 @@ const UploadPost = () => {
         <h1>작심 글쓰기</h1>
       </UploadPostHeaderS>
       <GroupTitleS>
-        <ItemTabS>헬스</ItemTabS>
-        <h1>몸에서 닭다리 빼기</h1>
+        <ItemTabS>{mindData?.mindType}</ItemTabS>
+        <h1>{mindData?.name}</h1>
       </GroupTitleS>
       <GroupContent selected={[0, 2]} passsort='Create' />
       <CreateFormS>
