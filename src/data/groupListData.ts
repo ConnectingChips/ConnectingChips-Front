@@ -25,13 +25,13 @@ const groupListData: GroupInfoType[] = [
     },
     memberList: [
       // {
-      //   member_id: "aa11",
+      //   member_id: 0,
       //   day: 6,
       //   count: 3,
       //   done: true,
       // },
       {
-        member_id: "aa222",
+        member_id: 0,
         day: 2,
         count: 2,
         done: false,
@@ -43,7 +43,7 @@ const groupListData: GroupInfoType[] = [
         title: "인증 이름1",
 
         image: {
-          image_id: 0,
+          image_id: 1,
           url: co_bike_work_main,
           path: "/wwjkrn131",
         },
@@ -75,13 +75,13 @@ const groupListData: GroupInfoType[] = [
     },
     memberList: [
       {
-        member_id: "aa11",
+        member_id: 0,
         day: 2,
         count: 2,
         done: false,
       },
       {
-        member_id: "aa222",
+        member_id: 1,
         day: 2,
         count: 2,
         done: true,
@@ -125,13 +125,13 @@ const groupListData: GroupInfoType[] = [
     },
     memberList: [
       // {
-      //   member_id: "aa11",
+      //   member_id: 0,
       //   day: 2,
       //   count: 2,
       //   done: true,
       // },
       {
-        member_id: "aa222",
+        member_id: 1,
         day: 2,
         count: 2,
         done: true,
@@ -189,7 +189,7 @@ const groupListData: GroupInfoType[] = [
     },
     memberList: [
       {
-        member_id: "aa222",
+        member_id: 1,
         day: 2,
         count: 2,
         done: false,

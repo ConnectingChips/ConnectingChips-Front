@@ -1,50 +1,50 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-const access_token = localStorage.getItem('access_token');
+import { GetUser, User } from '../Type/User';
+import logText from './logText';
+import { NavigateFunction } from 'react-router-dom';
 
-// User 데이터 티입
-export interface GetUser {
-  userId: number;
-  nickname: string;
-  profileImage: string;
-  // roles: "ROLE_USER"
-}
+const access_token = localStorage.getItem('access_token');
+const tockenHeader = {
+  headers: {
+    Authorization: `Bearer ${access_token}`,
+  },
+};
 
 // User 조회 -> GET 요청
 export const getUser = async (): Promise<GetUser> => {
   try {
-    const response = await getData<GetUser>('/users', {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-    const { nickname, profileImage } = response.result;
-    console.log('nickname: ', nickname);
-    console.log('profileImage: ', profileImage);
-
-    return response.result;
+    const response = await getData<GetUser>('/users', tockenHeader);
+    // logText(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get user');
   }
 };
 
-interface User {
-  accountId: string;
-  password: string;
-  email: string;
-  nickname: string;
-}
-
 // User 생성 -> POST 요청
 export const createUser = async (newUser: User): Promise<User> => {
   try {
     const response = await postData<User>('/users', newUser);
-    const createdUser = response.result;
-    console.log(createdUser);
-    return createdUser;
+
+    logText(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to create user');
+  }
+};
+
+// 로그아웃 -> PUT 요청
+export const logoutUser = async (navigate: NavigateFunction): Promise<void> => {
+  try {  
+    // await putData('/users/logout', tockenHeader);
+    localStorage.clear();
+    navigate(-1);
+  } catch (error) {
+    console.log(3);
+    console.error(error);
+    throw new Error('Failed to logout');
   }
 };
 
@@ -54,13 +54,9 @@ export const ImageUpload = async (data: Object) => {
     const values = Object.values(data);
     Object.keys(data).forEach((key, index) => formData.append(key, values[index]));
 
-    const response = await postData('/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data', // 헤더 설정
-      },
-    });
+    const response = await postData('/upload', formData, tockenHeader);
 
-    console.log(response.result);
+    console.log(response.data);
   } catch (error) {
     console.error(error);
   }

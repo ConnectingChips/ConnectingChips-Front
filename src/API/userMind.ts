@@ -1,5 +1,7 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
 import { getUser } from './userService';
+import { Mind, isDoneSingle, isDone, Mylist, FinishList } from '../Type/userMind';
+import logText from './logText';
 
 const access_token = localStorage.getItem('access_token');
 const tockenHeader = {
@@ -8,31 +10,42 @@ const tockenHeader = {
   },
 };
 
-type LoggableObject = Mind | isDone | isDoneSingle | Mylist;
-
-function logText(arg: LoggableObject) {
-  for (const [key, value] of Object.entries(arg)) {
-    console.log(`${key}: ${value}`);
-  }
-}
-
-interface Mind {
-  id: number;
-  mindType: string;
-  name: string;
-  introduce: string;
-  userCount: number;
-  writeFormat: string;
-  canJoin: number;
-  backgroundImage: string;
-}
-
-export const getMindAll = async (): Promise<Mind> => {
+export const getMindAll = async (): Promise<Mind[]> => {
   try {
-    const response = await getData<Mind>('/minds');
+    const response =
+      access_token !== null
+        ? await getData<Mind[]>('/minds/except-me', tockenHeader)
+        : await getData<Mind[]>('/minds/not-login');
 
-    logText(response.result);
-    return response.result;
+    // response.data.forEach((mind) => logText(mind));
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get All Minds');
+  }
+};
+
+export const getMindFilter = async (mindTypeName: string): Promise<Mind[]> => {
+  try {
+    const response =
+      access_token !== null
+        ? await getData<Mind[]>(`/minds/except-me/${mindTypeName}`, tockenHeader)
+        : await getData<Mind[]>(`/minds/not-login/${mindTypeName}`);
+
+    // response.data.forEach((mind) => logText(mind));
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get Filter Minds');
+  }
+};
+
+export const getMindAFinished = async (): Promise<FinishList[]> => {
+  try {
+    const response = await getData<FinishList[]>('/minds/my-joined-mind-list', tockenHeader);
+
+    // response.data.forEach((mind) => logText(mind));
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get All Minds');
@@ -43,30 +56,20 @@ export const getMindSingle = async (mind_id: number): Promise<Mind> => {
   try {
     const response = await getData<Mind>(`/minds/${mind_id}`);
 
-    logText(response.result);
-    return response.result;
+    logText(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get All Minds');
+    throw new Error('Failed to get Single Minds');
   }
 };
 
-interface isDoneSingle {
-  isDoneToday: true;
-}
-
-interface isDone extends isDoneSingle {
-  joinedMindId: number;
-}
-
 export const getisDoneAll = async (): Promise<isDone[]> => {
-  const user_id = (await getUser()).userId;
-
   try {
-    const response = await getData<isDone[]>(`/minds/today-check/${user_id}`, tockenHeader);
+    const response = await getData<isDone[]>(`/minds/today-check`, tockenHeader);
 
-    response.result.map((mind) => logText(mind));
-    return response.result;
+    // response.data.map((mind) => logText(mind));
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get isDone All Valid');
@@ -82,32 +85,43 @@ export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSin
       tockenHeader,
     );
 
-    logText(response.result);
-    return response.result;
+    logText(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get isDone All Valid');
+    throw new Error('Failed to get isDone Single Valid');
   }
 };
 
-interface Mylist {
-  id: number;
-  type: string;
-  name: string;
-  count: number;
-  boardCount: number;
-  image: string;
-  isDoneToday: boolean;
-}
-
-export const getMyList = async (): Promise<Mylist> => {
+export const putMindRejoin = async (joined_mind_id: number): Promise<void> => {
   const user_id = (await getUser()).userId;
 
   try {
-    const response = await getData<Mylist>(`/minds/today-check/${user_id}`, tockenHeader);
+    await putData<Mylist[]>(`/joined-minds/${joined_mind_id}/remind/${user_id}`, tockenHeader);
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to put Rejoin Mind');
+  }
+};
 
-    logText(response.result);
-    return response.result;
+export const putMindExit = async (joined_mind_id: number): Promise<void> => {
+  const user_id = (await getUser()).userId;
+
+  try {
+    await putData<Mylist[]>(`/joined-minds/${joined_mind_id}/exit/${user_id}`, tockenHeader);
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to put Exit Mind');
+  }
+};
+export const getMyList = async (): Promise<Mylist[]> => {
+  const user_id = (await getUser()).userId;
+
+  try {
+    const response = await getData<Mylist[]>('/minds/my-list', tockenHeader);
+
+    response.data.forEach((myList: Mylist) => logText(myList));
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get isDone All Valid');

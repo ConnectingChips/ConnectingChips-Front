@@ -12,10 +12,10 @@ export interface TotalMindData extends CommonData {
   backgroundImage: string;
 }
 
-export interface TotalMind {
-  status: number;
-  data: TotalMindData[];
-}
+// export interface TotalMind {
+//   status: number;
+//   data: TotalMindData[];
+// }
 
 export interface MyListData extends CommonData {
   count: number;
@@ -24,7 +24,7 @@ export interface MyListData extends CommonData {
   isDoneToday: boolean;
 }
 
-export interface MyList {
+export interface MyListDummy {
   status: number;
   data: MyListData[];
 }

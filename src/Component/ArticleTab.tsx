@@ -1,21 +1,25 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import { Mylist, getMyList, styled, useEffect, useState } from '../Page/MyPage/MypageBarrel';
+import {
+  GroupInfoType,
+  initGroup,
+  myGroupList,
+  CurrentMind,
+  FinishedMindList,
+} from '../Page/MyPage/MypageBarrel';
+import { initMyList } from '../data/initialData';
 
 /**
  * 탭에 해당하는 컴텐츠를 보여주는 컴포넌트(마이페이지, 그룹페이지)
  * @param tabText 탭 이름 배열
  * @param compArr 탭에 해당하는 컴포넌트 배열
  */
-const ArticleTab = ({ tabText, compArr }: { tabText: string[]; compArr: JSX.Element[] }) => {
-  const [articleIndex, setArticleIndex] = useState(0);
+const ArticleTab = (): JSX.Element => {
+  const compArr: JSX.Element[] = [<CurrentMind />, <FinishedMindList />];
+  const [articleIndex, setArticleIndex] = useState<number>(0);
 
   return (
     <ArticleTabS>
-      <TabHead
-        isFirst={articleIndex === 0}
-        setArticleIndex={setArticleIndex}
-        tabText={tabText}
-      />
+      <TabHead isFirst={articleIndex === 0} setArticleIndex={setArticleIndex} />
       {articleIndex === 0 ? compArr[0] : compArr[1]}
     </ArticleTabS>
   );
@@ -26,12 +30,17 @@ export default ArticleTab;
 const TabHead = ({
   isFirst,
   setArticleIndex,
-  tabText,
 }: {
   isFirst: boolean;
   setArticleIndex: React.Dispatch<React.SetStateAction<number>>;
-  tabText: string[];
 }): JSX.Element => {
+  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
+
+  useEffect(() => {
+    getMyList().then((res: Mylist[]) => setMylist(res));
+  }, []);
+
+  const tabText: string[] = [`참여중인 작심(${myList.length}/3)`, '참여했던 작심'];
   return (
     <TabHeadS>
       <li className={isFirst ? 'selected' : ''} onClick={() => setArticleIndex(0)}>

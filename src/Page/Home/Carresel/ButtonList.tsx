@@ -8,7 +8,7 @@ import { styled } from 'styled-components';
 import { ButtonListProps } from '../../../Type/MissionType';
 import ImageBoxS from '../../../StyleComp/ImageBoxS';
 
-import { fetchMyList, initMyList, useEffect, useState } from '../HomeBarrel';
+import { useEffect, useState } from '../HomeBarrel';
 
 /** 2023-09-02 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
 //TODO: 갈아끼울 코드

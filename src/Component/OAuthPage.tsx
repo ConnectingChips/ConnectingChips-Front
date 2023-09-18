@@ -1,4 +1,5 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { getUser } from '../API/userService';
 
 type OAuthPageProps = {
   component: JSX.Element;
@@ -12,15 +13,19 @@ type OAuthPageProps = {
  * @returns JSX.Element
  */
 const OAuthPage = ({ component, authenticated }: OAuthPageProps): JSX.Element => {
-  const isLogined = localStorage.getItem('access_token');
+  const navigate = useNavigate();
+  
+  const ResultComp = () => {
+    const successHome = async () => await getUser().then(() => navigate('/'));
+    const failedHome = async () => await getUser().catch(() => navigate('/'));
 
-  const loginComp = (loginCeck: boolean, component: JSX.Element) => {
-    return loginCeck ? component : <Navigate to='/' />;
+    if (authenticated === 'access') failedHome();
+    else successHome();
+
+    return component;
   };
 
-  return authenticated === 'access'
-    ? loginComp(!!isLogined, component)
-    : loginComp(!isLogined, component);
+  return <ResultComp />;
 };
 
 export default OAuthPage;

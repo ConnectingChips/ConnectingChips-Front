@@ -1,5 +1,7 @@
 import { GroupInfoType } from '../Type/MissionType';
-import { MyList, TotalMind } from '../Type/ListType';
+import { MyListDummy, TotalMindData } from '../Type/ListType';
+import { GetUser } from '../Type/User';
+import 기본프로필 from '../image/예시사진모음/default_profile_W.png';
 
 export const initImage = {
   image_id: 0,
@@ -13,7 +15,7 @@ export const initGroup: GroupInfoType = {
   title: '',
   intro: '',
   rule: '',
-  memberList: [{ member_id: '', day: 0, count: 0, done: false }],
+  memberList: [{ member_id: 0, day: 0, count: 0, done: false }],
   posts: [{ post_id: 0, title: '', image: initImage }],
   defaultImage: {
     defaultImage_id: 0,
@@ -24,33 +26,33 @@ export const initGroup: GroupInfoType = {
   },
 };
 
-export const initTotalList: TotalMind = {
+export const initTotalList: TotalMindData[] = [
+  {
+    id: 0,
+    type: '',
+    name: '',
+    introduce: '',
+    userCount: 0,
+    writeFormat: '',
+    canJoin: 0,
+    backgroundImage: '',
+  },
+];
+
+export const initMyList: MyListDummy = {
   status: 200,
-  data: [
-    {
-      id: 0,
-      type: '',
-      name: '',
-      introduce: '',
-      userCount: 0,
-      writeFormat: '',
-      canJoin: 0,
-      backgroundImage: '',
-    },
-  ],
+  data: [],
 };
 
-export const initMyList: MyList = {
-  status: 200,
-  data: [
-    {
-      id: 0,
-      type: '',
-      name: 'defaultName',
-      count: 0,
-      boardCount: 0,
-      image: '',
-      isDoneToday: false,
-    },
-  ],
+export const userInit: GetUser = {
+  userId: 0,
+  nickname: '',
+  profileImage: 기본프로필,
+  roles: '',
 };
+
+// export const userInitDummy: MyInfoType = {
+//   my_id: '',
+//   password: '',
+//   profileimg: 기본프로필,
+// };

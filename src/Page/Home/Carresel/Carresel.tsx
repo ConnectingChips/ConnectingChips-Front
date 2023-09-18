@@ -16,9 +16,6 @@ import useCarresel from './useCarresel';
 import ImageBoxS from '../../../StyleComp/ImageBoxS';
 import CarreselSlideButton from './CarreselSlideButton';
 
-import { fetchMyList } from '../HomeBarrel';
-import { initMyList } from '../HomeBarrel';
-
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
 // TODO: 갈아끼울 코드
 // const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
@@ -75,7 +72,7 @@ const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
   const { dateList, doneList, countList, uuidList } = useCarresel(doneBind, countBind, uuidBind);
 
   const Mylist = myGroupList.map((mygroup, index) => {
-    const missionInfo = mygroup.memberList.find((member) => member.member_id === myInfo.my_id);
+    const missionInfo = mygroup.memberList.find((member) => member.member_id === myInfo.userId);
     if (missionInfo === undefined) return <></>;
 
     const { tab, title } = mygroup;
