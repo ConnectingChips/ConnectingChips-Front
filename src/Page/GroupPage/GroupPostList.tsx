@@ -2,36 +2,35 @@
 import { useState, styled, useEffect } from './GroupPageBarrel';
 import { Comment, GroupActive } from './GroupPageBarrel';
 import { getBoards, BoardsType } from '../../API/Boards';
+import { useParams } from 'react-router-dom';
+
 const GroupPostList = () => {
   // TODO: post업애려면 Commendted false로 바꾸기
+  let { params } = useParams<string>();
 
   const [postData, setPostData] = useState<BoardsType[]>([]);
 
   useEffect(() => {
-    getBoards(1).then((res: BoardsType[]) => {
+    getBoards(Number(params)).then((res: BoardsType[]) => {
       setPostData(res);
     });
-  }, []);
+  }, [params]);
 
   return (
     <GroupPostListS>
       <h2>작심 인증글</h2>
       <>
-        {postData.map((postData, i) => (
-          <div key={i}>
-            <GroupActive passsort='Page' postData={postData} />
-            <Comment commentListData={postData.commentList} />
-          </div>
-        ))}
+        {postData.length > 0 ? (
+          postData.map((postData, i) => (
+            <div key={i}>
+              <GroupActive passsort='Page' postData={postData} />
+              <Comment postData={postData} />
+            </div>
+          ))
+        ) : (
+          <GroupNoPost />
+        )}
       </>
-      {/* {postData ? (
-        <>
-          <GroupActive passsort='Page' setCommented={setCommented} likeBind={likeBind} />
-          <Comment Commented={Commented} />
-        </>
-      ) : (
-        <GroupNoPost />
-      )} */}
     </GroupPostListS>
   );
 };

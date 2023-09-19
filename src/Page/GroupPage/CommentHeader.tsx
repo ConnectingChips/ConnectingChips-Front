@@ -1,20 +1,20 @@
 import { styled } from 'styled-components';
 import Arrow_icon_Up from '../../image/Icon/Arrow/Arrow_icon_Up.svg';
 import Arrow_icon_Down from '../../image/Icon/Arrow/Arrow_icon_Down.svg';
-import { CommentType } from '../../API/Boards';
+import { BoardsType } from '../../API/Boards';
 interface CommentHeaderProps {
   commentFlipBind: {
     commentFlip: boolean;
     setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
   };
-  commentListData: CommentType[];
+  postData: BoardsType;
 }
 
-const CommentHeader = ({ commentFlipBind, commentListData }: CommentHeaderProps) => {
+const CommentHeader = ({ commentFlipBind, postData }: CommentHeaderProps) => {
   const { commentFlip, setCommentFlip } = commentFlipBind;
   return (
     <CommentHeaderS>
-      <h2>댓글 {commentListData.length}</h2>
+      <h2>댓글 {postData.commentCount}</h2>
       <div onClick={() => setCommentFlip(!commentFlip)}>
         {commentFlip ? (
           <img style={{ paddingTop: '5px' }} src={Arrow_icon_Down} alt='댓글열기' />
