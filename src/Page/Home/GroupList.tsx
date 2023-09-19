@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { MissonTab } from '../../Component/Mission/MissionTab';
 import { useEffect, useState } from 'react';
+import { MissonTab } from '../../Component/Mission/MissionTab';
 import missionTab from '../../data/missionTab';
 import { getMindAll, getMindFilter } from '../../API/Mind';
 import { Mind, TotalMind } from '../../Type/userMind';
@@ -12,15 +12,11 @@ const GroupList = (): JSX.Element => {
   const [curFocused, setCurFocused] = useState<string>(missionTab[0].title);
   const curFocusBind = { curFocused, setCurFocused };
 
-  console.log('curFocused: ', curFocused);
-
   useEffect(() => {
     if (curFocused === '전체')
       getMindAll()
         .then((mindList) => setShowList(mindList))
-        .catch(() => {
-          console.log('메롱');
-        });
+        .catch(() => {});
     else
       getMindFilter(curFocused)
         .then((mindList) => setShowList(mindList))

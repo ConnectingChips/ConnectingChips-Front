@@ -13,16 +13,8 @@ import chip_Active from '../../../image/Home/chip_Active.png';
 import chip_NoneActive from '../../../image/Home/chip_NoneActive.png';
 import ChipList from './ChipList';
 
-// FIXME: 사라질 코드
-import { myGroupImages } from '../../../data/myInfo';
-import { myInfo, myGroupList } from '../../../data/myInfo'
 
-// TODO: 갈아끼울 코드
-// export { MissionSingleWide, ChipList };
-
-// FIXME: 사라질 코드
-export { MissionSingleWide, myGroupImages, myInfo, myGroupList, ChipList };
-
+export { MissionSingleWide, ChipList };
 export { styled, Link, useEffect, useRef, useState };
 export { co_bike, co_fit, co_walk };
 export { ArrowLeft, Arrow_Right };

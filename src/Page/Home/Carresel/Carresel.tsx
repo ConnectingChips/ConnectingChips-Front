@@ -1,30 +1,26 @@
-import {
-  MissionSingleWide,
-  ChipList,
-  styled,
-} from './CarreselBarrel';
+import { MissionSingleWide, ChipList, styled } from './CarreselBarrel';
 import ImageBoxS from '../../../StyleComp/ImageBoxS';
-import CarreselSlideButton from './CarreselSlideButton';
 import useMission from '../../../Hooks/useCarresel';
 import { useContext } from 'react';
 import { MyListContext } from '../HomeBarrel';
+import { MyListContextType } from '../../../API/Context';
 
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
 const Carresel = () => {
   const { carreselProps } = useMission();
   const { slideRef, count, setCount, sort, setSort } = carreselProps;
-  const { myList } = useContext(MyListContext);
+  const { myList } = useContext<MyListContextType>(MyListContext);
 
   /** 2023-09-22 Carresel.tsx - 내 작심 현황 - Kadesti */
-  const Mylist = myList.map((mygroup) => {
-    const { type, name, id, image, boardCount, count } = mygroup;
-    
+  const Mylist = myList.map((mygroup, idx) => {
+    const { mindId, mindTypeName, name, myListImage, boardCount, count } = mygroup;
+
     return (
-      <li key={id}>
-        <MyMissionInfoS href={`/groupPage/${id}`}>
-          <img src={image} alt='main_image' />
+      <li key={idx}>
+        <MyMissionInfoS href={`/groupPage/${mindId}`}>
+          <img src={myListImage} alt='main_image' />
           <MissionContentS>
-            <MissionSingleWide text={type} />
+            <MissionSingleWide text={mindTypeName} />
             <h2>{name}</h2>
             <p>
               🔥 <span className='date'>{boardCount}</span>일자 맛보기 중
@@ -43,12 +39,6 @@ const Carresel = () => {
         <ImageBoxS ref={slideRef} count={count} sort={sort} length={myList.length}>
           {Mylist}
         </ImageBoxS>
-        <CarreselSlideButton
-          count={count}
-          setSort={setSort}
-          setCount={setCount}
-          TOTAL_SLIDES={myList.length}
-        />
       </MissionListS>
     </div>
   );

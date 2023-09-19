@@ -1,11 +1,10 @@
-import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import ImageBoxS from '../../../StyleComp/ImageBoxS';
 
 import { MyListContext, useContext } from '../HomeBarrel';
 import useMission from '../../../Hooks/useCarresel';
 import { getCheckedJoined, putReJoin } from '../../../API/joinedMinds';
-import { getMindSingle } from '../../../API/Mind';
 
 /** 2023-09-02 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
 const ButtonList = (): JSX.Element => {
@@ -15,10 +14,10 @@ const ButtonList = (): JSX.Element => {
 
   return (
     <ImageBoxS ref={slideRef} count={count} sort={sort} length={myList.length}>
-      {myList.map((mind) => {
-        const { count, isDoneToday, id } = mind;
+      {myList.map((mind,idx) => {
+        const { count, isDoneToday, mindId } = mind;
         return (
-          <CarreselBtnList myCount={count} completedToday={isDoneToday} mind_id={id} key={id} />
+          <CarreselBtnList myCount={count} completedToday={isDoneToday} mindId={mindId} key={idx} />
         );
       })}
     </ImageBoxS>
@@ -31,14 +30,14 @@ export default ButtonList;
 const CarreselBtnList = ({
   myCount,
   completedToday,
-  mind_id,
+  mindId,
 }: {
   myCount: number;
   completedToday: boolean;
-  mind_id: number;
+  mindId: number;
 }) => {
   const navigate = useNavigate();
-  const remind = async () => putReJoin(mind_id);
+  const remind = async () => putReJoin(mindId);
 
   return (
     <>
@@ -51,8 +50,8 @@ const CarreselBtnList = ({
       ) : (
         <NoneClearBtnS
           onClick={() => {
-            goPost(mind_id)
-              .then(() => navigate(`/uploadPost/${mind_id}`))
+            goPost(mindId)
+              .then(() => navigate(`/uploadPost/${mindId}`))
               .catch(() => navigate('/error'));
           }}
         >
@@ -63,8 +62,8 @@ const CarreselBtnList = ({
   );
 };
 
-const goPost = async (mind_id: number): Promise<{ isJoining: boolean }> =>
-  await getCheckedJoined(mind_id);
+const goPost = async (mindId: number): Promise<{ isJoining: boolean }> =>
+  await getCheckedJoined(mindId);
 
 const CommonBtnS = styled.button`
   width: var(--width-my-mission);

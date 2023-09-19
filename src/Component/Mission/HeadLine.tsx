@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { MissionSingleWide } from './MissionTab';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import groupListData from '../../data/groupListData';
 

@@ -6,20 +6,23 @@ import { ArticleTab, ConfirmModal } from './MypageBarrel';
 import { scrollTop, type GetUser, getUser, type Mylist, getMyList } from './MypageBarrel';
 import { useContext } from 'react';
 import { MyInfoContext, MyListContext } from '../Home/HomeBarrel';
+import { MyInfoContextType, MyListContextType } from '../../API/Context';
+import { initUser } from '../../data/initialData';
 
 const MyPage = (): JSX.Element => {
-  const { myInfo, setMyInfo } = useContext(MyInfoContext);
-  const { myList, setMylist } = useContext(MyListContext);
+  const { myInfo, setMyInfo } = useContext<MyInfoContextType>(MyInfoContext);
+  const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
+  const [userInfo, setUserInfo] = useState<GetUser>(initUser);
 
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
 
   const navigate = useNavigate();
-
   useEffect(() => {
     scrollTop();
 
-    getUser().then((userInfo: GetUser) => setMyInfo(userInfo));
-    getMyList().then((res: Mylist[]) => setMylist(res));
+    getUser()
+      .then((userInfo: GetUser) => setUserInfo(userInfo))
+      .catch(() => {});
   }, []);
 
   return (
@@ -27,11 +30,11 @@ const MyPage = (): JSX.Element => {
       <MyPageHeader />
       <ProfileHeaderS>
         <h2>
-          {myInfo.nickname}칩스’s
+          {userInfo.nickname}칩스’s
           <br />
           작심서랍
         </h2>
-        <img src={myInfo.profileImage} alt='기본프로필' />
+        <img src={userInfo.profileImage} alt='기본프로필' />
       </ProfileHeaderS>
       {myList.length === 3 && (
         <LimitInfoS>

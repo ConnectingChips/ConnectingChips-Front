@@ -30,7 +30,6 @@ export const getUser = async (): Promise<GetUser> => {
     const response = await getData<GetUser>('/users', tockenHeader);
 
     // logText(response.data);
-
     return response.data;
   } catch (error) {
     // console.error(error);

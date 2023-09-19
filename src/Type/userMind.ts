@@ -21,12 +21,12 @@ export interface isDone extends isDoneSingle {
 }
 
 export interface Mylist {
-  id: number;
-  type: string;
+  mindId: number;
+  mindTypeName: string;
   name: string;
   count: number;
   boardCount: number;
-  image: string;
+  myListImage: string;
   isDoneToday: boolean;
 }
 

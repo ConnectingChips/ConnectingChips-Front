@@ -16,8 +16,14 @@ const OAuthPage = ({ component, authenticated }: OAuthPageProps): JSX.Element =>
   const navigate = useNavigate();
 
   const ResultComp = () => {
-    const successHome = async () => await getIsLogined().then(() => navigate('/'));
-    const failedHome = async () => await getIsLogined().catch(() => navigate('/'));
+    const successHome = async () =>
+      await getIsLogined()
+        .then(() => navigate('/'))
+        .catch(() => {});
+    const failedHome = async () =>
+      await getIsLogined()
+        .catch(() => navigate('/'))
+        .then(() => {});
 
     if (authenticated === 'access') failedHome();
     else successHome();

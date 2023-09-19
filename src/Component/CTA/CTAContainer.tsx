@@ -1,11 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-// TODO: 갈아끼울 부분
-import { initMyList } from '../../data/initialData';
-
-// FIXME: 버려질 부분
-import { myGroupList } from '../../data/myInfo';
+import { MyListContext, MyListContextType } from '../../API/Context';
 
 // TODO: api: 참여하기 요청보내기 /joined-minds/{joined_mind_id}
 /** 2023-08-22 CTAContainer.tsx - 참여하기 버튼 */
@@ -14,16 +10,12 @@ const JoinButtonCTA = (): JSX.Element => {
   const { uuid } = useParams();
   const [isLogin, setIsLogin] = useState(false);
   const [validJoin, setValidJoin] = useState('true');
-  const [myList, setMyList] = useState(initMyList);
+  const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
 
   useEffect(() => {
     if (localStorage.getItem('access_token')) {
       setIsLogin(true);
-      // TODO: 갈아끼울 부분
-      // if (myList.length === 3) setValidJoin('false');
-
-      // FIXME: 버려질 부분
-      if (myGroupList.length >= 3) setValidJoin('false');
+      if (myList.length >= 3) setValidJoin('false');
     }
   }, [myList.length]);
 

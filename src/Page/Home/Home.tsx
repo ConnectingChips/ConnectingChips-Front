@@ -21,10 +21,13 @@ const Home = (): JSX.Element => {
   const { myInfo, setMyInfo } = useContext<MyInfoContextType>(MyInfoContext);
   const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
   const [istodayDone, setIsDone] = useState<boolean>(false);
+  const [access_token, setAccesstoken] = useState<string>('');
 
-  const access_token = setHome(setMyInfo, setMylist, setIsDone);
+  useEffect(() => {
+    scrollTop();
 
-  useEffect(() => scrollTop(), []);
+    setAccesstoken(setHome(setMyInfo, setMylist, setIsDone));
+  }, []);
 
   // 카카오 공유하기
   // const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
@@ -112,15 +115,14 @@ const setHome = (
   };
 
   const access_token: string = localStorage.getItem('access_token') || '';
+
   if (access_token !== '') {
     getUser()
       .then((userInfo: GetUser) => setMyInfo(userInfo))
       .catch(() => {});
-
     getMyList()
       .then((res: Mylist[]) => setMylist(res))
       .catch(() => {});
-
     getisDoneAll()
       .then((res: isDone[]) => {
         const doneValid = res.some((data) => data.isDoneToday);

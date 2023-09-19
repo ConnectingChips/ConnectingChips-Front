@@ -3,12 +3,13 @@ import { Mind, isDoneSingle, isDone, Mylist, FinishList, TotalMind } from '../Ty
 import logText from './logText';
 import { GroupPageInfo } from '../Type/Group';
 
-const access_token = localStorage.getItem('access_token');
+const access_token: string = localStorage.getItem('access_token') || '';
 const tockenHeader = {
   headers: {
     Authorization: `Bearer ${access_token}`,
   },
 };
+const tokenValue = access_token !== '' ? tockenHeader : undefined;
 
 // 작심 정보 반환 (그룹 인트로 / 인증하기)
 export const getMindInfo_Intro = async (mind_id: number): Promise<Mind> => {
@@ -65,10 +66,7 @@ export const getMind_PageImaage = async (mind_id: number): Promise<{ pageImage: 
 // 모든 작심 정보 반환 (작심 그룹 리스트) /minds /minds/except-me/{mindTypeName}
 export const getMindAll = async (): Promise<TotalMind[]> => {
   try {
-    const response =
-      access_token !== null
-        ? await getData<TotalMind[]>('/minds/except-me', tockenHeader)
-        : await getData<TotalMind[]>('/minds');
+    const response = await getData<TotalMind[]>('/minds/except-me', tokenValue);
 
     // response.data.forEach((mind) => logText(mind));
     return response.data;
@@ -78,17 +76,25 @@ export const getMindAll = async (): Promise<TotalMind[]> => {
   }
 };
 
+// 2 : 일상 / 3 : 달리기 / 4 : 헬스 / 5 : 자전거
 // 내가 가입한 작심을 제외한 모든 작심반환 /minds/except-me/{mindTypeName}
 export const getMindFilter = async (mindTypeName: string): Promise<TotalMind[]> => {
   try {
-    const response =
-      access_token !== null
-        ? await getData<TotalMind[]>(`/minds/except-me/${mindTypeName}`, tockenHeader)
-        : await getData<TotalMind[]>(`/minds/not-login/${mindTypeName}`);
+    const mindTypeId: number = (() => {
+      if (mindTypeName === '일상') return 2;
+      if (mindTypeName === '달리기') return 3;
+      if (mindTypeName === '헬스') return 4;
+      if (mindTypeName === '자전거') return 5;
 
-    response.data.forEach((mind) => logText(mind));
+      return 1;
+    })();
+    const response = await getData<TotalMind[]>(`/minds/except-me/${mindTypeId}`, tokenValue);
+    
+    // console.log('response.data: ', response.data);
+    // response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
+    console.log(3);
     console.error(error);
     throw new Error('getMindFilter 실패함');
   }
@@ -125,7 +131,8 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
   try {
     const response = await getData<isDone[]>(`/minds/today-check`, tockenHeader);
 
-    response.data.map((mind) => logText(mind));
+    // console.log('response: ', response);
+    // response.data.map((mind) => logText(mind));
     return response.data;
   } catch (error) {
     // console.error(error);
@@ -153,8 +160,7 @@ export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSin
 export const getMyList = async (): Promise<Mylist[]> => {
   try {
     const response = await getData<Mylist[]>('/minds/my-list', tockenHeader);
-
-    response.data.forEach((myList: Mylist) => logText(myList));
+    // console.log('response: ', response);
     return response.data;
   } catch (error) {
     // console.error(error);
