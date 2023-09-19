@@ -14,14 +14,14 @@ import {
 // TODO: GroupPost 2개씩 넣으면 이미지 두개들어가는거 고치기
 /** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
-  const { intro, rule, url } = useFindGroup('page');
+  const { url } = useFindGroup('Page');
 
   return (
     <GroupPageS>
       <GroupHeader />
       {/* FIXME: url 안먹힘 */}
       <GroupImageS url={url} />
-      <GroupSummary intro={intro} rule={rule} selected={[0, 1, 3]} />
+      <GroupSummary selected={[0, 1, 3]} />
 
       <GroupPostListS>
         <h2>작심 인증글</h2>
@@ -34,16 +34,14 @@ const GroupPage = (): JSX.Element => {
 export default GroupPage;
 
 type GroupPostProps = {
-  intro: string;
-  rule: string;
-  selected: number[] | null;
+  selected: number[];
 };
 
 /** 2023-08-26 GroupPage.tsx - 그룹페이지 소개글 - 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 */
-const GroupSummary = ({ intro, rule, selected }: GroupPostProps) => {
+const GroupSummary = ({ selected }: GroupPostProps) => {
   return (
     <>
-      <GroupArticle groupText={intro} groupRule={rule} selected={selected} passsort='Page' />
+      <GroupArticle selected={selected} passsort='Page' />
       <DivideBaS />
     </>
   );

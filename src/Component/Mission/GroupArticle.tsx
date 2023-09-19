@@ -4,26 +4,25 @@ import MissionRule from '../../Component/Mission/MissionRule';
 import MissionIntro from './MissionIntro';
 import { PostButton } from '../CTA/CTAContainer';
 import { PageSort } from '../../Type/MissionType';
+import { useFindGroup } from '../../Hooks/useFindGroup';
 
 /** 2023-08-22 GroupArticle.tsx - 그룹 아티클 Props */
 interface GroupArticleProps {
-  groupText: string;
-  groupRule: string;
-  selected: number[] | null;
+  selected: number[];
   passsort: PageSort;
 }
 
 /** 2023-08-22 GroupArticle.tsx - 그룹 아티클 - 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 */
 const GroupArticle = ({
-  groupText,
-  groupRule,
   selected,
   passsort,
-}: GroupArticleProps): JSX.Element => {
+}: GroupArticleProps): JSX.Element => {  
+  const { intro, rule } = useFindGroup(passsort);
+
   const compArr = [
     <HeadLine />,
-    <MissionIntro groupText={groupText} />,
-    <MissionRule groupRule={groupRule} passsort={passsort} />,
+    <MissionIntro groupText={intro} />,
+    <MissionRule groupRule={rule} passsort={passsort} />,
     <PostButton />,
   ];
   if (selected === null) return <></>;

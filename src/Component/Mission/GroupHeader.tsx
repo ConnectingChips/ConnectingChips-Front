@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { Arrow_Left_B, Arrow_Left_W } from '../ArrowBarrel';
 import post_Icon from '../../image/Icon/post_Icon.svg';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 interface GroupHeaderProps {
   children?: React.ReactNode;
@@ -17,12 +17,13 @@ const goBack = (): void => {
 const GroupHeader = ({ children, className }: GroupHeaderProps): JSX.Element => {
   const path = useLocation().pathname;
   const isUpload = path.indexOf('/upload') !== -1;
+  const params = useParams()
 
   return (
     <GroupBGHeaderS className={className}>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
       {!isUpload && (
-        <Link to='/uploadPost/1'>
+        <Link to={`/uploadPost/${params}`}>
           <img src={post_Icon} alt='post icon' />
         </Link>
       )}

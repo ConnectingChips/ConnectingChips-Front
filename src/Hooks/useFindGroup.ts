@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { initGroup } from "../data/initialData";
-import { GroupInfoType } from "../Type/MissionType";
+import { GroupInfoType, PageSort } from "../Type/MissionType";
 import groupListData from "../data/groupListData";
 
 interface FindGroupHook {
@@ -12,7 +12,7 @@ interface FindGroupHook {
 }
 
 /** 2023-08-23 useFindGroup.ts - uuid를 받아 intro rule url 뱉는 함수 */
-const useFindGroup = (sort: "page" | "intro"): FindGroupHook => {
+const useFindGroup = (sort: PageSort): FindGroupHook => {
   const { uuid } = useParams();
 
   const [group, setGroup] = useState(initGroup);
@@ -21,7 +21,7 @@ const useFindGroup = (sort: "page" | "intro"): FindGroupHook => {
   useEffect(() => {
     if (uuid) {
       const foundGroup = FindGroup(uuid, initGroup);
-      const imageUrl = sort === "intro" ? foundGroup.defaultImage.intro_url : foundGroup.defaultImage.group_url;
+      const imageUrl = sort === "Intro" ? foundGroup.defaultImage.intro_url : foundGroup.defaultImage.group_url;
       if (imageUrl === undefined) return;
 
       setGroup(foundGroup);
