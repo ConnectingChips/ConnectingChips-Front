@@ -14,10 +14,7 @@ const GroupPage = (): JSX.Element => {
       <GroupArticle selected={[0, 1, 3]} passsort='Page' />
       <DivideBaS />
 
-      <GroupPostListS>
-        <h2>작심 인증글</h2>
-        <GroupPost />
-      </GroupPostListS>
+      <GroupPostList />
     </GroupPageS>
   );
 };
