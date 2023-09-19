@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
-import { DetailedHTMLProps, ImgHTMLAttributes, useState } from 'react';
-import { BoardsType } from '../../API/Boards';
+import { DetailedHTMLProps, ImgHTMLAttributes, useEffect, useState } from 'react';
+import { BoardsType, getBoardCheck, putEditBoard } from '../../API/Boards';
 
 interface PostHeaderProps {
   editbind: {
@@ -14,15 +14,23 @@ interface PostHeaderProps {
 const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
   const [isToggle, setIsToggle] = useState(false);
   const { edit, setEdit } = editbind;
+  const [EditCheck, setEditCheck] = useState(false);
   const handlerToogleSwitch = () => {
     setIsToggle((prev) => !prev);
   };
 
+  // 프로필URL 없을때 기본프로필 띄우기
   const defalutPofileImage = (imageUrl: string) => {
     if (imageUrl === 'default') {
       return `${process.env.PUBLIC_URL}/defalutProfileImage.jpg`;
     }
   };
+
+  useEffect(() => {
+    getBoardCheck(postData.boardId, postData.userId).then((data) => {
+      setEditCheck(data.canEdit);
+    });
+  }, []);
 
   return (
     <PostHeaderS>
@@ -41,7 +49,7 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
           <ModalS>
             <div
               onClick={() => {
-                setEdit(true);
+                if (EditCheck) setEdit(true);
               }}
             >
               수정하기
