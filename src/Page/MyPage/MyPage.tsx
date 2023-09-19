@@ -1,36 +1,25 @@
+import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../../API/userService';
 import { styled, useEffect, useState } from './MypageBarrel';
-import { Arrow_Left_B, 기본프로필, Info_icon_B } from './MypageBarrel';
+import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal } from './MypageBarrel';
-import { scrollTop, type GetUser, getUser, type Mylist, getMyList, userInit } from './MypageBarrel';
-import { myInfo, myGroupList, type GroupInfoType, initGroup } from './MypageBarrel';
+import { scrollTop, type GetUser, getUser, type Mylist, getMyList } from './MypageBarrel';
+import { useContext } from 'react';
+import { MyInfoContext, MyListContext } from '../Home/HomeBarrel';
 
-const MyPage = () => {
-  const [access_token, setAccess_token] = useState<string>('');
-
-  // TODO: 갈아끼울 코드
-  // const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  // const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
-  // FIXME: 더미 코드
-  const [my_Info, set_My_Info] = useState<GetUser>(userInit);
-  const [myList, setMylist] = useState<GroupInfoType[]>([initGroup]);
+const MyPage = (): JSX.Element => {
+  const { myInfo, setMyInfo } = useContext(MyInfoContext);
+  const { myList, setMylist } = useContext(MyListContext);
 
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
 
-  // TODO: 실제 사용할 코드
-  // useEffect(() => {
-  //   scrollTop();
-  //   setAccess_token(localStorage.getItem('access_token') || '');
+  const navigate = useNavigate();
 
-  //   getUser().then((userInfo: GetUser) => set_My_Info(userInfo));
-  //   getMyList().then((res: Mylist[]) => setMylist(res));
-  // }, []);
-
-  // FIXME: 더미 코드
   useEffect(() => {
     scrollTop();
-    setAccess_token(localStorage.getItem('access_token') || '');
-    setMylist(myGroupList);
-    set_My_Info(myInfo);
+
+    getUser().then((userInfo: GetUser) => setMyInfo(userInfo));
+    getMyList().then((res: Mylist[]) => setMylist(res));
   }, []);
 
   return (
@@ -38,11 +27,11 @@ const MyPage = () => {
       <MyPageHeader />
       <ProfileHeaderS>
         <h2>
-          {my_Info.nickname}칩스’s
+          {myInfo.nickname}칩스’s
           <br />
           작심서랍
         </h2>
-        <img src={my_Info.profileImage} alt='기본프로필' />
+        <img src={myInfo.profileImage} alt='기본프로필' />
       </ProfileHeaderS>
       {myList.length === 3 && (
         <LimitInfoS>
@@ -65,7 +54,7 @@ const MyPage = () => {
           setConfirm={setConfirmLogout}
           confirmText='로그아웃하시겠습니까?'
           action='로그아웃'
-          url='/users/logout'
+          method={() => logoutUser(navigate)}
         />
       )}
     </MyPageS>

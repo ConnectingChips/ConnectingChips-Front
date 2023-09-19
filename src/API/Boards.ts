@@ -42,6 +42,7 @@ export const getBoards = async (mind_id: number): Promise<BoardsType[]> => {
   try {
     const response = await getData<BoardsType[]>(`/boards/${mind_id}`);
     // console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error(error);

@@ -84,10 +84,8 @@ const SignUp = (): JSX.Element => {
         email,
         nickname,
       };
-      console.log(1);
       createUser(newUser);
       
-      console.log(2);
       navigate('/LogIn');
     } catch (error) {
       throw Error('회원가입에 실패하였습니다.')

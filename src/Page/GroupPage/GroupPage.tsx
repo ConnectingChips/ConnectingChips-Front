@@ -4,15 +4,20 @@ import { GroupPostList } from './GroupPostList';
 
 /** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
-  const { intro, rule, url } = useFindGroup('page');
+  const { url } = useFindGroup('Page');
 
   return (
     <GroupPageS>
       <GroupHeader />
       <GroupImageS url={url} />
-      <GroupArticle groupText={intro} groupRule={rule} selected={[0, 1, 3]} passsort='Page' />
+
+      <GroupArticle selected={[0, 1, 3]} passsort='Page' />
       <DivideBaS />
-      <GroupPostList />
+
+      <GroupPostListS>
+        <h2>작심 인증글</h2>
+        <GroupPost />
+      </GroupPostListS>
     </GroupPageS>
   );
 };

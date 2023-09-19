@@ -1,30 +1,13 @@
-const enum Gender {
-  male = "male",
-  female = "female",
-}
-
 export interface User {
-  my_id: number;
+  accountId: string;
   password: string;
-  nickname: number;
-  birthDate: string;
-  gender: Gender;
-  yearAndMonthOfEmployment: string;
-  companyEmail?: string;
-  job?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-interface Admin {
-  id: number;
   email: string;
-  password: string;
+  nickname: string;
 }
 
-export type MyInfoType = {
-  my_id: string;
-  password: string;
-  profileimg: string;
-};
-
+export interface GetUser {
+  userId: number;
+  nickname: string;
+  profileImage: string;
+  roles: string;
+}

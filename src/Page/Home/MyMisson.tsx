@@ -5,8 +5,8 @@ import { GroupInfoType } from '../../Type/MissionType';
 import Carresel from './Carresel/Carresel';
 import ButtonList from './Carresel/ButtonList';
 import useMission from '../../Hooks/useMission';
-import { Mylist, getMyList } from '../../API/userMind';
-// import { MyListData } from '../../Type/ListType';
+import { getMyList } from '../../API/userMind';
+import { Mylist } from '../../Type/userMind';
 
 const initMylist = [
   {
@@ -20,37 +20,16 @@ const initMylist = [
   },
 ];
 
-/** 2023-08-20 MyMission.tsx - 작심 중인 리스트 */
-// TODO: 갈아끼울 코드
-// const MyMisson = ({ mygrouplist }: { mygrouplist: GroupInfoType[] }): JSX.Element => {
-//   const { carreselProps, buttonDataProps } = useMission();
-//   const [myList, setMylist] = useState<Mylist[]>(initMylist);
-//   useEffect(() => {
-//     getMyList().then(res=> setMylist(res));
-//   }, []);
-
-//   return (
-//     <MyMissonS>
-//       {/* TODO: 갈아끼울 코드 */}
-//       <h2>나의 작심 현황({myList.length}/3)</h2>
-//       <CarreselContainerS>
-//         <div className='myMission'>
-//           <Carresel carreselProps={carreselProps} />
-//           <ButtonList buttonListProps={buttonDataProps} />
-//         </div>
-//       </CarreselContainerS>
-//     </MyMissonS>
-//   );
-// };
-
-// FIXME: 사라질 코드
-const MyMisson = ({ mygrouplist }: { mygrouplist: GroupInfoType[] }): JSX.Element => {
+const MyMisson = (): JSX.Element => {
   const { carreselProps, buttonDataProps } = useMission();
   const [myList, setMylist] = useState<Mylist[]>(initMylist);
+  useEffect(() => {
+    getMyList().then(res=> setMylist(res));
+  }, []);
 
   return (
     <MyMissonS>
-      <h2>나의 작심 현황({mygrouplist.length}/3)</h2>
+      <h2>나의 작심 현황({myList.length}/3)</h2>
       <CarreselContainerS>
         <div className='myMission'>
           <Carresel carreselProps={carreselProps} />
@@ -60,6 +39,7 @@ const MyMisson = ({ mygrouplist }: { mygrouplist: GroupInfoType[] }): JSX.Elemen
     </MyMissonS>
   );
 };
+
 
 export default MyMisson;
 
