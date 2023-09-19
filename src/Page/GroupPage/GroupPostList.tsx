@@ -1,6 +1,6 @@
 /** 2023-08-26 GroupPage.tsx - 그룹페이지 글 항목 */
 import { useState, styled, useEffect } from './GroupPageBarrel';
-import { Comment, GroupActive } from './GroupPageBarrel';
+import { Comment, GroupPost } from './GroupPageBarrel';
 import { getBoards, BoardsType } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ const GroupPostList = () => {
         {postData.length > 0 ? (
           postData.map((postData, i) => (
             <div key={i}>
-              <GroupActive passsort='Page' postData={postData} />
+              <GroupPost passsort='Page' postData={postData} />
               <Comment postData={postData} />
             </div>
           ))

@@ -5,13 +5,13 @@ import PostContent from './PostContent';
 import { useState } from 'react';
 import { BoardsType } from '../../API/Boards';
 
-interface GroupActiveProps {
+interface GroupGroupPostProps {
   passsort: PageSort;
   postData: BoardsType;
 }
 
-/** 2023-08-22 GroupActive.tsx - 작심 인증 글 */
-const GroupActive = ({ passsort, postData }: GroupActiveProps): JSX.Element => {
+/** 2023-08-22 GroupPost.tsx - 작심 인증 글 */
+const GroupPost = ({ passsort, postData }: GroupGroupPostProps): JSX.Element => {
   const [edit, setEdit] = useState<boolean>(false);
   const editbind = {
     edit,
@@ -19,7 +19,7 @@ const GroupActive = ({ passsort, postData }: GroupActiveProps): JSX.Element => {
   };
 
   return (
-    <GroupActiveS passsort={passsort}>
+    <GroupPostS passsort={passsort}>
       <PostS>
         {/* TODO: api시간가져오기 */}
         <PostHeader editbind={editbind} postData={postData} />
@@ -28,14 +28,14 @@ const GroupActive = ({ passsort, postData }: GroupActiveProps): JSX.Element => {
         </PostImageS>
         <PostContent editbind={editbind} postData={postData} />
       </PostS>
-    </GroupActiveS>
+    </GroupPostS>
   );
 };
 
-export default GroupActive;
+export default GroupPost;
 
-/** 2023-08-22 GroupActive.tsx - 작심 인증 글 */
-const GroupActiveS = styled.div<{ passsort: PageSort }>`
+/** 2023-08-22 GroupPost.tsx - 작심 인증 글 */
+const GroupPostS = styled.div<{ passsort: PageSort }>`
   margin: ${(props) => (props.passsort === 'Intro' ? '0 1rem 1rem 1rem' : null)};
 
   h2 {
@@ -43,13 +43,13 @@ const GroupActiveS = styled.div<{ passsort: PageSort }>`
   }
 `;
 
-/** 2023-08-22 GroupActive.tsx - 그룹페이지 아티클 */
+/** 2023-08-22 GroupPost.tsx - 그룹페이지 아티클 */
 const PostS = styled.article`
   border-radius: 0.5rem;
   background-color: var(--color-bg);
 `;
 
-/** 2023-08-22 GroupActive.tsx - 그룹페이지 아티클 인증 이미지(임시) */
+/** 2023-08-22 GroupPost.tsx - 그룹페이지 아티클 인증 이미지(임시) */
 const PostImageS = styled.div`
   width: 100%;
   overflow: hidden;
