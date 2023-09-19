@@ -5,17 +5,15 @@ import { PageSort } from "../../Type/MissionType";
 import DivideBaS from "./DivideBa";
 
 type GroupContentProps = {
-  intro: string;
-  rule: string;
   selected: number[];
   passsort: PageSort;
 };
 
 /** 2023-08-22 GroupContent.tsx - 아티클 + 내용 [ 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 ] */
-const GroupContent = ({ intro, rule, selected, passsort }: GroupContentProps) => {
+const GroupContent = ({ selected, passsort }: GroupContentProps) => {
   return (
     <GroupContentS passsort={passsort}>
-      <GroupArticle groupText={intro} groupRule={rule} selected={selected} passsort={passsort} />
+      <GroupArticle selected={selected} passsort={passsort} />
       {passsort === "Intro" ? (
         <IntroExample passsort={passsort} />
       ) : passsort === "Create" ? (

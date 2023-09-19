@@ -42,7 +42,7 @@ const UploadPost = () => {
         <ItemTabS>헬스</ItemTabS>
         <h1>몸에서 닭다리 빼기</h1>
       </GroupTitleS>
-      <GroupContent intro={intro} rule={rule} selected={[0, 2]} passsort='Create' />
+      <GroupContent selected={[0, 2]} passsort='Create' />
       <CreateFormS>
         <CreateFormUploadS>
           <UploadImageTitleS>

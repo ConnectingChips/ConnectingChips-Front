@@ -13,39 +13,46 @@ import {
   OAuthPage,
 } from './AppBarral';
 import RouteChangeTracker from './RouteChangeTracker';
+import { MyInfoContext, MyListContext } from './API/Context';
+import useMyContext from './Hooks/useMyContext';
 
 function App() {
   RouteChangeTracker();
+  const { myInfo, setMyInfo, myList, setMylist } = useMyContext();
 
   return (
-      <MobileS>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route
-            path='/LogIn'
-            element={<OAuthPage component={<LogIn />} authenticated='block' />}
-          />
-          <Route
-            path='/SignUp'
-            element={<OAuthPage component={<SignUp />} authenticated='block' />}
-          />
-          <Route path='/groupIntro/:mindID' element={<GroupIntro />} />
-          <Route
-            path='/groupPage/:mindID'
-            element={<OAuthPage component={<GroupPage />} authenticated='access' />}
-          />
-          <Route
-            path='/uploadPost/:mindID'
-            element={<OAuthPage component={<UploadPost />} authenticated='access' />}
-          />
-          <Route path='/feed' element={<Feed />} />
-          <Route
-            path='/myPage/:userID'
-            element={<OAuthPage component={<MyPage />} authenticated='access' />}
-          />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </MobileS>
+    <MobileS>
+      <MyInfoContext.Provider value={{ myInfo, setMyInfo }}>
+        <MyListContext.Provider value={{ myList, setMylist }}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route
+              path='/LogIn'
+              element={<OAuthPage component={<LogIn />} authenticated='block' />}
+            />
+            <Route
+              path='/SignUp'
+              element={<OAuthPage component={<SignUp />} authenticated='block' />}
+            />
+            <Route path='/groupIntro/:mindID' element={<GroupIntro />} />
+            <Route
+              path='/groupPage/:mindID'
+              element={<OAuthPage component={<GroupPage />} authenticated='access' />}
+            />
+            <Route
+              path='/uploadPost/:mindID'
+              element={<OAuthPage component={<UploadPost />} authenticated='access' />}
+            />
+            <Route path='/feed' element={<Feed />} />
+            <Route
+              path='/myPage/:userID'
+              element={<OAuthPage component={<MyPage />} authenticated='access' />}
+            />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </MyListContext.Provider>
+      </MyInfoContext.Provider>
+    </MobileS>
   );
 }
 
