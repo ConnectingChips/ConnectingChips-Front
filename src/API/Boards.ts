@@ -84,17 +84,16 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
   // formData로 전송
   const { mindId, userId, content, image } = BoardData;
   const formData = new FormData();
-
-  formData.append('mindId', String(mindId));
-  formData.append('userId', String(userId));
+  const boardRequestDto = { mindId, userId, content };
+  formData.append(
+    'boardRequestDto',
+    new Blob([JSON.stringify(boardRequestDto)], { type: 'application/json' }),
+  );
 
   if (image.file !== null) {
     const blob = new Blob([image.file], { type: 'image/*' });
-    formData.append('image', blob);
-  }
-
-  if (content) {
-    formData.append('content', content);
+    formData.append('file', blob);
+    // formData.append('file', image.file);
   }
 
   try {
