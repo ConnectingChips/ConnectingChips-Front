@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BoardsType, putEditBoard } from '../../API/Boards';
+import { useParams } from 'react-router-dom';
 
 interface PostContentProps {
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
@@ -10,8 +11,9 @@ interface PostContentProps {
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
 const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
   const { edit, setEdit } = editbind;
-
+  const [editContent, setEditContent] = useState('');
   const textarea = useRef<HTMLTextAreaElement | null>(null);
+  let { uuid } = useParams();
 
   const handleResizeHeight = () => {
     if (textarea.current) {
@@ -19,8 +21,23 @@ const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
       textarea.current.style.height = textarea.current.scrollHeight + 'px';
     }
   };
-
-  useEffect(() => {}, [edit]);
+  if (typeof uuid === 'string' || typeof uuid === 'undefined') return <></>;
+  const data: {
+    mindId: number;
+    userId: number;
+    content: string;
+    image: string;
+  } = {
+    mindId: uuid,
+    userId: postData.userId,
+    content: editContent,
+    image: postData.image,
+  };
+  const PostEdit = () => {
+    putEditBoard(data).then((res) => {
+      setEditContent(res.content);
+    });
+  };
 
   return (
     <PostContentS>
@@ -28,14 +45,26 @@ const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
         <>
           <textarea
             ref={textarea}
-            onChange={handleResizeHeight}
+            onChange={(e) => {
+              handleResizeHeight();
+              setEditContent(e.target.value);
+            }}
             rows={2} // 기본 높이 설정
             placeholder='인증글을 입력해주세요.'
             maxLength={800}
           >
             {postData.content}
           </textarea>
-          <CheckBtn editbind={editbind} />
+          <BtnContainerS>
+            <button
+              onClick={() => {
+                setEdit(false);
+              }}
+            >
+              취소
+            </button>
+            <button onClick={PostEdit}>확인</button>
+          </BtnContainerS>
         </>
       ) : (
         <p className='post'>{postData.content}</p>
@@ -45,26 +74,6 @@ const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
 };
 
 export default PostContent;
-
-interface CheckBtnProps {
-  editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
-}
-
-const CheckBtn = ({ editbind }: CheckBtnProps): JSX.Element => {
-  const { edit, setEdit } = editbind;
-  return (
-    <BtnContainerS>
-      <button
-        onClick={() => {
-          setEdit(false);
-        }}
-      >
-        취소
-      </button>
-      <button onClick={() => {}}>확인</button>
-    </BtnContainerS>
-  );
-};
 
 const BtnContainerS = styled.div`
   text-align: right;
