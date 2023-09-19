@@ -38,15 +38,14 @@ export interface ReplyType {
 }
 
 // boards 조회 -> GET 요청
-export const getBoards = async (mind_id: number): Promise<BoardsType[]> => {
+export const getBoards = async (mindId: number): Promise<BoardsType[]> => {
   try {
-    const response = await getData<BoardsType[]>(`/boards/${mind_id}`);
-    // console.log(response.data);
-
+    const response = await getData<BoardsType[]>(`/boards/${mindId}`);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get user');
+    throw new Error('Failed to getBoards');
   }
 };
 
@@ -55,17 +54,17 @@ export interface BoardCheck {
 }
 
 // 게시글 작성자 여부 -> GET 요청
-export const getBoardCheck = async (board_id: string, user_id: string): Promise<BoardCheck> => {
+export const getBoardCheck = async (boardId: number, user_id: number): Promise<BoardCheck> => {
   try {
     const response = await getData<BoardCheck>(
-      `/boards/authentication?board_id=${board_id}&user_id=${user_id}`,
+      `/boards/authentication?board_id=${boardId}&user_id=${user_id}`,
       tockenHeader,
     );
     console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get user');
+    throw new Error('Failed to getBoardCheck');
   }
 };
 
@@ -99,22 +98,22 @@ export interface RsEditBoard {
 }
 
 //게시글 수정 -> put요청
-export const putEditBoard = async (BoardData: EditBoard): Promise<RsEditBoard> => {
+export const putEditBoard = async (boardId: number, BoardData: EditBoard): Promise<RsEditBoard> => {
   try {
-    const response = await putData<RsEditBoard>(`/boards`, BoardData, tockenHeader);
+    const response = await putData<RsEditBoard>(`/boards/${boardId}`, BoardData, tockenHeader);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to post Join');
+    throw new Error('게시글 수정 에러');
   }
 };
 
 //게시글 삭제 -> delete요청
-export const deleteBoard = async (board_id: number): Promise<void> => {
+export const deleteBoard = async (boardId: number): Promise<void> => {
   try {
-    await deleteData(`/boards/${board_id}`, tockenHeader);
+    await deleteData(`/boards/${boardId}`, tockenHeader);
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to delete');
+    throw new Error('게시글 삭제 애러');
   }
 };
