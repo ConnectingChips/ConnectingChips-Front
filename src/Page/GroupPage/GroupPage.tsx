@@ -21,7 +21,8 @@ const GroupPage = (): JSX.Element => {
       <GroupHeader />
       {/* FIXME: url 안먹힘 */}
       <GroupImageS url={url} />
-      <GroupSummary selected={[0, 1, 3]} />
+      <GroupArticle selected={[0, 1, 3]} passsort='Page' />
+      <DivideBaS />
 
       <GroupPostListS>
         <h2>작심 인증글</h2>
@@ -32,20 +33,6 @@ const GroupPage = (): JSX.Element => {
 };
 
 export default GroupPage;
-
-type GroupPostProps = {
-  selected: number[];
-};
-
-/** 2023-08-26 GroupPage.tsx - 그룹페이지 소개글 - 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 */
-const GroupSummary = ({ selected }: GroupPostProps) => {
-  return (
-    <>
-      <GroupArticle selected={selected} passsort='Page' />
-      <DivideBaS />
-    </>
-  );
-};
 
 /** 2023-08-26 GroupPage.tsx - 그룹페이지 글 항목 */
 const GroupPost = () => {
