@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import postInfoData from '../../data/postInfoData';
-
+import { BoardsType } from '../../API/Boards';
 interface commentInputProps {
   commentInputBind: {
     commentInput: string;
@@ -11,10 +11,10 @@ interface commentInputProps {
     inputToggle: boolean;
     setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  postData: BoardsType;
 }
 
-const CommentInput = ({ commentInputBind, inputToggleBind }: commentInputProps) => {
-  const commentList = postInfoData.commentList;
+const CommentInput = ({ commentInputBind, inputToggleBind, postData }: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
 
@@ -33,7 +33,7 @@ const CommentInput = ({ commentInputBind, inputToggleBind }: commentInputProps) 
 
   // 댓글없으면 input placeholder 변경
   const placeholderText =
-    commentList.length > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
+    postData.commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
 
   // input에 적으면 img변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
@@ -51,7 +51,6 @@ const CommentInput = ({ commentInputBind, inputToggleBind }: commentInputProps) 
         type='text'
         maxLength={400}
       />
-      {/* FIXME: 클릭해도 true로 안바뀜 비동기때문인가.*/}
       <button onClick={handleFormClickTrue}>
         {<img src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`} alt='sendIcon' />}
       </button>

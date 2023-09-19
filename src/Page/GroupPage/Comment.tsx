@@ -33,7 +33,11 @@ const Comment = ({ postData }: CommentListDataProps) => {
           <CommentList commentFlipBind={commentFlipBind} commentListData={postData.commentList} />
         </>
       ) : null}
-      <CommentInput commentInputBind={commentInputBind} inputToggleBind={inputToggleBind} />
+      <CommentInput
+        commentInputBind={commentInputBind}
+        inputToggleBind={inputToggleBind}
+        postData={postData}
+      />
     </>
   );
 };
