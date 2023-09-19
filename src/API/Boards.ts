@@ -1,4 +1,5 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
+import { getUser } from './userService';
 const access_token = localStorage.getItem('access_token');
 const tockenHeader = {
   headers: {
@@ -54,7 +55,8 @@ export interface BoardCheck {
 }
 
 // 게시글 작성자 여부 -> GET 요청
-export const getBoardCheck = async (boardId: number, user_id: number): Promise<BoardCheck> => {
+export const getBoardCheck = async (boardId: number): Promise<BoardCheck> => {
+  const user_id = (await getUser()).userId;
   try {
     const response = await getData<BoardCheck>(
       `/boards/authentication?board_id=${boardId}&user_id=${user_id}`,

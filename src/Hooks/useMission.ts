@@ -5,7 +5,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // TODO: 갈아끼울 코드
-import { fetchMyList } from '../API/fetchMyList';
 import { initMyList } from '../data/initialData';
 
 // FIXME: 버려질 코드
