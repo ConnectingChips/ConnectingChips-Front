@@ -14,12 +14,13 @@ import scrollTop from '../../Hooks/scrollTop';
 import { GetUser } from '../../Type/User';
 import { getUser } from '../../API/userService';
 import { Mylist } from '../../Type/userMind';
-import { getMyList } from '../../API/Mind';
+import { getMyList } from '../../API/userMind';
 import { GroupInfoType } from '../../Type/MissionType';
 import { initGroup } from '../../data/initialData';
+import { userInit } from '../../data/initialData';
 
 export { styled, useEffect, useState };
 export { Arrow_Left_B, 기본프로필, Info_icon_B };
 export { ArticleTab, CurrentMind, FinishedMindList, ConfirmModal };
-export { scrollTop, type GetUser, getUser, type Mylist, getMyList };
+export { scrollTop, type GetUser, getUser, type Mylist, getMyList, userInit };
 export { myInfo, myGroupList, type GroupInfoType, initGroup };

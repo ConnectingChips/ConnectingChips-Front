@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { MissonTab } from '../../Component/Mission/MissionTab';
 import { useEffect, useState } from 'react';
 import missionTab from '../../data/missionTab';
-import { getMindAll, getMindFilter } from '../../API/Mind';
+import { getMindAll, getMindFilter } from '../../API/userMind';
 import { Mind } from '../../Type/userMind';
 
 const mindInit = [

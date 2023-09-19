@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 // TODO: 갈아끼울 부분
+import { fetchMyList } from '../../API/fetchMyList';
 import { initMyList } from '../../data/initialData';
 
 // FIXME: 버려질 부분
@@ -14,11 +15,12 @@ const JoinButtonCTA = (): JSX.Element => {
   const { uuid } = useParams();
   const [isLogin, setIsLogin] = useState(false);
   const [validJoin, setValidJoin] = useState('true');
-  const [myList, setMyList] = useState(initMyList);
+  const [myList, setMyList] = useState(initMyList.data);
 
   useEffect(() => {
     if (localStorage.getItem('access_token')) {
       setIsLogin(true);
+      fetchMyList(setMyList);
       // TODO: 갈아끼울 부분
       // if (myList.length === 3) setValidJoin('false');
 

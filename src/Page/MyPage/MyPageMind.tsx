@@ -5,12 +5,11 @@ import { initMyList } from '../../data/initialData';
 import { FinishList } from '../../Type/userMind';
 import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
 import { Mylist, getMyList } from './MypageBarrel';
-import { getMindAFinished } from '../../API/Mind';
-import { putMindExit, putReJoin } from '../../API/joinedMinds';
+import { getMindAFinished, putMindExit, putMindRejoin } from '../../API/userMind';
 
 /** 참여중인 작심 */
 export const CurrentMind = (): JSX.Element => {
-  const [myList, setMylist] = useState<Mylist[]>(initMyList);
+  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
 
   useEffect(() => {
     getMyList().then((res: Mylist[]) => setMylist(res));
@@ -54,7 +53,7 @@ const NoneExistComp = (): JSX.Element => {
 
 /** 참여했던 작심 */
 export const FinishedMindList = (): JSX.Element => {
-  const [myList, setMylist] = useState<Mylist[]>(initMyList);
+  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
 
   useEffect(() => {
     getMyList().then((res: Mylist[]) => setMylist(res));
@@ -88,7 +87,7 @@ const FinishedMind = () => {
               </p>
             </div>
             {finishList.length >= 3 ? (
-              <FullJoinButtonS onClick={() => putReJoin(list.mindId)}>
+              <FullJoinButtonS onClick={() => putMindRejoin(list.mindId)}>
                 다시 참여하기
               </FullJoinButtonS>
             ) : (
