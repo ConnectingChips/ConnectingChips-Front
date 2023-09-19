@@ -1,6 +1,7 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-import { Mind, isDoneSingle, isDone, Mylist, FinishList } from '../Type/userMind';
+import { Mind, isDoneSingle, isDone, Mylist, FinishList, TotalMind } from '../Type/userMind';
 import logText from './logText';
+import { GroupPageInfo } from '../Type/Group';
 
 const access_token = localStorage.getItem('access_token');
 const tockenHeader = {
@@ -9,35 +10,87 @@ const tockenHeader = {
   },
 };
 
-// 모든 작심 정보 반환 (작심 그룹 리스트) /minds /minds/except-me/{mindTypeName}
-export const getMindAll = async (): Promise<Mind[]> => {
+// 작심 정보 반환 (그룹 인트로 / 인증하기)
+export const getMindInfo_Intro = async (mind_id: number): Promise<Mind> => {
   try {
-    const response =
-      access_token !== null
-        ? await getData<Mind[]>('/minds/except-me', tockenHeader)
-        : await getData<Mind[]>('/minds');
+    const response = await getData<Mind>(`/minds/intro/${mind_id}`);
 
-    response.data.forEach((mind) => logText(mind));
+    // logText(response.data)
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get All Minds');
+    throw new Error("Failed to get Minds' Info Intro, Upload");
+  }
+};
+
+//  작심 정보  이미지반환 (그룹 인트로)
+export const getMind_IntroImaage = async (mind_id: number): Promise<{ introImage: string }> => {
+  try {
+    const response = await getData<{ introImage: string }>(`/minds/intro/${mind_id}/image`);
+
+    // logText(response.data)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to get Minds' Info Intro, Upload");
+  }
+};
+
+// (그룹 페이지)
+export const getMindInfo_Page = async (mind_id: number): Promise<GroupPageInfo> => {
+  try {
+    const response = await getData<GroupPageInfo>(`/minds/page/${mind_id}`);
+
+    // logText(response.data)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to get Minds' Info Intro, Upload");
+  }
+};
+
+// 그룹 페이지 이미지 (그룹 페이지)
+export const getMind_PageImaage = async (mind_id: number): Promise<{ pageImage: string }> => {
+  try {
+    const response = await getData<{ pageImage: string }>(`/minds/page/${mind_id}/image`);
+
+    // logText(response.data)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to get Minds' Info Intro, Upload");
+  }
+};
+
+// 모든 작심 정보 반환 (작심 그룹 리스트) /minds /minds/except-me/{mindTypeName}
+export const getMindAll = async (): Promise<TotalMind[]> => {
+  try {
+    const response =
+      access_token !== null
+        ? await getData<TotalMind[]>('/minds/except-me', tockenHeader)
+        : await getData<TotalMind[]>('/minds');
+
+    // response.data.forEach((mind) => logText(mind));
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('getMindAll 실패함');
   }
 };
 
 // 내가 가입한 작심을 제외한 모든 작심반환 /minds/except-me/{mindTypeName}
-export const getMindFilter = async (mindTypeName: string): Promise<Mind[]> => {
+export const getMindFilter = async (mindTypeName: string): Promise<TotalMind[]> => {
   try {
     const response =
       access_token !== null
-        ? await getData<Mind[]>(`/minds/except-me/${mindTypeName}`, tockenHeader)
-        : await getData<Mind[]>(`/minds/not-login/${mindTypeName}`);
+        ? await getData<TotalMind[]>(`/minds/except-me/${mindTypeName}`, tockenHeader)
+        : await getData<TotalMind[]>(`/minds/not-login/${mindTypeName}`);
 
     response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get Filter Minds');
+    throw new Error('getMindFilter 실패함');
   }
 };
 
@@ -75,8 +128,8 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
     response.data.map((mind) => logText(mind));
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error('Failed to get isDone All Valid');
+    // console.error(error);
+    throw new Error('getisDoneAll 실패함');
   }
 };
 
@@ -104,7 +157,7 @@ export const getMyList = async (): Promise<Mylist[]> => {
     response.data.forEach((myList: Mylist) => logText(myList));
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error('Failed to get isDone All Valid');
+    // console.error(error);
+    throw new Error('getMyList 실패함');
   }
 };

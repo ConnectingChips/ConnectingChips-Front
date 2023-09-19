@@ -33,8 +33,8 @@ export const getUser = async (): Promise<GetUser> => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error('Failed to get user');
+    // console.error(error);
+    throw new Error('getUser 실패함');
   }
 };
 

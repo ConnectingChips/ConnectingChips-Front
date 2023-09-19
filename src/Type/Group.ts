@@ -28,6 +28,16 @@ export interface Group {
   post: Post;
 }
 
+export interface GroupPageInfo {
+  mindId: number;
+  mindTypeName: string;
+  name: string;
+  userCount: number;
+  writeFormat: string;
+  doneToday: boolean;
+  count: 0 | 1 | 2 | 3;
+}
+
 export interface Post {
   id: number;
   image?: Image;

@@ -12,43 +12,27 @@ import {
 } from './HomeBarrel';
 import { Banner as BannerImage, Logo_002, 헤드셋칩스, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
+import { MyInfoContextType, MyListContextType } from '../../API/Context';
 
 const { Kakao } = window;
 
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
-  const [access_token, setAccess_token] = useState<string>('');
+  const { myInfo, setMyInfo } = useContext<MyInfoContextType>(MyInfoContext);
+  const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
-  const { myInfo, setMyInfo } = useContext(MyInfoContext);
-  const { myList, setMylist } = useContext(MyListContext);
+  const access_token = setHome(setMyInfo, setMylist, setIsDone);
 
-  type isDone = {
-    joinedMindId: number;
-    isDoneToday: boolean;
-  };
+  useEffect(() => scrollTop(), []);
 
-  useEffect(() => {
-    scrollTop();
-    setAccess_token(localStorage.getItem('access_token') || '');
+  // 카카오 공유하기
+  // const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
 
-    if (access_token !== '') {
-      getUser().then((userInfo: GetUser) => setMyInfo(userInfo));
-      getMyList().then((res: Mylist[]) => setMylist(res));
-      getisDoneAll().then((res: isDone[]) => {
-        const doneValid = res.some((data) => data.isDoneToday);
-        setIsDone(doneValid);
-      });
-    }
-
-    // 카카오 공유하기
-    // const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
-
-    // Kakao.cleanup();
-    // if (!Kakao.isInitialized()) {
-    //   Kakao.init(KAKAO_KEY);
-    // }
-  }, [access_token]);
+  // Kakao.cleanup();
+  // if (!Kakao.isInitialized()) {
+  //   Kakao.init(KAKAO_KEY);
+  // }
 
   const navigate = useNavigate();
 
@@ -116,6 +100,37 @@ const Home = (): JSX.Element => {
 };
 
 export default Home;
+
+const setHome = (
+  setMyInfo: React.Dispatch<React.SetStateAction<GetUser>>,
+  setMylist: React.Dispatch<React.SetStateAction<Mylist[]>>,
+  setIsDone: React.Dispatch<React.SetStateAction<boolean>>,
+): string => {
+  type isDone = {
+    joinedMindId: number;
+    isDoneToday: boolean;
+  };
+
+  const access_token: string = localStorage.getItem('access_token') || '';
+  if (access_token !== '') {
+    getUser()
+      .then((userInfo: GetUser) => setMyInfo(userInfo))
+      .catch(() => {});
+
+    getMyList()
+      .then((res: Mylist[]) => setMylist(res))
+      .catch(() => {});
+
+    getisDoneAll()
+      .then((res: isDone[]) => {
+        const doneValid = res.some((data) => data.isDoneToday);
+        setIsDone(doneValid);
+      })
+      .catch(() => {});
+  }
+
+  return access_token;
+};
 
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */
 const HomeS = styled.section`
