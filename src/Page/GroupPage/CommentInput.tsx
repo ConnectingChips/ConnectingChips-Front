@@ -1,7 +1,11 @@
-import { useEffect } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import postInfoData from '../../data/postInfoData';
 import { BoardsType } from '../../API/Boards';
+import { postAddComment } from '../../API/Comment';
+import { getUser } from '../../API/userService';
+
+import { GetUser } from '../../Type/User';
+import { initUser } from '../../data/initialData';
 interface commentInputProps {
   commentInputBind: {
     commentInput: string;
@@ -17,6 +21,13 @@ interface commentInputProps {
 const CommentInput = ({ commentInputBind, inputToggleBind, postData }: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
+  const [userInfo, setUserInfo] = useState<GetUser>(initUser);
+
+  useEffect(() => {
+    getUser().then((userInfo: GetUser) => {
+      setUserInfo(userInfo);
+    });
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
@@ -26,21 +37,25 @@ const CommentInput = ({ commentInputBind, inputToggleBind, postData }: commentIn
     setInputToggle(false);
   };
 
-  const handleFormClickTrue = (e: any) => {
-    e.preventDefault();
-    setInputToggle(true);
+  const AddCommentData = {
+    userId: userInfo.userId,
+    boardId: postData.boardId,
+    content: commentInput,
   };
 
-  // 댓글없으면 input placeholder 변경
+  // input 버튼 핸들러
+  const inputBtnHandler = (e: any) => {
+    e.preventDefault();
+    setInputToggle(true);
+    postAddComment(AddCommentData);
+  };
+
+  // 댓글 개수에 따라 input placeholder 변경
   const placeholderText =
     postData.commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
 
-  // input에 적으면 img변경
+  // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
-
-  useEffect(() => {
-    console.log(inputToggle); // inputToggle이 변경될 때마다 호출됩니다.
-  }, [inputToggle]);
 
   return (
     <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
@@ -51,7 +66,7 @@ const CommentInput = ({ commentInputBind, inputToggleBind, postData }: commentIn
         type='text'
         maxLength={400}
       />
-      <button onClick={handleFormClickTrue}>
+      <button onClick={inputBtnHandler}>
         {<img src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`} alt='sendIcon' />}
       </button>
     </CommentFormS>

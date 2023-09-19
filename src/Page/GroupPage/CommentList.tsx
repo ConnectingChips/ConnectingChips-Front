@@ -25,10 +25,6 @@ export { CommentList };
 
 /** 댓글과 답글 list */
 const CommentBox = ({ commentData }: { commentData: CommentType }) => {
-  getUser().then((data) => {
-    console.log(data.userId);
-  });
-
   return (
     <CommentBoxS>
       <CommentBoxMaker sort='comment' commentData={commentData} />

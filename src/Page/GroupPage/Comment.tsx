@@ -10,7 +10,9 @@ interface CommentListDataProps {
 
 const Comment = ({ postData }: CommentListDataProps) => {
   const [commentFlip, setCommentFlip] = useState(true);
+  // input 바텀에 붙거나 말거나
   const [inputToggle, setInputToggle] = useState<boolean>(true);
+  // input 내용 받아오기
   const [commentInput, setCommentInput] = useState<string>('');
   const commentFlipBind = {
     commentFlip,
@@ -27,7 +29,7 @@ const Comment = ({ postData }: CommentListDataProps) => {
 
   return (
     <>
-      {postData.commentList.length > 0 ? (
+      {postData.commentCount > 0 ? (
         <>
           <CommentHeader commentFlipBind={commentFlipBind} postData={postData} />
           <CommentList commentFlipBind={commentFlipBind} commentListData={postData.commentList} />
