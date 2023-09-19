@@ -10,27 +10,39 @@ import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
-import { getMindSingle, Mind } from '../../API/userMind';
+import { getMindSingle } from '../../API/userMind';
+import { Mind } from '../../Type/userMind';
 import { getUser } from '../../API/userService';
+import { postCreateBoard } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
 
-type MindSingle = Pick<Mind, 'mindType' | 'name'>;
+type MindSingle = Pick<Mind, 'mindTypeName' | 'name'>;
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
   const { intro, rule } = groupList[0];
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const textareaRef = useRef<HTMLInputElement | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // useLoginCheck(navigate, "None");
-  const [mindData, setMindData] = useState<MindSingle>();
+  const [mindData, setMindData] = useState<MindSingle>({ mindTypeName: '', name: '' });
   const [userId, setUserId] = useState<number>(0);
   const { mindID } = useParams();
+  const [text, setText] = useState<string>('오늘 작심 성공!'); // TODO: constants
+  const [image, setImage] = useState<{
+    name: string;
+    file: null | File;
+  }>({
+    name: '',
+    file: null,
+  });
 
   useEffect(() => {
     (async () => {
       // TODO: url에서 mindId 가져와서 전달하기
+      console.log(mindID);
       try {
         const mind = await getMindSingle(1);
         const res = await getUser();
@@ -42,17 +54,43 @@ const UploadPost = () => {
     })();
   }, []);
 
-  const handleFileInputChange = () => {
-    const fileInputLength = fileRef.current?.files?.length;
-    fileInputLength && setImageUrl(URL.createObjectURL(fileRef.current!.files![0]));
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length) return;
+
+    const file = e.target.files[0];
+    setImage({ name: file.name, file });
+    setImageUrl(URL.createObjectURL(file));
   };
 
+  console.log('imageUrl', imageUrl);
+
   const handleDeleteIconClick = () => {
+    URL.revokeObjectURL(imageUrl);
     setImageUrl('');
   };
 
   const handleInfoIconClick = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('보내기');
+    /** 이미지, 텍스트 보내기
+     * 텍스트 기본값: 오늘 작심 성공!
+     * 이미지(옵션)
+     */
+    try {
+      const response = postCreateBoard({ mindId: Number(mindID), userId, content: text, image });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+      // TODO:  만약에 404? 토큰 만료 에러가 뜨면 토스트 띄우고 로그인 페이지로 이동시키기
+    }
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
   };
 
   return (
@@ -61,7 +99,7 @@ const UploadPost = () => {
         <h1>작심 글쓰기</h1>
       </UploadPostHeaderS>
       <GroupTitleS>
-        <ItemTabS>{mindData?.mindType}</ItemTabS>
+        <ItemTabS>{mindData?.mindTypeName}</ItemTabS>
         <h1>{mindData?.name}</h1>
       </GroupTitleS>
       <GroupContent selected={[0, 2]} passsort='Create' />
@@ -95,7 +133,7 @@ const UploadPost = () => {
         </CreateFormUploadS>
         <CreateFormUploadS>
           <h2>오늘의 작심은 어땠나요?</h2>
-          <textarea placeholder='오늘 작심 성공!' maxLength={800} />
+          <textarea placeholder='오늘 작심 성공!' maxLength={800} onChange={handleTextareaChange} />
         </CreateFormUploadS>
         <SubmitButtonWrapperS>
           <SubmitButtonCTA />

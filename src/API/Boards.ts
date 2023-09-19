@@ -73,13 +73,32 @@ export interface CreateBoard {
   mindId: number;
   userId: number;
   content: string;
-  image: string;
+  image: {
+    name: string;
+    file: null | File;
+  };
 }
 
 //게시글 작성 -> POST요청
 export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => {
+  // formData로 전송
+  const { mindId, userId, content, image } = BoardData;
+  const formData = new FormData();
+
+  formData.append('mindId', String(mindId));
+  formData.append('userId', String(userId));
+
+  if (image.file !== null) {
+    const blob = new Blob([image.file], { type: 'image/*' });
+    formData.append('image', blob);
+  }
+
+  if (content) {
+    formData.append('content', content);
+  }
+
   try {
-    await postData(`/boards`, BoardData, tockenHeader);
+    await postData(`/boards`, formData, tockenHeader);
   } catch (error) {
     console.error(error);
     throw new Error('Failed to post Join');
