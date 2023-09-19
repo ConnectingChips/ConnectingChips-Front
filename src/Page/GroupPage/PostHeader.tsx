@@ -58,7 +58,13 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
               >
                 수정하기
               </div>
-              <div>삭제하기</div>
+              <div
+                onClick={() => {
+                  deleteBoard(postData.boardId);
+                }}
+              >
+                삭제하기
+              </div>
             </ModalS>
           ) : null}
         </MoreIconS>
