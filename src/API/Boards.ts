@@ -46,7 +46,7 @@ export const getBoards = async (mindId: number): Promise<BoardsType[]> => {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to getBoards');
+    throw new Error('게시글 리스트 반환 에러');
   }
 };
 
@@ -66,7 +66,7 @@ export const getBoardCheck = async (boardId: number): Promise<BoardCheck> => {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to getBoardCheck');
+    throw new Error('게시글 작성자 여부 에러');
   }
 };
 
@@ -83,7 +83,7 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
     await postData(`/boards`, BoardData, tockenHeader);
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to post Join');
+    throw new Error('게시글 작성 에러');
   }
 };
 
