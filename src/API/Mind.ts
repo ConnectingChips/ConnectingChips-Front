@@ -1,5 +1,4 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-import { getUser } from './userService';
 import { Mind, isDoneSingle, isDone, Mylist, FinishList } from '../Type/userMind';
 import logText from './logText';
 
@@ -10,14 +9,15 @@ const tockenHeader = {
   },
 };
 
+// 모든 작심 정보 반환 (작심 그룹 리스트) /minds /minds/except-me/{mindTypeName}
 export const getMindAll = async (): Promise<Mind[]> => {
   try {
     const response =
       access_token !== null
         ? await getData<Mind[]>('/minds/except-me', tockenHeader)
-        : await getData<Mind[]>('/minds/not-login');
+        : await getData<Mind[]>('/minds');
 
-    // response.data.forEach((mind) => logText(mind));
+    response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
     console.error(error);
@@ -25,6 +25,7 @@ export const getMindAll = async (): Promise<Mind[]> => {
   }
 };
 
+// 내가 가입한 작심을 제외한 모든 작심반환 /minds/except-me/{mindTypeName}
 export const getMindFilter = async (mindTypeName: string): Promise<Mind[]> => {
   try {
     const response =
@@ -40,6 +41,7 @@ export const getMindFilter = async (mindTypeName: string): Promise<Mind[]> => {
   }
 };
 
+// 나의 참여했던 작심 반환
 export const getMindAFinished = async (): Promise<FinishList[]> => {
   try {
     const response = await getData<FinishList[]>('/minds/my-joined-mind-list', tockenHeader);
@@ -52,6 +54,7 @@ export const getMindAFinished = async (): Promise<FinishList[]> => {
   }
 };
 
+// 당일 개별 작심 인증 여부
 export const getMindSingle = async (mind_id: number): Promise<Mind> => {
   try {
     const response = await getData<Mind>(`/minds/${mind_id}`);
@@ -64,6 +67,7 @@ export const getMindSingle = async (mind_id: number): Promise<Mind> => {
   }
 };
 
+// 당일 전체 참여한 작심 인증 여부
 export const getisDoneAll = async (): Promise<isDone[]> => {
   try {
     const response = await getData<isDone[]>(`/minds/today-check`, tockenHeader);
@@ -76,12 +80,11 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
   }
 };
 
+// 당일 개별 작심 인증 여부
 export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSingle> => {
-  const user_id = (await getUser()).userId;
-
   try {
     const response = await getData<isDoneSingle>(
-      `/minds/today-check/${joined_mind_id}/${user_id}`,
+      `/minds/today-check/${joined_mind_id}`,
       tockenHeader,
     );
 
@@ -93,30 +96,8 @@ export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSin
   }
 };
 
-export const putMindRejoin = async (joined_mind_id: number): Promise<void> => {
-  const user_id = (await getUser()).userId;
-
-  try {
-    await putData<Mylist[]>(`/joined-minds/${joined_mind_id}/remind/${user_id}`, tockenHeader);
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to put Rejoin Mind');
-  }
-};
-
-export const putMindExit = async (joined_mind_id: number): Promise<void> => {
-  const user_id = (await getUser()).userId;
-
-  try {
-    await putData<Mylist[]>(`/joined-minds/${joined_mind_id}/exit/${user_id}`, tockenHeader);
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to put Exit Mind');
-  }
-};
+// 나의 작심 현황 (나의 작심 현황)
 export const getMyList = async (): Promise<Mylist[]> => {
-  const user_id = (await getUser()).userId;
-
   try {
     const response = await getData<Mylist[]>('/minds/my-list', tockenHeader);
 

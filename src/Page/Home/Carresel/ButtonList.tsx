@@ -1,53 +1,29 @@
-import { Link } from 'react-router-dom';
+import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-
-// TODO: 갈아끼울 코드
-// import { CommonProps } from '../../../Type/MissionType';
-
-// FIXME: 사라져야할 코드
-import { ButtonListProps } from '../../../Type/MissionType';
 import ImageBoxS from '../../../StyleComp/ImageBoxS';
 
-import { useEffect, useState } from '../HomeBarrel';
+import { MyListContext, useContext } from '../HomeBarrel';
+import useMission from '../../../Hooks/useCarresel';
+import { LoggableObject, getCkeckedJoined, putReJoin } from '../../../API/joinedMinds';
 
 /** 2023-09-02 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
-//TODO: 갈아끼울 코드
-// const ButtonList = ({ buttonListProps }: { buttonListProps: CommonProps }): JSX.Element => {
-//   const { slideRef, count, sort, TOTAL_SLIDES } = buttonListProps;
-//   const [myList, setMyList] = useState(initMyList.data);
+const ButtonList = (): JSX.Element => {
+  const { buttonDataProps } = useMission();
+  const { slideRef, count, sort } = buttonDataProps;
+  const { myList } = useContext(MyListContext);
 
-//   useEffect(() => {
-//     fetchMyList(setMyList);
-//   }, []);
-
-//   return (
-//     <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
-//       {myList.map((mind) => {
-//         const { count, isDoneToday, id } = mind;
-//         return <CarreselBtnList myCount={count} completedToday={isDoneToday} uuid={id} key={id} />;
-//       })}
-//     </ImageBoxS>
-//   );
-// };
-
-// FIXME: 사라질 코드
-const ButtonList = ({ buttonListProps }: { buttonListProps: ButtonListProps }): JSX.Element => {
-  const { slideRef, count, sort, TOTAL_SLIDES, doneList, uuidList, countList } = buttonListProps;
   return (
-    <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
-      {uuidList.map((_, index) => {
+    <ImageBoxS ref={slideRef} count={count} sort={sort} length={myList.length}>
+      {myList.map((mind) => {
+        const { count, isDoneToday, id } = mind;
         return (
-          <CarreselBtnList
-            myCount={countList[index]}
-            completedToday={doneList[index]}
-            mind_id={uuidList[index]}
-            key={index}
-          />
+          <CarreselBtnList myCount={count} completedToday={isDoneToday} mind_id={id} key={id} />
         );
       })}
     </ImageBoxS>
   );
 };
+
 export default ButtonList;
 
 /** 2023-08-22 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
@@ -60,10 +36,9 @@ const CarreselBtnList = ({
   completedToday: boolean;
   mind_id: number;
 }) => {
-  const remind = async () => {
-    // await fetch(`/joined-minds/${mind_id}/remind`, { method: 'PUT' });
-    await fetch(`/joined-minds/${mind_id}/remind`, { method: 'PUT' });
-  };
+  const navigate = useNavigate();
+
+  const remind = async () => putReJoin(mind_id);
 
   return (
     <>
@@ -74,14 +49,21 @@ const CarreselBtnList = ({
           <p>오늘 작심 성공!</p>
         </TodayClearBtnS>
       ) : (
-        <Link to={`/uploadPost/${mind_id}`}>
-          {/* <NoneClearBtnS>작심 인증하기</NoneClearBtnS> */}
-          <NoneClearBtnS>작심 인증하기</NoneClearBtnS>
-        </Link>
+        <NoneClearBtnS
+          onClick={() => {
+            goPost(mind_id)
+              .then(() => navigate(`/uploadPost/${mind_id}`))
+              .catch(() => navigate('/error'));
+          }}
+        >
+          작심 인증하기
+        </NoneClearBtnS>
       )}
     </>
   );
 };
+
+const goPost = async (mind_id: number): Promise<LoggableObject> => await getCkeckedJoined(mind_id);
 
 const CommonBtnS = styled.button`
   width: var(--width-my-mission);

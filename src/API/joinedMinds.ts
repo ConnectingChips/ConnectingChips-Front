@@ -7,7 +7,7 @@ const tockenHeader = {
   },
 };
 
-type LoggableObject = { isJoining: true };
+export type LoggableObject = { isJoining: boolean };
 
 function logText(arg: LoggableObject) {
   for (const [key, value] of Object.entries(arg)) {
@@ -15,9 +15,9 @@ function logText(arg: LoggableObject) {
   }
 }
 
-export const getMindAll = async (mind_id: number): Promise<{ isJoining: true }> => {
+export const getCkeckedJoined = async (mind_id: number): Promise<LoggableObject> => {
   try {
-    const response = await getData<{ isJoining: true }>(
+    const response = await getData<LoggableObject>(
       `/joined-minds/${mind_id}/join-check`,
       tockenHeader,
     );
@@ -26,7 +26,7 @@ export const getMindAll = async (mind_id: number): Promise<{ isJoining: true }> 
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get All Minds');
+    throw new Error('Failed to get checked Joined value');
   }
 };
 
@@ -39,20 +39,20 @@ export const postJoin = async (mind_id: number, user_id: number): Promise<void> 
   }
 };
 
-export const putReJoin = async (mind_id: number, user_id: number): Promise<void> => {
+export const putReJoin = async (mind_id: number): Promise<void> => {
   try {
-    await putData(`/joined-minds/${mind_id}/remind/${user_id}`, tockenHeader);
+    await putData(`/joined-minds/${mind_id}/remind`, tockenHeader);
   } catch (error) {
     console.error(error);
     throw new Error('Failed to put Rejoin');
   }
 };
 
-export const putMindExit = async (mind_id: number, user_id: number): Promise<void> => {
+export const putMindExit = async (mind_id: Number): Promise<void> => {
   try {
-    await putData(`/joined-minds/${mind_id}/exit/${user_id}`, tockenHeader);
+    await putData(`/joined-minds/${mind_id}/exit`, tockenHeader);
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to put Rejoin');
+    throw new Error('Failed to put Exit Mind');
   }
 };
