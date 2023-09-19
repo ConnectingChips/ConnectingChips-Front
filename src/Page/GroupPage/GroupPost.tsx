@@ -21,7 +21,6 @@ const GroupPost = ({ passsort, postData }: GroupGroupPostProps): JSX.Element => 
   return (
     <GroupPostS passsort={passsort}>
       <PostS>
-        {/* TODO: api시간가져오기 */}
         <PostHeader editbind={editbind} postData={postData} />
         <PostImageS>
           <img src={postData.image} alt='업로드 사진' />

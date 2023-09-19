@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { CommentType, ReplyType } from '../../API/Boards';
+import { getUser } from '../../API/userService';
 interface CommentHeaderProps {
   commentFlipBind: {
     commentFlip: boolean;
@@ -23,6 +25,10 @@ export { CommentList };
 
 /** 댓글과 답글 list */
 const CommentBox = ({ commentData }: { commentData: CommentType }) => {
+  getUser().then((data) => {
+    console.log(data.userId);
+  });
+
   return (
     <CommentBoxS>
       <CommentBoxMaker sort='comment' commentData={commentData} />

@@ -11,7 +11,7 @@ const GroupPage = (): JSX.Element => {
       <GroupHeader />
       <GroupImageS url={url} />
 
-      <GroupArticle selected={[0, 1, 3]} passsort='Page' />
+      {/* <GroupArticle selected={[0, 1, 3]} passsort='Page' /> */}
       <DivideBaS />
 
       <GroupPostList />
