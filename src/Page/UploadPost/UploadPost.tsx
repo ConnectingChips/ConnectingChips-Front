@@ -44,7 +44,7 @@ const UploadPost = () => {
       // TODO: url에서 mindId 가져와서 전달하기
       console.log(mindID);
       try {
-        const mind = await getMindSingle(1);
+        const mind = await getMindSingle(Number(mindID));
         const res = await getUser();
         setMindData(mind);
         setUserId(res.userId);
