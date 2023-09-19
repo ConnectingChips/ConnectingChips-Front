@@ -6,15 +6,15 @@ import { useParams } from 'react-router-dom';
 
 const GroupPostList = () => {
   // TODO: post업애려면 Commendted false로 바꾸기
-  let { params } = useParams<string>();
+  const { mindID } = useParams<string>();
 
   const [postData, setPostData] = useState<BoardsType[]>([]);
 
   useEffect(() => {
-    getBoards(Number(params)).then((res: BoardsType[]) => {
+    getBoards(Number(mindID)).then((res: BoardsType[]) => {
       setPostData(res);
     });
-  }, [params]);
+  }, [mindID]);
 
   return (
     <GroupPostListS>
