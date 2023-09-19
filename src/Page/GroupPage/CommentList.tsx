@@ -1,6 +1,5 @@
 import { styled } from 'styled-components';
-import { myInfo } from '../../data/myInfo';
-import { CommentType } from '../../API/Boards';
+import { CommentType, ReplyType } from '../../API/Boards';
 interface CommentHeaderProps {
   commentFlipBind: {
     commentFlip: boolean;
@@ -12,53 +11,104 @@ interface CommentHeaderProps {
 const CommentList = ({ commentFlipBind, commentListData }: CommentHeaderProps) => {
   const { commentFlip, setCommentFlip } = commentFlipBind;
   return (
-    <CommentContainerS commentFlip={commentFlip}>
+    <CommentListS commentFlip={commentFlip}>
       {commentListData.map((commentData, i) => {
-        return (
-          <div key={i}>
-            <CommentBox commentData={commentData} />
-            {/* <ReplyBox commentData={commentData} /> */}
-          </div>
-        );
+        return <CommentBox commentData={commentData} key={i} />;
       })}
-    </CommentContainerS>
+    </CommentListS>
   );
 };
 
 export { CommentList };
 
-interface CommentBoxProps {
-  commentData: CommentType;
-}
-
 /** 댓글과 답글 list */
-const CommentBox = ({ commentData }: CommentBoxProps) => {
-  // console.log(commentData.profileImage);
-  const defalutPofileImage = (imageUrl: string) => {
-    if (imageUrl === 'default') {
-      return `${process.env.PUBLIC_URL}/defalutProfileImage.jpg`;
-    }
-  };
-
+const CommentBox = ({ commentData }: { commentData: CommentType }) => {
   return (
     <CommentBoxS>
-      <img src={defalutPofileImage(commentData.profileImage)} alt='답글프로필' />
-      <CommentContentS>
-        <div className='profile'>
-          <h2>{commentData.nickname}</h2>
-          <p>{commentData.createDate}</p>
-        </div>
-        <p className='text'>{commentData.content}</p>
-        <CommentOptionS>
-          <h2>답글</h2>
-          <h2>삭제</h2>
-        </CommentOptionS>
-      </CommentContentS>
+      <CommentBoxMaker sort='comment' commentData={commentData} />
+      {commentData.replyList.map((replyData, i) => {
+        return <ReplyBoxMaker sort='reply' replyData={replyData} key={i} />;
+      })}
     </CommentBoxS>
   );
 };
 
-const CommentContainerS = styled.div<{ commentFlip: boolean }>`
+interface CommentBoxMakerProps {
+  sort: 'comment';
+  commentData: CommentType;
+}
+
+/** 댓글과 답글 box */
+const CommentBoxMaker = ({ sort, commentData }: CommentBoxMakerProps) => {
+  return (
+    <CommentContainerS sort={sort}>
+      <img src={commentData.profileImage} alt='답글프로필' />
+      <CommentContentS sort={sort}>
+        <div>
+          <div className='profile'>
+            <h2>{commentData.nickname}</h2>
+            <p>{commentData.createDate}</p>
+          </div>
+          <p className='text'>{commentData.content}</p>
+        </div>
+        <CommentOptionS>
+          <h2>답글</h2>
+          <h2 className='delete'>삭제</h2>
+        </CommentOptionS>
+      </CommentContentS>
+    </CommentContainerS>
+  );
+};
+
+/** 댓글과 답글 box */
+const Original = ({ sort, commentData }: CommentBoxMakerProps) => {
+  return (
+    <CommentContainerS sort={sort}>
+      <img src={commentData.profileImage} alt='답글프로필' />
+      <CommentContentS sort={sort}>
+        <div>
+          <div className='profile'>
+            <h2>{commentData.nickname}</h2>
+            <p>{commentData.createDate}</p>
+          </div>
+          <p className='text'>{commentData.content}</p>
+        </div>
+        <CommentOptionS>
+          <h2>답글</h2>
+          <h2 className='delete'>삭제</h2>
+        </CommentOptionS>
+      </CommentContentS>
+    </CommentContainerS>
+  );
+};
+
+interface ReplyBoxMakerProps {
+  sort: 'reply';
+  replyData: ReplyType;
+}
+
+/** 댓글과 답글 box */
+const ReplyBoxMaker = ({ sort, replyData }: ReplyBoxMakerProps) => {
+  return (
+    <CommentContainerS sort={sort}>
+      <img src={replyData.profileImage} alt='답글프로필' />
+      <CommentContentS sort={sort}>
+        <div>
+          <div className='profile'>
+            <h2>{replyData.nickname}</h2>
+            <p>{replyData.createDate}</p>
+          </div>
+          <p className='text'>{replyData.content}</p>
+        </div>
+        <CommentOptionS>
+          <h2 className='delete'>삭제</h2>
+        </CommentOptionS>
+      </CommentContentS>
+    </CommentContainerS>
+  );
+};
+
+const CommentListS = styled.div<{ commentFlip: boolean }>`
   height: ${(props) => (props.commentFlip ? '0px' : 'auto')};
   margin: ${(props) => (props.commentFlip ? 'none' : '1rem 0')};
   overflow: hidden;
@@ -67,23 +117,32 @@ const CommentContainerS = styled.div<{ commentFlip: boolean }>`
   gap: 1rem;
 `;
 
-/** 2023-08-25 Comment.tsx - 그룹페이지 댓글 전체 내용 */
+/** 2023-09-02 Comment.tsx - 댓글+ 답글 / 답글 간격 - Kadesti */
 const CommentBoxS = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
+`;
+
+/** 2023-08-25 Comment.tsx - 그룹페이지 댓글 전체 내용 */
+const CommentContainerS = styled.div<{ sort: 'comment' | 'reply' }>`
   display: flex;
   align-items: start;
   min-height: 2rem;
   border-radius: 1rem;
+  background-color: ${(props) => (props.sort === 'reply' ? 'var(--color-bg)' : '')};
+  padding: ${(props) => (props.sort === 'reply' ? '1rem' : '')};
+
   img {
     width: 1.875rem;
   }
 `;
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 내용, 답글 탭 */
-const CommentContentS = styled.div`
+const CommentContentS = styled.div<{ sort: 'comment' | 'reply' }>`
   margin-left: 0.5rem;
   margin-top: 0.31rem;
-  width: '19.0625rem';
+  width: ${(props) => (props.sort === 'comment' ? '19.0625rem' : '18.0625rem')};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -102,6 +161,13 @@ const CommentContentS = styled.div`
   p.text {
     font-size: 0.875rem;
     color: var(--font-color2);
+
+    p.call {
+      font-size: 0.875rem;
+      color: #000;
+      font-weight: 500;
+      display: inline;
+    }
     margin-bottom: var(--height-gap);
   }
 `;
