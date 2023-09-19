@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
-import { DetailedHTMLProps, ImgHTMLAttributes, useEffect, useState } from 'react';
-import { BoardsType, getBoardCheck, deleteBoard } from '../../API/Boards';
+import { DetailedHTMLProps, ImgHTMLAttributes, useState } from 'react';
+import { BoardsType } from '../../API/Boards';
 
 interface PostHeaderProps {
   editbind: {
@@ -14,19 +14,15 @@ interface PostHeaderProps {
 const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
   const [isToggle, setIsToggle] = useState(false);
   const { edit, setEdit } = editbind;
+  const handlerToogleSwitch = () => {
+    setIsToggle((prev) => !prev);
+  };
 
   const defalutPofileImage = (imageUrl: string) => {
     if (imageUrl === 'default') {
       return `${process.env.PUBLIC_URL}/defalutProfileImage.jpg`;
     }
   };
-
-  // 자신의 게시글인지 확인
-  useEffect(() => {
-    getBoardCheck(postData.boardId).then((data) => {
-      data.canEdit ? setIsToggle(true) : setIsToggle(false);
-    });
-  }, []);
 
   return (
     <PostHeaderS>
@@ -39,10 +35,9 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
           <p>{postData.createDate}</p>
         </PostProfileNickNameS>
       </PostHeaderProfileS>
-      {isToggle ? (
-        <MoreIconS>
-          <img src={point3} alt='point3_icon' />
-
+      <MoreIconS onClick={handlerToogleSwitch}>
+        <img src={point3} alt='point3_icon' />
+        {isToggle && (
           <ModalS>
             <div
               onClick={() => {
@@ -51,16 +46,10 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
             >
               수정하기
             </div>
-            <div
-              onClick={() => {
-                deleteBoard(postData.boardId);
-              }}
-            >
-              삭제하기
-            </div>
+            <div>삭제하기</div>
           </ModalS>
-        </MoreIconS>
-      ) : null}
+        )}
+      </MoreIconS>
     </PostHeaderS>
   );
 };
