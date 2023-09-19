@@ -12,7 +12,7 @@ import { myInfo, myGroupList } from '../../data/myInfo';
 import ConfirmModal from '../../Component/ConfirmModal';
 import scrollTop from '../../Hooks/scrollTop';
 import { GetUser } from '../../Type/User';
-import { getUser } from '../../API/userService';
+import { getUser } from '../../API/Users';
 import { Mylist } from '../../Type/userMind';
 import { getMyList } from '../../API/Mind';
 import { GroupInfoType } from '../../Type/MissionType';

@@ -15,6 +15,7 @@ import {
 import RouteChangeTracker from './RouteChangeTracker';
 import { MyInfoContext, MyListContext } from './API/Context';
 import useMyContext from './Hooks/useMyContext';
+import GroupCheck from './Component/GroupCheck';
 
 function App() {
   RouteChangeTracker();
@@ -35,14 +36,8 @@ function App() {
               element={<OAuthPage component={<SignUp />} authenticated='block' />}
             />
             <Route path='/groupIntro/:mindID' element={<GroupIntro />} />
-            <Route
-              path='/groupPage/:mindID'
-              element={<OAuthPage component={<GroupPage />} authenticated='access' />}
-            />
-            <Route
-              path='/uploadPost/:mindID'
-              element={<OAuthPage component={<UploadPost />} authenticated='access' />}
-            />
+            <Route path='/groupPage/:mindID' element={<GroupCheck component={<GroupPage />} />} />
+            <Route path='/uploadPost/:mindID' element={<GroupCheck component={<UploadPost />} />} />
             <Route path='/feed' element={<Feed />} />
             <Route
               path='/myPage/:userID'

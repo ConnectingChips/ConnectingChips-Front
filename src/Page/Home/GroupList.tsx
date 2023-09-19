@@ -1,10 +1,11 @@
 import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MissonTab } from '../../Component/Mission/MissionTab';
 import { useEffect, useState } from 'react';
 import missionTab from '../../data/missionTab';
 import { getMindAll, getMindFilter } from '../../API/Mind';
 import { Mind } from '../../Type/userMind';
+import { postJoin } from '../../API/joinedMinds';
 
 const mindInit = [
   {
@@ -46,6 +47,8 @@ const GroupList = (): JSX.Element => {
 export default GroupList;
 
 const GroupListItem = ({ mind }: { mind: Mind }): JSX.Element => {
+  const navigate = useNavigate();
+
   return (
     <Link to={`/groupIntro/${mind.id}`}>
       <GroupListItemS key={mind.id} img={mind.backgroundImage}>

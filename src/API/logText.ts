@@ -1,6 +1,13 @@
 import { GetUser, User } from '../Type/User';
 import { Mind, isDoneSingle, isDone, Mylist } from '../Type/userMind';
-type LoggableObject = GetUser | User | Mind | isDone | isDoneSingle | Mylist;
+type LoggableObject =
+  | GetUser
+  | User
+  | Mind
+  | isDone
+  | isDoneSingle
+  | Mylist
+  | { isJoining: boolean };
 
 function logText(arg: LoggableObject) {
   for (const [key, value] of Object.entries(arg)) {

@@ -4,7 +4,8 @@ import ImageBoxS from '../../../StyleComp/ImageBoxS';
 
 import { MyListContext, useContext } from '../HomeBarrel';
 import useMission from '../../../Hooks/useCarresel';
-import { LoggableObject, getCkeckedJoined, putReJoin } from '../../../API/joinedMinds';
+import { getCheckedJoined, putReJoin } from '../../../API/joinedMinds';
+import { getMindSingle } from '../../../API/Mind';
 
 /** 2023-09-02 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
 const ButtonList = (): JSX.Element => {
@@ -37,7 +38,6 @@ const CarreselBtnList = ({
   mind_id: number;
 }) => {
   const navigate = useNavigate();
-
   const remind = async () => putReJoin(mind_id);
 
   return (
@@ -63,7 +63,8 @@ const CarreselBtnList = ({
   );
 };
 
-const goPost = async (mind_id: number): Promise<LoggableObject> => await getCkeckedJoined(mind_id);
+const goPost = async (mind_id: number): Promise<{ isJoining: boolean }> =>
+  await getCheckedJoined(mind_id);
 
 const CommonBtnS = styled.button`
   width: var(--width-my-mission);

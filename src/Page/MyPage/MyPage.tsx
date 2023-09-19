@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { logoutUser } from '../../API/userService';
+import { logoutUser } from '../../API/Users';
 import { styled, useEffect, useState } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal } from './MypageBarrel';
