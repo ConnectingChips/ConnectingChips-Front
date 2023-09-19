@@ -84,8 +84,7 @@ const UploadPost = () => {
       const response = postCreateBoard({ mindId: Number(mindID), userId, content: text, image });
       console.log(response);
     } catch (error) {
-      console.error(error);
-      // TODO:  만약에 404? 토큰 만료 에러가 뜨면 토스트 띄우고 로그인 페이지로 이동시키기
+      console.error('error!!!', error);
     }
   };
 
@@ -103,7 +102,7 @@ const UploadPost = () => {
         <h1>{mindData?.name}</h1>
       </GroupTitleS>
       <GroupContent selected={[0, 2]} passsort='Create' />
-      <CreateFormS>
+      <CreateFormS onSubmit={handleFormSubmit}>
         <CreateFormUploadS>
           <UploadImageTitleS>
             <h2>인증샷 올리기</h2>
