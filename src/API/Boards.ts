@@ -6,7 +6,7 @@ const tockenHeader = {
   },
 };
 
-interface Boards {
+export interface BoardsType {
   boardId: number;
   userId: number;
   nickname: string;
@@ -15,20 +15,20 @@ interface Boards {
   createDate: string;
   image: string;
   commentCount: number;
-  commentList: Comment[];
+  commentList: CommentType[];
 }
 
-interface Comment {
+export interface CommentType {
   commentId: number;
   userId: number;
   nickname: string;
   content: string;
   profileImage: string;
   createDate: string;
-  replyList: Reply[];
+  replyList: ReplyType[];
 }
 
-interface Reply {
+export interface ReplyType {
   replyId: number;
   userId: number;
   nickname: string;
@@ -38,10 +38,11 @@ interface Reply {
 }
 
 // boards 조회 -> GET 요청
-export const getBoards = async (mind_id: number): Promise<Boards> => {
+export const getBoards = async (mind_id: number): Promise<BoardsType[]> => {
   try {
-    const response = await getData<Boards>(`/boards/${mind_id}`);
-    console.log(response.data);
+    const response = await getData<BoardsType[]>(`/boards/${mind_id}`);
+    // console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -49,7 +50,7 @@ export const getBoards = async (mind_id: number): Promise<Boards> => {
   }
 };
 
-interface BoardCheck {
+export interface BoardCheck {
   canEdit: boolean;
 }
 
@@ -68,7 +69,7 @@ export const getBoardCheck = async (board_id: string, user_id: string): Promise<
   }
 };
 
-interface CreateBoard {
+export interface CreateBoard {
   mindId: number;
   userId: number;
   content: string;
@@ -85,14 +86,14 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
   }
 };
 
-interface EditBoard {
+export interface EditBoard {
   mindId: number;
   userId: number;
   content: string;
   image: string;
 }
 
-interface RsEditBoard {
+export interface RsEditBoard {
   boardId: number;
   content: string;
 }

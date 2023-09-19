@@ -8,7 +8,7 @@ import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import LikeBind from '../../Type/LikeBind';
 import Comment from './Comment';
 import DivideBaS from '../../Component/Mission/DivideBa';
-import GroupActive from './GroupActive';
+import GroupPost from './GroupPost';
 // import Mind from './Mind';
 import GroupArticle from '../../Component/Mission/GroupArticle';
 
@@ -24,6 +24,6 @@ export {
   type LikeBind,
   Comment,
   DivideBaS,
-  GroupActive,
+  GroupPost,
   GroupArticle,
 };

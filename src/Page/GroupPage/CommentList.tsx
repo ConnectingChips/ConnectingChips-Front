@@ -1,22 +1,19 @@
 import { styled } from 'styled-components';
-import { myInfo } from '../../data/myInfo';
-import postInfoData from '../../data/postInfoData';
-import { CommentInfo } from '../../Type/PostInfo';
-
+import { CommentType, ReplyType } from '../../API/Boards';
 interface CommentHeaderProps {
   commentFlipBind: {
     commentFlip: boolean;
     setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  commentListData: CommentType[];
 }
 /** 댓글부분 container */
-const CommentList = ({ commentFlipBind }: CommentHeaderProps) => {
-  const commentList = postInfoData.commentList;
+const CommentList = ({ commentFlipBind, commentListData }: CommentHeaderProps) => {
   const { commentFlip, setCommentFlip } = commentFlipBind;
   return (
     <CommentListS commentFlip={commentFlip}>
-      {commentList.map((comment) => {
-        return <CommentBox comment={comment} key={comment.commnet_id} />;
+      {commentListData.map((commentData, i) => {
+        return <CommentBox commentData={commentData} key={i} />;
       })}
     </CommentListS>
   );
@@ -24,87 +21,87 @@ const CommentList = ({ commentFlipBind }: CommentHeaderProps) => {
 
 export { CommentList };
 
-type CommentType = 'comment' | 'reply';
-
 /** 댓글과 답글 list */
-const CommentBox = ({ comment }: { comment: CommentInfo }) => {
-  class userName {
-    comment_user: string;
-    reply_user?: string;
-
-    constructor(comment_user: string, reply_user?: string) {
-      this.comment_user = comment_user;
-      this.reply_user = reply_user;
-    }
-  }
-
-  const reply = comment.reply;
-  const comment_user = new userName(comment.username);
-  const imgUrl = comment.profileUrl;
-  const today = new Date().toLocaleDateString();
-  const content = comment.text;
-
+const CommentBox = ({ commentData }: { commentData: CommentType }) => {
   return (
     <CommentBoxS>
-      <SelectContainer
-        sort='comment'
-        username={comment_user}
-        imgUrl={imgUrl}
-        date={today}
-        content={content}
-      />
-      {reply.map((reply) => {
-        const reply_user = new userName(comment.username, reply.username);
-        const imgUrl = reply.profileUrl;
-        const content = reply.text;
-
-        return (
-          <SelectContainer
-            sort='reply'
-            username={reply_user}
-            imgUrl={imgUrl}
-            date={today}
-            content={content}
-          />
-        );
+      <CommentBoxMaker sort='comment' commentData={commentData} />
+      {commentData.replyList.map((replyData, i) => {
+        return <ReplyBoxMaker sort='reply' replyData={replyData} key={i} />;
       })}
     </CommentBoxS>
   );
 };
 
-interface selectContainerProps {
-  sort: CommentType;
-  username: {
-    comment_user: string;
-    reply_user?: string;
-  };
-  imgUrl: string;
-  date: string;
-  content: string;
+interface CommentBoxMakerProps {
+  sort: 'comment';
+  commentData: CommentType;
 }
 
 /** 댓글과 답글 box */
-const SelectContainer = ({ sort, username, imgUrl, date, content }: selectContainerProps) => {
-  const isReply = username.reply_user !== undefined;
-  const userId = myInfo.userId;
+const CommentBoxMaker = ({ sort, commentData }: CommentBoxMakerProps) => {
   return (
     <CommentContainerS sort={sort}>
-      <img src={imgUrl} alt='답글프로필' />
+      <img src={commentData.profileImage} alt='답글프로필' />
       <CommentContentS sort={sort}>
         <div>
           <div className='profile'>
-            <h2>{!isReply ? username.comment_user : username.reply_user}</h2>
-            <p>{date}</p>
+            <h2>{commentData.nickname}</h2>
+            <p>{commentData.createDate}</p>
           </div>
-          <p className='text'>{content}</p>
+          <p className='text'>{commentData.content}</p>
         </div>
         <CommentOptionS>
-          {sort === 'comment' ? <h2>답글</h2> : null}
-          {/* 내데이터 가져와서 댓글또는 답글 user네임이랑 같으면 삭제 보여주기 */}
-          {(sort === 'comment' && String(userId) === username.comment_user) ||
-          (sort === 'reply' && String(userId) === username.reply_user) ? (
-            <h2 className='delete'>삭제</h2>
-          ) : null}
+          <h2>답글</h2>
+          <h2 className='delete'>삭제</h2>
+        </CommentOptionS>
+      </CommentContentS>
+    </CommentContainerS>
+  );
+};
+
+/** 댓글과 답글 box */
+const Original = ({ sort, commentData }: CommentBoxMakerProps) => {
+  return (
+    <CommentContainerS sort={sort}>
+      <img src={commentData.profileImage} alt='답글프로필' />
+      <CommentContentS sort={sort}>
+        <div>
+          <div className='profile'>
+            <h2>{commentData.nickname}</h2>
+            <p>{commentData.createDate}</p>
+          </div>
+          <p className='text'>{commentData.content}</p>
+        </div>
+        <CommentOptionS>
+          <h2>답글</h2>
+          <h2 className='delete'>삭제</h2>
+        </CommentOptionS>
+      </CommentContentS>
+    </CommentContainerS>
+  );
+};
+
+interface ReplyBoxMakerProps {
+  sort: 'reply';
+  replyData: ReplyType;
+}
+
+/** 댓글과 답글 box */
+const ReplyBoxMaker = ({ sort, replyData }: ReplyBoxMakerProps) => {
+  return (
+    <CommentContainerS sort={sort}>
+      <img src={replyData.profileImage} alt='답글프로필' />
+      <CommentContentS sort={sort}>
+        <div>
+          <div className='profile'>
+            <h2>{replyData.nickname}</h2>
+            <p>{replyData.createDate}</p>
+          </div>
+          <p className='text'>{replyData.content}</p>
+        </div>
+        <CommentOptionS>
+          <h2 className='delete'>삭제</h2>
         </CommentOptionS>
       </CommentContentS>
     </CommentContainerS>
@@ -128,7 +125,7 @@ const CommentBoxS = styled.div`
 `;
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 전체 내용 */
-const CommentContainerS = styled.div<{ sort: CommentType }>`
+const CommentContainerS = styled.div<{ sort: 'comment' | 'reply' }>`
   display: flex;
   align-items: start;
   min-height: 2rem;
@@ -142,7 +139,7 @@ const CommentContainerS = styled.div<{ sort: CommentType }>`
 `;
 
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 내용, 답글 탭 */
-const CommentContentS = styled.div<{ sort: CommentType }>`
+const CommentContentS = styled.div<{ sort: 'comment' | 'reply' }>`
   margin-left: 0.5rem;
   margin-top: 0.31rem;
   width: ${(props) => (props.sort === 'comment' ? '19.0625rem' : '18.0625rem')};

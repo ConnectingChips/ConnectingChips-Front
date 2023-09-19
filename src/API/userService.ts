@@ -14,7 +14,9 @@ const tockenHeader = {
 export const getUser = async (): Promise<GetUser> => {
   try {
     const response = await getData<GetUser>('/users', tockenHeader);
+
     // logText(response.data);
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -27,6 +29,7 @@ export const createUser = async (newUser: User): Promise<User> => {
   try {
     const response = await postData<User>('/users', newUser);
 
+
     logText(response.data);
     return response.data;
   } catch (error) {
@@ -36,6 +39,7 @@ export const createUser = async (newUser: User): Promise<User> => {
 };
 
 // 로그아웃 -> PUT 요청
+
 export const logoutUser = async (navigate: NavigateFunction): Promise<void> => {
   try {  
     // await putData('/users/logout', tockenHeader);

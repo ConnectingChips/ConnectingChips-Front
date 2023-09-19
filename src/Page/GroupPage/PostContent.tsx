@@ -1,21 +1,19 @@
 import { styled } from 'styled-components';
-import postInfoData from '../../data/postInfoData';
-import { likeIcon, likeFill, commentIcon } from '../../Component/Like_CommentBarrel';
-import LikeBind from '../../Type/LikeBind';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { BoardsType, putEditBoard } from '../../API/Boards';
+import { useParams } from 'react-router-dom';
 
 interface PostContentProps {
-  setCommented: React.Dispatch<React.SetStateAction<boolean>>;
-  likeBind: LikeBind;
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
+  postData: BoardsType;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({ setCommented, likeBind, editbind }: PostContentProps): JSX.Element => {
+const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
   const { edit, setEdit } = editbind;
-  const maxCharacterCount = 800; // 원하는 최대 글자수
-
+  const [editContent, setEditContent] = useState('');
   const textarea = useRef<HTMLTextAreaElement | null>(null);
+  let { uuid } = useParams();
 
   const handleResizeHeight = () => {
     if (textarea.current) {
@@ -23,8 +21,23 @@ const PostContent = ({ setCommented, likeBind, editbind }: PostContentProps): JS
       textarea.current.style.height = textarea.current.scrollHeight + 'px';
     }
   };
-
-  useEffect(() => {}, [edit]);
+  if (typeof uuid === 'string' || typeof uuid === 'undefined') return <></>;
+  const data: {
+    mindId: number;
+    userId: number;
+    content: string;
+    image: string;
+  } = {
+    mindId: uuid,
+    userId: postData.userId,
+    content: editContent,
+    image: postData.image,
+  };
+  const PostEdit = () => {
+    putEditBoard(data).then((res) => {
+      setEditContent(res.content);
+    });
+  };
 
   return (
     <PostContentS>
@@ -32,49 +45,35 @@ const PostContent = ({ setCommented, likeBind, editbind }: PostContentProps): JS
         <>
           <textarea
             ref={textarea}
-            onChange={handleResizeHeight}
+            onChange={(e) => {
+              handleResizeHeight();
+              setEditContent(e.target.value);
+            }}
             rows={2} // 기본 높이 설정
             placeholder='인증글을 입력해주세요.'
-            maxLength={maxCharacterCount}
+            maxLength={800}
           >
-            {postInfoData.postText}
+            {postData.content}
           </textarea>
-          <CheckBtn editbind={editbind} />
+          <BtnContainerS>
+            <button
+              onClick={() => {
+                setEdit(false);
+              }}
+            >
+              취소
+            </button>
+            <button onClick={PostEdit}>확인</button>
+          </BtnContainerS>
         </>
       ) : (
-        <p className='post'>{postInfoData.postText}</p>
+        <p className='post'>{postData.content}</p>
       )}
     </PostContentS>
   );
 };
 
 export default PostContent;
-
-interface CheckBtnProps {
-  editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
-}
-
-const CheckBtn = ({ editbind }: CheckBtnProps): JSX.Element => {
-  const { edit, setEdit } = editbind;
-  return (
-    <BtnContainerS>
-      <button
-        onClick={() => {
-          setEdit(false);
-        }}
-      >
-        취소
-      </button>
-      <button
-        onClick={() => {
-          setEdit(false);
-        }}
-      >
-        확인
-      </button>
-    </BtnContainerS>
-  );
-};
 
 const BtnContainerS = styled.div`
   text-align: right;

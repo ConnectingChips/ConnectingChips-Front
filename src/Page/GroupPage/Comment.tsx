@@ -1,12 +1,14 @@
-import postInfoData from '../../data/postInfoData';
 import { useState } from 'react';
 import { CommentHeader } from './CommentHeader';
 import { CommentList } from './CommentList';
 import { CommentInput } from './CommentInput';
+import { CommentType, BoardsType } from '../../API/Boards';
 
-/** 2023-08-25 Comment.tsx - 그룹페이지 댓글 */
-const Comment = ({ Commented }: { Commented: boolean }) => {
-  const commentList = postInfoData.commentList;
+interface CommentListDataProps {
+  postData: BoardsType;
+}
+
+const Comment = ({ postData }: CommentListDataProps) => {
   const [commentFlip, setCommentFlip] = useState(true);
   const [inputToggle, setInputToggle] = useState<boolean>(true);
   const [commentInput, setCommentInput] = useState<string>('');
@@ -22,12 +24,13 @@ const Comment = ({ Commented }: { Commented: boolean }) => {
     commentInput,
     setCommentInput,
   };
+
   return (
     <>
-      {commentList.length > 0 ? (
+      {postData.commentList.length > 0 ? (
         <>
-          <CommentHeader commentFlipBind={commentFlipBind} />
-          <CommentList commentFlipBind={commentFlipBind} />
+          <CommentHeader commentFlipBind={commentFlipBind} postData={postData} />
+          <CommentList commentFlipBind={commentFlipBind} commentListData={postData.commentList} />
         </>
       ) : null}
       <CommentInput commentInputBind={commentInputBind} inputToggleBind={inputToggleBind} />

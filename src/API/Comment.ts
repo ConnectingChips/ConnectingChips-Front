@@ -51,6 +51,7 @@ interface AddReply {
 export const postAddReply = async (replyData: AddReply): Promise<AddReply> => {
   try {
     const response = await postData<AddReply>(`/replies`, replyData, tockenHeader);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

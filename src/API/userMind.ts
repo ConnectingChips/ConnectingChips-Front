@@ -32,7 +32,7 @@ export const getMindFilter = async (mindTypeName: string): Promise<Mind[]> => {
         ? await getData<Mind[]>(`/minds/except-me/${mindTypeName}`, tockenHeader)
         : await getData<Mind[]>(`/minds/not-login/${mindTypeName}`);
 
-    // response.data.forEach((mind) => logText(mind));
+    response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
     console.error(error);
@@ -68,7 +68,7 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
   try {
     const response = await getData<isDone[]>(`/minds/today-check`, tockenHeader);
 
-    // response.data.map((mind) => logText(mind));
+    response.data.map((mind) => logText(mind));
     return response.data;
   } catch (error) {
     console.error(error);
