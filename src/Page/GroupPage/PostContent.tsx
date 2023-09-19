@@ -11,30 +11,34 @@ interface PostContentProps {
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
 const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
   const { edit, setEdit } = editbind;
-  const [editContent, setEditContent] = useState('');
+  const [editContent, setEditContent] = useState(postData.content);
   const textarea = useRef<HTMLTextAreaElement | null>(null);
-  let { uuid } = useParams();
+  let { mindID } = useParams();
 
+  // textarea에 글자적으면 자동 height변경
   const handleResizeHeight = () => {
     if (textarea.current) {
       textarea.current.style.height = 'auto';
       textarea.current.style.height = textarea.current.scrollHeight + 'px';
     }
   };
-  if (typeof uuid === 'string' || typeof uuid === 'undefined') return <></>;
-  const data: {
+
+  if (typeof mindID === 'undefined') return <></>;
+
+  const postEditData: {
     mindId: number;
     userId: number;
     content: string;
     image: string;
   } = {
-    mindId: uuid,
+    mindId: Number(mindID),
     userId: postData.userId,
     content: editContent,
     image: postData.image,
   };
-  const PostEdit = () => {
-    putEditBoard(data).then((res) => {
+
+  const EditReq = () => {
+    putEditBoard(1, postEditData).then((res) => {
       setEditContent(res.content);
     });
   };
@@ -52,6 +56,7 @@ const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
             rows={2} // 기본 높이 설정
             placeholder='인증글을 입력해주세요.'
             maxLength={800}
+            value={editContent}
           >
             {postData.content}
           </textarea>
@@ -63,7 +68,7 @@ const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
             >
               취소
             </button>
-            <button onClick={PostEdit}>확인</button>
+            <button onClick={EditReq}>확인</button>
           </BtnContainerS>
         </>
       ) : (
