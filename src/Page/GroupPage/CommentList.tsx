@@ -1,21 +1,22 @@
-import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { CommentType, ReplyType } from '../../API/Boards';
-import { getUser } from '../../API/userService';
+import { GetUser } from '../../Type/User';
+
 interface CommentHeaderProps {
   commentFlipBind: {
     commentFlip: boolean;
     setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
   };
   commentListData: CommentType[];
+  userInfo: GetUser;
 }
 /** 댓글부분 container */
-const CommentList = ({ commentFlipBind, commentListData }: CommentHeaderProps) => {
+const CommentList = ({ commentFlipBind, commentListData, userInfo }: CommentHeaderProps) => {
   const { commentFlip, setCommentFlip } = commentFlipBind;
   return (
     <CommentListS commentFlip={commentFlip}>
       {commentListData.map((commentData, i) => {
-        return <CommentBox commentData={commentData} key={i} />;
+        return <CommentBox commentData={commentData} userInfo={userInfo} key={i} />;
       })}
     </CommentListS>
   );
@@ -24,10 +25,10 @@ const CommentList = ({ commentFlipBind, commentListData }: CommentHeaderProps) =
 export { CommentList };
 
 /** 댓글과 답글 list */
-const CommentBox = ({ commentData }: { commentData: CommentType }) => {
+const CommentBox = ({ commentData, userInfo }: { commentData: CommentType; userInfo: GetUser }) => {
   return (
     <CommentBoxS>
-      <CommentBoxMaker sort='comment' commentData={commentData} />
+      <CommentBoxMaker sort='comment' commentData={commentData} userInfo={userInfo} />
       {commentData.replyList.map((replyData, i) => {
         return <ReplyBoxMaker sort='reply' replyData={replyData} key={i} />;
       })}
@@ -38,10 +39,11 @@ const CommentBox = ({ commentData }: { commentData: CommentType }) => {
 interface CommentBoxMakerProps {
   sort: 'comment';
   commentData: CommentType;
+  userInfo: GetUser;
 }
 
 /** 댓글과 답글 box */
-const CommentBoxMaker = ({ sort, commentData }: CommentBoxMakerProps) => {
+const CommentBoxMaker = ({ sort, commentData, userInfo }: CommentBoxMakerProps) => {
   return (
     <CommentContainerS sort={sort}>
       <img src={commentData.profileImage} alt='답글프로필' />
@@ -55,29 +57,7 @@ const CommentBoxMaker = ({ sort, commentData }: CommentBoxMakerProps) => {
         </div>
         <CommentOptionS>
           <h2>답글</h2>
-          <h2 className='delete'>삭제</h2>
-        </CommentOptionS>
-      </CommentContentS>
-    </CommentContainerS>
-  );
-};
-
-/** 댓글과 답글 box */
-const Original = ({ sort, commentData }: CommentBoxMakerProps) => {
-  return (
-    <CommentContainerS sort={sort}>
-      <img src={commentData.profileImage} alt='답글프로필' />
-      <CommentContentS sort={sort}>
-        <div>
-          <div className='profile'>
-            <h2>{commentData.nickname}</h2>
-            <p>{commentData.createDate}</p>
-          </div>
-          <p className='text'>{commentData.content}</p>
-        </div>
-        <CommentOptionS>
-          <h2>답글</h2>
-          <h2 className='delete'>삭제</h2>
+          {userInfo.userId === commentData.userId ? <h2 className='delete'>삭제</h2> : null}
         </CommentOptionS>
       </CommentContentS>
     </CommentContainerS>

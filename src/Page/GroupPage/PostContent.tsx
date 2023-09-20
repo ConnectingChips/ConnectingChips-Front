@@ -2,14 +2,15 @@ import { styled } from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
 import { BoardsType, putEditBoard } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
-
+import { GetUser } from '../../Type/User';
 interface PostContentProps {
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
   postData: BoardsType;
+  userInfo: GetUser;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
+const PostContent = ({ editbind, postData, userInfo }: PostContentProps): JSX.Element => {
   const { edit, setEdit } = editbind;
   const [editContent, setEditContent] = useState(postData.content);
   const textarea = useRef<HTMLTextAreaElement | null>(null);
@@ -32,13 +33,13 @@ const PostContent = ({ editbind, postData }: PostContentProps): JSX.Element => {
     image: string;
   } = {
     mindId: Number(mindID),
-    userId: postData.userId,
+    userId: userInfo.userId,
     content: editContent,
     image: postData.image,
   };
 
   const EditReq = () => {
-    putEditBoard(1, postEditData).then((res) => {
+    putEditBoard(postData.boardId, postEditData).then((res) => {
       setEditContent(res.content);
     });
   };
