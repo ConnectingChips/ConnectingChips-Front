@@ -23,10 +23,10 @@ const Carresel = () => {
             <MissionSingleWide text={mindTypeName} />
             <h2>{name}</h2>
             <p>
-              🔥 <span className='date'>{boardCount}</span>일자 맛보기 중
+              🔥 <span className='date'>{dateList[index]}</span>일자 맛보기 중
             </p>
           </MissionContentS>
-          <ChipList count={count} />
+          <ChipList count={countList[index]} />
         </MyMissionInfoS>
       </li>
     );
@@ -43,6 +43,7 @@ const Carresel = () => {
     </div>
   );
 };
+
 export default Carresel;
 
 /** 2023-09-02 Carresel.tsx - 캐러샐 영역 - Kadesti */
@@ -91,7 +92,7 @@ const MissionContentS = styled.div`
   padding: 1rem;
 
   h2 {
-    font-size: 1rem;
+    font-size: 1rem;    
   }
 
   > p {

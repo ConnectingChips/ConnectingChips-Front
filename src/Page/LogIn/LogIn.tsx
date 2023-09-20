@@ -4,6 +4,8 @@ import Banner from '../../Component/SignUp/Banner';
 import Loginheader from '../../Component/SignUp/Loginheader';
 import useLoginCheck from '../../Hooks/useLoginCheck';
 
+import { postLogin } from '../../API/login';
+
 type bindValue = {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -22,17 +24,15 @@ const LogIn = (): JSX.Element => {
 
   const isDefault = inputState === 'default';
 
-  /** 2023-08-24 LogIn.tsx - 로그인 요청 핸들러 */
-  // FIXME: 버려질 코드
-  const LoginSubmit = async (e: React.MouseEvent<HTMLFormElement, MouseEvent>): Promise<void> => {
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
-      localStorage.setItem('access_token', '1234564862169');
-
+      const { accessToken } = await postLogin(nickname, password);
+      localStorage.setItem('access_token', accessToken);
       navigate(-1);
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('로그인 실패');
+      setInputState('failed');
     }
   };
 
@@ -41,7 +41,7 @@ const LogIn = (): JSX.Element => {
       <Loginheader type='로그인' />
       <Banner />
       <LoginOuterContainerS>
-        <LoginFormS onSubmit={LoginSubmit}>
+        <LoginFormS onSubmit={handleLoginSubmit}>
           <LoginContainerS>
             <LoginInnerContainerS>
               <LoginInput sort='ID' isdefault={isDefault} inputbind={idBind} />

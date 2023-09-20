@@ -5,5 +5,5 @@ export const tockenHeader = {
     withCredentials: true,
   },
 };
-export const tokenValue = access_token !== '' ? tockenHeader : undefined;
 
+export const tokenValue = access_token !== '' ? tockenHeader : undefined;

@@ -1,41 +1,26 @@
 import { styled } from 'styled-components';
+import { getMindInfoType } from '../../API/userMind';
 import { MissionSingleWide } from './MissionTab';
-import { useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { PageSort } from '../../Type/MissionType';
+import { MindsType } from '../../Type/Group';
+interface HeadLineType {
+  getMindInfoData: MindsType;
+  passsort: PageSort;
+}
 
-type grouptPath = '' | 'groupIntro' | 'groupPage';
-/** 2023-08-22 HeadLine.tsx - 타이틀 / 태그 / n일차 */
-const HeadLine = (): JSX.Element => {
-  const { uuid } = useParams();
+const HeadLine = ({ getMindInfoData, passsort }: HeadLineType) => {
+  const { mindTypeName, name, userCount } = getMindInfoData;
 
-  const [urlPath, setUrlPath] = useState<grouptPath | string>('');
-  const location = useLocation();
-
-  const url = location.pathname;
-  const keyword = 'groupIntro';
-  const extractedValue = url.split('/').find((part) => part === keyword);
-
-  if (extractedValue) setUrlPath(extractedValue);
-  else setUrlPath('groupPage');
-
-  // 실제 axios요청으로 바뀔 부분
-  // const groupInfo = groupListData.find((groupData) => groupData.group_id === Number(uuid));
-  // if (groupInfo === undefined) return <></>;
-
-  // let message = '';
-  // const memberLength = groupInfo.memberList.length;
-
-  // if (memberLength <= 0) message = '첫번째로 작심 맛보기!';
-  // else if (memberLength === 1) message = '1명 맛보기 중';
-  // else message = `${memberLength - 1}명과 함께 맛보기 중`;
-
-  // const { tab, title } = groupInfo;
+  let message;
+  if (userCount <= 0) message = '첫번째로 작심 맛보기!';
+  else if (userCount === 1) message = '1명 맛보기 중';
+  else message = `${userCount - 1}명과 함께 맛보기 중`;
 
   return (
     <HeadLineS>
-      {/* <MissionSingleWide text={tab} />
-      <h1>{title}</h1>
-      <p className={urlPath === 'groupIntro' ? '' : 'subTitle'}>{message}</p> */}
+      <MissionSingleWide text={mindTypeName} />
+      <h1>{name}</h1>
+      {passsort !== 'Create' ? <p>{message}</p> : null}
     </HeadLineS>
   );
 };

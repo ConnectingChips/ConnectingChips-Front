@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-
+import { BoardsType } from '../../API/Boards';
+import { GetUser } from '../../Type/User';
+import { postAddComment, postAddReply } from '../../API/Comment';
 interface commentInputProps {
   commentInputBind: {
     commentInput: string;
@@ -10,12 +12,24 @@ interface commentInputProps {
     inputToggle: boolean;
     setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  isCommentBind: {
+    isComment: number;
+    setIsComment: React.Dispatch<React.SetStateAction<number>>;
+  };
+  postData: BoardsType;
+  userInfo: GetUser;
 }
 
-const CommentInput = ({ commentInputBind, inputToggleBind }: commentInputProps) => {
-  // const commentList = postInfoData.commentList;
+const CommentInput = ({
+  commentInputBind,
+  inputToggleBind,
+  isCommentBind,
+  postData,
+  userInfo,
+}: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
+  const { isComment, setIsComment } = isCommentBind;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
@@ -25,21 +39,39 @@ const CommentInput = ({ commentInputBind, inputToggleBind }: commentInputProps) 
     setInputToggle(false);
   };
 
-  const handleFormClickTrue = (e: any) => {
+  // input 버튼 핸들러
+  const inputBtnHandler = (e: any) => {
     e.preventDefault();
-    setInputToggle(true);
+    if (commentInput.length !== 0) {
+      if (isComment === 0) {
+        const AddCommentData = {
+          userId: userInfo.userId,
+          boardId: postData.boardId,
+          content: commentInput,
+        };
+
+        setInputToggle(true);
+        postAddComment(AddCommentData);
+        setCommentInput('');
+      } else if (isComment !== 0) {
+        const AddReplyData = {
+          userId: userInfo.userId,
+          commentId: isComment,
+          content: commentInput,
+        };
+        postAddReply(AddReplyData);
+        setInputToggle(true);
+        setCommentInput('');
+      }
+    }
   };
 
-  // 댓글없으면 input placeholder 변경
+  // 댓글 개수에 따라 input placeholder 변경
   const placeholderText =
-    [].length > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
+    postData.commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
 
-  // input에 적으면 img변경
+  // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
-
-  useEffect(() => {
-    console.log(inputToggle); // inputToggle이 변경될 때마다 호출됩니다.
-  }, [inputToggle]);
 
   return (
     <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
@@ -50,8 +82,7 @@ const CommentInput = ({ commentInputBind, inputToggleBind }: commentInputProps) 
         type='text'
         maxLength={400}
       />
-      {/* FIXME: 클릭해도 true로 안바뀜 비동기때문인가.*/}
-      <button onClick={handleFormClickTrue}>
+      <button onClick={inputBtnHandler}>
         {<img src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`} alt='sendIcon' />}
       </button>
     </CommentFormS>

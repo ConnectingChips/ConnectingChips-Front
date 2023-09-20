@@ -1,4 +1,4 @@
-import { getData, postData, putData, deleteData } from './axiosConfig';
+import { getData, postData, putData } from './axiosConfig';
 import logText from './logText';
 import { tockenHeader } from '../data/tocken';
 
@@ -14,7 +14,7 @@ export const getCheckedJoined = async (mind_id: number): Promise<{ isJoining: bo
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get checked Joined value');
+    throw new Error('Failed to get All Minds');
   }
 };
 
@@ -44,6 +44,6 @@ export const putMindExit = async (mind_id: Number): Promise<void> => {
     await putData(`/joined-minds/${mind_id}/exit`, tockenHeader);
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to put Exit Mind');
+    throw new Error('Failed to put Rejoin');
   }
 };

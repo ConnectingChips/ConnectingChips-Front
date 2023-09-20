@@ -1,18 +1,18 @@
 import { styled } from 'styled-components';
 import { PageSort } from '../../Type/MissionType';
+import { getMindInfoType } from '../../API/userMind';
+import { MindsType } from '../../Type/Group';
+interface MissionRuleType {
+  getMindInfoData: MindsType;
+  passsort: PageSort;
+}
 
 /** 2023-08-22 MissionRule.tsx - 미션 규칙 */
-const MissionRule = ({
-  groupRule,
-  passsort,
-}: {
-  groupRule: string;
-  passsort: PageSort;
-}): JSX.Element => {
+const MissionRule = ({ getMindInfoData, passsort }: MissionRuleType): JSX.Element => {
   return (
     <MissionRuleS passsort={passsort}>
       <div>인증 글쓰기 규칙</div>
-      <p className={'rule'}>{groupRule}</p>
+      <p className={'rule'}>{getMindInfoData.writeFormat}</p>
     </MissionRuleS>
   );
 };
