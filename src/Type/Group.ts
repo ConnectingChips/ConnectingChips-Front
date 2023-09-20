@@ -47,3 +47,17 @@ interface Comment {
   postId: number;
   text: string;
 }
+
+export interface MindsType {
+  mindId: number;
+  mindTypeName: string;
+  name: string;
+  introduce: string;
+  userCount: number;
+  pageImage: string;
+  introImage?: string;
+  writeFormat?: string;
+  isDoneToday?: boolean;
+  count?: number;
+  canJoin?: number;
+}

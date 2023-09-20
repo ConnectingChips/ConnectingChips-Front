@@ -128,20 +128,22 @@ export const getMyList = async (): Promise<Mylist[]> => {
   }
 };
 
-interface getMindInfoType {
+export interface getMindInfoType {
   mindId: number;
   mindTypeName: string;
   name: string;
   userCount: number;
+  introduce: string;
   writeFormat: string;
-  doneToday: boolean;
+  pageImage: string;
+  isDoneToday: boolean;
   count: number;
 }
 
 // 그룹페이지 Minds 정보
-export const getMindInfo = async (mindId: number): Promise<getMindInfoType[]> => {
+export const getMindInfo = async (mindId: number): Promise<getMindInfoType> => {
   try {
-    const response = await getData<getMindInfoType[]>(`/minds/page/${mindId}`, tockenHeader);
+    const response = await getData<getMindInfoType>(`/minds/page/${mindId}`, tockenHeader);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -154,9 +156,9 @@ interface getMindInfo_ImageType {
 }
 
 // 그룹페이지이미지 Minds 정보
-export const getMindInfo_Image = async (mindId: number): Promise<getMindInfo_ImageType[]> => {
+export const getMindInfo_Image = async (mindId: number): Promise<getMindInfo_ImageType> => {
   try {
-    const response = await getData<getMindInfo_ImageType[]>(`/minds/page/${mindId}/image`);
+    const response = await getData<getMindInfo_ImageType>(`/minds/page/${mindId}/image`);
     return response.data;
   } catch (error) {
     console.error(error);
