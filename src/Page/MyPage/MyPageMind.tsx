@@ -30,7 +30,7 @@ const ExistComp = ({ myList }: { myList: Mylist[] }): JSX.Element => {
         return (
           <MindS key={idx}>
             <p className='main'>{myGroup.name}</p>
-            <ExitButtonS onClick={() => putMindExit(myGroup.id)}>그룹 나가기</ExitButtonS>
+            <ExitButtonS onClick={() => putMindExit(myGroup.mindId)}>그룹 나가기</ExitButtonS>
           </MindS>
         );
       })}

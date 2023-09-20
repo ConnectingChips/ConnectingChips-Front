@@ -2,25 +2,31 @@ import { getData, postData, putData, deleteData } from './axiosConfig';
 import { GetUser, User } from '../Type/User';
 import logText from './logText';
 import { NavigateFunction } from 'react-router-dom';
+import { tockenHeader } from '../data/tocken';
 
-const access_token = localStorage.getItem('access_token');
-const tockenHeader = {
-  headers: {
-    Authorization: `Bearer ${access_token}`,
-  },
+type IsLogin = {
+  isLogin: boolean;
 };
 
-// User 조회 -> GET 요청
+// 로그인한 유저인지 확인
+export const getIsLogined = async (): Promise<boolean> => {
+  try {
+    const response = await getData<IsLogin>('/users/check-login', tockenHeader);
+    return response.data.isLogin;
+  } catch (error) {
+    throw new Error('This user is not Logined');
+  }
+};
+
+// 로그인한 유저 정보 조회
 export const getUser = async (): Promise<GetUser> => {
   try {
     const response = await getData<GetUser>('/users', tockenHeader);
 
     // logText(response.data);
-
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error('Failed to get user');
+    throw new Error('유저 정보 호출에 실패하였습니다');
   }
 };
 
@@ -38,14 +44,11 @@ export const createUser = async (newUser: User): Promise<User> => {
 };
 
 // 로그아웃 -> PUT 요청
-
 export const logoutUser = async (navigate: NavigateFunction): Promise<void> => {
   try {
     // await putData('/users/logout', tockenHeader);
     localStorage.clear();
-    navigate(-1);
   } catch (error) {
-    console.log(3);
     console.error(error);
     throw new Error('Failed to logout');
   }
@@ -62,5 +65,19 @@ export const ImageUpload = async (data: Object) => {
     console.log(response.data);
   } catch (error) {
     console.error(error);
+  }
+};
+
+// 유저 정보 수정
+export const putUserEdit = async (): Promise<GetUser> => {
+  try {
+    const response = await getData<GetUser>('/users', tockenHeader);
+
+    // logText(response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get user');
   }
 };

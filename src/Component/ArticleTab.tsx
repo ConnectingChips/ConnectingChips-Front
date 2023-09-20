@@ -1,11 +1,5 @@
-import { styled, useEffect, useState } from '../Page/MyPage/MypageBarrel';
-import {
-  GroupInfoType,
-  initGroup,
-  myGroupList,
-  CurrentMind,
-  FinishedMindList,
-} from '../Page/MyPage/MypageBarrel';
+import { Mylist, getMyList, styled, useEffect, useState } from '../Page/MyPage/MypageBarrel';
+import { CurrentMind, FinishedMindList } from '../Page/MyPage/MypageBarrel';
 
 /**
  * 탭에 해당하는 컴텐츠를 보여주는 컴포넌트(마이페이지, 그룹페이지)
@@ -33,10 +27,12 @@ const TabHead = ({
   isFirst: boolean;
   setArticleIndex: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {
-  const [myList, setMylist] = useState<GroupInfoType[]>([initGroup]);
+  const [myList, setMylist] = useState<Mylist[]>([]);
 
   useEffect(() => {
-    setMylist(myGroupList);
+    getMyList()
+      .then((res: Mylist[]) => setMylist(res))
+      .catch((error) => console.log(error));
   }, []);
 
   const tabText: string[] = [`참여중인 작심(${myList.length}/3)`, '참여했던 작심'];

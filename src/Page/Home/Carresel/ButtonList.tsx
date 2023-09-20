@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 // TODO: 갈아끼울 코드
@@ -8,7 +8,9 @@ import { styled } from 'styled-components';
 import { ButtonListProps } from '../../../Type/MissionType';
 import ImageBoxS from '../../../StyleComp/ImageBoxS';
 
-import { useEffect, useState } from '../HomeBarrel';
+import { MyListContext, useContext } from '../HomeBarrel';
+import useMission from '../../../Hooks/useCarresel';
+import { getCheckedJoined, putReJoin } from '../../../API/joinedMinds';
 
 /** 2023-09-02 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
 //TODO: 갈아끼울 코드
@@ -34,15 +36,11 @@ import { useEffect, useState } from '../HomeBarrel';
 const ButtonList = ({ buttonListProps }: { buttonListProps: ButtonListProps }): JSX.Element => {
   const { slideRef, count, sort, TOTAL_SLIDES, doneList, uuidList, countList } = buttonListProps;
   return (
-    <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
-      {uuidList.map((_, index) => {
+    <ImageBoxS ref={slideRef} count={count} sort={sort} length={myList.length}>
+      {myList.map((mind,idx) => {
+        const { count, isDoneToday, mindId } = mind;
         return (
-          <CarreselBtnList
-            myCount={countList[index]}
-            completedToday={doneList[index]}
-            mind_id={uuidList[index]}
-            key={index}
-          />
+          <CarreselBtnList myCount={count} completedToday={isDoneToday} mindId={mindId} key={idx} />
         );
       })}
     </ImageBoxS>
@@ -54,16 +52,14 @@ export default ButtonList;
 const CarreselBtnList = ({
   myCount,
   completedToday,
-  mind_id,
+  mindId,
 }: {
   myCount: number;
   completedToday: boolean;
-  mind_id: number;
+  mindId: number;
 }) => {
-  const remind = async () => {
-    // await fetch(`/joined-minds/${mind_id}/remind`, { method: 'PUT' });
-    await fetch(`/joined-minds/${mind_id}/remind`, { method: 'PUT' });
-  };
+  const navigate = useNavigate();
+  const remind = async () => putReJoin(mindId);
 
   return (
     <>
@@ -74,14 +70,22 @@ const CarreselBtnList = ({
           <p>오늘 작심 성공!</p>
         </TodayClearBtnS>
       ) : (
-        <Link to={`/uploadPost/${mind_id}`}>
-          {/* <NoneClearBtnS>작심 인증하기</NoneClearBtnS> */}
-          <NoneClearBtnS>작심 인증하기</NoneClearBtnS>
-        </Link>
+        <NoneClearBtnS
+          onClick={() => {
+            goPost(mindId)
+              .then(() => navigate(`/uploadPost/${mindId}`))
+              .catch(() => navigate('/error'));
+          }}
+        >
+          작심 인증하기
+        </NoneClearBtnS>
       )}
     </>
   );
 };
+
+const goPost = async (mindId: number): Promise<{ isJoining: boolean }> =>
+  await getCheckedJoined(mindId);
 
 const CommonBtnS = styled.button`
   width: var(--width-my-mission);

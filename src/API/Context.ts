@@ -5,7 +5,7 @@ import { GetUser } from '../Type/User';
 import { initMyList, initUser } from '../data/initialData';
 
 // MyInfoContext
-type MyInfoContextType = {
+export type MyInfoContextType = {
   myInfo: GetUser;
   setMyInfo: React.Dispatch<React.SetStateAction<GetUser>>;
 };
@@ -16,7 +16,7 @@ const userContext = {
 export const MyInfoContext = createContext<MyInfoContextType>(userContext);
 
 // MyListContext
-type MyListContextType = {
+export type MyListContextType = {
   myList: Mylist[];
   setMylist: React.Dispatch<React.SetStateAction<Mylist[]>>;
 };

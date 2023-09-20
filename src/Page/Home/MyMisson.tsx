@@ -28,7 +28,7 @@ const MyMisson = (): JSX.Element => {
   }, []);
 
   return (
-    <MyMissonS>
+    <article>
       <h2>나의 작심 현황({myList.length}/3)</h2>
       <CarreselContainerS>
         <div className='myMission'>
@@ -36,14 +36,12 @@ const MyMisson = (): JSX.Element => {
           <ButtonList buttonListProps={buttonDataProps} />
         </div>
       </CarreselContainerS>
-    </MyMissonS>
+    </article>
   );
 };
 
 
 export default MyMisson;
-
-const MyMissonS = styled.article``;
 
 /** 캐러샐 + 버튼 */
 const CarreselContainerS = styled.section`

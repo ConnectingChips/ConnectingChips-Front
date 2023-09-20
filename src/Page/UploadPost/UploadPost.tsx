@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
-import groupList from '../../data/groupListData';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 import { useLoginCheck, useNavigate } from '../GroupPage/GroupPageBarrel';

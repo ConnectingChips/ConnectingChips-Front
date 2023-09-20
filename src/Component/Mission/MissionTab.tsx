@@ -22,7 +22,6 @@ type MissionSingleProps = {
 };
 
 /** 2023-08-20 MissonTab.tsx - 공통되는 탭 리스트 */
-// const MissonTab = ({ missionTab, focusbind }: MissonTabProps): JSX.Element => {
 const MissonTab = ({ missionTab, focusbind }: MissonTabProps): JSX.Element => {
   return (
     <MyMissonTabS>
@@ -42,7 +41,6 @@ const MissonTab = ({ missionTab, focusbind }: MissonTabProps): JSX.Element => {
 
 /** 2023-08-20 MissonTab.tsx - 공통되는 탭 단일 */
 const MissionSingle = ({ text, focusBind, index }: MissionSingleProps) => {
-  // const { isFocus, setIsFocus } = focusBind;
   const { curFocused, setCurFocused } = focusBind;
   const setFocus = () => {
     const newFocus = missionTab[index].title;
@@ -50,7 +48,10 @@ const MissionSingle = ({ text, focusBind, index }: MissionSingleProps) => {
   };
 
   return (
-    <MissionSingleS className={`button ${text === curFocused ? 'focused' : ''}`} onClick={setFocus}>
+    <MissionSingleS
+      className={`button ${text === curFocused ? 'focused' : ''}`}
+      onClick={() => setFocus()}
+    >
       {text}
     </MissionSingleS>
   );

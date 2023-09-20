@@ -1,11 +1,6 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-import { getUser } from './userService';
-const access_token = localStorage.getItem('access_token');
-const tockenHeader = {
-  headers: {
-    Authorization: `Bearer ${access_token}`,
-  },
-};
+import { tockenHeader } from '../data/tocken';
+import { getUser } from './Users'; 
 
 export interface BoardsType {
   boardId: number;

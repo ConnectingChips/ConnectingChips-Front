@@ -1,33 +1,26 @@
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { MissonTab } from '../../Component/Mission/MissionTab';
 import { useEffect, useState } from 'react';
+import { MissonTab } from '../../Component/Mission/MissionTab';
 import missionTab from '../../data/missionTab';
-import { getMindAll, getMindFilter } from '../../API/userMind';
-import { Mind } from '../../Type/userMind';
-
-const mindInit = [
-  {
-    id: 0,
-    mindTypeName: '',
-    name: '',
-    introduce: '',
-    userCount: 0,
-    writeFormat: '',
-    canJoin: 0,
-    backgroundImage: '',
-  },
-];
+import { getMindAll, getMindFilter } from '../../API/Mind';
+import { Mind, TotalMind } from '../../Type/userMind';
 
 /** 23-08-20 GroupList.tsx - 메인 컴프 */
 const GroupList = (): JSX.Element => {
-  const [showList, setShowList] = useState<Mind[]>(mindInit);
+  const [showList, setShowList] = useState<TotalMind[]>([]);
   const [curFocused, setCurFocused] = useState<string>(missionTab[0].title);
   const curFocusBind = { curFocused, setCurFocused };
 
   useEffect(() => {
-    if (curFocused === '전체') getMindAll().then((mindList) => setShowList(mindList));
-    else getMindFilter(curFocused).then((mindList) => setShowList(mindList));
+    if (curFocused === '전체')
+      getMindAll()
+        .then((mindList: TotalMind[]) => setShowList(mindList))
+        .catch((error) => console.log(error));
+    else
+      getMindFilter(curFocused)
+        .then((mindList) => setShowList(mindList))
+        .catch((error) => console.log(error));
   }, [curFocused]);
 
   return (
@@ -45,10 +38,10 @@ const GroupList = (): JSX.Element => {
 
 export default GroupList;
 
-const GroupListItem = ({ mind }: { mind: Mind }): JSX.Element => {
+const GroupListItem = ({ mind }: { mind: TotalMind }): JSX.Element => {
   return (
-    <Link to={`/groupIntro/${mind.id}`}>
-      <GroupListItemS key={mind.id} img={mind.backgroundImage}>
+    <Link to={`/groupIntro/${mind.mindId}`}>
+      <GroupListItemS key={mind.mindId} img={mind.totalListImage}>
         <ItemContent mind={mind} />
         <button>참여하기</button>
       </GroupListItemS>

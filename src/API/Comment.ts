@@ -1,10 +1,5 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-const access_token = localStorage.getItem('access_token');
-const tockenHeader = {
-  headers: {
-    Authorization: `Bearer ${access_token}`,
-  },
-};
+import { tockenHeader } from '../data/tocken';
 
 interface AddComment {
   commentId?: number;

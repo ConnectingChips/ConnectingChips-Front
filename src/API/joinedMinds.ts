@@ -1,23 +1,11 @@
-import { getData, postData, putData, deleteData } from './axiosConfig';
+import { getData, postData, putData } from './axiosConfig';
+import logText from './logText';
+import { tockenHeader } from '../data/tocken';
 
-const access_token = localStorage.getItem('access_token');
-const tockenHeader = {
-  headers: {
-    Authorization: `Bearer ${access_token}`,
-  },
-};
-
-type LoggableObject = { isJoining: true };
-
-function logText(arg: LoggableObject) {
-  for (const [key, value] of Object.entries(arg)) {
-    console.log(`${key}: ${value}`);
-  }
-}
-
-export const getMindAll = async (mind_id: number): Promise<{ isJoining: true }> => {
+// 참여중인 작심인지 반환
+export const getCheckedJoined = async (mind_id: number): Promise<{ isJoining: boolean }> => {
   try {
-    const response = await getData<{ isJoining: true }>(
+    const response = await getData<{ isJoining: boolean }>(
       `/joined-minds/${mind_id}/join-check`,
       tockenHeader,
     );
@@ -30,27 +18,30 @@ export const getMindAll = async (mind_id: number): Promise<{ isJoining: true }> 
   }
 };
 
-export const postJoin = async (mind_id: number, user_id: number): Promise<void> => {
+// 작심 참여하기 (작심당 1번만 가능)
+export const postJoin = async (mind_id: number): Promise<void> => {
   try {
-    await postData(`/joined-minds/${mind_id}/${user_id}`, tockenHeader);
+    await postData(`/joined-minds/${mind_id}`, tockenHeader);
   } catch (error) {
     console.error(error);
     throw new Error('Failed to post Join');
   }
 };
 
-export const putReJoin = async (mind_id: number, user_id: number): Promise<void> => {
+// 재작심(재참여)하기
+export const putReJoin = async (mind_id: number): Promise<void> => {
   try {
-    await putData(`/joined-minds/${mind_id}/remind/${user_id}`, tockenHeader);
+    await putData(`/joined-minds/${mind_id}/remind`, tockenHeader);
   } catch (error) {
     console.error(error);
     throw new Error('Failed to put Rejoin');
   }
 };
 
-export const putMindExit = async (mind_id: number, user_id: number): Promise<void> => {
+// 참여중인 작심 그만두기
+export const putMindExit = async (mind_id: Number): Promise<void> => {
   try {
-    await putData(`/joined-minds/${mind_id}/exit/${user_id}`, tockenHeader);
+    await putData(`/joined-minds/${mind_id}/exit`, tockenHeader);
   } catch (error) {
     console.error(error);
     throw new Error('Failed to put Rejoin');

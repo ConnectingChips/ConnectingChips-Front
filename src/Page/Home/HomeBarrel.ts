@@ -10,8 +10,8 @@ import scrollTop from '../../Hooks/scrollTop';
 import { GetUser } from '../../Type/User';
 import { Mylist } from '../../Type/userMind';
 import shareKakao from '../../API/shareKakao';
-import { getUser } from '../../API/userService';
-import { getMyList, getisDoneAll } from '../../API/userMind';
+import { getUser } from '../../API/Users';
+import { getMyList, getisDoneAll } from '../../API/Mind';
 import { MyInfoContext, MyListContext } from '../../API/Context';
 
 export { styled, useEffect, useState, useNavigate, useContext };
