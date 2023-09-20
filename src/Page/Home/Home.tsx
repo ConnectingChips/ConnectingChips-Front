@@ -40,7 +40,10 @@ const Home = (): JSX.Element => {
   const navigate = useNavigate();
 
   const profileClick = (): void | Promise<void> => {
-    if (access_token !== '') return getUser().then(() => navigate(`/myPage/${myInfo.userId}`));
+    if (access_token !== '')
+      return getUser()
+        .then(() => navigate(`/myPage/${myInfo.userId}`))
+        .catch((error) => console.log(error));
     return navigate('/LogIn');
   };
 
@@ -119,10 +122,10 @@ const setHome = (
   if (access_token !== '') {
     getUser()
       .then((userInfo: GetUser) => setMyInfo(userInfo))
-      .catch(() => {});
+      .catch((error) => console.log(error));
     getMyList()
       .then((res: Mylist[]) => setMylist(res))
-      .catch(() => {});
+      .catch((error) => console.log(error));
     getisDoneAll()
       .then((res: isDone[]) => {
         const doneValid = res.some((data) => data.isDoneToday);

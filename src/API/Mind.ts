@@ -2,14 +2,7 @@ import { getData, postData, putData, deleteData } from './axiosConfig';
 import { Mind, isDoneSingle, isDone, Mylist, FinishList, TotalMind } from '../Type/userMind';
 import logText from './logText';
 import { GroupPageInfo } from '../Type/Group';
-
-const access_token: string = localStorage.getItem('access_token') || '';
-const tockenHeader = {
-  headers: {
-    Authorization: `Bearer ${access_token}`,
-  },
-};
-const tokenValue = access_token !== '' ? tockenHeader : undefined;
+import { tockenHeader, tokenValue } from '../data/tocken';
 
 // 작심 정보 반환 (그룹 인트로 / 인증하기)
 export const getMindInfo_Intro = async (mind_id: number): Promise<Mind> => {
@@ -71,8 +64,7 @@ export const getMindAll = async (): Promise<TotalMind[]> => {
     // response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error('getMindAll 실패함');
+    throw new Error('모든 작심 정보를 반환하는데 실패했습니다.');
   }
 };
 
@@ -89,14 +81,13 @@ export const getMindFilter = async (mindTypeName: string): Promise<TotalMind[]> 
       return 1;
     })();
     const response = await getData<TotalMind[]>(`/minds/except-me/${mindTypeId}`, tokenValue);
-    
+
     // console.log('response.data: ', response.data);
     // response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
-    console.log(3);
     console.error(error);
-    throw new Error('getMindFilter 실패함');
+    throw new Error('선택한 작심을 불러오는 데 실패했습니다.');
   }
 };
 
@@ -136,7 +127,7 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
     return response.data;
   } catch (error) {
     // console.error(error);
-    throw new Error('getisDoneAll 실패함');
+    throw new Error('전체 작심 인증 여부 실패함');
   }
 };
 
@@ -164,6 +155,6 @@ export const getMyList = async (): Promise<Mylist[]> => {
     return response.data;
   } catch (error) {
     // console.error(error);
-    throw new Error('getMyList 실패함');
+    throw new Error('나의 작심 리스트를 호출하는 데 실패했습니다.');
   }
 };

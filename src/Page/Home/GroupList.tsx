@@ -15,12 +15,12 @@ const GroupList = (): JSX.Element => {
   useEffect(() => {
     if (curFocused === '전체')
       getMindAll()
-        .then((mindList) => setShowList(mindList))
-        .catch(() => {});
+        .then((mindList: TotalMind[]) => setShowList(mindList))
+        .catch((error) => console.log(error));
     else
       getMindFilter(curFocused)
         .then((mindList) => setShowList(mindList))
-        .catch(() => {});
+        .catch((error) => console.log(error));
   }, [curFocused]);
 
   return (

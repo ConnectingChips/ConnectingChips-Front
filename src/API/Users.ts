@@ -2,13 +2,7 @@ import { getData, postData, putData, deleteData } from './axiosConfig';
 import { GetUser, User } from '../Type/User';
 import logText from './logText';
 import { NavigateFunction } from 'react-router-dom';
-
-const access_token = localStorage.getItem('access_token');
-const tockenHeader = {
-  headers: {
-    Authorization: `Bearer ${access_token}`,
-  },
-};
+import { tockenHeader } from '../data/tocken';
 
 type IsLogin = {
   isLogin: boolean;
@@ -32,8 +26,7 @@ export const getUser = async (): Promise<GetUser> => {
     // logText(response.data);
     return response.data;
   } catch (error) {
-    // console.error(error);
-    throw new Error('getUser 실패함');
+    throw new Error('유저 정보 호출에 실패하였습니다');
   }
 };
 

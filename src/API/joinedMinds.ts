@@ -1,12 +1,6 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
 import logText from './logText';
-
-const access_token = localStorage.getItem('access_token');
-const tockenHeader = {
-  headers: {
-    Authorization: `Bearer ${access_token}`,
-  },
-};
+import { tockenHeader } from '../data/tocken';
 
 // 참여중인 작심인지 반환
 export const getCheckedJoined = async (mind_id: number): Promise<{ isJoining: boolean }> => {
