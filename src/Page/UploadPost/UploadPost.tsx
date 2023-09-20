@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
@@ -10,27 +10,87 @@ import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
+import { getMindSingle } from '../../API/userMind';
+import { Mind } from '../../Type/userMind';
+import { getUser } from '../../API/userService';
+import { postCreateBoard } from '../../API/Boards';
+import { useParams } from 'react-router-dom';
+
+type MindSingle = Pick<Mind, 'mindTypeName' | 'name'>;
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
+  const INITIAL_TEXT = '오늘 작심 성공!';
   const { intro, rule } = groupList[0];
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const textareaRef = useRef<HTMLInputElement | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // useLoginCheck(navigate, "None");
+  const [mindData, setMindData] = useState<MindSingle>({ mindTypeName: '', name: '' });
+  const [userId, setUserId] = useState<number>(0);
+  const { mindID } = useParams();
+  const [text, setText] = useState<string>(INITIAL_TEXT);
+  const [image, setImage] = useState<{
+    name: string;
+    file: null | File;
+  }>({
+    name: '',
+    file: null,
+  });
 
-  const handleFileInputChange = () => {
-    const fileInputLength = fileRef.current?.files?.length;
-    fileInputLength && setImageUrl(URL.createObjectURL(fileRef.current!.files![0]));
+  useEffect(() => {
+    (async () => {
+      // TODO: url에서 mindId 가져와서 전달하기
+      console.log(mindID);
+      try {
+        const mind = await getMindSingle(Number(mindID));
+        const res = await getUser(); // TODO: userID context에서 가져오기(?)
+        setMindData(mind);
+        setUserId(res.userId);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length) return;
+
+    const file = e.target.files[0];
+    setImage({ name: file.name, file });
+    setImageUrl(URL.createObjectURL(file));
   };
 
   const handleDeleteIconClick = () => {
+    URL.revokeObjectURL(imageUrl);
     setImageUrl('');
   };
 
   const handleInfoIconClick = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('보내기');
+    /** TODO: 에러 처리 필요
+     * 이미지(옵션): 현재는 이미지 없으면 500 에러 발생
+     * 글쓰다가 토큰 만료되면 요청을 막고 Alert 띄워주기
+     */
+    try {
+      const response = postCreateBoard({ mindId: Number(mindID), userId, content: text, image });
+      console.log(response);
+      // TODO: 성공 시 페이지 이동
+    } catch (error) {
+      // TODO: 토큰 만료 에러 처리
+      console.error('error:: ', error);
+    }
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
   };
 
   return (
@@ -39,11 +99,11 @@ const UploadPost = () => {
         <h1>작심 글쓰기</h1>
       </UploadPostHeaderS>
       <GroupTitleS>
-        <ItemTabS>헬스</ItemTabS>
-        <h1>몸에서 닭다리 빼기</h1>
+        <ItemTabS>{mindData?.mindTypeName}</ItemTabS>
+        <h1>{mindData?.name}</h1>
       </GroupTitleS>
       <GroupContent selected={[0, 2]} passsort='Create' />
-      <CreateFormS>
+      <CreateFormS onSubmit={handleFormSubmit}>
         <CreateFormUploadS>
           <UploadImageTitleS>
             <h2>인증샷 올리기</h2>
@@ -73,7 +133,7 @@ const UploadPost = () => {
         </CreateFormUploadS>
         <CreateFormUploadS>
           <h2>오늘의 작심은 어땠나요?</h2>
-          <textarea placeholder='오늘 작심 성공!' maxLength={800} />
+          <textarea placeholder={INITIAL_TEXT} maxLength={800} onChange={handleTextareaChange} />
         </CreateFormUploadS>
         <SubmitButtonWrapperS>
           <SubmitButtonCTA />
