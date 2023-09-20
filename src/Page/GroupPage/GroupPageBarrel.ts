@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import { useFindGroup } from '../../Hooks/useFindGroup';
 import useLoginCheck from '../../Hooks/useLoginCheck';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import LikeBind from '../../Type/LikeBind';
@@ -18,7 +17,6 @@ export {
   useEffect,
   styled,
   useNavigate,
-  useFindGroup,
   useLoginCheck,
   GroupHeader,
   type LikeBind,

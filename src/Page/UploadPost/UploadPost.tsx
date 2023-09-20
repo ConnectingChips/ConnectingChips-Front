@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
-import groupList from '../../data/groupListData';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 import { useLoginCheck, useNavigate } from '../GroupPage/GroupPageBarrel';
@@ -13,7 +12,6 @@ import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
-  const { intro, rule } = groupList[0];
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');

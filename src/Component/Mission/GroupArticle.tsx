@@ -4,7 +4,6 @@ import MissionRule from '../../Component/Mission/MissionRule';
 import MissionIntro from './MissionIntro';
 import { PostButton } from '../CTA/CTAContainer';
 import { PageSort } from '../../Type/MissionType';
-import { useFindGroup } from '../../Hooks/useFindGroup';
 
 /** 2023-08-22 GroupArticle.tsx - 그룹 아티클 Props */
 interface GroupArticleProps {
@@ -17,12 +16,10 @@ const GroupArticle = ({
   selected,
   passsort,
 }: GroupArticleProps): JSX.Element => {  
-  const { intro, rule } = useFindGroup(passsort);
-
   const compArr = [
     <HeadLine />,
-    <MissionIntro groupText={intro} />,
-    <MissionRule groupRule={rule} passsort={passsort} />,
+    <MissionIntro groupText='' />,
+    <MissionRule groupRule='' passsort={passsort} />,
     <PostButton />,
   ];
   if (selected === null) return <></>;

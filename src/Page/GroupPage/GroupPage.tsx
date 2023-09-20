@@ -1,15 +1,13 @@
 import { styled } from './GroupPageBarrel';
-import { useFindGroup, GroupHeader, DivideBaS, GroupArticle } from './GroupPageBarrel';
+import { GroupHeader, DivideBaS, GroupArticle } from './GroupPageBarrel';
 import { GroupPostList } from './GroupPostList';
 
 /** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
-  const { url } = useFindGroup('Page');
-
   return (
     <GroupPageS>
       <GroupHeader />
-      <GroupImageS url={url} />
+      <GroupImageS url='' />
 
       <GroupArticle selected={[0, 1, 3]} passsort='Page' />
       <DivideBaS />

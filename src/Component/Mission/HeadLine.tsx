@@ -2,7 +2,6 @@ import { styled } from 'styled-components';
 import { MissionSingleWide } from './MissionTab';
 import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import groupListData from '../../data/groupListData';
 
 type grouptPath = '' | 'groupIntro' | 'groupPage';
 /** 2023-08-22 HeadLine.tsx - 타이틀 / 태그 / n일차 */
@@ -20,23 +19,23 @@ const HeadLine = (): JSX.Element => {
   else setUrlPath('groupPage');
 
   // 실제 axios요청으로 바뀔 부분
-  const groupInfo = groupListData.find((groupData) => groupData.group_id === Number(uuid));
-  if (groupInfo === undefined) return <></>;
+  // const groupInfo = groupListData.find((groupData) => groupData.group_id === Number(uuid));
+  // if (groupInfo === undefined) return <></>;
 
-  let message = '';
-  const memberLength = groupInfo.memberList.length;
+  // let message = '';
+  // const memberLength = groupInfo.memberList.length;
 
-  if (memberLength <= 0) message = '첫번째로 작심 맛보기!';
-  else if (memberLength === 1) message = '1명 맛보기 중';
-  else message = `${memberLength - 1}명과 함께 맛보기 중`;
+  // if (memberLength <= 0) message = '첫번째로 작심 맛보기!';
+  // else if (memberLength === 1) message = '1명 맛보기 중';
+  // else message = `${memberLength - 1}명과 함께 맛보기 중`;
 
-  const { tab, title } = groupInfo;
+  // const { tab, title } = groupInfo;
 
   return (
     <HeadLineS>
-      <MissionSingleWide text={tab} />
+      {/* <MissionSingleWide text={tab} />
       <h1>{title}</h1>
-      <p className={urlPath === 'groupIntro' ? '' : 'subTitle'}>{message}</p>
+      <p className={urlPath === 'groupIntro' ? '' : 'subTitle'}>{message}</p> */}
     </HeadLineS>
   );
 };

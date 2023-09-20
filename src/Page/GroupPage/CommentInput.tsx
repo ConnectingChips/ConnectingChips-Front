@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { styled } from 'styled-components';
-import postInfoData from '../../data/postInfoData';
 
 interface commentInputProps {
   commentInputBind: {
@@ -14,7 +13,7 @@ interface commentInputProps {
 }
 
 const CommentInput = ({ commentInputBind, inputToggleBind }: commentInputProps) => {
-  const commentList = postInfoData.commentList;
+  // const commentList = postInfoData.commentList;
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
 
@@ -33,7 +32,7 @@ const CommentInput = ({ commentInputBind, inputToggleBind }: commentInputProps) 
 
   // 댓글없으면 input placeholder 변경
   const placeholderText =
-    commentList.length > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
+    [].length > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
 
   // input에 적으면 img변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';

@@ -2,21 +2,19 @@ import { styled } from 'styled-components';
 import { GNB } from '../../AppBarral';
 import { CTAContainer } from '../../Component/CTA/CTAContainer';
 import { GroupIntroHeader } from '../../Component/Mission/GroupHeader';
-import { useFindGroup } from '../../Hooks/useFindGroup';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { useEffect } from 'react';
 import scrollTop from '../../Hooks/scrollTop';
 
 /** 2023-08-21 GroupIntro.tsx - 메인 컴프 */
 const GroupIntro = (): JSX.Element => {
-  const { url } = useFindGroup('Intro');
 
   useEffect(() => {
     scrollTop();
   }, []);
 
   return (
-    <GroupIntroS img={url}>
+    <GroupIntroS img=''>
       <BGDarkS>
         <GroupContainerS>
           <GroupIntroHeader />

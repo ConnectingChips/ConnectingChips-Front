@@ -1,16 +1,11 @@
-import { useNavigate } from 'react-router-dom';
-import { logoutUser } from '../../API/Users';
-import { styled, useEffect, useState } from './MypageBarrel';
+import { styled, useEffect, useState, useContext, useNavigate } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal } from './MypageBarrel';
-import { scrollTop, type GetUser, getUser, type Mylist, getMyList } from './MypageBarrel';
-import { useContext } from 'react';
-import { MyInfoContext, MyListContext } from '../Home/HomeBarrel';
-import { MyInfoContextType, MyListContextType } from '../../API/Context';
-import { initUser } from '../../data/initialData';
+import { scrollTop, getUser, logoutUser } from './MypageBarrel';
+import { initUser, MyListContext } from './MypageBarrel';
+import type { GetUser, MyListContextType } from './MypageBarrel';
 
 const MyPage = (): JSX.Element => {
-  const { myInfo, setMyInfo } = useContext<MyInfoContextType>(MyInfoContext);
   const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
 
