@@ -36,8 +36,6 @@ const Comment = ({ postData, userInfo }: CommentListDataProps) => {
     setIsComment,
   };
 
-  console.log(isComment);
-
   return (
     <>
       {postData.commentCount > 0 ? (

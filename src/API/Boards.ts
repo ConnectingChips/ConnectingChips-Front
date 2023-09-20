@@ -42,7 +42,6 @@ export interface ReplyType {
 export const getBoards = async (mindId: number): Promise<BoardsType[]> => {
   try {
     const response = await getData<BoardsType[]>(`/boards/${mindId}`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

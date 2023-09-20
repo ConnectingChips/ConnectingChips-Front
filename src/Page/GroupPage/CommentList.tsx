@@ -149,7 +149,6 @@ interface ReplyBoxMakerProps {
 
 /** 답글 box */
 const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
-  console.log(replyData.replyId);
   return (
     <CommentContainerS sort={sort}>
       <img src={replyData.profileImage} alt='답글프로필' />
@@ -165,6 +164,8 @@ const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
           {userInfo.userId === replyData.userId ? (
             <h2
               onClick={() => {
+                console.log(replyData.replyId);
+
                 deleteReply(replyData.replyId);
               }}
             >
