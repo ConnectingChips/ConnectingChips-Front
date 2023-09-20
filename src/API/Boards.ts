@@ -72,16 +72,36 @@ export interface CreateBoard {
   mindId: number;
   userId: number;
   content: string;
-  image: string;
+  image: {
+    name: string;
+    file: null | File;
+  };
 }
 
 //게시글 작성 -> POST요청
 export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => {
+  const { mindId, userId, content, image } = BoardData;
+  const formData = new FormData();
+  const boardRequestDto = { mindId, userId, content };
+
+  formData.append(
+    'boardRequestDto',
+    new Blob([JSON.stringify(boardRequestDto)], { type: 'application/json' }),
+  );
+
+  if (image.file !== null) {
+    formData.append('file', image.file);
+  } else {
+    formData.append('file', ''); // TODO: 이미지 선택하지 않았을때 어떻게 보내는지?
+  }
+
   try {
-    await postData(`/boards`, BoardData, tockenHeader);
+    await postData(`/boards`, formData, tockenHeader);
   } catch (error) {
     console.error(error);
-    throw new Error('게시글 작성 에러');
+    return Promise.reject(error); // TODO: 상위에서 reject
+    // throw new Error('Failed to post Join');
+
   }
 };
 
