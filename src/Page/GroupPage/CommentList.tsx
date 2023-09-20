@@ -149,6 +149,7 @@ interface ReplyBoxMakerProps {
 
 /** 답글 box */
 const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
+  console.log(replyData.replyId);
   return (
     <CommentContainerS sort={sort}>
       <img src={replyData.profileImage} alt='답글프로필' />

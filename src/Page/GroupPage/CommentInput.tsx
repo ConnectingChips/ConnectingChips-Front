@@ -42,25 +42,27 @@ const CommentInput = ({
   // input 버튼 핸들러
   const inputBtnHandler = (e: any) => {
     e.preventDefault();
-    if (isComment === 0) {
-      const AddCommentData = {
-        userId: userInfo.userId,
-        boardId: postData.boardId,
-        content: commentInput,
-      };
+    if (commentInput.length !== 0) {
+      if (isComment === 0) {
+        const AddCommentData = {
+          userId: userInfo.userId,
+          boardId: postData.boardId,
+          content: commentInput,
+        };
 
-      setInputToggle(true);
-      postAddComment(AddCommentData);
-      setCommentInput('');
-    } else if (isComment !== 0) {
-      const AddReplyData = {
-        userId: userInfo.userId,
-        commentId: isComment,
-        content: commentInput,
-      };
-      postAddReply(AddReplyData);
-      setInputToggle(true);
-      setCommentInput('');
+        setInputToggle(true);
+        postAddComment(AddCommentData);
+        setCommentInput('');
+      } else if (isComment !== 0) {
+        const AddReplyData = {
+          userId: userInfo.userId,
+          commentId: isComment,
+          content: commentInput,
+        };
+        postAddReply(AddReplyData);
+        setInputToggle(true);
+        setCommentInput('');
+      }
     }
   };
 
