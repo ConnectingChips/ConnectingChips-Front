@@ -20,7 +20,7 @@ const GroupPostList = () => {
     getUser().then((userInfo: GetUser) => {
       setUserInfo(userInfo);
     });
-  }, [mindID]);
+  }, [postData, userInfo]);
 
   return (
     <GroupPostListS>
