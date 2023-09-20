@@ -27,13 +27,13 @@ export const postAddComment = async (commentData: AddComment): Promise<AddCommen
   }
 };
 
-//게시글 삭제 -> delete요청
+//댓글 삭제 -> delete요청
 export const deleteComment = async (comment_id: number): Promise<void> => {
   try {
     await deleteData(`/comments/${comment_id}`, tockenHeader);
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to delete');
+    throw new Error('댓글 삭제 에러');
   }
 };
 

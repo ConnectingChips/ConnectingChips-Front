@@ -62,7 +62,6 @@ export const getBoardCheck = async (boardId: number): Promise<BoardCheck> => {
       `/boards/authentication?board_id=${boardId}&user_id=${user_id}`,
       tockenHeader,
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
