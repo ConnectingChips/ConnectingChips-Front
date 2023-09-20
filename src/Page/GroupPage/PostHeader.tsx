@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
-import { DetailedHTMLProps, ImgHTMLAttributes, useState } from 'react';
-import { BoardsType } from '../../API/Boards';
+import { DetailedHTMLProps, ImgHTMLAttributes, useEffect, useState } from 'react';
+import { BoardsType, getBoardCheck, deleteBoard } from '../../API/Boards';
 
 interface PostHeaderProps {
   editbind: {
@@ -12,10 +12,12 @@ interface PostHeaderProps {
 }
 
 const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
-  const [isToggle, setIsToggle] = useState(false);
+  const [editModalToggle, setEditModalToggle] = useState(false);
+  const [editBtnToggle, setEditBtnToggle] = useState(false);
   const { edit, setEdit } = editbind;
+
   const handlerToogleSwitch = () => {
-    setIsToggle((prev) => !prev);
+    setEditModalToggle((prev) => !prev);
   };
 
   const defalutPofileImage = (imageUrl: string) => {
@@ -23,6 +25,13 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
       return `${process.env.PUBLIC_URL}/defalutProfileImage.jpg`;
     }
   };
+
+  // 자신의 게시글인지 확인
+  useEffect(() => {
+    getBoardCheck(postData.boardId).then((data) => {
+      data.canEdit ? setEditBtnToggle(true) : setEditBtnToggle(false);
+    });
+  }, []);
 
   return (
     <PostHeaderS>
@@ -35,21 +44,31 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
           <p>{postData.createDate}</p>
         </PostProfileNickNameS>
       </PostHeaderProfileS>
-      <MoreIconS onClick={handlerToogleSwitch}>
-        <img src={point3} alt='point3_icon' />
-        {isToggle && (
-          <ModalS>
-            <div
-              onClick={() => {
-                setEdit(true);
-              }}
-            >
-              수정하기
-            </div>
-            <div>삭제하기</div>
-          </ModalS>
-        )}
-      </MoreIconS>
+      {/* editBtnToggle ? 수정버튼 나오게 : 수정버튼 사라짐 */}
+      {editBtnToggle ? null : (
+        <MoreIconS onClick={handlerToogleSwitch}>
+          <img src={point3} alt='point3_icon' />
+          {/* editModalToggle ? 수정모달나오게 : 수정모달 사라짐 */}
+          {editModalToggle ? (
+            <ModalS>
+              <div
+                onClick={() => {
+                  setEdit(true);
+                }}
+              >
+                수정하기
+              </div>
+              <div
+                onClick={() => {
+                  deleteBoard(postData.boardId);
+                }}
+              >
+                삭제하기
+              </div>
+            </ModalS>
+          ) : null}
+        </MoreIconS>
+      )}
     </PostHeaderS>
   );
 };

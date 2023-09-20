@@ -9,7 +9,7 @@ import { getMindAFinished, putMindExit, putMindRejoin } from '../../API/userMind
 
 /** 참여중인 작심 */
 export const CurrentMind = (): JSX.Element => {
-  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
+  const [myList, setMylist] = useState<Mylist[]>(initMyList);
 
   useEffect(() => {
     getMyList().then((res: Mylist[]) => setMylist(res));
@@ -53,7 +53,7 @@ const NoneExistComp = (): JSX.Element => {
 
 /** 참여했던 작심 */
 export const FinishedMindList = (): JSX.Element => {
-  const [myList, setMylist] = useState<Mylist[]>(initMyList.data);
+  const [myList, setMylist] = useState<Mylist[]>(initMyList);
 
   useEffect(() => {
     getMyList().then((res: Mylist[]) => setMylist(res));

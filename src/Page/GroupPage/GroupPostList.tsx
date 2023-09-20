@@ -3,18 +3,24 @@ import { useState, styled, useEffect } from './GroupPageBarrel';
 import { Comment, GroupPost } from './GroupPageBarrel';
 import { getBoards, BoardsType } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
+import { getUser } from '../../API/userService';
+import { GetUser } from '../../Type/User';
+import { initUser } from '../../data/initialData';
 
 const GroupPostList = () => {
   // TODO: post업애려면 Commendted false로 바꾸기
-  let { params } = useParams<string>();
-
+  const { mindID } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
+  const [userInfo, setUserInfo] = useState<GetUser>(initUser);
 
   useEffect(() => {
-    getBoards(Number(params)).then((res: BoardsType[]) => {
+    getBoards(Number(mindID)).then((res: BoardsType[]) => {
       setPostData(res);
     });
-  }, [params]);
+    getUser().then((userInfo: GetUser) => {
+      setUserInfo(userInfo);
+    });
+  }, []);
 
   return (
     <GroupPostListS>
@@ -23,8 +29,8 @@ const GroupPostList = () => {
         {postData.length > 0 ? (
           postData.map((postData, i) => (
             <div key={i}>
-              <GroupPost passsort='Page' postData={postData} />
-              <Comment postData={postData} />
+              <GroupPost passsort='Page' postData={postData} userInfo={userInfo} />
+              <Comment postData={postData} userInfo={userInfo} />
             </div>
           ))
         ) : (

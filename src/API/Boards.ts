@@ -1,4 +1,5 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
+import { getUser } from './userService';
 const access_token = localStorage.getItem('access_token');
 const tockenHeader = {
   headers: {
@@ -38,15 +39,13 @@ export interface ReplyType {
 }
 
 // boards 조회 -> GET 요청
-export const getBoards = async (mind_id: number): Promise<BoardsType[]> => {
+export const getBoards = async (mindId: number): Promise<BoardsType[]> => {
   try {
-    const response = await getData<BoardsType[]>(`/boards/${mind_id}`);
-    // console.log(response.data);
-
+    const response = await getData<BoardsType[]>(`/boards/${mindId}`);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get user');
+    throw new Error('게시글 리스트 반환 에러');
   }
 };
 
@@ -55,17 +54,17 @@ export interface BoardCheck {
 }
 
 // 게시글 작성자 여부 -> GET 요청
-export const getBoardCheck = async (board_id: string, user_id: string): Promise<BoardCheck> => {
+export const getBoardCheck = async (boardId: number): Promise<BoardCheck> => {
+  const user_id = (await getUser()).userId;
   try {
     const response = await getData<BoardCheck>(
-      `/boards/authentication?board_id=${board_id}&user_id=${user_id}`,
+      `/boards/authentication?board_id=${boardId}&user_id=${user_id}`,
       tockenHeader,
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get user');
+    throw new Error('게시글 작성자 여부 에러');
   }
 };
 
@@ -102,6 +101,7 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
     console.error(error);
     return Promise.reject(error); // TODO: 상위에서 reject
     // throw new Error('Failed to post Join');
+
   }
 };
 
@@ -113,27 +113,38 @@ export interface EditBoard {
 }
 
 export interface RsEditBoard {
-  boardId: number;
+  // boardId: number;
   content: string;
 }
 
+// //게시글 수정 -> put요청
+// export const putEditBoard = async (boardId: number, BoardData: EditBoard): Promise<RsEditBoard> => {
+//   try {
+//     const response = await putData<RsEditBoard>(`/boards/${boardId}`, BoardData, tockenHeader);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error('게시글 수정 에러');
+//   }
+// };
+
 //게시글 수정 -> put요청
-export const putEditBoard = async (BoardData: EditBoard): Promise<RsEditBoard> => {
+export const putEditBoard = async (boardId: number, content: RsEditBoard): Promise<RsEditBoard> => {
   try {
-    const response = await putData<RsEditBoard>(`/boards`, BoardData, tockenHeader);
+    const response = await putData<RsEditBoard>(`/boards/${boardId}`, content, tockenHeader);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to post Join');
+    throw new Error('게시글 수정 에러');
   }
 };
 
 //게시글 삭제 -> delete요청
-export const deleteBoard = async (board_id: number): Promise<void> => {
+export const deleteBoard = async (boardId: number): Promise<void> => {
   try {
-    await deleteData(`/boards/${board_id}`, tockenHeader);
+    await deleteData(`/boards/${boardId}`, tockenHeader);
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to delete');
+    throw new Error('게시글 삭제 애러');
   }
 };

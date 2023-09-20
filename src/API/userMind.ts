@@ -127,3 +127,41 @@ export const getMyList = async (): Promise<Mylist[]> => {
     throw new Error('Failed to get isDone All Valid');
   }
 };
+
+export interface getMindInfoType {
+  mindId: number;
+  mindTypeName: string;
+  name: string;
+  userCount: number;
+  introduce: string;
+  writeFormat: string;
+  pageImage: string;
+  isDoneToday: boolean;
+  count: number;
+}
+
+// 그룹페이지 Minds 정보
+export const getMindInfo = async (mindId: number): Promise<getMindInfoType> => {
+  try {
+    const response = await getData<getMindInfoType>(`/minds/page/${mindId}`, tockenHeader);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('그룹페이지 Minds 정보 반환 에러');
+  }
+};
+
+interface getMindInfo_ImageType {
+  pageImage: string;
+}
+
+// 그룹페이지이미지 Minds 정보
+export const getMindInfo_Image = async (mindId: number): Promise<getMindInfo_ImageType> => {
+  try {
+    const response = await getData<getMindInfo_ImageType>(`/minds/page/${mindId}/image`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('그룹페이지이미지 정보 반환 에러');
+  }
+};
