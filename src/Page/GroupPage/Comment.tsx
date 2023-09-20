@@ -3,17 +3,22 @@ import { CommentHeader } from './CommentHeader';
 import { CommentList } from './CommentList';
 import { CommentInput } from './CommentInput';
 import { CommentType, BoardsType } from '../../API/Boards';
+import { GetUser } from '../../Type/User';
 
 interface CommentListDataProps {
   postData: BoardsType;
+  userInfo: GetUser;
 }
 
-const Comment = ({ postData }: CommentListDataProps) => {
+const Comment = ({ postData, userInfo }: CommentListDataProps) => {
+  // 댓글접기
   const [commentFlip, setCommentFlip] = useState(true);
   // input 바텀에 붙거나 말거나
   const [inputToggle, setInputToggle] = useState<boolean>(true);
   // input 내용 받아오기
   const [commentInput, setCommentInput] = useState<string>('');
+  // 댓글과 답글 구분
+  const [isComment, setIsComment] = useState<number>(0);
   const commentFlipBind = {
     commentFlip,
     setCommentFlip,
@@ -26,19 +31,33 @@ const Comment = ({ postData }: CommentListDataProps) => {
     commentInput,
     setCommentInput,
   };
+  const isCommentBind = {
+    isComment,
+    setIsComment,
+  };
+
+  console.log(isComment);
 
   return (
     <>
       {postData.commentCount > 0 ? (
         <>
           <CommentHeader commentFlipBind={commentFlipBind} postData={postData} />
-          <CommentList commentFlipBind={commentFlipBind} commentListData={postData.commentList} />
+          <CommentList
+            commentFlipBind={commentFlipBind}
+            inputToggleBind={inputToggleBind}
+            isCommentBind={isCommentBind}
+            commentListData={postData.commentList}
+            userInfo={userInfo}
+          />
         </>
       ) : null}
       <CommentInput
         commentInputBind={commentInputBind}
         inputToggleBind={inputToggleBind}
+        isCommentBind={isCommentBind}
         postData={postData}
+        userInfo={userInfo}
       />
     </>
   );

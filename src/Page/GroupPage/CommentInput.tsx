@@ -1,11 +1,8 @@
 import { SetStateAction, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { BoardsType } from '../../API/Boards';
-import { postAddComment } from '../../API/Comment';
-import { getUser } from '../../API/userService';
-
 import { GetUser } from '../../Type/User';
-import { initUser } from '../../data/initialData';
+import { postAddComment, postAddReply } from '../../API/Comment';
 interface commentInputProps {
   commentInputBind: {
     commentInput: string;
@@ -15,13 +12,24 @@ interface commentInputProps {
     inputToggle: boolean;
     setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  isCommentBind: {
+    isComment: number;
+    setIsComment: React.Dispatch<React.SetStateAction<number>>;
+  };
   postData: BoardsType;
+  userInfo: GetUser;
 }
 
-const CommentInput = ({ commentInputBind, inputToggleBind, postData }: commentInputProps) => {
+const CommentInput = ({
+  commentInputBind,
+  inputToggleBind,
+  isCommentBind,
+  postData,
+  userInfo,
+}: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
-  const [userInfo, setUserInfo] = useState<GetUser>(initUser);
+  const { isComment, setIsComment } = isCommentBind;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
@@ -34,20 +42,26 @@ const CommentInput = ({ commentInputBind, inputToggleBind, postData }: commentIn
   // input 버튼 핸들러
   const inputBtnHandler = (e: any) => {
     e.preventDefault();
+    if (isComment === 0) {
+      const AddCommentData = {
+        userId: userInfo.userId,
+        boardId: postData.boardId,
+        content: commentInput,
+      };
 
-    const AddCommentData = {
-      userId: userInfo.userId,
-      boardId: postData.boardId,
-      content: commentInput,
-    };
-
-    getUser().then((userInfo: GetUser) => {
-      setUserInfo(userInfo);
-    });
-
-    setInputToggle(true);
-    postAddComment(AddCommentData);
-    setCommentInput('');
+      setInputToggle(true);
+      postAddComment(AddCommentData);
+      setCommentInput('');
+    } else if (isComment !== 0) {
+      const AddReplyData = {
+        userId: userInfo.userId,
+        commentId: isComment,
+        content: commentInput,
+      };
+      postAddReply(AddReplyData);
+      setInputToggle(true);
+      setCommentInput('');
+    }
   };
 
   // 댓글 개수에 따라 input placeholder 변경

@@ -1,22 +1,44 @@
 import { styled } from 'styled-components';
 import { CommentType, ReplyType } from '../../API/Boards';
 import { GetUser } from '../../Type/User';
-
+import { deleteComment, deleteReply, postAddReply } from '../../API/Comment';
 interface CommentHeaderProps {
   commentFlipBind: {
     commentFlip: boolean;
     setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  inputToggleBind: {
+    inputToggle: boolean;
+    setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  isCommentBind: {
+    isComment: number;
+    setIsComment: React.Dispatch<React.SetStateAction<number>>;
+  };
   commentListData: CommentType[];
   userInfo: GetUser;
 }
 /** 댓글부분 container */
-const CommentList = ({ commentFlipBind, commentListData, userInfo }: CommentHeaderProps) => {
+const CommentList = ({
+  commentFlipBind,
+  inputToggleBind,
+  isCommentBind,
+  commentListData,
+  userInfo,
+}: CommentHeaderProps) => {
   const { commentFlip, setCommentFlip } = commentFlipBind;
   return (
     <CommentListS commentFlip={commentFlip}>
       {commentListData.map((commentData, i) => {
-        return <CommentBox commentData={commentData} userInfo={userInfo} key={i} />;
+        return (
+          <CommentBox
+            inputToggleBind={inputToggleBind}
+            isCommentBind={isCommentBind}
+            commentData={commentData}
+            userInfo={userInfo}
+            key={i}
+          />
+        );
       })}
     </CommentListS>
   );
@@ -24,13 +46,32 @@ const CommentList = ({ commentFlipBind, commentListData, userInfo }: CommentHead
 
 export { CommentList };
 
+interface CommentBoxPorps {
+  commentData: CommentType;
+  userInfo: GetUser;
+  inputToggleBind: {
+    inputToggle: boolean;
+    setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  isCommentBind: {
+    isComment: number;
+    setIsComment: React.Dispatch<React.SetStateAction<number>>;
+  };
+}
+
 /** 댓글과 답글 list */
-const CommentBox = ({ commentData, userInfo }: { commentData: CommentType; userInfo: GetUser }) => {
+const CommentBox = ({ commentData, userInfo, inputToggleBind, isCommentBind }: CommentBoxPorps) => {
   return (
     <CommentBoxS>
-      <CommentBoxMaker sort='comment' commentData={commentData} userInfo={userInfo} />
+      <CommentBoxMaker
+        sort='comment'
+        inputToggleBind={inputToggleBind}
+        isCommentBind={isCommentBind}
+        commentData={commentData}
+        userInfo={userInfo}
+      />
       {commentData.replyList.map((replyData, i) => {
-        return <ReplyBoxMaker sort='reply' replyData={replyData} key={i} />;
+        return <ReplyBoxMaker sort='reply' replyData={replyData} userInfo={userInfo} key={i} />;
       })}
     </CommentBoxS>
   );
@@ -40,10 +81,32 @@ interface CommentBoxMakerProps {
   sort: 'comment';
   commentData: CommentType;
   userInfo: GetUser;
+  inputToggleBind: {
+    inputToggle: boolean;
+    setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  isCommentBind: {
+    isComment: number;
+    setIsComment: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
-/** 댓글과 답글 box */
-const CommentBoxMaker = ({ sort, commentData, userInfo }: CommentBoxMakerProps) => {
+/** 댓글 box */
+const CommentBoxMaker = ({
+  sort,
+  commentData,
+  userInfo,
+  inputToggleBind,
+  isCommentBind,
+}: CommentBoxMakerProps) => {
+  const { inputToggle, setInputToggle } = inputToggleBind;
+  const { isComment, setIsComment } = isCommentBind;
+
+  const AddReplyHander = (commentId: number) => {
+    setInputToggle(false);
+    setIsComment(commentId);
+  };
+
   return (
     <CommentContainerS sort={sort}>
       <img src={commentData.profileImage} alt='답글프로필' />
@@ -56,8 +119,22 @@ const CommentBoxMaker = ({ sort, commentData, userInfo }: CommentBoxMakerProps) 
           <p className='text'>{commentData.content}</p>
         </div>
         <CommentOptionS>
-          <h2>답글</h2>
-          {userInfo.userId === commentData.userId ? <h2 className='delete'>삭제</h2> : null}
+          <h2
+            onClick={() => {
+              AddReplyHander(commentData.commentId);
+            }}
+          >
+            답글
+          </h2>
+          {userInfo.userId === commentData.userId ? (
+            <h2
+              onClick={() => {
+                deleteComment(commentData.commentId);
+              }}
+            >
+              삭제
+            </h2>
+          ) : null}
         </CommentOptionS>
       </CommentContentS>
     </CommentContainerS>
@@ -67,10 +144,11 @@ const CommentBoxMaker = ({ sort, commentData, userInfo }: CommentBoxMakerProps) 
 interface ReplyBoxMakerProps {
   sort: 'reply';
   replyData: ReplyType;
+  userInfo: GetUser;
 }
 
-/** 댓글과 답글 box */
-const ReplyBoxMaker = ({ sort, replyData }: ReplyBoxMakerProps) => {
+/** 답글 box */
+const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
   return (
     <CommentContainerS sort={sort}>
       <img src={replyData.profileImage} alt='답글프로필' />
@@ -83,7 +161,15 @@ const ReplyBoxMaker = ({ sort, replyData }: ReplyBoxMakerProps) => {
           <p className='text'>{replyData.content}</p>
         </div>
         <CommentOptionS>
-          <h2 className='delete'>삭제</h2>
+          {userInfo.userId === replyData.userId ? (
+            <h2
+              onClick={() => {
+                deleteReply(replyData.replyId);
+              }}
+            >
+              삭제
+            </h2>
+          ) : null}
         </CommentOptionS>
       </CommentContentS>
     </CommentContainerS>

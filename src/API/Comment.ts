@@ -55,7 +55,7 @@ export const postAddReply = async (replyData: AddReply): Promise<AddReply> => {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to post Join');
+    throw new Error('답글 추가 에러');
   }
 };
 
