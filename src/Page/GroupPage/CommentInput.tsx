@@ -23,12 +23,6 @@ const CommentInput = ({ commentInputBind, inputToggleBind, postData }: commentIn
   const { inputToggle, setInputToggle } = inputToggleBind;
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
 
-  useEffect(() => {
-    getUser().then((userInfo: GetUser) => {
-      setUserInfo(userInfo);
-    });
-  }, []);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
   };
@@ -37,17 +31,23 @@ const CommentInput = ({ commentInputBind, inputToggleBind, postData }: commentIn
     setInputToggle(false);
   };
 
-  const AddCommentData = {
-    userId: userInfo.userId,
-    boardId: postData.boardId,
-    content: commentInput,
-  };
-
   // input 버튼 핸들러
   const inputBtnHandler = (e: any) => {
     e.preventDefault();
+
+    const AddCommentData = {
+      userId: userInfo.userId,
+      boardId: postData.boardId,
+      content: commentInput,
+    };
+
+    getUser().then((userInfo: GetUser) => {
+      setUserInfo(userInfo);
+    });
+
     setInputToggle(true);
     postAddComment(AddCommentData);
+    setCommentInput('');
   };
 
   // 댓글 개수에 따라 input placeholder 변경
