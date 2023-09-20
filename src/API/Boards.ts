@@ -94,14 +94,25 @@ export interface EditBoard {
 }
 
 export interface RsEditBoard {
-  boardId: number;
+  // boardId: number;
   content: string;
 }
 
+// //게시글 수정 -> put요청
+// export const putEditBoard = async (boardId: number, BoardData: EditBoard): Promise<RsEditBoard> => {
+//   try {
+//     const response = await putData<RsEditBoard>(`/boards/${boardId}`, BoardData, tockenHeader);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error('게시글 수정 에러');
+//   }
+// };
+
 //게시글 수정 -> put요청
-export const putEditBoard = async (boardId: number, BoardData: EditBoard): Promise<RsEditBoard> => {
+export const putEditBoard = async (boardId: number, content: RsEditBoard): Promise<RsEditBoard> => {
   try {
-    const response = await putData<RsEditBoard>(`/boards/${boardId}`, BoardData, tockenHeader);
+    const response = await putData<RsEditBoard>(`/boards/${boardId}`, content, tockenHeader);
     return response.data;
   } catch (error) {
     console.error(error);

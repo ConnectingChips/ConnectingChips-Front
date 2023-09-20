@@ -26,16 +26,22 @@ const PostContent = ({ editbind, postData, userInfo }: PostContentProps): JSX.El
 
   if (typeof mindID === 'undefined') return <></>;
 
+  // const postEditData: {
+  //   mindId: number;
+  //   userId: number;
+  //   content: string;
+  //   image: string;
+  // } = {
+  //   mindId: Number(mindID),
+  //   userId: userInfo.userId,
+  //   content: editContent,
+  //   image: postData.image,
+  // };
+
   const postEditData: {
-    mindId: number;
-    userId: number;
     content: string;
-    image: string;
   } = {
-    mindId: Number(mindID),
-    userId: userInfo.userId,
     content: editContent,
-    image: postData.image,
   };
 
   const EditReq = () => {
