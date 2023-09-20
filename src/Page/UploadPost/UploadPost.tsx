@@ -20,6 +20,7 @@ type MindSingle = Pick<Mind, 'mindTypeName' | 'name'>;
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
+  const INITIAL_TEXT = '오늘 작심 성공!';
   const { intro, rule } = groupList[0];
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -30,7 +31,7 @@ const UploadPost = () => {
   const [mindData, setMindData] = useState<MindSingle>({ mindTypeName: '', name: '' });
   const [userId, setUserId] = useState<number>(0);
   const { mindID } = useParams();
-  const [text, setText] = useState<string>('오늘 작심 성공!'); // TODO: constants
+  const [text, setText] = useState<string>(INITIAL_TEXT);
   const [image, setImage] = useState<{
     name: string;
     file: null | File;
@@ -45,7 +46,7 @@ const UploadPost = () => {
       console.log(mindID);
       try {
         const mind = await getMindSingle(Number(mindID));
-        const res = await getUser();
+        const res = await getUser(); // TODO: userID context에서 가져오기(?)
         setMindData(mind);
         setUserId(res.userId);
       } catch (error) {
@@ -62,8 +63,6 @@ const UploadPost = () => {
     setImageUrl(URL.createObjectURL(file));
   };
 
-  console.log('imageUrl', imageUrl);
-
   const handleDeleteIconClick = () => {
     URL.revokeObjectURL(imageUrl);
     setImageUrl('');
@@ -76,15 +75,17 @@ const UploadPost = () => {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('보내기');
-    /** 이미지, 텍스트 보내기
-     * 텍스트 기본값: 오늘 작심 성공!
-     * 이미지(옵션)
+    /** TODO: 에러 처리 필요
+     * 이미지(옵션): 현재는 이미지 없으면 500 에러 발생
+     * 글쓰다가 토큰 만료되면 요청을 막고 Alert 띄워주기
      */
     try {
       const response = postCreateBoard({ mindId: Number(mindID), userId, content: text, image });
       console.log(response);
+      // TODO: 성공 시 페이지 이동
     } catch (error) {
-      console.error('error!!!', error);
+      // TODO: 토큰 만료 에러 처리
+      console.error('error:: ', error);
     }
   };
 
@@ -132,7 +133,7 @@ const UploadPost = () => {
         </CreateFormUploadS>
         <CreateFormUploadS>
           <h2>오늘의 작심은 어땠나요?</h2>
-          <textarea placeholder='오늘 작심 성공!' maxLength={800} onChange={handleTextareaChange} />
+          <textarea placeholder={INITIAL_TEXT} maxLength={800} onChange={handleTextareaChange} />
         </CreateFormUploadS>
         <SubmitButtonWrapperS>
           <SubmitButtonCTA />
