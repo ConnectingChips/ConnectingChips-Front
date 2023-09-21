@@ -25,12 +25,6 @@ const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.E
     setEditModalToggle((prev) => !prev);
   };
 
-  const defalutPofileImage = (imageUrl: string) => {
-    if (imageUrl === 'default') {
-      return `${process.env.PUBLIC_URL}/defalutProfileImage.jpg`;
-    }
-  };
-
   // 자신의 게시글인지 확인
   useEffect(() => {
     getBoardCheck(postData.boardId).then((data) => {
@@ -42,7 +36,7 @@ const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.E
     <PostHeaderS>
       <PostHeaderProfileS>
         <PostProfileImageS>
-          <img src={defalutPofileImage(postData.profileImage)} alt='프로필 사진' />
+          <img src={postData.profileImage} alt='프로필 사진' />
         </PostProfileImageS>
         <PostProfileNickNameS>
           <h2>{postData.nickname}</h2>

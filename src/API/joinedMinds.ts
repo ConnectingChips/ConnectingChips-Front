@@ -21,7 +21,7 @@ export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {
 // 작심 참여하기 (작심당 1번만 가능)
 export const postJoin = async (mind_id: number): Promise<void> => {
   try {
-    await postData(`/joined-minds/${mind_id}`, tockenHeader);
+    await postData(`/joined-minds/${mind_id}`, {}, tockenHeader);
   } catch (error) {
     console.error(error);
     throw new Error('Failed to post Join');
