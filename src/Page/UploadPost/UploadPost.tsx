@@ -4,29 +4,27 @@ import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
-import { useLoginCheck, useNavigate } from '../GroupPage/GroupPageBarrel';
+import { useNavigate } from '../GroupPage/GroupPageBarrel';
 import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
-import { getMindSingle } from '../../API/userMind';
-import { Mind } from '../../Type/userMind';
-import { getUser } from '../../API/userService';
+import { getMindSingle } from '../../API/Mind';
+import { MindPageInfo } from '../../Type/Mind';
+import { getUser } from '../../API/Users';
 import { postCreateBoard } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
 
-type MindSingle = Pick<Mind, 'mindTypeName' | 'name'>;
+type MindSingle = Pick<MindPageInfo, 'mindTypeName' | 'name'>;
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
   const INITIAL_TEXT = '오늘 작심 성공!';
-  const { intro, rule } = groupList[0];
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
   const textareaRef = useRef<HTMLInputElement | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // useLoginCheck(navigate, "None");
   const [mindData, setMindData] = useState<MindSingle>({ mindTypeName: '', name: '' });
   const [userId, setUserId] = useState<number>(0);
   const { mindID } = useParams();
@@ -46,7 +44,7 @@ const UploadPost = () => {
       try {
         const mind = await getMindSingle(Number(mindID));
         const res = await getUser(); // TODO: userID context에서 가져오기(?)
-        setMindData(mind);
+        // setMindData(mind);
         setUserId(res.userId);
       } catch (error) {
         console.error(error);

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { MissonTab } from '../../Component/Mission/MissionTab';
 import missionTab from '../../data/missionTab';
 import { getMindAll, getMindFilter } from '../../API/Mind';
-import { Mind, TotalMind } from '../../Type/userMind';
+import { TotalMind } from '../../Type/Mind';
 
 /** 23-08-20 GroupList.tsx - 메인 컴프 */
 const GroupList = (): JSX.Element => {
@@ -49,7 +49,7 @@ const GroupListItem = ({ mind }: { mind: TotalMind }): JSX.Element => {
   );
 };
 
-const ItemContent = ({ mind }: { mind: Mind }): JSX.Element => {
+const ItemContent = ({ mind }: { mind: TotalMind }): JSX.Element => {
   const isFirst = mind.userCount === 0;
 
   return (

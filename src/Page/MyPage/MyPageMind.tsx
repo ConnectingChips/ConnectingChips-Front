@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { initMyList } from '../../data/initialData';
-import { FinishList } from '../../Type/userMind';
+import { FinishList } from '../../Type/Mind';
 import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
 import { Mylist, getMyList } from './MypageBarrel';
-import { getMindAFinished, putMindExit, putMindRejoin } from '../../API/userMind';
+import { getMindAFinished } from '../../API/Mind';
+import { putMindExit, putReJoin } from '../../API/joinedMinds';
 
 /** 참여중인 작심 */
 export const CurrentMind = (): JSX.Element => {
@@ -87,7 +88,7 @@ const FinishedMind = () => {
               </p>
             </div>
             {finishList.length >= 3 ? (
-              <FullJoinButtonS onClick={() => putMindRejoin(list.mindId)}>
+              <FullJoinButtonS onClick={() => putReJoin(list.mindId)}>
                 다시 참여하기
               </FullJoinButtonS>
             ) : (

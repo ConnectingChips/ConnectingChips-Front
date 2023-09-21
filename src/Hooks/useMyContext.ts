@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { GetUser } from '../Type/User';
-import { Mylist } from '../Type/userMind';
+import { Mylist } from '../Type/Mind';
 import { initMyList, initUser } from '../data/initialData';
 
 const useMyContext = () => {

@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-import { Mylist } from '../Type/userMind';
+import { Mylist } from '../Type/Mind';
 import { GetUser } from '../Type/User';
 import { initMyList, initUser } from '../data/initialData';
 

@@ -1,9 +1,8 @@
 import { GetUser, User } from '../Type/User';
-import { Mind, isDoneSingle, isDone, Mylist } from '../Type/userMind';
+import { isDoneSingle, isDone, Mylist } from '../Type/Mind';
 type LoggableObject =
   | GetUser
   | User
-  | Mind
   | isDone
   | isDoneSingle
   | Mylist

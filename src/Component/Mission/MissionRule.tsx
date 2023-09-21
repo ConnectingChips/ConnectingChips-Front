@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
 import { PageSort } from '../../Type/MissionType';
-import { getMindInfoType } from '../../API/userMind';
-import { MindsType } from '../../Type/Group';
+import { MindsType } from '../../Type/Mind';
 interface MissionRuleType {
   getMindInfoData: MindsType;
   passsort: PageSort;

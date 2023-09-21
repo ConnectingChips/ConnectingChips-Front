@@ -14,7 +14,7 @@ export const getCheckedJoined = async (mind_id: number): Promise<{ isJoining: bo
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get All Minds');
+    throw new Error('Failed to get checked Joined value');
   }
 };
 
@@ -44,6 +44,6 @@ export const putMindExit = async (mind_id: Number): Promise<void> => {
     await putData(`/joined-minds/${mind_id}/exit`, tockenHeader);
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to put Rejoin');
+    throw new Error('Failed to put Exit Mind');
   }
 };
