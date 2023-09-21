@@ -5,11 +5,9 @@ import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 axios.defaults.baseURL = 'http://dev.samchips.com:8080';
 
 const client: AxiosInstance = axios.create();
-const tocken_instance: AxiosInstance = axios.create();
 
 // 인스턴스를 만든 후 기본값 변경하기
 client.defaults.headers.common['withCredentials'] = true;
-tocken_instance.defaults.headers.common['Authorization'] = localStorage.getItem('access_token');
 
 /** Axios Response 데이터 형식
  *  config : 요청에 대한 axios 구성 설정
