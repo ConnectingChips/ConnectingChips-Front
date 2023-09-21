@@ -20,12 +20,7 @@ const ConfirmModal = ({ setConfirm, confirmText, action }: ConfirmProps): JSX.El
           </button>
           <button
             className='point'
-            onClick={async () => {
-              await logoutUser().then(() => {
-                console.log(2);
-                navigate('/');
-              });
-            }}
+            onClick={async () => await logoutUser().then(() => navigate('/'))}
           >
             {action}
           </button>

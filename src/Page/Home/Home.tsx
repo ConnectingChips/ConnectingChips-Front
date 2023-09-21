@@ -25,7 +25,6 @@ const Home = (): JSX.Element => {
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
   const isLogin = myInfo !== initUser;
-  console.log(3);
 
   useEffect(() => {
     scrollTop();
@@ -127,10 +126,7 @@ const setHome = async (
 
   if (isLogin !== '') {
     await getUser()
-      .then((userInfo: GetUser) => {
-        console.log(4);
-        setMyInfo(userInfo);
-      })
+      .then((userInfo: GetUser) => setMyInfo(userInfo))
       .catch(() => {});
     await getMyList()
       .then((res: Mylist[]) => setMylist(res))

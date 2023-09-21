@@ -53,7 +53,6 @@ export const logoutUser = async (): Promise<void> => {
     // localStorage.removeItem('access_token');
     
     localStorage.clear();
-    console.log(1);
   } catch (error) {
     console.error(error);
     throw new Error('Failed to logout');
