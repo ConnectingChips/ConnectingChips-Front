@@ -6,27 +6,21 @@ type OAuthPageProps = {
   authenticated: 'access' | 'block';
 };
 
-/**
- * 비로그인/로그인 접근 권한 체크
- * @param component 보여질 컴포넌트
- * @param authenticated 'access' | 'block' :: 로그인상태에서 접근가능 여부
- * @returns JSX.Element
- */
 const OAuthPage = ({ component, authenticated }: OAuthPageProps): JSX.Element => {
   const navigate = useNavigate();
 
   const ResultComp = () => {
-    const successHome = async () =>
+    const testHome = async (): Promise<false | void> =>
       await getIsLogined()
-        .then(() => navigate('/'))
-        .catch(() => {});
-    const failedHome = async () =>
-      await getIsLogined()
-        .catch(() => navigate('/'))
-        .then(() => {});
+        .then((isLogin: boolean) => {
+          if (!isLogin) {
+            localStorage.removeItem('access_token');
+            // TODO: 토스트 메시지
+          }
+        })
+        .catch(() => navigate('/'));
 
-    if (authenticated === 'access') failedHome();
-    else successHome();
+    testHome();
 
     return component;
   };

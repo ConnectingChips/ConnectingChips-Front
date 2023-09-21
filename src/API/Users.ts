@@ -1,8 +1,7 @@
-import { getData, postData, putData, deleteData } from './axiosConfig';
+import { getData, postData } from './axiosConfig';
 import { GetUser, User } from '../Type/User';
 import logText from './logText';
-import { NavigateFunction } from 'react-router-dom';
-import { tockenHeader } from '../data/tocken';
+import { tockenHeader, tokenValue } from '../data/tocken';
 
 type IsLogin = {
   isLogin: boolean;
@@ -11,7 +10,17 @@ type IsLogin = {
 // 로그인한 유저인지 확인
 export const getIsLogined = async (): Promise<boolean> => {
   try {
+    const access_token = localStorage.getItem('access_token');
+    const tockenHeader = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        withCredentials: true,
+      },
+    };
+
     const response = await getData<IsLogin>('/users/check-login', tockenHeader);
+
+    // console.log('isLogin: ', response.data.isLogin);
     return response.data.isLogin;
   } catch (error) {
     throw new Error('This user is not Logined');
@@ -21,6 +30,14 @@ export const getIsLogined = async (): Promise<boolean> => {
 // 로그인한 유저 정보 조회
 export const getUser = async (): Promise<GetUser> => {
   try {
+    const access_token = localStorage.getItem('access_token');
+    const tockenHeader = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        withCredentials: true,
+      },
+    };
+
     const response = await getData<GetUser>('/users', tockenHeader);
 
     // logText(response.data);
@@ -44,27 +61,14 @@ export const createUser = async (newUser: User): Promise<User> => {
 };
 
 // 로그아웃 -> PUT 요청
-export const logoutUser = async (navigate: NavigateFunction): Promise<void> => {
+export const logoutUser = async (): Promise<void> => {
   try {
-    // await putData('/users/logout', tockenHeader);
+    // await putData('/users/logout', tockenHeader(access_token))
+    // localStorage.removeItem('access_token');
     localStorage.clear();
   } catch (error) {
     console.error(error);
     throw new Error('Failed to logout');
-  }
-};
-
-export const ImageUpload = async (data: Object) => {
-  try {
-    const formData = new FormData();
-    const values = Object.values(data);
-    Object.keys(data).forEach((key, index) => formData.append(key, values[index]));
-
-    const response = await postData('/upload', formData, tockenHeader);
-
-    console.log(response.data);
-  } catch (error) {
-    console.error(error);
   }
 };
 

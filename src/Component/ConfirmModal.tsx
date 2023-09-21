@@ -4,7 +4,7 @@ type ConfirmProps = {
   setConfirm: React.Dispatch<React.SetStateAction<boolean>>;
   confirmText: string;
   action: string;
-  method: () => Promise<any>;
+  method: () => void;
 };
 
 const ConfirmModal = ({ setConfirm, confirmText, action, method }: ConfirmProps): JSX.Element => {

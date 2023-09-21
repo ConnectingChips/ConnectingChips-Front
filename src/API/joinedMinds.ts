@@ -3,7 +3,7 @@ import logText from './logText';
 import { tockenHeader } from '../data/tocken';
 
 // 참여중인 작심인지 반환
-export const getCheckedJoined = async (mind_id: number): Promise<{ isJoining: boolean }> => {
+export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {
   try {
     const response = await getData<{ isJoining: boolean }>(
       `/joined-minds/${mind_id}/join-check`,
@@ -11,7 +11,7 @@ export const getCheckedJoined = async (mind_id: number): Promise<{ isJoining: bo
     );
 
     logText(response.data);
-    return response.data;
+    return response.data.isJoining;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get checked Joined value');
