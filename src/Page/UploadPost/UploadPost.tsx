@@ -20,25 +20,25 @@ import { Mind } from '../../Type/userMind';
 import { useNavigate } from '../GroupPage/GroupPageBarrel';
 
 type MindSingle = Pick<Mind, 'mindTypeName' | 'name'>;
+interface Image {
+  name: string;
+  file: null | File;
+}
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
   const INITIAL_TEXT = '오늘 작심 성공!';
+
   const navigate = useNavigate();
+  const { mindID } = useParams();
   const fileRef = useRef<HTMLInputElement | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [mindData, setMindData] = useState<MindSingle>({ mindTypeName: '', name: '' });
   const [userId, setUserId] = useState<number>(0);
-  const { mindID } = useParams();
+  const [imageUrl, setImageUrl] = useState<string>('');
   const [text, setText] = useState<string>(INITIAL_TEXT);
-  const [image, setImage] = useState<{
-    name: string;
-    file: null | File;
-  }>({
-    name: '',
-    file: null,
-  });
+  const [image, setImage] = useState<Image>({ name: '', file: null });
 
   useEffect(() => {
     (async () => {
