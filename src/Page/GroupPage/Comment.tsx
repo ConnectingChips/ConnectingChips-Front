@@ -8,9 +8,13 @@ import { GetUser } from '../../Type/User';
 interface CommentListDataProps {
   postData: BoardsType;
   userInfo: GetUser;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
-const Comment = ({ postData, userInfo }: CommentListDataProps) => {
+const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps) => {
   // 댓글접기
   const [commentFlip, setCommentFlip] = useState(true);
   // input 바텀에 붙거나 말거나
@@ -47,6 +51,7 @@ const Comment = ({ postData, userInfo }: CommentListDataProps) => {
             isCommentBind={isCommentBind}
             commentListData={postData.commentList}
             userInfo={userInfo}
+            refreshBind={refreshBind}
           />
         </>
       ) : null}
@@ -56,6 +61,7 @@ const Comment = ({ postData, userInfo }: CommentListDataProps) => {
         isCommentBind={isCommentBind}
         postData={postData}
         userInfo={userInfo}
+        refreshBind={refreshBind}
       />
     </>
   );

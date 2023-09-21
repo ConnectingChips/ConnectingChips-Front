@@ -12,7 +12,8 @@ const GroupPostList = () => {
   const { mindId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-
+  const [refresh, setRefresh] = useState(1);
+  const refreshBind = { refresh, setRefresh };
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
       setPostData(res);
@@ -20,8 +21,7 @@ const GroupPostList = () => {
     getUser().then((userInfo: GetUser) => {
       setUserInfo(userInfo);
     });
-  }, []);
-
+  }, [refresh]);
   return (
     <GroupPostListS>
       <h2>작심 인증글</h2>
@@ -29,8 +29,13 @@ const GroupPostList = () => {
         {postData.length > 0 ? (
           postData.map((postData, i) => (
             <div key={i}>
-              <GroupPost passsort='Page' postData={postData} userInfo={userInfo} />
-              <Comment postData={postData} userInfo={userInfo} />
+              <GroupPost
+                passsort='Page'
+                postData={postData}
+                userInfo={userInfo}
+                refreshBind={refreshBind}
+              />
+              <Comment postData={postData} userInfo={userInfo} refreshBind={refreshBind} />
             </div>
           ))
         ) : (

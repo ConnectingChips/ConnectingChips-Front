@@ -20,6 +20,10 @@ interface CommentHeaderProps {
   };
   commentListData: CommentType[];
   userInfo: GetUser;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 /** 댓글부분 container */
 const CommentList = ({
@@ -28,6 +32,7 @@ const CommentList = ({
   isCommentBind,
   commentListData,
   userInfo,
+  refreshBind,
 }: CommentHeaderProps) => {
   const { commentFlip, setCommentFlip } = commentFlipBind;
   return (
@@ -39,6 +44,7 @@ const CommentList = ({
             isCommentBind={isCommentBind}
             commentData={commentData}
             userInfo={userInfo}
+            refreshBind={refreshBind}
             key={i}
           />
         );
@@ -60,10 +66,20 @@ interface CommentBoxPorps {
     isComment: number;
     setIsComment: React.Dispatch<React.SetStateAction<number>>;
   };
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
 /** 댓글과 답글 list */
-const CommentBox = ({ commentData, userInfo, inputToggleBind, isCommentBind }: CommentBoxPorps) => {
+const CommentBox = ({
+  commentData,
+  userInfo,
+  inputToggleBind,
+  isCommentBind,
+  refreshBind,
+}: CommentBoxPorps) => {
   return (
     <CommentBoxS>
       <CommentBoxMaker
@@ -72,9 +88,18 @@ const CommentBox = ({ commentData, userInfo, inputToggleBind, isCommentBind }: C
         isCommentBind={isCommentBind}
         commentData={commentData}
         userInfo={userInfo}
+        refreshBind={refreshBind}
       />
       {commentData.replyList.map((replyData, i) => {
-        return <ReplyBoxMaker sort='reply' replyData={replyData} userInfo={userInfo} key={i} />;
+        return (
+          <ReplyBoxMaker
+            sort='reply'
+            replyData={replyData}
+            userInfo={userInfo}
+            refreshBind={refreshBind}
+            key={i}
+          />
+        );
       })}
     </CommentBoxS>
   );
@@ -92,6 +117,10 @@ interface CommentBoxMakerProps {
     isComment: number;
     setIsComment: React.Dispatch<React.SetStateAction<number>>;
   };
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
 /** 댓글 box */
@@ -101,11 +130,11 @@ const CommentBoxMaker = ({
   userInfo,
   inputToggleBind,
   isCommentBind,
+  refreshBind,
 }: CommentBoxMakerProps) => {
   const [modalBtn, setModalBtn] = useState(false);
   const { inputToggle, setInputToggle } = inputToggleBind;
   const { isComment, setIsComment } = isCommentBind;
-
   const AddReplyHander = (commentId: number) => {
     setInputToggle(false);
     setIsComment(commentId);
@@ -146,7 +175,10 @@ const CommentBoxMaker = ({
           setConfirm={setModalBtn}
           confirmText='이 댓글을 삭제할까요?'
           action='삭제'
-          method={() => deleteComment(commentData.commentId)}
+          method={() => {
+            return deleteComment(commentData.commentId);
+          }}
+          refreshBind={refreshBind}
         />
       )}
     </CommentContainerS>
@@ -157,10 +189,14 @@ interface ReplyBoxMakerProps {
   sort: 'reply';
   replyData: ReplyType;
   userInfo: GetUser;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
 /** 답글 box */
-const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
+const ReplyBoxMaker = ({ sort, replyData, userInfo, refreshBind }: ReplyBoxMakerProps) => {
   const [modalBtn, setModalBtn] = useState(false);
   return (
     <CommentContainerS sort={sort}>
@@ -191,6 +227,7 @@ const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
           confirmText='이 댓글을 삭제할까요?'
           action='삭제'
           method={() => deleteReply(replyData.replyId)}
+          refreshBind={refreshBind}
         />
       )}
     </CommentContainerS>

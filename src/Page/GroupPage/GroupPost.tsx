@@ -10,10 +10,19 @@ interface GroupGroupPostProps {
   passsort: PageSort;
   postData: BoardsType;
   userInfo: GetUser;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
 /** 2023-08-22 GroupPost.tsx - 작심 인증 글 */
-const GroupPost = ({ passsort, postData, userInfo }: GroupGroupPostProps): JSX.Element => {
+const GroupPost = ({
+  passsort,
+  postData,
+  userInfo,
+  refreshBind,
+}: GroupGroupPostProps): JSX.Element => {
   const [edit, setEdit] = useState<boolean>(false);
   const editbind = {
     edit,
@@ -23,11 +32,16 @@ const GroupPost = ({ passsort, postData, userInfo }: GroupGroupPostProps): JSX.E
   return (
     <GroupPostS passsort={passsort}>
       <PostS>
-        <PostHeader editbind={editbind} postData={postData} />
+        <PostHeader editbind={editbind} postData={postData} refreshBind={refreshBind} />
         <PostImageS>
           <img src={postData.image} alt='업로드 사진' />
         </PostImageS>
-        <PostContent editbind={editbind} postData={postData} userInfo={userInfo} />
+        <PostContent
+          editbind={editbind}
+          postData={postData}
+          userInfo={userInfo}
+          refreshBind={refreshBind}
+        />
       </PostS>
     </GroupPostS>
   );

@@ -5,9 +5,20 @@ type ConfirmProps = {
   confirmText: string;
   action: string;
   method: () => Promise<any>;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 };
 
-const DeleteModal = ({ setConfirm, confirmText, action, method }: ConfirmProps): JSX.Element => {
+const DeleteModal = ({
+  setConfirm,
+  confirmText,
+  action,
+  method,
+  refreshBind,
+}: ConfirmProps): JSX.Element => {
+  const { refresh, setRefresh } = refreshBind;
   return (
     <ConfirmBGS onClick={() => setConfirm(false)}>
       <ConfirmModalS onClick={(e) => e.stopPropagation()}>
@@ -21,6 +32,7 @@ const DeleteModal = ({ setConfirm, confirmText, action, method }: ConfirmProps):
             onClick={() => {
               setConfirm(false);
               method();
+              setRefresh(refresh + 1);
             }}
           >
             {action}

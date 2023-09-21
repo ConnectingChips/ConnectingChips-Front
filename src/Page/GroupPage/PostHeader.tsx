@@ -9,9 +9,13 @@ interface PostHeaderProps {
     setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   };
   postData: BoardsType;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
-const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
+const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.Element => {
   const [editModalToggle, setEditModalToggle] = useState(false);
   const [editBtnToggle, setEditBtnToggle] = useState(false);
   const [modalBtn, setModalBtn] = useState(false);
@@ -46,7 +50,7 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
         </PostProfileNickNameS>
       </PostHeaderProfileS>
       {/* editBtnToggle ? 수정버튼 나오게 : 수정버튼 사라짐 */}
-      {editBtnToggle && (
+      {!editBtnToggle && (
         <MoreIconS onClick={handlerToogleSwitch}>
           <img src={point3} alt='point3_icon' />
           {/* editModalToggle ? 수정모달나오게 : 수정모달 사라짐 */}
@@ -73,9 +77,10 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
       {modalBtn && (
         <DeleteModal
           setConfirm={setModalBtn}
-          confirmText='이 댓글을 삭제할까요?'
+          confirmText='이 게시글을 삭제할까요?'
           action='삭제'
           method={() => deleteBoard(postData.boardId)}
+          refreshBind={refreshBind}
         />
       )}
     </PostHeaderS>

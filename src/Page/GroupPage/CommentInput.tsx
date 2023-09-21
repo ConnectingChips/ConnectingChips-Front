@@ -18,6 +18,10 @@ interface commentInputProps {
   };
   postData: BoardsType;
   userInfo: GetUser;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
 const CommentInput = ({
@@ -26,10 +30,12 @@ const CommentInput = ({
   isCommentBind,
   postData,
   userInfo,
+  refreshBind,
 }: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
   const { isComment, setIsComment } = isCommentBind;
+  const { refresh, setRefresh } = refreshBind;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
@@ -64,6 +70,7 @@ const CommentInput = ({
         setCommentInput('');
       }
     }
+    setRefresh(refresh + 1);
   };
 
   // 댓글 개수에 따라 input placeholder 변경

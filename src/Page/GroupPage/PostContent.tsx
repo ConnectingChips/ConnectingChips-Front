@@ -7,15 +7,24 @@ interface PostContentProps {
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
   postData: BoardsType;
   userInfo: GetUser;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({ editbind, postData, userInfo }: PostContentProps): JSX.Element => {
+const PostContent = ({
+  editbind,
+  postData,
+  userInfo,
+  refreshBind,
+}: PostContentProps): JSX.Element => {
   const { edit, setEdit } = editbind;
   const [editContent, setEditContent] = useState(postData.content);
   const textarea = useRef<HTMLTextAreaElement | null>(null);
   let { mindId } = useParams();
-
+  const { refresh, setRefresh } = refreshBind;
   // textarea에 글자적으면 자동 height변경
   const handleResizeHeight = () => {
     if (textarea.current) {
@@ -26,18 +35,6 @@ const PostContent = ({ editbind, postData, userInfo }: PostContentProps): JSX.El
 
   if (typeof mindId === 'undefined') return <></>;
 
-  // const postEditData: {
-  //   mindId: number;
-  //   userId: number;
-  //   content: string;
-  //   image: string;
-  // } = {
-  //   mindId: Number(mindID),
-  //   userId: userInfo.userId,
-  //   content: editContent,
-  //   image: postData.image,
-  // };
-
   const postEditData: {
     content: string;
   } = {
@@ -47,6 +44,8 @@ const PostContent = ({ editbind, postData, userInfo }: PostContentProps): JSX.El
   const EditReq = () => {
     putEditBoard(postData.boardId, postEditData).then((res) => {
       setEditContent(res.content);
+      setRefresh(refresh + 1);
+      setEdit(false);
     });
   };
 

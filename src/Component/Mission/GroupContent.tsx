@@ -1,8 +1,8 @@
-import { styled } from "styled-components";
-import GroupArticle from "./GroupArticle";
-import { IntroExample, CreateExample } from "../../Page/GroupIntro/ActiveExample";
-import { PageSort } from "../../Type/MissionType";
-import DivideBaS from "./DivideBa";
+import { styled } from 'styled-components';
+import GroupArticle from './GroupArticle';
+import { IntroExample, CreateExample } from '../../Page/GroupIntro/ActiveExample';
+import { PageSort } from '../../Type/MissionType';
+import DivideBaS from './DivideBa';
 
 type GroupContentProps = {
   selected: number[];
@@ -14,9 +14,8 @@ const GroupContent = ({ selected, passsort }: GroupContentProps) => {
   return (
     <GroupContentS passsort={passsort}>
       <GroupArticle selected={selected} passsort={passsort} />
-      {passsort === "Intro" ? (
-        <IntroExample passsort={passsort} />
-      ) : passsort === "Create" ? (
+      {/* FIXME: Intro일경우 예시사진이 없어야하는데 혹시몰라서 코드 남겨놓음 */}
+      {passsort === 'Intro' ? null : passsort === 'Create' ? ( // <IntroExample passsort={passsort} />
         <>
           <CreateExample passsort={passsort} />
           <DivideBaS />
@@ -35,8 +34,8 @@ const GroupContentS = styled.div<{ passsort: PageSort }>`
   margin-bottom: var(--height-gap);
 
   &::before {
-    height: ${(props) => (props.passsort === "Intro" ? "30rem" : "0")};
-    content: "";
+    height: ${(props) => (props.passsort === 'Intro' ? '30rem' : '0')};
+    content: '';
     display: block;
   }
 `;
