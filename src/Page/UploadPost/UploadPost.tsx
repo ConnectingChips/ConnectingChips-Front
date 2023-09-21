@@ -46,7 +46,7 @@ const UploadPost = () => {
       console.log(mindID);
       try {
         const mind = await getMindInfo_Intro(Number(mindID));
-        const res = await getUser(); // TODO: userID context에서 가져오기(?)
+        const res = await getUser();
         setMindData(mind);
         setUserId(res.userId);
       } catch (error) {
