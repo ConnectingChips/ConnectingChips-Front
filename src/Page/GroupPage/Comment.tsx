@@ -42,7 +42,7 @@ const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps) => {
 
   return (
     <>
-      {postData.commentCount > 0 ? (
+      {postData.commentCount > 0 && (
         <>
           <CommentHeader commentFlipBind={commentFlipBind} postData={postData} />
           <CommentList
@@ -54,7 +54,7 @@ const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps) => {
             refreshBind={refreshBind}
           />
         </>
-      ) : null}
+      )}
       <CommentInput
         commentInputBind={commentInputBind}
         inputToggleBind={inputToggleBind}

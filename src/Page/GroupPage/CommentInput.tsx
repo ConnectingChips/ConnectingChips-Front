@@ -44,35 +44,42 @@ const CommentInput = ({
 
   // 댓글에 붙은 input누르면 하단에 붙음
   const handleFormClickFalse = () => {
-    setInputToggle(false);
+    inputToggle && setInputToggle(false);
   };
 
   // input 버튼 핸들러
   // 0이면 댓글추가
   // 0이아니면 답글추가인데 여기에 들어가는 숫자는 답글이 붙을 댓글의 id (commentid)
-  const inputBtnHandler = (e: any) => {
+  const inputBtnHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setInputToggle(true);
-    if (commentInput.length !== 0) {
+
+    if (commentInput.length === 0) {
+      return;
+    }
+
+    try {
       if (isComment === 0) {
         const AddCommentData = {
           userId: userInfo.userId,
           boardId: postData.boardId,
           content: commentInput,
         };
-        postAddComment(AddCommentData);
-        setCommentInput('');
-      } else if (isComment !== 0) {
+        await postAddComment(AddCommentData);
+      } else {
         const AddReplyData = {
           userId: userInfo.userId,
           commentId: isComment,
           content: commentInput,
         };
-        postAddReply(AddReplyData);
-        setCommentInput('');
+        await postAddReply(AddReplyData);
       }
+
+      setCommentInput('');
+      setRefresh((prevRefresh) => prevRefresh + 1);
+    } catch (error) {
+      console.error('오류 발생:', error);
     }
-    setRefresh(refresh + 1);
   };
 
   // 댓글 개수에 따라 input placeholder 변경
@@ -82,6 +89,7 @@ const CommentInput = ({
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
 
+  console.log(inputToggle);
   return (
     <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
       <input
@@ -101,7 +109,8 @@ const CommentInput = ({
 export { CommentInput };
 
 const CommentFormS = styled.form<{ inputToggle: boolean }>`
-  ${(props) => (props.inputToggle ? '' : 'position: fixed; bottom: 0;')}
+  position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+  bottom: 0;
 
   background-color: #fff;
   border: 1px solid #e3e3e3;
