@@ -1,7 +1,7 @@
 import { styled } from './GroupPageBarrel';
 import { GroupHeader, DivideBaS, GroupArticle } from './GroupPageBarrel';
 import { GroupPostList } from './GroupPostList';
-import { getMindInfo_Image } from '../../API/userMind';
+import { getMindInfo_Image } from '../../API/Mind';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
