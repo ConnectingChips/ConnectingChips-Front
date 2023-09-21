@@ -1,6 +1,7 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-import { access_token, tockenHeader, getToken } from '../data/tocken';
+import { tockenHeader } from '../data/tocken';
 import { getUser } from './Users';
+import axios from 'axios';
 
 export interface BoardsType {
   boardId: number;
@@ -88,16 +89,13 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
 
   if (image.file !== null) {
     formData.append('file', image.file);
-  } else {
-    formData.append('file', ''); // TODO: 이미지 선택하지 않았을때 어떻게 보내는지?
   }
 
   try {
     await postData(`/boards`, formData, tockenHeader);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error); // TODO: 상위에서 reject
-    // throw new Error('Failed to post Join');
+    console.log(error);
+    return Promise.reject(error);
   }
 };
 
