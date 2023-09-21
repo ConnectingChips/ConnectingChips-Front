@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TermsModal from './TermsModal';
-import { termsAndConditions, privacyPolicyAgreement } from './terms_data';
-import { Arrow_Left_B } from '../ArrowBarrel';
+import { terms, privacyPolicy, personalInfoCollection } from './terms_data';
 
 interface TermsProps {
   isAllAgreed: boolean;
@@ -20,7 +19,8 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
   const [termsData, setTermsData] = useState<TermsData>({ title: '', contents: '', type: '' });
   const [isAgreed, setIsAgreed] = useState({
     terms: false,
-    privacy: false,
+    privacyPolicy: false,
+    personalInfoCollection: false,
   });
 
   useEffect(() => {
@@ -30,7 +30,11 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
 
   const handleAllAgreedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
-    setIsAgreed(() => ({ terms: checked, privacy: checked }));
+    setIsAgreed(() => ({
+      terms: checked,
+      privacyPolicy: checked,
+      personalInfoCollection: checked,
+    }));
     setIsAllAgreed(checked);
   };
 
@@ -43,13 +47,17 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
     setIsAllAgreed(allChecked);
   };
 
-  const handleTermsDetailClick = () => {
-    setTermsData(termsAndConditions);
-    showModal();
-  };
+  const handleDetailClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const buttonId = e.currentTarget.id;
 
-  const handlePrivacyDetailClick = () => {
-    setTermsData(privacyPolicyAgreement);
+    if (buttonId === 'terms') {
+      setTermsData(terms);
+    } else if (buttonId === 'privacyPolicy') {
+      setTermsData(privacyPolicy);
+    } else if (buttonId === 'personalInfoCollection') {
+      setTermsData(personalInfoCollection);
+    }
+
     showModal();
   };
 
@@ -69,9 +77,10 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
             checked={isAllAgreed}
             onChange={handleAllAgreedChange}
           />
-          <strong>약관 전체 동의</strong>
+          <strong className='terms_title'>약관 전체 동의</strong>
         </TermsTitleS>
       </TermsTitleWrapperS>
+
       <TermsTitleWrapperS>
         <TermsTitleS>
           <input
@@ -82,24 +91,41 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
           />
           <strong>이용약관 동의&#40;필수&#41;</strong>
         </TermsTitleS>
-        <ArrowRIghtIconS onClick={handleTermsDetailClick}>
-          <img src={Arrow_Left_B} alt='상세보기' />
-        </ArrowRIghtIconS>
+        <ViewDetailsButtonS type='button' id='terms' onClick={handleDetailClick}>
+          보기
+        </ViewDetailsButtonS>
       </TermsTitleWrapperS>
+
       <TermsTitleWrapperS>
         <TermsTitleS>
           <input
             type='checkbox'
-            name='privacy'
-            checked={isAgreed.privacy}
+            name='privacyPolicy'
+            checked={isAgreed.privacyPolicy}
+            onChange={handleAgreedChange}
+          />
+          <strong>개인정보 처리 방침 동의&#40;필수&#41;</strong>
+        </TermsTitleS>
+        <ViewDetailsButtonS type='button' id='privacyPolicy' onClick={handleDetailClick}>
+          보기
+        </ViewDetailsButtonS>
+      </TermsTitleWrapperS>
+
+      <TermsTitleWrapperS>
+        <TermsTitleS>
+          <input
+            type='checkbox'
+            name='personalInfoCollection'
+            checked={isAgreed.personalInfoCollection}
             onChange={handleAgreedChange}
           />
           <strong>개인정보 수집 및 이용 동의&#40;필수&#41;</strong>
         </TermsTitleS>
-        <ArrowRIghtIconS onClick={handlePrivacyDetailClick}>
-          <img src={Arrow_Left_B} alt='상세보기' />
-        </ArrowRIghtIconS>
+        <ViewDetailsButtonS type='button' id='personalInfoCollection' onClick={handleDetailClick}>
+          보기
+        </ViewDetailsButtonS>
       </TermsTitleWrapperS>
+
       {isOpen && (
         <TermsModal setIsOpen={setIsOpen} termsData={termsData} setIsAgreed={setIsAgreed} />
       )}
@@ -145,20 +171,13 @@ const TermsTitleS = styled.div`
     box-shadow: 0 0 0 0.375rem var(--font-color1) inset;
   }
 
-  strong {
+  strong:not(.terms_title) {
+    font-weight: 400;
     color: var(--font-color1);
   }
 `;
 
-const ArrowRIghtIconS = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 1.25rem;
-  height: 1.25rem;
-  transform: rotate(180deg);
-
-  img {
-    transform: scale(0.8);
-  }
+const ViewDetailsButtonS = styled.button`
+  color: var(--font-color3);
+  font-size: var(--body-b);
 `;

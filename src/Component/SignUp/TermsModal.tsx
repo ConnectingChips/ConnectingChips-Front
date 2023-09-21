@@ -11,7 +11,8 @@ interface TermsModalProps {
   setIsAgreed: React.Dispatch<
     React.SetStateAction<{
       terms: boolean;
-      privacy: boolean;
+      privacyPolicy: boolean;
+      personalInfoCollection: boolean;
     }>
   >;
 }
@@ -28,12 +29,15 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
         ...prev,
         terms: true,
       }));
-    }
-
-    if (termsData.type === 'privacy') {
+    } else if (termsData.type === 'privacyPolicy') {
       setIsAgreed((prev) => ({
         ...prev,
-        privacy: true,
+        privacyPolicy: true,
+      }));
+    } else if (termsData.type === 'personalInfoCollection') {
+      setIsAgreed((prev) => ({
+        ...prev,
+        personalInfoCollection: true,
       }));
     }
 
