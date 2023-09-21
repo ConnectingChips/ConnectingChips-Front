@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
-import { MindsType } from '../../Type/Mind';
+import { getMindInfoType } from '../../API/Mind';
+import { MindsType } from '../../Type/Group';
 
 /** 2023-08-22 MissionIntro.tsx - 미션 소개글 */
 const MissionIntro = ({ getMindInfoData }: { getMindInfoData: MindsType }): JSX.Element => {

@@ -5,7 +5,7 @@ import MissionIntro from './MissionIntro';
 import { PostButton } from '../CTA/CTAContainer';
 import { PageSort } from '../../Type/MissionType';
 import { useEffect, useState } from 'react';
-import { getMindInfo_Page } from '../../API/Mind';
+import { getMindInfo } from '../../API/Mind';
 import { useParams } from 'react-router-dom';
 import { MindPageInfo, MindIntroInfo, MindsType } from '../../Type/Mind';
 import { initMind } from '../../data/initialData';
@@ -25,7 +25,6 @@ const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element =>
       getMindInfo_Page(Number(mindID)).then((data: MindsType) => {
         setGetMindInfoData(data);
       });
-    } else if (passsort === 'Intro') {
     }
   }, []);
 

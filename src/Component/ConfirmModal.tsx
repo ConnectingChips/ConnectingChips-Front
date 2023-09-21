@@ -3,7 +3,7 @@ import styled from 'styled-components';
 type ConfirmProps = {
   setConfirm: React.Dispatch<React.SetStateAction<boolean>>;
   confirmText: string;
-  action: '로그아웃';
+  action: string;
   method: () => Promise<any>;
 };
 

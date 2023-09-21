@@ -30,30 +30,41 @@ export const getMind_IntroImage = async (mind_id: number): Promise<{ introImage:
   }
 };
 
-// (그룹 페이지)
-// export const getMindInfo_Page = async (mind_id: number): Promise<MindPageInfo> => {
-export const getMindInfo_Page = async (mind_id: number): Promise<MindsType> => {
-  try {
-    const response = await getData<MindsType>(`/minds/page/${mind_id}`);
+export interface getMindInfoType {
+  mindId: number;
+  mindTypeName: string;
+  name: string;
+  userCount: number;
+  introduce: string;
+  writeFormat: string;
+  pageImage: string;
+  isDoneToday: boolean;
+  count: number;
+}
 
-    // logText(response.data)
+// 그룹페이지 Minds 정보
+export const getMindInfo = async (mindId: number): Promise<getMindInfoType> => {
+  try {
+    const response = await getData<getMindInfoType>(`/minds/page/${mindId}`, tockenHeader);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error("Failed to get Minds' Info Intro, Upload");
+    throw new Error('그룹페이지 Minds 정보 반환 에러');
   }
 };
 
-// 그룹 페이지 이미지 (그룹 페이지)
-export const getMind_PageImaage = async (mind_id: number): Promise<{ pageImage: string }> => {
-  try {
-    const response = await getData<{ pageImage: string }>(`/minds/page/${mind_id}/image`);
+interface getMindInfo_ImageType {
+  pageImage: string;
+}
 
-    // logText(response.data)
+// 그룹페이지이미지 Minds 정보
+export const getMindInfo_Image = async (mindId: number): Promise<getMindInfo_ImageType> => {
+  try {
+    const response = await getData<getMindInfo_ImageType>(`/minds/page/${mindId}/image`);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error("Failed to get Minds' Info Intro, Upload");
+    throw new Error('그룹페이지이미지 정보 반환 에러');
   }
 };
 

@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { getMindInfoType } from '../../API/Mind';
 import { MissionSingleWide } from './MissionTab';
 import { PageSort } from '../../Type/MissionType';
 import { MindPageInfo, MindIntroInfo, MindsType } from '../../Type/Mind';

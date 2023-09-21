@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
 import { DetailedHTMLProps, ImgHTMLAttributes, useEffect, useState } from 'react';
 import { BoardsType, getBoardCheck, deleteBoard } from '../../API/Boards';
-
+import ConfirmModal from '../../Component/ConfirmModal';
 interface PostHeaderProps {
   editbind: {
     edit: boolean;
@@ -14,6 +14,7 @@ interface PostHeaderProps {
 const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
   const [editModalToggle, setEditModalToggle] = useState(false);
   const [editBtnToggle, setEditBtnToggle] = useState(false);
+  const [modalBtn, setModalBtn] = useState(false);
   const { edit, setEdit } = editbind;
 
   const handlerToogleSwitch = () => {
@@ -60,7 +61,7 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
               </div>
               <div
                 onClick={() => {
-                  deleteBoard(postData.boardId);
+                  setModalBtn(true);
                 }}
               >
                 삭제하기
@@ -68,6 +69,14 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
             </ModalS>
           ) : null}
         </MoreIconS>
+      )}
+      {modalBtn && (
+        <ConfirmModal
+          setConfirm={setModalBtn}
+          confirmText='이 댓글을 삭제할까요?'
+          action='삭제'
+          method={() => deleteBoard(postData.boardId)}
+        />
       )}
     </PostHeaderS>
   );
