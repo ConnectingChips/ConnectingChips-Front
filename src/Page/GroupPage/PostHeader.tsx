@@ -2,16 +2,20 @@ import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
 import { DetailedHTMLProps, ImgHTMLAttributes, useEffect, useState } from 'react';
 import { BoardsType, getBoardCheck, deleteBoard } from '../../API/Boards';
-import ConfirmModal from '../../Component/ConfirmModal';
+import DeleteModal from '../../Component/DeleteModal';
 interface PostHeaderProps {
   editbind: {
     edit: boolean;
     setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   };
   postData: BoardsType;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
-const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
+const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.Element => {
   const [editModalToggle, setEditModalToggle] = useState(false);
   const [editBtnToggle, setEditBtnToggle] = useState(false);
   const [modalBtn, setModalBtn] = useState(false);
@@ -46,11 +50,11 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
         </PostProfileNickNameS>
       </PostHeaderProfileS>
       {/* editBtnToggle ? 수정버튼 나오게 : 수정버튼 사라짐 */}
-      {editBtnToggle ? null : (
+      {!editBtnToggle && (
         <MoreIconS onClick={handlerToogleSwitch}>
           <img src={point3} alt='point3_icon' />
           {/* editModalToggle ? 수정모달나오게 : 수정모달 사라짐 */}
-          {editModalToggle ? (
+          {editModalToggle && (
             <ModalS>
               <div
                 onClick={() => {
@@ -67,15 +71,16 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
                 삭제하기
               </div>
             </ModalS>
-          ) : null}
+          )}
         </MoreIconS>
       )}
       {modalBtn && (
-        <ConfirmModal
+        <DeleteModal
           setConfirm={setModalBtn}
-          confirmText='이 댓글을 삭제할까요?'
+          confirmText='이 게시글을 삭제할까요?'
           action='삭제'
           method={() => deleteBoard(postData.boardId)}
+          refreshBind={refreshBind}
         />
       )}
     </PostHeaderS>

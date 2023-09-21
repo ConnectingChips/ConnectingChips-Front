@@ -1,5 +1,13 @@
 import { getData } from './axiosConfig';
-import { MindIntroInfo, isDoneSingle, isDone, Mylist, FinishList, TotalMind, MindsType } from '../Type/Mind';
+import {
+  MindIntroInfo,
+  isDoneSingle,
+  isDone,
+  Mylist,
+  FinishList,
+  TotalMind,
+  MindsType,
+} from '../Type/Mind';
 import logText from './logText';
 import { MindPageInfo } from '../Type/Mind';
 import { tockenHeader, tokenValue } from '../data/tocken';
@@ -8,7 +16,6 @@ import { tockenHeader, tokenValue } from '../data/tocken';
 export const getMindInfo_Intro = async (mind_id: number): Promise<MindIntroInfo> => {
   try {
     const response = await getData<MindIntroInfo>(`/minds/intro/${mind_id}`);
-
     // logText(response.data)
     return response.data;
   } catch (error) {

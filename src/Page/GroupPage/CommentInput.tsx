@@ -18,6 +18,10 @@ interface commentInputProps {
   };
   postData: BoardsType;
   userInfo: GetUser;
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
 }
 
 const CommentInput = ({
@@ -26,22 +30,29 @@ const CommentInput = ({
   isCommentBind,
   postData,
   userInfo,
+  refreshBind,
 }: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
   const { isComment, setIsComment } = isCommentBind;
+  const { refresh, setRefresh } = refreshBind;
 
+  // input에 들어갈 내용 CommentInput에 넣는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
   };
 
+  // 댓글에 붙은 input누르면 하단에 붙음
   const handleFormClickFalse = () => {
     setInputToggle(false);
   };
 
   // input 버튼 핸들러
+  // 0이면 댓글추가
+  // 0이아니면 답글추가인데 여기에 들어가는 숫자는 답글이 붙을 댓글의 id (commentid)
   const inputBtnHandler = (e: any) => {
     e.preventDefault();
+    setInputToggle(true);
     if (commentInput.length !== 0) {
       if (isComment === 0) {
         const AddCommentData = {
@@ -49,8 +60,6 @@ const CommentInput = ({
           boardId: postData.boardId,
           content: commentInput,
         };
-
-        setInputToggle(true);
         postAddComment(AddCommentData);
         setCommentInput('');
       } else if (isComment !== 0) {
@@ -60,10 +69,10 @@ const CommentInput = ({
           content: commentInput,
         };
         postAddReply(AddReplyData);
-        setInputToggle(true);
         setCommentInput('');
       }
     }
+    setRefresh(refresh + 1);
   };
 
   // 댓글 개수에 따라 input placeholder 변경
