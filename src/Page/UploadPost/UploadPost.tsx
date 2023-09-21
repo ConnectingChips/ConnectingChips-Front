@@ -6,20 +6,19 @@ import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
-
 import { getUser } from '../../API/Users';
 import { getMindInfo_Intro } from '../../API/Mind';
 import { postCreateBoard } from '../../API/Boards';
-
 import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
-
+import { getMindSingle } from '../../API/Mind';
+import { MindPageInfo } from '../../Type/Mind';
 import { Mind } from '../../Type/userMind';
 import { useNavigate } from '../GroupPage/GroupPageBarrel';
 
-type MindSingle = Pick<Mind, 'mindTypeName' | 'name'>;
+type MindSingle = Pick<MindPageInfo, 'mindTypeName' | 'name'>;
 interface Image {
   name: string;
   file: null | File;
@@ -28,7 +27,6 @@ interface Image {
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
   const INITIAL_TEXT = '오늘 작심 성공!';
-
   const navigate = useNavigate();
   const { mindID } = useParams();
   const fileRef = useRef<HTMLInputElement | null>(null);

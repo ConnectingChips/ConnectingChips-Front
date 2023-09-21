@@ -7,7 +7,8 @@ import { PageSort } from '../../Type/MissionType';
 import { useEffect, useState } from 'react';
 import { getMindInfo } from '../../API/Mind';
 import { useParams } from 'react-router-dom';
-import { MindsType } from '../../Type/Group';
+import { MindPageInfo, MindIntroInfo, MindsType } from '../../Type/Mind';
+import { initMind } from '../../data/initialData';
 interface GroupArticleProps {
   selected: number[];
   passsort: PageSort;
@@ -17,23 +18,11 @@ interface GroupArticleProps {
 /** 2023-08-22 GroupArticle.tsx - 그룹 아티클 - 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 */
 const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element => {
   const { mindID } = useParams<string>();
-  const [getMindInfoData, setGetMindInfoData] = useState<MindsType>({
-    mindId: 0,
-    mindTypeName: '',
-    name: '',
-    introduce: '',
-    userCount: 0,
-    pageImage: '',
-    introImage: '',
-    writeFormat: '',
-    isDoneToday: false,
-    count: 0,
-    canJoin: 0,
-  });
+  const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);
 
   useEffect(() => {
     if (passsort === 'Page') {
-      getMindInfo(Number(mindID)).then((data: MindsType) => {
+      getMindInfo_Page(Number(mindID)).then((data: MindsType) => {
         setGetMindInfoData(data);
       });
     }

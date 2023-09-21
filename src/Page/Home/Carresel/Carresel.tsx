@@ -1,15 +1,12 @@
 import { MissionSingleWide, ChipList, styled } from './CarreselBarrel';
 import ImageBoxS from '../../../StyleComp/ImageBoxS';
-import useMission from '../../../Hooks/useCarresel';
-import { useContext } from 'react';
-import { MyListContext } from '../HomeBarrel';
-import { MyListContextType } from '../../../API/Context';
+import useMission from '../../../Hooks/useMission';
+import { Mylist } from '../HomeBarrel';
 
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
-const Carresel = () => {
+const Carresel = ({ myList }: { myList: Mylist[] }) => {
   const { carreselProps } = useMission();
   const { slideRef, count, setCount, sort, setSort } = carreselProps;
-  const { myList } = useContext<MyListContextType>(MyListContext);
 
   /** 2023-09-22 Carresel.tsx - 내 작심 현황 - Kadesti */
   const Mylist = myList.map((mygroup, idx) => {
@@ -23,10 +20,10 @@ const Carresel = () => {
             <MissionSingleWide text={mindTypeName} />
             <h2>{name}</h2>
             <p>
-              🔥 <span className='date'>{dateList[index]}</span>일자 맛보기 중
+              🔥 <span className='date'>{boardCount}</span>일자 맛보기 중
             </p>
           </MissionContentS>
-          <ChipList count={countList[index]} />
+          <ChipList count={count} />
         </MyMissionInfoS>
       </li>
     );
@@ -92,7 +89,7 @@ const MissionContentS = styled.div`
   padding: 1rem;
 
   h2 {
-    font-size: 1rem;    
+    font-size: 1rem;
   }
 
   > p {

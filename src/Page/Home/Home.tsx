@@ -93,7 +93,7 @@ const Home = (): JSX.Element => {
           </WelcomeTextS>
           {!access_token && <img src={헤드셋칩스} alt='헤드셋칩스' />}
         </WelcomeHeadS>
-        {myList.length !== 0 && access_token && <MyMisson />}
+        {myList.length !== 0 && access_token && <MyMisson myList={myList} />}
         <Banner />
         <GroupList />
       </HomeContentS>

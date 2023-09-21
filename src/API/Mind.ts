@@ -1,13 +1,13 @@
 import { getData } from './axiosConfig';
-import { Mind, isDoneSingle, isDone, Mylist, FinishList, TotalMind } from '../Type/userMind';
+import { MindIntroInfo, isDoneSingle, isDone, Mylist, FinishList, TotalMind, MindsType } from '../Type/Mind';
 import logText from './logText';
-import { GroupPageInfo } from '../Type/Group';
+import { MindPageInfo } from '../Type/Mind';
 import { tockenHeader, tokenValue } from '../data/tocken';
 
 // 작심 정보 반환 (그룹 인트로 / 인증하기)
-export const getMindInfo_Intro = async (mind_id: number): Promise<Mind> => {
+export const getMindInfo_Intro = async (mind_id: number): Promise<MindIntroInfo> => {
   try {
-    const response = await getData<Mind>(`/minds/intro/${mind_id}`);
+    const response = await getData<MindIntroInfo>(`/minds/intro/${mind_id}`);
 
     // logText(response.data)
     return response.data;
@@ -18,7 +18,7 @@ export const getMindInfo_Intro = async (mind_id: number): Promise<Mind> => {
 };
 
 //  작심 정보  이미지반환 (그룹 인트로)
-export const getMind_IntroImaage = async (mind_id: number): Promise<{ introImage: string }> => {
+export const getMind_IntroImage = async (mind_id: number): Promise<{ introImage: string }> => {
   try {
     const response = await getData<{ introImage: string }>(`/minds/intro/${mind_id}/image`);
 
@@ -117,9 +117,9 @@ export const getMindAFinished = async (): Promise<FinishList[]> => {
 };
 
 // 당일 개별 작심 인증 여부
-export const getMindSingle = async (mind_id: number): Promise<Mind> => {
+export const getMindSingle = async (mind_id: number): Promise<isDoneSingle> => {
   try {
-    const response = await getData<Mind>(`/minds/${mind_id}`);
+    const response = await getData<isDoneSingle>(`/minds/${mind_id}`);
 
     logText(response.data);
     return response.data;
