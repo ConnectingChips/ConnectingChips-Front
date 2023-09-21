@@ -14,7 +14,7 @@ export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {
     return response.data.isJoining;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get checked Joined value');
+    throw new Error('가입한 여부를 확인할 수 없습니다.');
   }
 };
 

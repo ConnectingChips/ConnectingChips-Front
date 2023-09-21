@@ -92,10 +92,10 @@ export const getMindAll = async (): Promise<TotalMind[]> => {
 export const getMindFilter = async (mindTypeName: string): Promise<TotalMind[]> => {
   try {
     const mindTypeId: number = (() => {
-      if (mindTypeName === '일상') return 2;
-      if (mindTypeName === '달리기') return 3;
-      if (mindTypeName === '헬스') return 4;
-      if (mindTypeName === '자전거') return 5;
+      if (mindTypeName === '일상') return 1;
+      if (mindTypeName === '달리기') return 2;
+      if (mindTypeName === '헬스') return 3;
+      if (mindTypeName === '자전거') return 4;
 
       return 1;
     })();
