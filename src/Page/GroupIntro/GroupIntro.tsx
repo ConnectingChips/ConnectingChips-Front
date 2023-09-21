@@ -3,18 +3,26 @@ import { GNB } from '../../AppBarral';
 import { CTAContainer } from '../../Component/CTA/CTAContainer';
 import { GroupIntroHeader } from '../../Component/Mission/GroupHeader';
 import GroupContent from '../../Component/Mission/GroupContent';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import scrollTop from '../../Hooks/scrollTop';
-
+import { useParams } from 'react-router-dom';
+import { getMind_IntroImage } from '../../API/Mind';
 /** 2023-08-21 GroupIntro.tsx - 메인 컴프 */
 const GroupIntro = (): JSX.Element => {
-
+  const { mindId } = useParams<string>();
+  const [pageImage, setPageImage] = useState<string>('');
   useEffect(() => {
     scrollTop();
+
+    getMind_IntroImage(Number(mindId)).then((data) => {
+      setPageImage(data.introImage);
+    });
+
+    setPageImage(pageImage);
   }, []);
 
   return (
-    <GroupIntroS img=''>
+    <GroupIntroS img={pageImage}>
       <BGDarkS>
         <GroupContainerS>
           <GroupIntroHeader />
