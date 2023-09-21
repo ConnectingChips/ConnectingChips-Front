@@ -17,7 +17,7 @@ const GroupCheck = ({
       await getCheckedJoined(Number(mindId)).then((res) => {
         if (sort === 'Upload')
           getMindSingle(Number(mindId))
-            .then((isDone: boolean) => !isDone && navigate('/error'))
+            .then((isDone: boolean) => isDone && navigate('/error'))
             .catch(() => {});
 
         if (!res) navigate('/');
