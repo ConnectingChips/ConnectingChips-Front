@@ -50,7 +50,7 @@ export const postData = async <T>(
     const response = await client.post<APIResponse<T>>(url, data, config);
     return response.data;
   } catch (error: any) {
-    throw new Error(error.message);
+    return Promise.reject(error);
   }
 };
 
