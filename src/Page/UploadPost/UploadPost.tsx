@@ -38,8 +38,6 @@ const UploadPost = () => {
 
   useEffect(() => {
     (async () => {
-      // TODO: url에서 mindId 가져와서 전달하기
-      console.log(mindId);
       try {
         const res = await getUser();
         setUserId(res.userId);
@@ -51,6 +49,8 @@ const UploadPost = () => {
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
+
+    console.log(e.target.files[0].size); // 이미지 파일 사이즈 체크
 
     const file = e.target.files[0];
     setImage({ name: file.name, file });
@@ -68,23 +68,28 @@ const UploadPost = () => {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('보내기');
-    /** TODO: 에러 처리 필요
-     * 이미지(옵션): 현재는 이미지 없으면 500 에러 발생
-     * 글쓰다가 토큰 만료되면 요청을 막고 Alert 띄워주기 + 토큰 삭제
-     */
+
     try {
-      const response = await postCreateBoard({
+      await postCreateBoard({
         mindId: Number(mindId),
         userId,
         content: text,
         image,
       });
-      console.log(response);
-      // TODO: 성공 시 페이지 이동
+      navigate(`/groupPage/${mindId}`);
     } catch (error) {
-      // TODO: 토큰 만료 에러 처리
-      console.error('error:::::: ', error);
+      console.error('error:: ', error);
+
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 500) {
+          console.log(error.response?.status); // 서버 에러 status: 500
+          // alert('잠시 후 다시 시도해 주세요');
+        } else if (error.response?.data.code === 4012) {
+          console.log(error.response?.data.code); // 만료된 토큰 code: 4012
+          // alert('다시 로그인 해주세요');
+          navigate('/LogIn');
+        }
+      }
     }
   };
 
@@ -121,7 +126,7 @@ const UploadPost = () => {
           <input
             type='file'
             id='image-upload'
-            accept='image/png, image/jpeg'
+            accept='image/png, image/jpeg, image/jpg, .heic'
             ref={(ref) => (fileRef.current = ref)}
             onChange={handleFileInputChange}
           />

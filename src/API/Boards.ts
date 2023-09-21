@@ -87,8 +87,6 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
 
   if (image.file !== null) {
     formData.append('file', image.file);
-  } else {
-    formData.append('file', ''); // TODO: 이미지 선택하지 않았을때 어떻게 보내는지?
   }
 
   try {
