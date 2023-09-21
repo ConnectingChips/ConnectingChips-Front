@@ -166,6 +166,23 @@ export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSin
   }
 };
 
+interface getkeepJoin {
+  keepJoin: boolean;
+  isDoneToday: boolean;
+}
+
+// 작심 활동 현황 (main / Page)
+export const getkeepJoin = async (mindId: number): Promise<getkeepJoin> => {
+  try {
+    const response = await getData<getkeepJoin>(`/minds/keep-join/${mindId}`, tockenHeader);
+    // console.log('response: ', response);
+    return response.data;
+  } catch (error) {
+    // console.error(error);
+    throw new Error('작심 활동 현황을 호출하는 데 실패했습니다.');
+  }
+};
+
 // 나의 작심 현황 (나의 작심 현황)
 export const getMyList = async (): Promise<Mylist[]> => {
   try {

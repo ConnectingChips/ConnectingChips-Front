@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { putReJoin } from '../../API/joinedMinds';
+import { getkeepJoin } from '../../API/Mind';
+
 const GroupBtn = () => {
   const navigate = useNavigate();
   const { mindId } = useParams();
@@ -9,12 +11,12 @@ const GroupBtn = () => {
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
 
   //TODO: 작심 활동 현황 (main / Page) 완성되면 넣기
-  // useEffect(() => {
-  //
-  // 데이터 받아옴
-  //"keepJoin": true,
-  // "isDoneToday": true
-  // }, []);
+  useEffect(() => {
+    getkeepJoin(Number(mindId)).then((data) => {
+      setKeepJoin(data.keepJoin);
+      setIsDoneToday(data.isDoneToday);
+    });
+  }, []);
 
   // 버튼 텍스트를 결정하는 함수
   const getButtonText = () => {
