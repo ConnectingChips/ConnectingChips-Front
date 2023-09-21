@@ -7,11 +7,11 @@ import { useParams } from 'react-router-dom';
 
 /** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
-  const { mindID } = useParams<string>();
+  const { mindId } = useParams<string>();
   const [pageImage, setPageImage] = useState<string>('');
 
   useEffect(() => {
-    getMind_IntroImage(Number(mindID)).then((data) => {
+    getMind_IntroImage(Number(mindId)).then((data) => {
       setPageImage(data.introImage);
     });
   }, []);

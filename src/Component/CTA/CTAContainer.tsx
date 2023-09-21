@@ -7,7 +7,7 @@ import { MyListContext, MyListContextType } from '../../API/Context';
 /** 2023-08-22 CTAContainer.tsx - 참여하기 버튼 */
 const JoinButtonCTA = (): JSX.Element => {
   const navigate = useNavigate();
-  const { uuid } = useParams();
+  const { mindId } = useParams();
   const [isLogin, setIsLogin] = useState(false);
   const [validJoin, setValidJoin] = useState('true');
   const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
@@ -23,7 +23,7 @@ const JoinButtonCTA = (): JSX.Element => {
     if (!isLogin) return navigate('/logIn');
 
     try {
-      navigate(`/groupPage/${uuid}`);
+      navigate(`/groupPage/${Number(mindId)}`);
     } catch (error) {
       console.error('참여하기 실패: ', error);
     }

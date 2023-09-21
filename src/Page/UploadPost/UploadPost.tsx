@@ -15,7 +15,6 @@ import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 import { getMindSingle } from '../../API/Mind';
 import { MindPageInfo } from '../../Type/Mind';
-import { Mind } from '../../Type/userMind';
 import { useNavigate } from '../GroupPage/GroupPageBarrel';
 
 type MindSingle = Pick<MindPageInfo, 'mindTypeName' | 'name'>;
@@ -28,7 +27,7 @@ interface Image {
 const UploadPost = () => {
   const INITIAL_TEXT = '오늘 작심 성공!';
   const navigate = useNavigate();
-  const { mindID } = useParams();
+  const { mindId } = useParams();
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -41,9 +40,9 @@ const UploadPost = () => {
   useEffect(() => {
     (async () => {
       // TODO: url에서 mindId 가져와서 전달하기
-      console.log(mindID);
+      console.log(mindId);
       try {
-        const mind = await getMindInfo_Intro(Number(mindID));
+        const mind = await getMindInfo_Intro(Number(mindId));
         const res = await getUser();
         setMindData(mind);
         setUserId(res.userId);
@@ -78,7 +77,7 @@ const UploadPost = () => {
      * 글쓰다가 토큰 만료되면 요청을 막고 Alert 띄워주기
      */
     try {
-      const response = postCreateBoard({ mindId: Number(mindID), userId, content: text, image });
+      const response = postCreateBoard({ mindId: Number(mindId), userId, content: text, image });
       console.log(response);
       // TODO: 성공 시 페이지 이동
     } catch (error) {

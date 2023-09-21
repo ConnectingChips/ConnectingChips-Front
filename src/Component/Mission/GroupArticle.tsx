@@ -17,12 +17,12 @@ interface GroupArticleProps {
 
 /** 2023-08-22 GroupArticle.tsx - 그룹 아티클 - 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 */
 const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element => {
-  const { mindID } = useParams<string>();
+  const { mindId } = useParams<string>();
   const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);
 
   useEffect(() => {
     if (passsort === 'Page') {
-      getMindInfo_Page(Number(mindID)).then((data: MindsType) => {
+      getMindInfo(Number(mindId)).then((data: MindsType) => {
         setGetMindInfoData(data);
       });
     }
