@@ -57,10 +57,8 @@ export interface MindsType {
   name: string;
   introduce: string;
   userCount: number;
-  pageImage: string;
-  introImage?: string;
   writeFormat?: string;
-  doneToday?: boolean;
+  isDoneToday?: boolean;
   count?: number;
   canJoin?: number;
 }

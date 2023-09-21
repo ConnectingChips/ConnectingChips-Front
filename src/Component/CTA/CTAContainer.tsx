@@ -117,7 +117,7 @@ const CTAButtonS = styled(LinkButtonS)<{ valid: string }>`
 const MissionButtonS = styled(LinkButtonS)`
   border: 0.1rem solid;
   border-color: var(--color-main);
-  font-size : var(--button-mid)
+  font-size: var(--button-mid);
   width: 100%;
 `;
 

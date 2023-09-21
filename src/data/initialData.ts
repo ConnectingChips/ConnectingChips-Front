@@ -27,5 +27,8 @@ export const initMind: MindsType = {
   name: '',
   introduce: '',
   userCount: 0,
-  pageImage: '',
+  writeFormat: '',
+  isDoneToday: false,
+  count: 0,
+  canJoin: 0,
 };

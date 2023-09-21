@@ -5,9 +5,9 @@ import MissionIntro from './MissionIntro';
 import { PostButton } from '../CTA/CTAContainer';
 import { PageSort } from '../../Type/MissionType';
 import { useEffect, useState } from 'react';
-import { getMindInfo } from '../../API/Mind';
+import { getMindInfo, getMindInfo_Intro } from '../../API/Mind';
 import { useParams } from 'react-router-dom';
-import { MindPageInfo, MindIntroInfo, MindsType } from '../../Type/Mind';
+import { MindsType, MindIntroInfo } from '../../Type/Mind';
 import { initMind } from '../../data/initialData';
 interface GroupArticleProps {
   selected: number[];
@@ -23,6 +23,10 @@ const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element =>
   useEffect(() => {
     if (passsort === 'Page') {
       getMindInfo(Number(mindId)).then((data: MindsType) => {
+        setGetMindInfoData(data);
+      });
+    } else if (passsort === 'Intro') {
+      getMindInfo_Intro(Number(mindId)).then((data: MindIntroInfo) => {
         setGetMindInfoData(data);
       });
     }
