@@ -87,6 +87,7 @@ const UploadPost = () => {
         } else if (error.response?.data.code === 4012) {
           console.log(error.response?.data.code); // 만료된 토큰 code: 4012
           // alert('다시 로그인 해주세요');
+          localStorage.removeItem('access_token');
           navigate('/LogIn');
         }
       }
