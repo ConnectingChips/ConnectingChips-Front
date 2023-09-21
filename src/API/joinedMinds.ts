@@ -31,7 +31,7 @@ export const postJoin = async (mind_id: number): Promise<void> => {
 // 재작심(재참여)하기
 export const putReJoin = async (mind_id: number): Promise<void> => {
   try {
-    await putData(`/joined-minds/${mind_id}/remind`, tockenHeader);
+    await putData(`/joined-minds/${mind_id}/remind`, {}, tockenHeader);
   } catch (error) {
     console.error(error);
     throw new Error('Failed to put Rejoin');
