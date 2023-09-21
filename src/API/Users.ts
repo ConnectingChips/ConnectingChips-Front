@@ -18,7 +18,7 @@ export const getIsLogined = async (): Promise<boolean> => {
       },
     };
 
-    const response = await getData<IsLogin>('/users/check-login', tockenHeader);
+    const response = await getData<IsLogin>('/users/check-login', tokenValue);
 
     // console.log('isLogin: ', response.data.isLogin);
     return response.data.isLogin;
