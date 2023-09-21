@@ -17,13 +17,13 @@ const goBack = (): void => {
 const GroupHeader = ({ children, className }: GroupHeaderProps): JSX.Element => {
   const path = useLocation().pathname;
   const isUpload = path.indexOf('/upload') !== -1;
-  const params = useParams()
+  const { mindId } = useParams();
 
   return (
     <GroupBGHeaderS className={className}>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
       {!isUpload && (
-        <Link to={`/uploadPost/${params}`}>
+        <Link to={`/uploadPost/${mindId}`}>
           <img src={post_Icon} alt='post icon' />
         </Link>
       )}
