@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../image/Icon/close_icon.svg';
 
+import Demo from './Markdown';
+
 interface TermsModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   termsData: {
@@ -54,6 +56,7 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
       <ModalContentS>
         <p>{termsData.contents}</p>
       </ModalContentS>
+      <Demo />
       <ButtonWrapperS>
         <button onClick={handleAgreeButtonClick}>동의</button>
       </ButtonWrapperS>
