@@ -14,7 +14,7 @@ const PostContent = ({ editbind, postData, userInfo }: PostContentProps): JSX.El
   const { edit, setEdit } = editbind;
   const [editContent, setEditContent] = useState(postData.content);
   const textarea = useRef<HTMLTextAreaElement | null>(null);
-  let { mindID } = useParams();
+  let { mindId } = useParams();
 
   // textarea에 글자적으면 자동 height변경
   const handleResizeHeight = () => {
@@ -24,7 +24,7 @@ const PostContent = ({ editbind, postData, userInfo }: PostContentProps): JSX.El
     }
   };
 
-  if (typeof mindID === 'undefined') return <></>;
+  if (typeof mindId === 'undefined') return <></>;
 
   // const postEditData: {
   //   mindId: number;

@@ -9,12 +9,12 @@ import { initUser } from '../../data/initialData';
 
 const GroupPostList = () => {
   // TODO: post업애려면 Commendted false로 바꾸기
-  const { mindID } = useParams<string>();
+  const { mindId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
 
   useEffect(() => {
-    getBoards(Number(mindID)).then((res: BoardsType[]) => {
+    getBoards(Number(mindId)).then((res: BoardsType[]) => {
       setPostData(res);
     });
     getUser().then((userInfo: GetUser) => {
