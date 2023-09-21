@@ -3,11 +3,11 @@ import { getCheckedJoined } from '../API/joinedMinds';
 
 const GroupCheck = ({ component }: { component: JSX.Element }): JSX.Element => {
   const navigate = useNavigate();
-  const mind_id = useParams();
+  const { mindId } = useParams();
 
   const ResultComp = (): JSX.Element => {
     (async () =>
-      await getCheckedJoined(Number(mind_id)).then((res) => {
+      await getCheckedJoined(Number(mindId)).then((res) => {
         if (!res) navigate('/');
       }))();
 
