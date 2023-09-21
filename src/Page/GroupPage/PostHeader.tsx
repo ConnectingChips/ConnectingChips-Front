@@ -46,11 +46,11 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
         </PostProfileNickNameS>
       </PostHeaderProfileS>
       {/* editBtnToggle ? 수정버튼 나오게 : 수정버튼 사라짐 */}
-      {editBtnToggle ? null : (
+      {editBtnToggle && (
         <MoreIconS onClick={handlerToogleSwitch}>
           <img src={point3} alt='point3_icon' />
           {/* editModalToggle ? 수정모달나오게 : 수정모달 사라짐 */}
-          {editModalToggle ? (
+          {editModalToggle && (
             <ModalS>
               <div
                 onClick={() => {
@@ -67,7 +67,7 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
                 삭제하기
               </div>
             </ModalS>
-          ) : null}
+          )}
         </MoreIconS>
       )}
       {modalBtn && (
