@@ -34,7 +34,7 @@ const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element =>
 
   const compArr = [
     <HeadLine getMindInfoData={getMindInfoData} passsort={passsort} />,
-    <MissionIntro getMindInfoData={getMindInfoData} />,
+    <MissionIntro getMindInfoData={getMindInfoData} passsort={passsort} />,
     <MissionRule getMindInfoData={getMindInfoData} passsort={passsort} />,
     <PostButton />,
   ];
