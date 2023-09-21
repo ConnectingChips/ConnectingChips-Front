@@ -25,11 +25,16 @@ export interface TotalMind extends MindIntroInfo {
   totalListImage: string;
 }
 
-export interface isDoneSingle {
-  isDoneToday: true;
+export interface commonDone {
+  isDoneToday: boolean;
+}
+// 작심 활동 현황
+export interface isDoneSingle extends commonDone {
+  keepJoin: boolean;
 }
 
-export interface isDone extends isDoneSingle {
+// 당일 전체 참여한 작심 인증 여부
+export interface isDone extends commonDone {
   joinedMindId: number;
 }
 

@@ -145,12 +145,13 @@ export const getMindAFinished = async (): Promise<FinishList[]> => {
 };
 
 // 당일 개별 작심 인증 여부
-export const getMindSingle = async (mind_id: number): Promise<isDoneSingle> => {
+export const getMindSingle = async (mindId: number): Promise<boolean> => {
   try {
-    const response = await getData<isDoneSingle>(`/minds/${mind_id}`);
+    const { tockenHeader } = getToken();
+    const response = await getData<isDoneSingle>(`/minds/keepJoin/${mindId}`, tockenHeader);
 
     logText(response.data);
-    return response.data;
+    return response.data.isDoneToday;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get Single Minds');

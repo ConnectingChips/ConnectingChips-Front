@@ -39,8 +39,6 @@ const Home = (): JSX.Element => {
   //   Kakao.init(KAKAO_KEY);
   // }
 
-  console.log('myInfo: ', myInfo);
-
   const navigate = useNavigate();
 
   const profileClick = (): void | Promise<void> => {
@@ -122,7 +120,6 @@ const setHome = async (
   };
 
   const isLogin = localStorage.getItem('access_token') || '';
-  console.log('isLogin: ', isLogin);
 
   if (isLogin !== '') {
     await getUser()
