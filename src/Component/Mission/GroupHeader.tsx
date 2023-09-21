@@ -2,6 +2,8 @@ import { styled } from 'styled-components';
 import { Arrow_Left_B, Arrow_Left_W } from '../ArrowBarrel';
 import post_Icon from '../../image/Icon/post_Icon.svg';
 import { Link, useLocation, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getkeepJoin } from '../../API/Mind';
 
 interface GroupHeaderProps {
   children?: React.ReactNode;
@@ -18,11 +20,17 @@ const GroupHeader = ({ children, className }: GroupHeaderProps): JSX.Element => 
   const path = useLocation().pathname;
   const isUpload = path.indexOf('/upload') !== -1;
   const { mindId } = useParams();
+  const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
+  useEffect(() => {
+    getkeepJoin(Number(mindId)).then((data) => {
+      setIsDoneToday(data.isDoneToday);
+    });
+  }, []);
 
   return (
     <GroupBGHeaderS className={className}>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      {!isUpload && (
+      {(!isUpload || !isDoneToday) && (
         <Link to={`/uploadPost/${mindId}`}>
           <img src={post_Icon} alt='post icon' />
         </Link>
