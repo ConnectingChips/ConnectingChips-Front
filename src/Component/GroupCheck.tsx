@@ -8,6 +8,8 @@ const GroupCheck = ({ component }: { component: JSX.Element }): JSX.Element => {
   const ResultComp = (): JSX.Element => {
     (async () =>
       await getCheckedJoined(Number(mindId)).then((res) => {
+        console.log('res: ', res);
+
         if (!res) navigate('/');
       }))();
 
