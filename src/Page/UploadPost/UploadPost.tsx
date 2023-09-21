@@ -1,32 +1,33 @@
 import { useRef, useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
+
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
-import { useLoginCheck, useNavigate } from '../GroupPage/GroupPageBarrel';
+
+import { getUser } from '../../API/Users';
+import { getMindInfo_Intro } from '../../API/Mind';
+import { postCreateBoard } from '../../API/Boards';
+
 import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
-import { getMindSingle } from '../../API/userMind';
+
 import { Mind } from '../../Type/userMind';
-import { getUser } from '../../API/userService';
-import { postCreateBoard } from '../../API/Boards';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from '../GroupPage/GroupPageBarrel';
 
 type MindSingle = Pick<Mind, 'mindTypeName' | 'name'>;
 
 /** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
   const INITIAL_TEXT = '오늘 작심 성공!';
-  const { intro, rule } = groupList[0];
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
-  const textareaRef = useRef<HTMLInputElement | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // useLoginCheck(navigate, "None");
   const [mindData, setMindData] = useState<MindSingle>({ mindTypeName: '', name: '' });
   const [userId, setUserId] = useState<number>(0);
   const { mindID } = useParams();
@@ -44,7 +45,7 @@ const UploadPost = () => {
       // TODO: url에서 mindId 가져와서 전달하기
       console.log(mindID);
       try {
-        const mind = await getMindSingle(Number(mindID));
+        const mind = await getMindInfo_Intro(Number(mindID));
         const res = await getUser(); // TODO: userID context에서 가져오기(?)
         setMindData(mind);
         setUserId(res.userId);

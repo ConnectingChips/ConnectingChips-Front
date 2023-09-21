@@ -1,4 +1,3 @@
-import { createUser } from '../../API/Users';
 import { styled, useEffect, useState, useNavigate, useLoginCheck } from './SignUpBarrel';
 import {
   Banner,
