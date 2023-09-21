@@ -26,9 +26,11 @@ const GroupIntro = (): JSX.Element => {
       <BGDarkS>
         <GroupContainerS>
           <GroupIntroHeader />
-          <GroupContent selected={[0, 1, 2]} passsort='Intro' />
-          {/* TODO: 참여하기 : 로그인 상태라면 참여 요청을 보내고 작심 그룹 페이지로 라우팅 / 비로그인 상태라면 로그인 페이지로 이동  */}
-          <CTAContainer />
+          <GroupIntroArticleS>
+            <GroupContent selected={[0, 1, 2]} passsort='Intro' />
+            {/* TODO: 참여하기 : 로그인 상태라면 참여 요청을 보내고 작심 그룹 페이지로 라우팅 / 비로그인 상태라면 로그인 페이지로 이동  */}
+            <CTAContainer />
+          </GroupIntroArticleS>
         </GroupContainerS>
       </BGDarkS>
     </GroupIntroS>
@@ -63,7 +65,6 @@ const BGDarkS = styled.div`
 /** 2023-08-21 GroupIntro.tsx - 그룹 인트로 뒤로가기 + 컨텐츠 + 예시 + CTA */
 const GroupContainerS = styled.div`
   height: 100%;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -71,4 +72,10 @@ const GroupContainerS = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const GroupIntroArticleS = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
