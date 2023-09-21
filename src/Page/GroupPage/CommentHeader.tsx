@@ -30,6 +30,7 @@ const CommentHeader = ({ commentFlipBind, postData }: CommentHeaderProps) => {
 export { CommentHeader };
 
 const CommentHeaderS = styled.div`
+  margin: 0.75rem 0;
   display: flex;
   gap: 0.5rem;
 `;

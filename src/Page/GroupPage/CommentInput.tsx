@@ -111,7 +111,7 @@ export { CommentInput };
 const CommentFormS = styled.form<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
   bottom: 0;
-
+  margin: 0.5rem 0;
   background-color: #fff;
   border: 1px solid #e3e3e3;
   border-radius: 0.5rem;

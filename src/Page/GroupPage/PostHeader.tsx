@@ -88,10 +88,7 @@ const PostHeaderS = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  /* margin: 1rem; */
   padding: 1rem;
-
   img {
     cursor: pointer;
   }
@@ -99,14 +96,13 @@ const PostHeaderS = styled.header`
 
 /** 2023-08-22 PostHeader.tsx - 그룹페이지 아티클 헤더 프로필 */
 const PostHeaderProfileS = styled.div`
+  height: 2.5rem;
   display: flex;
   align-items: center;
-
   h2 {
     margin-right: 0.5rem;
     font-size: 0.875rem;
   }
-
   p {
     color: var(--font-color2);
   }
@@ -145,14 +141,15 @@ const ModalS = styled.div`
 
 /** 2023-08-22 PostHeader.tsx - 그룹페이지 아티클 인증 이미지(임시) */
 const PostProfileImageS = styled.div`
-  width: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   aspect-ratio: 1/1;
   border-radius: 10rem;
   overflow: hidden;
   margin-right: 0.5rem;
 
   img {
-    width: 3.5rem;
+    width: 2.5rem;
   }
 `;
 
@@ -160,7 +157,17 @@ const PostProfileImageS = styled.div`
 const PostProfileNickNameS = styled.div`
   display: flex;
   flex-direction: column;
+  h2 {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
   p {
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
     color: var(--font-color3);
   }
 `;

@@ -59,14 +59,15 @@ const GroupNoPost = () => {
 };
 
 const GroupPostListS = styled.div`
+  margin: 0 1rem;
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
-  gap: 0.75rem;
+  gap: 0.5rem;
   // FIXME: commentinput의 하단자리가 부족해서 댓글을 가려버려서 임시로 넣음
   margin-bottom: 50px;
   h2 {
-    font-size: 1rem;
+    font-size: 1.125rem;
   }
 `;
 

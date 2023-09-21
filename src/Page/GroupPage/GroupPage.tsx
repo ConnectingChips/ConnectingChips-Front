@@ -21,8 +21,10 @@ const GroupPage = (): JSX.Element => {
     <GroupPageS>
       <GroupHeader />
       <GroupImageS url={pageImage} />
-      <GroupArticle selected={[0, 1]} passsort='Page' />
-      <GroupBtn />
+      <GroupSectionS>
+        <GroupArticle selected={[0, 1]} passsort='Page' />
+        <GroupBtn />
+      </GroupSectionS>
       <DivideBaS />
 
       <GroupPostList />
@@ -44,4 +46,8 @@ const GroupImageS = styled.div<{ url: string }>`
   background-size: 26rem;
   background-position: 0 -1rem;
   height: 10rem;
+`;
+
+const GroupSectionS = styled.div`
+  margin: 0 1rem;
 `;

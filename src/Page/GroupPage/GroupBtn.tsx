@@ -19,26 +19,34 @@ const GroupBtn = () => {
   // 버튼 텍스트를 결정하는 함수
   const getButtonText = () => {
     if (!keepJoin) {
-      return isDoneToday ? '오늘작심성공' : '인증하기';
+      return isDoneToday ? '성공' : '인증';
     } else {
-      return '재작심하기';
+      return '재작심';
     }
   };
   const buttonText = getButtonText();
 
   const groupBtnHandler = () => {
-    if (buttonText === '인증하기') {
+    if (buttonText === '인증') {
       navigate(`/uploadPost/${mindId}`);
     }
-    if (buttonText === '재작심하기') {
+    if (buttonText === '재작심') {
       putReJoin(Number(mindId));
     }
   };
 
+  const buttonLabels = {
+    인증: '작심 인증하기',
+    성공: '오늘 작심 성공!',
+    재작심: '재작심 하기',
+  };
+
   return (
-    <GroupBtnContainerS BtnText={buttonText} onClick={groupBtnHandler}>
-      {buttonText}
-    </GroupBtnContainerS>
+    <div style={{ margin: '0 1rem' }}>
+      <GroupBtnContainerS BtnText={buttonText} onClick={groupBtnHandler}>
+        {buttonLabels[buttonText]}
+      </GroupBtnContainerS>
+    </div>
   );
 };
 export default GroupBtn;
@@ -49,9 +57,9 @@ const GroupBtnContainerS = styled.button<{ BtnText: string }>`
   border-radius: 1.25rem;
   border: 1px solid var(--color-main);
   background: var(--color-white);
-
+  font-size: 0.75rem;
   ${(props) =>
-    props.BtnText === '오늘작심성공' &&
+    props.BtnText === '성공' &&
     `
       background: black;
       color: var(--color-main);
@@ -59,7 +67,7 @@ const GroupBtnContainerS = styled.button<{ BtnText: string }>`
     `};
 
   ${(props) =>
-    props.BtnText === '재작심하기' &&
+    props.BtnText === '재작심' &&
     `
       background: var(--color-main);
     `};

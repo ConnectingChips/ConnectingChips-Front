@@ -100,9 +100,7 @@ const MissionSingleS = styled.li`
 /** 2023-08-21 MyMisson.tsx - 작심 중인 리스트 항목 가로 길게 */
 const MissionSingleWideS = styled.div`
   border-radius: 1.5rem;
-
-  padding: 0.1rem 0.8rem;
-
+  padding: 0.13rem 0.81rem;
   border: 1px solid;
   width: fit-content;
 

@@ -147,26 +147,27 @@ const CommentBoxMaker = ({
         <div>
           <div className='profile'>
             <h2>{commentData.nickname}</h2>
-            <p>{commentData.createDate}</p>
+            <p className='date'>{commentData.createDate}</p>
           </div>
           <p className='text'>{commentData.content}</p>
         </div>
         <CommentOptionS>
-          <h2
+          <p
             onClick={() => {
               AddReplyHander(commentData.commentId);
             }}
           >
             답글
-          </h2>
+          </p>
           {userInfo.userId === commentData.userId ? (
-            <h2
+            <p
               onClick={() => {
                 setModalBtn(true);
               }}
+              className={'delete'}
             >
               삭제
-            </h2>
+            </p>
           ) : null}
         </CommentOptionS>
       </CommentContentS>
@@ -205,19 +206,20 @@ const ReplyBoxMaker = ({ sort, replyData, userInfo, refreshBind }: ReplyBoxMaker
         <div>
           <div className='profile'>
             <h2>{replyData.nickname}</h2>
-            <p>{replyData.createDate}</p>
+            <p className='date'>{replyData.createDate}</p>
           </div>
           <p className='text'>{replyData.content}</p>
         </div>
         <CommentOptionS>
           {userInfo.userId === replyData.userId ? (
-            <h2
+            <p
               onClick={() => {
                 setModalBtn(true);
               }}
+              className='delete'
             >
               삭제
-            </h2>
+            </p>
           ) : null}
         </CommentOptionS>
       </CommentContentS>
@@ -267,7 +269,7 @@ const CommentContainerS = styled.div<{ sort: 'comment' | 'reply' }>`
 /** 2023-08-25 Comment.tsx - 그룹페이지 댓글 내용, 답글 탭 */
 const CommentContentS = styled.div<{ sort: 'comment' | 'reply' }>`
   margin-left: 0.5rem;
-  margin-top: 0.31rem;
+
   width: ${(props) => (props.sort === 'comment' ? '19.0625rem' : '18.0625rem')};
   display: flex;
   flex-direction: column;
@@ -281,6 +283,11 @@ const CommentContentS = styled.div<{ sort: 'comment' | 'reply' }>`
 
     h2 {
       font-size: 0.875rem;
+    }
+
+    .date {
+      font-size: 0.75rem;
+      color: var(--font-color3);
     }
   }
 
@@ -302,11 +309,9 @@ const CommentContentS = styled.div<{ sort: 'comment' | 'reply' }>`
 const CommentOptionS = styled.div`
   display: flex;
   gap: 1.5rem;
+  font-size: 0.875rem;
 
-  h2 {
-    font-size: 0.875rem;
-    &.delete {
-      color: var(--font-color3);
-    }
+  .delete {
+    color: var(--font-color3);
   }
 `;
