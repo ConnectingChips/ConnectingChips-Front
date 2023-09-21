@@ -85,7 +85,6 @@ const CTAContainerS = styled.div`
   position: sticky;
   bottom: 0;
   width: var(--width-mobile);
-
   display: flex;
   flex-direction: column-reverse;
   gap: 1rem;
@@ -94,11 +93,8 @@ const CTAContainerS = styled.div`
 /** 2023-08-22 CTAContainer.tsx - 버튼 공통 스타일 */
 const LinkButtonS = styled.button`
   height: 3.5rem;
-
   border-radius: 1.88rem;
-
   margin-top: 1.25rem;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,7 +108,7 @@ const CTAButtonS = styled(LinkButtonS)<{ valid: string }>`
   margin-bottom: 1rem;
   position: sticky;
   bottom: 0rem;
-
+  font-size : var(--button-mid)
   color: ${(props) => (props.valid === 'true' ? 'var(--font-color1)' : 'var(--color-disabled1)')};
   font-size: 1rem;
 `;
@@ -121,7 +117,7 @@ const CTAButtonS = styled(LinkButtonS)<{ valid: string }>`
 const MissionButtonS = styled(LinkButtonS)`
   border: 0.1rem solid;
   border-color: var(--color-main);
-
+  font-size : var(--button-mid)
   width: 100%;
 `;
 
@@ -129,6 +125,5 @@ const MissionButtonS = styled(LinkButtonS)`
 const BackButtonS = styled(MissionButtonS)`
   height: 2.5rem;
   width: 11.25rem;
-
   font-size: var(--button-mid);
 `;
