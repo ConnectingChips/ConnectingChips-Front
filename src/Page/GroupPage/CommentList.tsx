@@ -2,6 +2,9 @@ import { styled } from 'styled-components';
 import { CommentType, ReplyType } from '../../API/Boards';
 import { GetUser } from '../../Type/User';
 import { deleteComment, deleteReply, postAddReply } from '../../API/Comment';
+import { useState } from 'react';
+import DeleteModal from '../../Component/DeleteModal';
+
 interface CommentHeaderProps {
   commentFlipBind: {
     commentFlip: boolean;
@@ -99,6 +102,7 @@ const CommentBoxMaker = ({
   inputToggleBind,
   isCommentBind,
 }: CommentBoxMakerProps) => {
+  const [modalBtn, setModalBtn] = useState(false);
   const { inputToggle, setInputToggle } = inputToggleBind;
   const { isComment, setIsComment } = isCommentBind;
 
@@ -129,7 +133,7 @@ const CommentBoxMaker = ({
           {userInfo.userId === commentData.userId ? (
             <h2
               onClick={() => {
-                deleteComment(commentData.commentId);
+                setModalBtn(true);
               }}
             >
               삭제
@@ -137,6 +141,14 @@ const CommentBoxMaker = ({
           ) : null}
         </CommentOptionS>
       </CommentContentS>
+      {modalBtn && (
+        <DeleteModal
+          setConfirm={setModalBtn}
+          confirmText='이 댓글을 삭제할까요?'
+          action='삭제'
+          method={() => deleteComment(commentData.commentId)}
+        />
+      )}
     </CommentContainerS>
   );
 };
@@ -149,6 +161,7 @@ interface ReplyBoxMakerProps {
 
 /** 답글 box */
 const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
+  const [modalBtn, setModalBtn] = useState(false);
   return (
     <CommentContainerS sort={sort}>
       <img src={replyData.profileImage} alt='답글프로필' />
@@ -164,7 +177,7 @@ const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
           {userInfo.userId === replyData.userId ? (
             <h2
               onClick={() => {
-                deleteReply(replyData.replyId);
+                setModalBtn(true);
               }}
             >
               삭제
@@ -172,6 +185,14 @@ const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
           ) : null}
         </CommentOptionS>
       </CommentContentS>
+      {modalBtn && (
+        <DeleteModal
+          setConfirm={setModalBtn}
+          confirmText='이 댓글을 삭제할까요?'
+          action='삭제'
+          method={() => deleteReply(replyData.replyId)}
+        />
+      )}
     </CommentContainerS>
   );
 };

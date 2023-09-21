@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
 import { DetailedHTMLProps, ImgHTMLAttributes, useEffect, useState } from 'react';
 import { BoardsType, getBoardCheck, deleteBoard } from '../../API/Boards';
-import ConfirmModal from '../../Component/ConfirmModal';
+import DeleteModal from '../../Component/DeleteModal';
 interface PostHeaderProps {
   editbind: {
     edit: boolean;
@@ -71,7 +71,7 @@ const PostHeader = ({ editbind, postData }: PostHeaderProps): JSX.Element => {
         </MoreIconS>
       )}
       {modalBtn && (
-        <ConfirmModal
+        <DeleteModal
           setConfirm={setModalBtn}
           confirmText='이 댓글을 삭제할까요?'
           action='삭제'

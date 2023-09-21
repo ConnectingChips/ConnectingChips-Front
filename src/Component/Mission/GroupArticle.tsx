@@ -25,7 +25,7 @@ const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element =>
       getMindInfo(Number(mindId)).then((data: MindsType) => {
         setGetMindInfoData(data);
       });
-    } else if (passsort === 'Intro') {
+    } else if (passsort === 'Intro' || passsort === 'Create') {
       getMindInfo_Intro(Number(mindId)).then((data: MindIntroInfo) => {
         setGetMindInfoData(data);
       });
