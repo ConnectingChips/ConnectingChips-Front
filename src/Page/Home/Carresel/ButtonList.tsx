@@ -58,8 +58,7 @@ const CarreselBtnList = ({
   );
 };
 
-const goPost = async (mindId: number): Promise<{ isJoining: boolean }> =>
-  await getCheckedJoined(mindId);
+const goPost = async (mindId: number): Promise<boolean> => await getCheckedJoined(mindId);
 
 const CommonBtnS = styled.button`
   width: var(--width-my-mission);

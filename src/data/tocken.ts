@@ -6,4 +6,4 @@ export const tockenHeader = {
   },
 };
 
-export const tokenValue = access_token !== '' ? tockenHeader : undefined;
+export const tokenValue = access_token !== null ? tockenHeader : undefined;

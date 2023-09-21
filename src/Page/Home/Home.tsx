@@ -25,8 +25,7 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     scrollTop();
-
-    setAccesstoken(setHome(setMyInfo, setMylist, setIsDone));
+    setHome(setMyInfo, setMylist, setIsDone).then((access_token) => setAccesstoken(access_token));
   }, []);
 
   // 카카오 공유하기
@@ -43,7 +42,7 @@ const Home = (): JSX.Element => {
     if (access_token !== '')
       return getUser()
         .then(() => navigate(`/myPage/${myInfo.userId}`))
-        .catch((error) => console.log(error));
+        .catch(() => navigate('/login'));
     return navigate('/LogIn');
   };
 
@@ -107,11 +106,11 @@ const Home = (): JSX.Element => {
 
 export default Home;
 
-const setHome = (
+const setHome = async (
   setMyInfo: React.Dispatch<React.SetStateAction<GetUser>>,
   setMylist: React.Dispatch<React.SetStateAction<Mylist[]>>,
   setIsDone: React.Dispatch<React.SetStateAction<boolean>>,
-): string => {
+): Promise<string> => {
   type isDone = {
     joinedMindId: number;
     isDoneToday: boolean;
@@ -120,13 +119,13 @@ const setHome = (
   const access_token: string = localStorage.getItem('access_token') || '';
 
   if (access_token !== '') {
-    getUser()
+    await getUser()
       .then((userInfo: GetUser) => setMyInfo(userInfo))
       .catch((error) => console.log(error));
-    getMyList()
+    await getMyList()
       .then((res: Mylist[]) => setMylist(res))
       .catch((error) => console.log(error));
-    getisDoneAll()
+    await getisDoneAll()
       .then((res: isDone[]) => {
         const doneValid = res.some((data) => data.isDoneToday);
         setIsDone(doneValid);
@@ -245,6 +244,10 @@ const UserInfoS = styled.div`
     display: flex;
     align-items: center;
     gap: 0.38rem;
+
+    img {
+      width: 1.75rem;
+    }
   }
 
   p {

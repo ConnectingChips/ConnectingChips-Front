@@ -52,7 +52,10 @@ const MyPage = (): JSX.Element => {
           setConfirm={setConfirmLogout}
           confirmText='로그아웃하시겠습니까?'
           action='로그아웃'
-          method={() => logoutUser(navigate)}
+          method={async() => {
+            await logoutUser();
+            navigate('/');
+          }}
         />
       )}
     </MyPageS>

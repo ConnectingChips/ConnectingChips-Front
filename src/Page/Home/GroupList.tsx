@@ -16,11 +16,11 @@ const GroupList = (): JSX.Element => {
     if (curFocused === '전체')
       getMindAll()
         .then((mindList: TotalMind[]) => setShowList(mindList))
-        .catch((error) => console.log(error));
+        .catch(() => {});
     else
       getMindFilter(curFocused)
         .then((mindList) => setShowList(mindList))
-        .catch((error) => console.log(error));
+        .catch(() => {});
   }, [curFocused]);
 
   return (
