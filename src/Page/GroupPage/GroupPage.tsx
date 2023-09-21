@@ -20,7 +20,8 @@ const GroupPage = (): JSX.Element => {
     <GroupPageS>
       <GroupHeader />
       <GroupImageS url={pageImage} />
-      <GroupArticle selected={[0, 1, 3]} passsort='Page' />
+      <GroupArticle selected={[0, 1]} passsort='Page' />
+
       <DivideBaS />
 
       <GroupPostList />

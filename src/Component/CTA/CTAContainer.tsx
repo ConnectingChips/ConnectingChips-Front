@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { MyListContext, MyListContextType } from '../../API/Context';
+import { postJoin } from '../../API/joinedMinds';
 
 // TODO: api: 참여하기 요청보내기 /joined-minds/{joined_mind_id}
 /** 2023-08-22 CTAContainer.tsx - 참여하기 버튼 */
@@ -21,8 +22,8 @@ const JoinButtonCTA = (): JSX.Element => {
 
   const joinGroup = async () => {
     if (!isLogin) return navigate('/logIn');
-
     try {
+      postJoin(Number(mindId));
       navigate(`/groupPage/${Number(mindId)}`);
     } catch (error) {
       console.error('참여하기 실패: ', error);
