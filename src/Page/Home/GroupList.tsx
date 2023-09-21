@@ -11,10 +11,11 @@ const GroupList = (): JSX.Element => {
   const [showList, setShowList] = useState<TotalMind[]>([]);
   const [curFocused, setCurFocused] = useState<string>(missionTab[0].title);
   const curFocusBind = { curFocused, setCurFocused };
+  const [isLogin, setIsLogin] = useState<boolean>(false)
 
   useEffect(() => {
     if (curFocused === '전체')
-      getMindAll()
+      getMindAll(isLogin, setIsLogin)
         .then((mindList: TotalMind[]) => setShowList(mindList))
         .catch(() => {});
     else

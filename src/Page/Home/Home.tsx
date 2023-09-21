@@ -13,6 +13,8 @@ import {
 import { Banner as BannerImage, Logo_002, 헤드셋칩스, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
 import { MyInfoContextType, MyListContextType } from '../../API/Context';
+import { initUser } from '../MyPage/MypageBarrel';
+import { initMyList } from '../../data/initialData';
 
 const { Kakao } = window;
 
@@ -21,11 +23,13 @@ const Home = (): JSX.Element => {
   const { myInfo, setMyInfo } = useContext<MyInfoContextType>(MyInfoContext);
   const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
   const [istodayDone, setIsDone] = useState<boolean>(false);
-  const [access_token, setAccesstoken] = useState<string>('');
+
+  const isLogin = myInfo !== initUser;
+  console.log(3);
 
   useEffect(() => {
     scrollTop();
-    setHome(setMyInfo, setMylist, setIsDone).then((access_token) => setAccesstoken(access_token));
+    setHome(setMyInfo, setMylist, setIsDone);
   }, []);
 
   // 카카오 공유하기
@@ -36,10 +40,12 @@ const Home = (): JSX.Element => {
   //   Kakao.init(KAKAO_KEY);
   // }
 
+  console.log('myInfo: ', myInfo);
+
   const navigate = useNavigate();
 
   const profileClick = (): void | Promise<void> => {
-    if (access_token !== '')
+    if (isLogin)
       return getUser()
         .then(() => navigate(`/myPage/${myInfo.userId}`))
         .catch(() => navigate('/login'));
@@ -62,21 +68,21 @@ const Home = (): JSX.Element => {
       <HomeContentS>
         <WelcomeHeadS>
           <WelcomeTextS>
-            {access_token && istodayDone ? (
+            {isLogin && istodayDone ? (
               <h1>
                 멋져요 {nickName}칩스! <br />
                 작지만 확실한
                 <br />
                 성공 적립 완료!
               </h1>
-            ) : access_token && myList.length === 0 ? (
+            ) : isLogin && myList.length === 0 ? (
               <h1>
                 반가워요 {nickName}칩스! <br />
                 아래 리스트에서
                 <br />
                 미션을 골라보세요 😊
               </h1>
-            ) : access_token ? (
+            ) : isLogin ? (
               <h1>
                 반가워요 {nickName}칩스! <br />
                 오늘도 함께 작심을
@@ -90,9 +96,9 @@ const Home = (): JSX.Element => {
               </h1>
             )}
           </WelcomeTextS>
-          {!access_token && <img src={헤드셋칩스} alt='헤드셋칩스' />}
+          {!isLogin && <img src={헤드셋칩스} alt='헤드셋칩스' />}
         </WelcomeHeadS>
-        {myList.length !== 0 && access_token && <MyMisson myList={myList} />}
+        {myList.length !== 0 && isLogin && <MyMisson myList={myList} />}
         <Banner />
         <GroupList />
       </HomeContentS>
@@ -110,30 +116,35 @@ const setHome = async (
   setMyInfo: React.Dispatch<React.SetStateAction<GetUser>>,
   setMylist: React.Dispatch<React.SetStateAction<Mylist[]>>,
   setIsDone: React.Dispatch<React.SetStateAction<boolean>>,
-): Promise<string> => {
+): Promise<void> => {
   type isDone = {
     joinedMindId: number;
     isDoneToday: boolean;
   };
 
-  const access_token: string = localStorage.getItem('access_token') || '';
+  const isLogin = localStorage.getItem('access_token') || '';
+  console.log('isLogin: ', isLogin);
 
-  if (access_token !== '') {
+  if (isLogin !== '') {
     await getUser()
-      .then((userInfo: GetUser) => setMyInfo(userInfo))
-      .catch((error) => console.log(error));
+      .then((userInfo: GetUser) => {
+        console.log(4);
+        setMyInfo(userInfo);
+      })
+      .catch(() => {});
     await getMyList()
       .then((res: Mylist[]) => setMylist(res))
-      .catch((error) => console.log(error));
+      .catch(() => {});
     await getisDoneAll()
       .then((res: isDone[]) => {
         const doneValid = res.some((data) => data.isDoneToday);
         setIsDone(doneValid);
       })
       .catch(() => {});
+  } else {
+    setMyInfo(initUser);
+    setMylist(initMyList);
   }
-
-  return access_token;
 };
 
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */

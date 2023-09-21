@@ -10,7 +10,8 @@ import {
 } from '../Type/Mind';
 import logText from './logText';
 import { MindPageInfo } from '../Type/Mind';
-import { tockenHeader, tokenValue } from '../data/tocken';
+import { getToken } from '../data/tocken';
+import { getIsLogined } from './Users';
 
 // 작심 정보 반환 (그룹 인트로 / 인증하기)
 export const getMindInfo_Intro = async (mind_id: number): Promise<MindIntroInfo> => {
@@ -52,6 +53,7 @@ export interface getMindInfoType {
 // 그룹페이지 Minds 정보
 export const getMindInfo = async (mindId: number): Promise<getMindInfoType> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await getData<getMindInfoType>(`/minds/page/${mindId}`, tockenHeader);
     return response.data;
   } catch (error) {
@@ -76,10 +78,26 @@ export const getMindInfo_Image = async (mindId: number): Promise<getMindInfo_Ima
 };
 
 // 모든 작심 정보 반환 (작심 그룹 리스트) /minds /minds/except-me/{mindTypeName}
-export const getMindAll = async (): Promise<TotalMind[]> => {
+export const getMindAll = async (
+  isLogin: boolean,
+  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>,
+): Promise<TotalMind[]> => {
   try {
-    const response = await getData<TotalMind[]>('/minds/except-me', tokenValue);
+    await getIsLogined()
+      .then((isLogin: boolean) => setIsLogin(isLogin))
+      .catch(async () => {
+        localStorage.removeItem('access_token');
+        const response = await getData<TotalMind[]>('/minds/except-me');
+        return response.data;
+      });
 
+    if (isLogin) {
+      const { tokenValue } = getToken();
+      const response = await getData<TotalMind[]>('/minds/except-me', tokenValue);
+      return response.data;
+    }
+
+    const response = await getData<TotalMind[]>('/minds/except-me');
     // response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
@@ -91,6 +109,8 @@ export const getMindAll = async (): Promise<TotalMind[]> => {
 // 내가 가입한 작심을 제외한 모든 작심반환 /minds/except-me/{mindTypeName}
 export const getMindFilter = async (mindTypeName: string): Promise<TotalMind[]> => {
   try {
+    const { tokenValue } = getToken();
+
     const mindTypeId: number = (() => {
       if (mindTypeName === '일상') return 1;
       if (mindTypeName === '달리기') return 2;
@@ -113,6 +133,7 @@ export const getMindFilter = async (mindTypeName: string): Promise<TotalMind[]> 
 // 나의 참여했던 작심 반환
 export const getMindAFinished = async (): Promise<FinishList[]> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await getData<FinishList[]>('/minds/my-joined-mind-list', tockenHeader);
 
     // response.data.forEach((mind) => logText(mind));
@@ -139,6 +160,7 @@ export const getMindSingle = async (mind_id: number): Promise<isDoneSingle> => {
 // 당일 전체 참여한 작심 인증 여부
 export const getisDoneAll = async (): Promise<isDone[]> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await getData<isDone[]>(`/minds/today-check`, tockenHeader);
 
     // console.log('response: ', response);
@@ -153,6 +175,7 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
 // 당일 개별 작심 인증 여부
 export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSingle> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await getData<isDoneSingle>(
       `/minds/today-check/${joined_mind_id}`,
       tockenHeader,
@@ -169,6 +192,7 @@ export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSin
 // 나의 작심 현황 (나의 작심 현황)
 export const getMyList = async (): Promise<Mylist[]> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await getData<Mylist[]>('/minds/my-list', tockenHeader);
     // console.log('response: ', response);
     return response.data;

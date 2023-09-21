@@ -1,6 +1,6 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-import { tockenHeader } from '../data/tocken';
-import { getUser } from './Users'; 
+import { access_token, tockenHeader, getToken } from '../data/tocken';
+import { getUser } from './Users';
 
 export interface BoardsType {
   boardId: number;
@@ -52,6 +52,7 @@ export interface BoardCheck {
 export const getBoardCheck = async (boardId: number): Promise<BoardCheck> => {
   const user_id = (await getUser()).userId;
   try {
+    const { tockenHeader } = getToken();
     const response = await getData<BoardCheck>(
       `/boards/authentication?board_id=${boardId}&user_id=${user_id}`,
       tockenHeader,
@@ -78,6 +79,7 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
   const { mindId, userId, content, image } = BoardData;
   const formData = new FormData();
   const boardRequestDto = { mindId, userId, content };
+  const { tockenHeader } = getToken();
 
   formData.append(
     'boardRequestDto',
@@ -96,7 +98,6 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
     console.error(error);
     return Promise.reject(error); // TODO: 상위에서 reject
     // throw new Error('Failed to post Join');
-
   }
 };
 

@@ -24,15 +24,16 @@ const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
   const navigate = useNavigate();
 
   const { count, isDoneToday, mindId, boardCount } = mind;
-  const remind = async () => putReJoin(mindId);
+  const remind = async () =>
+    await putReJoin(mindId)
+      .then(() => {})
+      .catch(() => {});
 
-  console.log('mind: ', mind);
+  const keppJoinReg = boardCount !== 0 && boardCount % 3 === 0 && count === 0;
 
-  // const keppJoinReg = boardCount !== 0 && boardCount % 3 === 0 && count === 0;
-  
   return (
     <>
-      {boardCount !== 0 && boardCount % 3 === 0 && count === 0 ? (
+      {keppJoinReg ? (
         <ClearBtnS onClick={remind}>재작심 하기</ClearBtnS>
       ) : isDoneToday ? (
         <TodayClearBtnS>
