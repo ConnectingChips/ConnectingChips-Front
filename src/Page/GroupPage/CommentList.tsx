@@ -164,8 +164,6 @@ const ReplyBoxMaker = ({ sort, replyData, userInfo }: ReplyBoxMakerProps) => {
           {userInfo.userId === replyData.userId ? (
             <h2
               onClick={() => {
-                console.log(replyData.replyId);
-
                 deleteReply(replyData.replyId);
               }}
             >
