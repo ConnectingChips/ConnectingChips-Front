@@ -1,23 +1,23 @@
 import { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
+import axios from 'axios';
 
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
+
 import { getUser } from '../../API/Users';
-import { getMindInfo_Intro } from '../../API/Mind';
 import { postCreateBoard } from '../../API/Boards';
+
 import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
-import { getMindSingle } from '../../API/Mind';
-import { MindPageInfo } from '../../Type/Mind';
+
 import { useNavigate } from '../GroupPage/GroupPageBarrel';
 
-type MindSingle = Pick<MindPageInfo, 'mindTypeName' | 'name'>;
 interface Image {
   name: string;
   file: null | File;
@@ -31,7 +31,6 @@ const UploadPost = () => {
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [mindData, setMindData] = useState<MindSingle>({ mindTypeName: '', name: '' });
   const [userId, setUserId] = useState<number>(0);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [text, setText] = useState<string>(INITIAL_TEXT);
@@ -42,9 +41,7 @@ const UploadPost = () => {
       // TODO: url에서 mindId 가져와서 전달하기
       console.log(mindId);
       try {
-        const mind = await getMindInfo_Intro(Number(mindId));
         const res = await getUser();
-        setMindData(mind);
         setUserId(res.userId);
       } catch (error) {
         console.error(error);
@@ -69,20 +66,25 @@ const UploadPost = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('보내기');
     /** TODO: 에러 처리 필요
      * 이미지(옵션): 현재는 이미지 없으면 500 에러 발생
-     * 글쓰다가 토큰 만료되면 요청을 막고 Alert 띄워주기
+     * 글쓰다가 토큰 만료되면 요청을 막고 Alert 띄워주기 + 토큰 삭제
      */
     try {
-      const response = postCreateBoard({ mindId: Number(mindId), userId, content: text, image });
+      const response = await postCreateBoard({
+        mindId: Number(mindId),
+        userId,
+        content: text,
+        image,
+      });
       console.log(response);
       // TODO: 성공 시 페이지 이동
     } catch (error) {
       // TODO: 토큰 만료 에러 처리
-      console.error('error:: ', error);
+      console.error('error:::::: ', error);
     }
   };
 
@@ -95,10 +97,6 @@ const UploadPost = () => {
       <UploadPostHeaderS>
         <h1>작심 글쓰기</h1>
       </UploadPostHeaderS>
-      <GroupTitleS>
-        <ItemTabS>{mindData?.mindTypeName}</ItemTabS>
-        <h1>{mindData?.name}</h1>
-      </GroupTitleS>
       <GroupContent selected={[0, 2]} passsort='Create' />
       <CreateFormS onSubmit={handleFormSubmit}>
         <CreateFormUploadS>
@@ -162,13 +160,6 @@ const UploadPostHeaderS = styled(GroupHeader)`
   }
 `;
 
-const GroupTitleS = styled.div`
-  padding: 1.25rem 0 0 1rem;
-  h1 {
-    font-size: var(--head-a);
-  }
-`;
-
 /** 2023-08-25 CreatePost.tsx - 인증글쓰기 폼 */
 const CreateFormS = styled.form`
   display: flex;
@@ -217,14 +208,6 @@ const UploadImageTitleS = styled.div`
     left: 0;
     z-index: 1;
   }
-`;
-
-const ItemTabS = styled.div`
-  border: 1px solid var(--font-color1);
-  border-radius: 1rem;
-  padding: 0.12rem 0.81rem;
-  font-size: 0.6875rem;
-  width: fit-content;
 `;
 
 const AddedImageS = styled.div`

@@ -1,6 +1,7 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
 import { tockenHeader } from '../data/tocken';
-import { getUser } from './Users'; 
+import { getUser } from './Users';
+import axios from 'axios';
 
 export interface BoardsType {
   boardId: number;
@@ -93,10 +94,8 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
   try {
     await postData(`/boards`, formData, tockenHeader);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error); // TODO: 상위에서 reject
-    // throw new Error('Failed to post Join');
-
+    console.log(error);
+    return Promise.reject(error);
   }
 };
 
