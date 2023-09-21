@@ -41,12 +41,12 @@ const PostContent = ({
     content: editContent,
   };
 
-  const EditReq = () => {
-    putEditBoard(postData.boardId, postEditData).then((res) => {
+  const EditReq = async () => {
+    await putEditBoard(postData.boardId, postEditData).then((res) => {
       setEditContent(res.content);
-      setRefresh(refresh + 1);
-      setEdit(false);
     });
+    setRefresh(refresh + 1);
+    setEdit(false);
   };
 
   return (

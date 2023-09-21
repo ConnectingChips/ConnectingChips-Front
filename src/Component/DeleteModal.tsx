@@ -19,6 +19,13 @@ const DeleteModal = ({
   refreshBind,
 }: ConfirmProps): JSX.Element => {
   const { refresh, setRefresh } = refreshBind;
+
+  const handleConfirm = async () => {
+    setConfirm(false);
+    await method();
+    setRefresh(refresh + 1);
+  };
+
   return (
     <ConfirmBGS onClick={() => setConfirm(false)}>
       <ConfirmModalS onClick={(e) => e.stopPropagation()}>
@@ -27,14 +34,7 @@ const DeleteModal = ({
           <button className='cancel' onClick={() => setConfirm(false)}>
             취소
           </button>
-          <button
-            className='point'
-            onClick={() => {
-              setConfirm(false);
-              method();
-              setRefresh(refresh + 1);
-            }}
-          >
+          <button className='point' onClick={handleConfirm}>
             {action}
           </button>
         </div>
