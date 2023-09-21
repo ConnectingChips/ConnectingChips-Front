@@ -5,7 +5,7 @@ import MissionIntro from './MissionIntro';
 import { PostButton } from '../CTA/CTAContainer';
 import { PageSort } from '../../Type/MissionType';
 import { useEffect, useState } from 'react';
-import { getMindInfo } from '../../API/userMind';
+import { getMindInfo } from '../../API/Mind';
 import { useParams } from 'react-router-dom';
 import { MindsType } from '../../Type/Group';
 interface GroupArticleProps {
@@ -15,10 +15,6 @@ interface GroupArticleProps {
 //TODO: 나중에 다른장소에 보관
 
 /** 2023-08-22 GroupArticle.tsx - 그룹 아티클 - 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 */
-const GroupArticle = ({
-  selected,
-  passsort,
-}: GroupArticleProps): JSX.Element => {  
 const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element => {
   const { mindID } = useParams<string>();
   const [getMindInfoData, setGetMindInfoData] = useState<MindsType>({
@@ -40,7 +36,6 @@ const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element =>
       getMindInfo(Number(mindID)).then((data: MindsType) => {
         setGetMindInfoData(data);
       });
-    } else if (passsort === 'Intro') {
     }
   }, []);
 

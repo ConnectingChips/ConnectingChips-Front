@@ -3,7 +3,7 @@ import { useState, styled, useEffect } from './GroupPageBarrel';
 import { Comment, GroupPost } from './GroupPageBarrel';
 import { getBoards, BoardsType } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
-import { getUser } from '../../API/userService';
+import { getUser } from '../Home/HomeBarrel';
 import { GetUser } from '../../Type/User';
 import { initUser } from '../../data/initialData';
 
