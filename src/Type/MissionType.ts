@@ -65,22 +65,6 @@ export interface CommonProps {
   sort: string;
   TOTAL_SLIDES: number;
 }
-
-// TODO: 갈아끼울 코드
-// export interface CarreselProps extends CommonProps {
-//   setCount: React.Dispatch<React.SetStateAction<number>>;
-//   setSort: React.Dispatch<React.SetStateAction<string>>;
-// }
-
-// FIXME: 버려질 코드
-export interface CarreselProps extends CommonProps {
-  setCount: React.Dispatch<React.SetStateAction<number>>;
-  setSort: React.Dispatch<React.SetStateAction<string>>;
-  doneBind: doneBind;
-  countBind: countBind;
-  uuidBind: uuidBind;
-}
-
 export interface ButtonListProps extends CommonProps {
   doneList: boolean[];
   uuidList: number[];

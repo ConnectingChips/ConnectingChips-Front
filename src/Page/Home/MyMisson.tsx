@@ -37,5 +37,10 @@ const CarreselContainerS = styled.section`
 
   div.myMission {
     position: relative;
+
+    ul {
+      display: flex;
+      gap: 0.75rem;
+    }
   }
 `;
