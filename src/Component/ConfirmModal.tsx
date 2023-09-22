@@ -5,7 +5,7 @@ type ConfirmProps = {
   setConfirm: React.Dispatch<React.SetStateAction<boolean>>;
   confirmText: string;
   action: string;
-  method: Promise<void>;
+  method: () => Promise<void>;
   routeUrl?: string;
 };
 
@@ -17,6 +17,12 @@ const ConfirmModal = ({
   routeUrl,
 }: ConfirmProps): JSX.Element => {
   const navigate = useNavigate();
+
+  const onClickMethod = async () =>
+    await method()
+      .then(() => routeUrl && navigate(routeUrl))
+      .catch(() => {});
+
   return (
     <ConfirmBGS onClick={() => setConfirm(false)}>
       <ConfirmModalS onClick={(e) => e.stopPropagation()}>
@@ -27,9 +33,10 @@ const ConfirmModal = ({
           </button>
           <button
             className='point'
-            onClick={async () =>
-              await method.then(() => routeUrl && navigate(routeUrl)).catch(() => {})
-            }
+            onClick={() => {
+              onClickMethod();
+              setConfirm(false);
+            }}
           >
             {action}
           </button>

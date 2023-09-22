@@ -12,15 +12,17 @@ const GroupCheck = ({
   const navigate = useNavigate();
   const { mindId } = useParams();
 
+  console.log('sort: ', sort);
+
   const ResultComp = (): JSX.Element => {
     (async () =>
-      await getCheckedJoined(Number(mindId)).then((res) => {
-        if (sort === 'Upload')
+      await getCheckedJoined(Number(mindId)).then((isJoined: boolean) => {
+        if (!isJoined) navigate('/');
+        if (sort === 'Upload') {
           getMindSingle(Number(mindId))
-            .then((isDone: boolean) => isDone && navigate('/error'))
+            .then((isDoneToday: boolean) => isDoneToday && navigate('/error'))
             .catch(() => {});
-
-        if (!res) navigate('/');
+        }
       }))();
 
     return component;
