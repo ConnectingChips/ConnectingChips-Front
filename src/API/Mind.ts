@@ -112,9 +112,6 @@ export const getMindFilter = async (mindTypeName: string): Promise<TotalMind[]> 
       return 1;
     })();
     const response = await getData<TotalMind[]>(`/minds/except-me/${mindTypeId}`, tokenValue);
-
-    // console.log('response.data: ', response.data);
-    // response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
     console.error(error);
@@ -155,9 +152,6 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<isDone[]>(`/minds/today-check`, tockenHeader);
-
-    // console.log('response: ', response);
-    // response.data.map((mind) => logText(mind));
     return response.data;
   } catch (error) {
     // console.error(error);
@@ -175,10 +169,8 @@ export const getkeepJoin = async (mindId: number): Promise<getkeepJoin> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<getkeepJoin>(`/minds/keep-join/${mindId}`, tockenHeader);
-    // console.log('response: ', response);
     return response.data;
   } catch (error) {
-    // console.error(error);
     throw new Error('작심 활동 현황을 호출하는 데 실패했습니다.');
   }
 };
@@ -188,7 +180,6 @@ export const getMyList = async (): Promise<Mylist[]> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<Mylist[]>('/minds/my-list', tockenHeader);
-    // console.log('response: ', response);
     return response.data;
   } catch (error) {
     // console.error(error);
@@ -201,10 +192,8 @@ export const getMyListSingle = async (mindID: number): Promise<Mylist> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<Mylist>(`/minds/my-list/${mindID}`, tockenHeader);
-    // console.log('response: ', response);
     return response.data;
   } catch (error) {
-    // console.error(error);
     throw new Error('나의 작심 리스트를 호출하는 데 실패했습니다.');
   }
 };
@@ -214,10 +203,8 @@ export const getEndList = async (): Promise<EndMindType[]> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<EndMindType[]>('/minds/my-joined-mind-list', tockenHeader);
-    // console.log('response: ', response);
     return response.data;
   } catch (error) {
-    // console.error(error);
     throw new Error('나의 작심 리스트를 호출하는 데 실패했습니다.');
   }
 };
