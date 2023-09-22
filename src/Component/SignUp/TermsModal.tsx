@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../image/Icon/close_icon.svg';
-import MarkDown from './Markdown';
+import MarkDown from '../Markdown/Markdown';
 
 interface TermsModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -70,6 +70,7 @@ const Container = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 2;
   background-color: var(--color-white);
 `;
 
