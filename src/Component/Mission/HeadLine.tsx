@@ -18,10 +18,10 @@ const HeadLine = ({ getMindInfoData, passsort }: HeadLineType) => {
   else message = `${userCount - 1}명과 함께 맛보기 중`;
 
   return (
-    <HeadLineS>
+    <HeadLineS passsort={passsort}>
       <MissionSingleWide text={mindTypeName} />
       <h1>{name}</h1>
-      {passsort !== 'Create' ? <p>{message}</p> : null}
+      {passsort !== 'Create' ? <p className='subTitle'>{message}</p> : null}
     </HeadLineS>
   );
 };
@@ -29,10 +29,10 @@ const HeadLine = ({ getMindInfoData, passsort }: HeadLineType) => {
 export default HeadLine;
 
 /** 2023-08-22 HeadLine.tsx - 그룹 인트로 아티클 */
-const HeadLineS = styled.div`
+const HeadLineS = styled.div<{ passsort: string }>`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
 
   h1 {
     font-size: 1.5rem;
@@ -43,7 +43,7 @@ const HeadLineS = styled.div`
     font-size: 0.75rem;
 
     &.subTitle {
-      color: var(--font-color2);
+      color: ${(props) => props.passsort === 'Page' && 'var(--font-color3)'};
     }
   }
 `;

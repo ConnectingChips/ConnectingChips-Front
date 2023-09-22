@@ -23,7 +23,7 @@ const JoinButtonCTA = (): JSX.Element => {
   const joinGroup = async () => {
     if (!isLogin) return navigate('/logIn');
     try {
-      postJoin(Number(mindId));
+      await postJoin(Number(mindId));
       navigate(`/groupPage/${Number(mindId)}`);
     } catch (error) {
       console.error('참여하기 실패: ', error);

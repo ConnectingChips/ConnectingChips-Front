@@ -32,10 +32,4 @@ export default GroupContent;
 /** 2023-08-22 GroupPage.tsx - 그룹페이지 아티클 + 인증 글 */
 const GroupContentS = styled.div<{ passsort: PageSort }>`
   margin-bottom: var(--height-gap);
-
-  &::before {
-    height: ${(props) => (props.passsort === 'Intro' ? '30rem' : '0')};
-    content: '';
-    display: block;
-  }
 `;

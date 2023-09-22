@@ -39,12 +39,12 @@ const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.E
           <img src={postData.profileImage} alt='프로필 사진' />
         </PostProfileImageS>
         <PostProfileNickNameS>
-          <h2>{postData.nickname}</h2>
-          <p>{postData.createDate}</p>
+          <p className='nickname'>{postData.nickname}</p>
+          <p className='date'>{postData.createDate}</p>
         </PostProfileNickNameS>
       </PostHeaderProfileS>
       {/* editBtnToggle ? 수정버튼 나오게 : 수정버튼 사라짐 */}
-      {!editBtnToggle && (
+      {editBtnToggle && (
         <MoreIconS onClick={handlerToogleSwitch}>
           <img src={point3} alt='point3_icon' />
           {/* editModalToggle ? 수정모달나오게 : 수정모달 사라짐 */}
@@ -88,10 +88,7 @@ const PostHeaderS = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  /* margin: 1rem; */
   padding: 1rem;
-
   img {
     cursor: pointer;
   }
@@ -99,14 +96,13 @@ const PostHeaderS = styled.header`
 
 /** 2023-08-22 PostHeader.tsx - 그룹페이지 아티클 헤더 프로필 */
 const PostHeaderProfileS = styled.div`
+  height: 2.5rem;
   display: flex;
   align-items: center;
-
   h2 {
     margin-right: 0.5rem;
     font-size: 0.875rem;
   }
-
   p {
     color: var(--font-color2);
   }
@@ -145,14 +141,15 @@ const ModalS = styled.div`
 
 /** 2023-08-22 PostHeader.tsx - 그룹페이지 아티클 인증 이미지(임시) */
 const PostProfileImageS = styled.div`
-  width: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   aspect-ratio: 1/1;
   border-radius: 10rem;
   overflow: hidden;
   margin-right: 0.5rem;
 
   img {
-    width: 3.5rem;
+    width: 2.5rem;
   }
 `;
 
@@ -160,7 +157,12 @@ const PostProfileImageS = styled.div`
 const PostProfileNickNameS = styled.div`
   display: flex;
   flex-direction: column;
-  p {
+  .nickname {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .date {
+    font-size: 0.75rem;
     color: var(--font-color3);
   }
 `;

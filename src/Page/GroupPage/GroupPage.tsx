@@ -4,6 +4,7 @@ import { GroupPostList } from './GroupPostList';
 import { getMind_IntroImage } from '../../API/Mind';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import GroupBtn from './GroupBtn';
 
 /** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
@@ -21,7 +22,7 @@ const GroupPage = (): JSX.Element => {
       <GroupHeader />
       <GroupImageS url={pageImage} />
       <GroupArticle selected={[0, 1]} passsort='Page' />
-
+      <GroupBtn />
       <DivideBaS />
 
       <GroupPostList />

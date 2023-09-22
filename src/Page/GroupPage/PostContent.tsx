@@ -88,8 +88,9 @@ export default PostContent;
 
 const BtnContainerS = styled.div`
   text-align: right;
+  font-size: var(--button-mid);
+
   button {
-    font-size : var(--button-mid)
     width: 4.25rem;
     height: 2rem;
     border: 1px solid var(--color-main);

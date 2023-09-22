@@ -13,8 +13,8 @@ interface GroupArticleProps {
   selected: number[];
   passsort: PageSort;
 }
-//TODO: 나중에 다른장소에 보관
 
+//passsort === Page || Intro || Create
 /** 2023-08-22 GroupArticle.tsx - 그룹 아티클 - 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 */
 const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element => {
   const { mindId } = useParams<string>();
@@ -34,7 +34,7 @@ const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element =>
 
   const compArr = [
     <HeadLine getMindInfoData={getMindInfoData} passsort={passsort} />,
-    <MissionIntro getMindInfoData={getMindInfoData} />,
+    <MissionIntro getMindInfoData={getMindInfoData} passsort={passsort} />,
     <MissionRule getMindInfoData={getMindInfoData} passsort={passsort} />,
     <PostButton />,
   ];

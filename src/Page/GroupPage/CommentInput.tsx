@@ -43,36 +43,49 @@ const CommentInput = ({
   };
 
   // 댓글에 붙은 input누르면 하단에 붙음
-  const handleFormClickFalse = () => {
-    setInputToggle(false);
+  const handleFormClickFalse = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    inputToggle && setInputToggle(false);
+  };
+
+  // 댓글에 붙은 input누르면 하단에 붙음
+  const handleFormClickTrue = () => {
+    !inputToggle && setInputToggle(true);
   };
 
   // input 버튼 핸들러
   // 0이면 댓글추가
   // 0이아니면 답글추가인데 여기에 들어가는 숫자는 답글이 붙을 댓글의 id (commentid)
-  const inputBtnHandler = (e: any) => {
+  const inputBtnHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setInputToggle(true);
-    if (commentInput.length !== 0) {
+
+    if (commentInput.length === 0) {
+      return;
+    }
+
+    try {
       if (isComment === 0) {
         const AddCommentData = {
           userId: userInfo.userId,
           boardId: postData.boardId,
           content: commentInput,
         };
-        postAddComment(AddCommentData);
-        setCommentInput('');
-      } else if (isComment !== 0) {
+        await postAddComment(AddCommentData);
+      } else {
         const AddReplyData = {
           userId: userInfo.userId,
           commentId: isComment,
           content: commentInput,
         };
-        postAddReply(AddReplyData);
-        setCommentInput('');
+        await postAddReply(AddReplyData);
       }
+
+      setCommentInput('');
+      setRefresh((prevRefresh) => prevRefresh + 1);
+    } catch (error) {
+      console.error('오류 발생:', error);
     }
-    setRefresh(refresh + 1);
   };
 
   // 댓글 개수에 따라 input placeholder 변경
@@ -83,26 +96,46 @@ const CommentInput = ({
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
 
   return (
-    <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
-      <input
-        placeholder={placeholderText}
-        value={commentInput}
-        onChange={handleInputChange}
-        type='text'
-        maxLength={400}
-      />
-      <button onClick={inputBtnHandler}>
-        {<img src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`} alt='sendIcon' />}
-      </button>
-    </CommentFormS>
+    <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
+      <CommentFormS
+        onClick={(e) => {
+          handleFormClickFalse(e);
+        }}
+        inputToggle={inputToggle}
+      >
+        <input
+          placeholder={placeholderText}
+          value={commentInput}
+          onChange={handleInputChange}
+          type='text'
+          maxLength={400}
+        />
+        <button onClick={inputBtnHandler}>
+          {
+            <img
+              src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
+              alt='sendIcon'
+            />
+          }
+        </button>
+      </CommentFormS>
+    </CommentFormBGS>
   );
 };
 
 export { CommentInput };
 
-const CommentFormS = styled.form<{ inputToggle: boolean }>`
-  ${(props) => (props.inputToggle ? '' : 'position: fixed; bottom: 0;')}
+const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
+  ${(props) =>
+    props.inputToggle
+      ? ''
+      : 'position: fixed;display: flex;justify-content: center;align-items: center;top: 0;left: 0;right: 0;bottom: 0;z-index: 1000;overflow:auto;'}
+`;
 
+const CommentFormS = styled.div<{ inputToggle: boolean }>`
+  position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+  bottom: 0;
+  margin: 0.5rem 0;
   background-color: #fff;
   border: 1px solid #e3e3e3;
   border-radius: 0.5rem;
