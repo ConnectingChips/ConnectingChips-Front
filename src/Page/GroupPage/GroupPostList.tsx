@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import { getUser } from '../../API/Users';
 import { GetUser } from '../../Type/User';
 import { initUser } from '../../data/initialData';
-import lodingspinner from '../../image/lodingspinner.svg';
 interface GroupPostListProps {
   refreshBind: {
     refresh: number;
@@ -19,7 +18,6 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
   const { mindId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-  const [loding, setLoding] = useState<boolean>(true);
   const { refresh, setRefresh } = refreshBind;
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
@@ -28,38 +26,28 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
   }, [refresh]);
 
   useEffect(() => {
-    async function fetchData() {
-      await getUser().then((userInfo: GetUser) => {
-        setUserInfo(userInfo);
-      });
-      setLoding(false);
-    }
-    fetchData();
+    getUser().then((userInfo: GetUser) => {
+      setUserInfo(userInfo);
+    });
   }, []);
 
   return (
     <GroupPostListS>
-      {loding ? (
-        <LodingS src={lodingspinner} alt='loding' />
+      <h2>작심 인증글</h2>
+      {postData.length > 0 ? (
+        postData.map((postData, i) => (
+          <div key={i}>
+            <GroupPost
+              passsort='Page'
+              postData={postData}
+              userInfo={userInfo}
+              refreshBind={refreshBind}
+            />
+            <Comment postData={postData} userInfo={userInfo} refreshBind={refreshBind} />
+          </div>
+        ))
       ) : (
-        <>
-          <h2>작심 인증글</h2>
-          {postData.length > 0 ? (
-            postData.map((postData, i) => (
-              <div key={i}>
-                <GroupPost
-                  passsort='Page'
-                  postData={postData}
-                  userInfo={userInfo}
-                  refreshBind={refreshBind}
-                />
-                <Comment postData={postData} userInfo={userInfo} refreshBind={refreshBind} />
-              </div>
-            ))
-          ) : (
-            <GroupNoPost />
-          )}
-        </>
+        <GroupNoPost />
       )}
     </GroupPostListS>
   );
@@ -77,10 +65,6 @@ const GroupNoPost = () => {
   );
 };
 
-const LodingS = styled.img`
-  width: 6rem;
-`;
-
 const GroupPostListS = styled.div`
   margin: 0 1rem;
   display: flex;
@@ -92,7 +76,6 @@ const GroupPostListS = styled.div`
   }
 `;
 
-/** 2023-09-12 GroupPage.tsx - 그룹페이지 글 없을 때 사진 */
 const GroupNoPostS = styled.div`
   display: flex;
   flex-direction: column;
