@@ -10,10 +10,17 @@ const LogInS = styled.div`
   /* border: 1px solid; */
 
   header {
+    width: calc(var(--width-mobile) - 1rem);
     height: var(--height-banner);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: var(--color-white);
 
     h2 {
       font-size: 1.25rem;

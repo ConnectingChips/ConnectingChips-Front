@@ -1,12 +1,12 @@
-import { styled } from "styled-components";
-import { Arrow_Left_B } from "../../Component/ArrowBarrel";
+import { styled } from 'styled-components';
+import { Arrow_Left_B } from '../../Component/ArrowBarrel';
 
 /** 2023-08-27 Loginheader.tsx - 로그인/회원가입 헤더 */
-const Loginheader = ({ type }: { type: "로그인" | "회원가입" }) => {
+const Loginheader = ({ type }: { type: '로그인' | '회원가입' }) => {
   return (
     <LoginheaderS>
-      <div className="back">
-        <img src={Arrow_Left_B} onClick={goBack} alt="Arrow icon" />
+      <div className='back'>
+        <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
       </div>
       <h2>{type}</h2>
     </LoginheaderS>
@@ -18,7 +18,7 @@ export default Loginheader;
 /** 2023-08-27 Loginheader.tsx - 로그인/회원가입 헤더 */
 const LoginheaderS = styled.header`
   align-self: start;
-  margin-left: 1rem;
+  padding-left: 1rem;
 
   .back {
     cursor: pointer;
