@@ -34,7 +34,7 @@ export default GroupPage;
 
 const GroupPageS = styled.div`
   width: var(--width-mobile);
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
   position: relative;
 `;
 

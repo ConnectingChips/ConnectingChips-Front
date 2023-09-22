@@ -39,11 +39,8 @@ const HeadLineS = styled.div<{ passsort: string }>`
     font-weight: 500;
   }
 
-  p {
+  .subTitle {
     font-size: 0.75rem;
-
-    &.subTitle {
-      color: ${(props) => props.passsort === 'Page' && 'var(--font-color3)'};
-    }
+    color: ${(props) => props.passsort === 'Page' && 'var(--font-color3)'};
   }
 `;

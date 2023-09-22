@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { Arrow_Left_B, Arrow_Left_W } from '../ArrowBarrel';
 import post_Icon from '../../image/Icon/post_Icon.svg';
+import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getkeepJoin } from '../../API/Mind';
@@ -32,10 +33,14 @@ const GroupHeader = ({ children, className }: GroupHeaderProps): JSX.Element => 
   return (
     <GroupBGHeaderS className={className}>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      {!(isUpload || isDoneToday || keepJoin) && (
+      {!(isUpload || isDoneToday || keepJoin) ? (
         <Link to={`/uploadPost/${mindId}`}>
           <img src={post_Icon} alt='post icon' />
         </Link>
+      ) : (
+        <>
+          <img src={post_Icon_locked} alt='post icon' />
+        </>
       )}
       {children}
     </GroupBGHeaderS>
