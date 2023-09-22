@@ -33,14 +33,14 @@ const GroupHeader = ({ children, className }: GroupHeaderProps): JSX.Element => 
   return (
     <GroupBGHeaderS className={className}>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      {!(isUpload || isDoneToday || keepJoin) ? (
+      {isUpload ? (
+        <div></div>
+      ) : !(isDoneToday || keepJoin) ? (
         <Link to={`/uploadPost/${mindId}`}>
           <img src={post_Icon} alt='post icon' />
         </Link>
       ) : (
-        <>
-          <img src={post_Icon_locked} alt='post icon' />
-        </>
+        <img src={post_Icon_locked} alt='post icon' />
       )}
       {children}
     </GroupBGHeaderS>
