@@ -10,10 +10,17 @@ const LogInS = styled.div`
   /* border: 1px solid; */
 
   header {
+    width: calc(var(--width-mobile) - 1rem);
     height: var(--height-banner);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: var(--color-white);
 
     h2 {
       font-size: 1.25rem;
@@ -23,12 +30,12 @@ const LogInS = styled.div`
 
 /** 2023-08-24 LoginInputS.tsx - 로그인 아이디 */
 const LoginInputS = styled.input`
-  padding: 1rem;
-  font-size: 1rem;
+  padding: 16px 18px;
+  font-size: var(--body-b);
   border: 0.1rem solid var(--color-disabled2);
   border-radius: 0.5rem;
   box-shadow: none;
-  height: 1.5rem;
+  height: 1.25rem;
 
   &.failed {
     border-color: var(--system-red);
