@@ -104,6 +104,7 @@ const ModalContentS = styled.div`
 
   p {
     font-size: 14px;
+    margin-bottom: 7px;
   }
 
   li p {
@@ -118,6 +119,7 @@ const ModalContentS = styled.div`
 
   ul {
     padding: 0;
+    list-style-type: circle;
   }
 
   li {
@@ -128,7 +130,7 @@ const ModalContentS = styled.div`
     list-style-type: decimal;
   }
 
-  ol li {
+  ol > li {
     list-style: number;
   }
 
