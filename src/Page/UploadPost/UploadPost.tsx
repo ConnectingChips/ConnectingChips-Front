@@ -82,11 +82,15 @@ const UploadPost = () => {
 
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 500) {
-          console.log(error.response?.status); // 서버 에러 status: 500
+          console.error(error.response?.status); // 서버 에러 status: 500
           // alert('잠시 후 다시 시도해 주세요');
         } else if (error.response?.data.code === 4012) {
-          console.log(error.response?.data.code); // 만료된 토큰 code: 4012
+          console.error(error.response?.data.code); // 만료된 토큰 code: 4012
           // alert('다시 로그인 해주세요');
+          localStorage.removeItem('access_token');
+          navigate('/LogIn');
+        } else if (error.response?.data.code === 4011) {
+          console.error(error.response?.data.code); // 유효하지 않은 토큰 code: 4011
           localStorage.removeItem('access_token');
           navigate('/LogIn');
         }
