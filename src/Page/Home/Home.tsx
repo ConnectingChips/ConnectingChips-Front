@@ -26,8 +26,6 @@ const Home = (): JSX.Element => {
 
   const isLogin = myInfo !== initUser;
 
-  console.log('myList: ', myList);
-
   useEffect(() => {
     scrollTop();
     setHome(setMyInfo, setMylist, setIsDone);

@@ -39,9 +39,7 @@ export const putMindExit = async (
     await putData(`/joined-minds/${mindId}/exit`, {}, tockenHeader);
     const exitList = myList.filter((mind) => mind.mindId !== mindId);
     setMylist(exitList);
-    console.log(2);
   } catch (error) {
-    console.log(3);
     console.error(error);
     throw new Error('작심을 그만둘 수 없습니다');
   }

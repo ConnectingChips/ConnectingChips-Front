@@ -1,20 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import ImageBoxS from '../../../StyleComp/ImageBoxS';
 
 import { Mylist } from '../HomeBarrel';
-import useMission from '../../../Hooks/useMission';
 import { getCheckedJoined, postJoin } from '../../../API/joinedMinds';
 
 const ButtonList = ({ myList }: { myList: Mylist[] }): JSX.Element => {
-  const { buttonProps } = useMission();
-  const { slideRef, count, sort } = buttonProps;
   return (
-    <ImageBoxS ref={slideRef} count={count} sort={sort} length={myList.length}>
+    <ul>
       {myList.map((mind, idx) => (
         <CarreselBtnList mind={mind} key={idx} />
       ))}
-    </ImageBoxS>
+    </ul>
   );
 };
 export default ButtonList;

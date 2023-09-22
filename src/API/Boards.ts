@@ -94,7 +94,6 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
   try {
     await postData(`/boards`, formData, tockenHeader);
   } catch (error) {
-    console.log(error);
     return Promise.reject(error);
   }
 };

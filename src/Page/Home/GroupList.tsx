@@ -11,7 +11,7 @@ const GroupList = (): JSX.Element => {
   const [showList, setShowList] = useState<TotalMind[]>([]);
   const [curFocused, setCurFocused] = useState<string>(missionTab[0].title);
   const curFocusBind = { curFocused, setCurFocused };
-  const [isLogin, setIsLogin] = useState<boolean>(false)
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
     if (curFocused === '전체')
@@ -22,7 +22,7 @@ const GroupList = (): JSX.Element => {
       getMindFilter(curFocused)
         .then((mindList) => setShowList(mindList))
         .catch(() => {});
-  }, [curFocused]);
+  }, [curFocused, isLogin]);
 
   return (
     <article>

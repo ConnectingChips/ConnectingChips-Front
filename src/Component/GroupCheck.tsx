@@ -12,8 +12,6 @@ const GroupCheck = ({
   const navigate = useNavigate();
   const { mindId } = useParams();
 
-  console.log('sort: ', sort);
-
   const ResultComp = (): JSX.Element => {
     (async () =>
       await getCheckedJoined(Number(mindId)).then((isJoined: boolean) => {

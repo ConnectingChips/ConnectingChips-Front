@@ -12,8 +12,6 @@ export const getIsLogined = async (): Promise<boolean> => {
   try {
     const { tokenValue } = getToken();
     const response = await getData<IsLogin>('/users/check-login', tokenValue);
-
-    // console.log('isLogin: ', response.data.isLogin);
     return response.data.isLogin;
   } catch (error) {
     throw new Error('This user is not Logined');

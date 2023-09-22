@@ -1,12 +1,8 @@
 import { MissionSingleWide, ChipList, styled } from './CarreselBarrel';
-import ImageBoxS from '../../../StyleComp/ImageBoxS';
-import useMission from '../../../Hooks/useMission';
 import { Mylist } from '../HomeBarrel';
 
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
 const Carresel = ({ myList }: { myList: Mylist[] }) => {
-  const { carreselProps } = useMission();
-  const { slideRef, count, setCount, sort, setSort } = carreselProps;
 
   /** 2023-09-22 Carresel.tsx - 내 작심 현황 - Kadesti */
   const Mylist = myList.map((mygroup, idx) => {
@@ -33,9 +29,8 @@ const Carresel = ({ myList }: { myList: Mylist[] }) => {
     <div>
       <MissionListS>
         {/* 나의 작심 컨텐츠 */}
-        <ImageBoxS ref={slideRef} count={count} sort={sort} length={myList.length}>
-          {Mylist}
-        </ImageBoxS>
+        {/* <ul>{Mylist}</ul> */}
+        <ul>{Mylist}</ul>
       </MissionListS>
     </div>
   );
@@ -49,6 +44,11 @@ const MissionListS = styled.div`
   position: relative;
 
   margin-bottom: 0.5rem;
+
+  ul {
+    display: flex;
+    gap: 0.75rem;
+  }
 `;
 
 /** 2023-08-21 MyMisson.tsx - 나의 작심 현황 항목 정보 */
