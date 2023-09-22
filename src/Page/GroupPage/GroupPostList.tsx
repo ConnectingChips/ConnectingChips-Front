@@ -7,13 +7,20 @@ import { getUser } from '../../API/Users';
 import { GetUser } from '../../Type/User';
 import { initUser } from '../../data/initialData';
 
-const GroupPostList = () => {
+interface GroupPostListProps {
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
+}
+
+const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
   // TODO: post업애려면 Commendted false로 바꾸기
   const { mindId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-  const [refresh, setRefresh] = useState(1);
-  const refreshBind = { refresh, setRefresh };
+
+  const { refresh, setRefresh } = refreshBind;
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
       setPostData(res);
@@ -68,8 +75,6 @@ const GroupPostListS = styled.div`
   flex-direction: column;
   border-radius: 1rem;
   gap: 0.5rem;
-  // FIXME: commentinput의 하단자리가 부족해서 댓글을 가려버려서 임시로 넣음
-  margin-bottom: 50px;
   h2 {
     font-size: 1.125rem;
   }

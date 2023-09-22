@@ -9,6 +9,7 @@ import { getkeepJoin } from '../../API/Mind';
 interface GroupHeaderProps {
   children?: React.ReactNode;
   className?: string;
+  refresh?: number;
 }
 
 /** 2023-08-25 GroupHeader.tsx - 뒤로가기 핸들러 */
@@ -17,7 +18,7 @@ const goBack = (): void => {
 };
 
 /** 2023-08-25 GroupHeader.tsx - 그룹 페이지 헤더 */
-const GroupHeader = ({ children, className }: GroupHeaderProps): JSX.Element => {
+const GroupHeader = ({ children, className, refresh }: GroupHeaderProps): JSX.Element => {
   const path = useLocation().pathname;
   const isUpload = path.indexOf('/upload') !== -1;
   const { mindId } = useParams();
@@ -28,7 +29,7 @@ const GroupHeader = ({ children, className }: GroupHeaderProps): JSX.Element => 
       setIsDoneToday(data.isDoneToday);
       setKeepJoin(data.keepJoin);
     });
-  }, []);
+  }, [refresh]);
 
   return (
     <GroupBGHeaderS className={className}>

@@ -4,20 +4,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { putReJoin } from '../../API/joinedMinds';
 import { getkeepJoin } from '../../API/Mind';
 
-const GroupBtn = () => {
+const GroupBtn = ({ refresh }: { refresh: number }) => {
   const navigate = useNavigate();
   const { mindId } = useParams();
   const [keepJoin, setKeepJoin] = useState<boolean>(false);
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
-
-  //TODO: 작심 활동 현황 (main / Page) 완성되면 넣기
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
       setKeepJoin(data.keepJoin);
       setIsDoneToday(data.isDoneToday);
-      console.log('isDoneToday :', data.isDoneToday);
     });
-  }, []);
+  }, [refresh]);
 
   // 버튼 텍스트를 결정하는 함수
   const getButtonText = () => {

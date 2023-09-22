@@ -32,22 +32,29 @@ const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.E
     });
   }, []);
 
+  //데이터 뽑아오기
+  const getPostData = () => {
+    const profileImage = postData.profileImage;
+    const nickname = postData.nickname;
+    const createDate = postData.createDate;
+    return { profileImage, nickname, createDate };
+  };
+  const { profileImage, nickname, createDate } = getPostData();
+
   return (
     <PostHeaderS>
       <PostHeaderProfileS>
         <PostProfileImageS>
-          <img src={postData.profileImage} alt='프로필 사진' />
+          <img src={profileImage} alt='프로필 사진' />
         </PostProfileImageS>
         <PostProfileNickNameS>
-          <p className='nickname'>{postData.nickname}</p>
-          <p className='date'>{postData.createDate}</p>
+          <p className='nickname'>{nickname}</p>
+          <p className='date'>{createDate}</p>
         </PostProfileNickNameS>
       </PostHeaderProfileS>
-      {/* editBtnToggle ? 수정버튼 나오게 : 수정버튼 사라짐 */}
       {editBtnToggle && (
         <MoreIconS onClick={handlerToogleSwitch}>
           <img src={point3} alt='point3_icon' />
-          {/* editModalToggle ? 수정모달나오게 : 수정모달 사라짐 */}
           {editModalToggle && (
             <ModalS>
               <div
