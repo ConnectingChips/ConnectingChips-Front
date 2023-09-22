@@ -15,6 +15,7 @@ const GroupBtn = () => {
     getkeepJoin(Number(mindId)).then((data) => {
       setKeepJoin(data.keepJoin);
       setIsDoneToday(data.isDoneToday);
+      console.log('isDoneToday :', data.isDoneToday);
     });
   }, []);
 
@@ -45,7 +46,7 @@ const GroupBtn = () => {
 
   return (
     <div style={{ margin: '0 1rem' }}>
-      <GroupBtnContainerS BtnText={buttonText} onClick={groupBtnHandler}>
+      <GroupBtnContainerS btntext={buttonText} onClick={groupBtnHandler}>
         {buttonLabels[buttonText]}
       </GroupBtnContainerS>
     </div>
@@ -53,7 +54,7 @@ const GroupBtn = () => {
 };
 export default GroupBtn;
 
-const GroupBtnContainerS = styled.button<{ BtnText: string }>`
+const GroupBtnContainerS = styled.button<{ btntext: string }>`
   width: 100%;
   height: 2.5rem;
   border-radius: 1.25rem;
@@ -61,7 +62,7 @@ const GroupBtnContainerS = styled.button<{ BtnText: string }>`
   background: var(--color-white);
   font-size: 0.75rem;
   ${(props) =>
-    props.BtnText === '성공' &&
+    props.btntext === '성공' &&
     `
       background: black;
       color: var(--color-main);
@@ -69,7 +70,7 @@ const GroupBtnContainerS = styled.button<{ BtnText: string }>`
     `};
 
   ${(props) =>
-    props.BtnText === '재작심' &&
+    props.btntext === '재작심' &&
     `
       background: var(--color-main);
     `};
