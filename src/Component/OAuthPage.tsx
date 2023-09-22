@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { getIsLogined } from '../API/Users';
+import { NotFound } from '../AppBarral';
 
 type OAuthPageProps = {
   component: JSX.Element;
@@ -22,10 +23,21 @@ const OAuthPage = ({ component, authenticated }: OAuthPageProps): JSX.Element =>
 
     testHome();
 
-    return component;
+    const access_token = localStorage.getItem('access_token');
+    if (authenticated === 'access' && access_token !== null) return component;
+    if (authenticated === 'block' && access_token === null) return component;
+    return <GoNotFound />;
   };
 
   return <ResultComp />;
 };
 
 export default OAuthPage;
+
+// 에러 페이지로 가버려
+const GoNotFound = (): JSX.Element => {
+  const navigate = useNavigate();
+  navigate('/error');
+
+  return <NotFound />;
+};

@@ -1,30 +1,56 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { initMyList } from '../../data/initialData';
-import { FinishList } from '../../Type/Mind';
+import { EndMindType } from '../../Type/Mind';
 import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
-import { Mylist, getMyList } from './MypageBarrel';
-import { getMindAFinished } from '../../API/Mind';
+import { ConfirmModal, MyListContext, MyListContextType, Mylist } from './MypageBarrel';
+import { getEndList, getMindAFinished } from '../../API/Mind';
 import { putMindExit, putReJoin } from '../../API/joinedMinds';
 
 /** 참여중인 작심 */
 export const CurrentMind = (): JSX.Element => {
-  const [myList, setMylist] = useState<Mylist[]>(initMyList);
+  const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
+  // const [myList, setMylist] = useState<Mylist[]>(initMyList);
+  const [confirmExitMind, setConfirmExitMind] = useState<boolean>(false);
+  const [mindId, setMindId] = useState<number>(0);
 
-  useEffect(() => {
-    getMyList().then((res: Mylist[]) => setMylist(res));
-  }, []);
+  // useEffect(() => {
+  //   getMyList().then((res: Mylist[]) => setMylist(res));
+  // }, []);
+  // console.log('myList: ', myList);
 
   const isExist = myList.length > 0;
   return (
     <CurrentMindListS>
-      {isExist ? <ExistComp myList={myList} /> : <NoneExistComp />}
+      {isExist ? (
+        <>
+          <ExistComp
+            myList={myList}
+            setConfirmExitMind={setConfirmExitMind}
+            setMindId={setMindId}
+          />
+          {confirmExitMind && (
+            <ConfirmModal
+              setConfirm={setConfirmExitMind}
+              confirmText='작심그룹에서 나가시겠어요?'
+              action='나가기'
+              method={putMindExit(mindId, myList, setMylist)}
+            />
+          )}
+        </>
+      ) : (
+        <NoneExistComp />
+      )}
     </CurrentMindListS>
   );
 };
 
-const ExistComp = ({ myList }: { myList: Mylist[] }): JSX.Element => {
+type ExitButton = {
+  myList: Mylist[];
+  setConfirmExitMind: React.Dispatch<React.SetStateAction<boolean>>;
+  setMindId: React.Dispatch<React.SetStateAction<number>>;
+};
+const ExistComp = ({ myList, setConfirmExitMind, setMindId }: ExitButton): JSX.Element => {
   return (
     <>
       {myList.map((myGroup, idx) => {
@@ -33,9 +59,8 @@ const ExistComp = ({ myList }: { myList: Mylist[] }): JSX.Element => {
             <p className='main'>{myGroup.name}</p>
             <ExitButtonS
               onClick={() => {
-                putMindExit(myGroup.mindId)
-                  .then(() => {})
-                  .catch(() => {});
+                setConfirmExitMind(true);
+                setMindId(myGroup.mindId);
               }}
             >
               그룹 나가기
@@ -61,46 +86,43 @@ const NoneExistComp = (): JSX.Element => {
 };
 
 /** 참여했던 작심 */
-export const FinishedMindList = (): JSX.Element => {
-  const [myList, setMylist] = useState<Mylist[]>(initMyList);
+export const EndMindList = (): JSX.Element => {
+  const [endList, setEndlist] = useState<EndMindType[]>();
 
   useEffect(() => {
-    getMyList().then((res: Mylist[]) => setMylist(res));
+    getEndList().then((res: EndMindType[]) => setEndlist(res));
   }, []);
 
-  const isExist = myList.length > 0;
+  const isExist = endList && endList.length > 0;
 
-  return <CurrentMindListS>{isExist ? <FinishedMind /> : <NoneExistComp />}</CurrentMindListS>;
+  return <CurrentMindListS>{isExist ? <EndMind /> : <NoneExistComp />}</CurrentMindListS>;
 };
 
-const initFinish: FinishList[] = [];
+const initEndList: EndMindType[] = [];
 
-const FinishedMind = () => {
-  const [finishList, setFinishList] = useState<FinishList[]>(initFinish);
+const EndMind = () => {
+  const { myList } = useContext<MyListContextType>(MyListContext);
+  const [endList, setendList] = useState<EndMindType[]>(initEndList);
 
   useEffect(() => {
-    getMindAFinished().then((list: FinishList[]) => setFinishList(list));
+    getMindAFinished().then((list: EndMindType[]) => setendList(list));
   }, []);
-
+  
   return (
     <>
-      {finishList.map((list, index) => {
-        // const myDate = list.data;
-        const myDate = 0;
+      {endList.map((list, index) => {
         return (
           <MindS key={index}>
             <div>
               <p className='main'>{list.name}</p>
               <p className='sub'>
-                <span className='date'>{myDate}</span>일 작심 성공
+                <span className='date'>{list.boardCount}</span>일 작심 성공
               </p>
             </div>
-            {finishList.length >= 3 ? (
-              <FullJoinButtonS onClick={() => putReJoin(list.mindId)}>
-                다시 참여하기
-              </FullJoinButtonS>
+            {myList.length < 3 && myList.length >= 0 && list.canJoin === 1 ? (
+              <ReMindButtonS onClick={() => putReJoin(list.mindId)}>다시 참여하기</ReMindButtonS>
             ) : (
-              <ReMindButtonS>다시 참여하기</ReMindButtonS>
+              <FullJoinButtonS>다시 참여하기</FullJoinButtonS>
             )}
           </MindS>
         );

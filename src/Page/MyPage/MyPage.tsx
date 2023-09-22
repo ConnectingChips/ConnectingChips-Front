@@ -1,15 +1,18 @@
-import { styled, useEffect, useState, useContext, useNavigate } from './MypageBarrel';
+import { styled, useEffect, useState, useContext, logoutUser } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal } from './MypageBarrel';
 import { scrollTop, getUser } from './MypageBarrel';
 import { initUser, MyListContext } from './MypageBarrel';
-import type { GetUser, MyListContextType } from './MypageBarrel';
+import type { GetUser, MyListContextType, Mylist } from './MypageBarrel';
+import TermsModal from './TermsModal';
 
 const MyPage = (): JSX.Element => {
   const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-
+  // const [curList, setCurList] = useState<Mylist[]>(initMyList);
+  // console.log('curList: ', curList);
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
+  const [showTerms, setshowTerms] = useState<boolean>(false);
 
   useEffect(() => {
     scrollTop();
@@ -17,6 +20,9 @@ const MyPage = (): JSX.Element => {
     getUser()
       .then((userInfo: GetUser) => setUserInfo(userInfo))
       .catch(() => {});
+    // getMyList()
+    //   .then((res: Mylist[]) => setCurList(res))
+    //   .catch(() => {});
   }, []);
 
   return (
@@ -41,16 +47,19 @@ const MyPage = (): JSX.Element => {
       <MyPageSetS>
         <h2>설정</h2>
         <ul>
-          <li onClick={() => console.log('강희님꺼 꺼억쓰')}>이용약관</li>
+          <li onClick={() => setshowTerms(true)}>이용약관</li>
           <li onClick={() => setConfirmLogout(true)}>로그아웃</li>
         </ul>
       </MyPageSetS>
 
+      {showTerms && <TermsModal setshowTerms={setshowTerms} />}
       {confirmLogout && (
         <ConfirmModal
           setConfirm={setConfirmLogout}
-          confirmText='로그아웃하시겠습니까?'
+          confirmText='로그아웃 하시겠어요?'
           action='로그아웃'
+          method={logoutUser()}
+          routeUrl='/'
         />
       )}
     </MyPageS>

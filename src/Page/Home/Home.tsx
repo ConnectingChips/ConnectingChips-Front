@@ -10,7 +10,7 @@ import {
   MyInfoContext,
   MyListContext,
 } from './HomeBarrel';
-import { Banner as BannerImage, Logo_002, 헤드셋칩스, Share_Icon } from './HomeImageBarrel';
+import { Banner as BannerImage, Logo_002, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
 import { MyInfoContextType, MyListContextType } from '../../API/Context';
 import { initUser } from '../MyPage/MypageBarrel';
@@ -25,6 +25,8 @@ const Home = (): JSX.Element => {
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
   const isLogin = myInfo !== initUser;
+
+  console.log('myList: ', myList);
 
   useEffect(() => {
     scrollTop();
@@ -93,7 +95,7 @@ const Home = (): JSX.Element => {
               </h1>
             )}
           </WelcomeTextS>
-          {!isLogin && <img src={헤드셋칩스} alt='헤드셋칩스' />}
+          {!isLogin && <img src={`${process.env.PUBLIC_URL}/oneChip.png`} alt='원칩이' />}
         </WelcomeHeadS>
         {myList.length !== 0 && isLogin && <MyMisson myList={myList} />}
         <Banner />
@@ -126,11 +128,11 @@ const setHome = async (
       .then((userInfo: GetUser) => setMyInfo(userInfo))
       .catch(() => {});
     await getMyList()
-      .then((res: Mylist[]) => setMylist(res))
+      .then((list: Mylist[]) => setMylist(list))
       .catch(() => {});
     await getisDoneAll()
-      .then((res: isDone[]) => {
-        const doneValid = res.some((data) => data.isDoneToday);
+      .then((isDone: isDone[]) => {
+        const doneValid = isDone.some((data) => data.isDoneToday);
         setIsDone(doneValid);
       })
       .catch(() => {});
