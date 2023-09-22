@@ -29,8 +29,6 @@ const GroupPost = ({
     setEdit,
   };
 
-  console.log(postData);
-
   return (
     <GroupPostS passsort={passsort}>
       <PostS>
