@@ -277,6 +277,7 @@ const SubmitButtonWrapperS = styled.div`
   align-items: center;
   position: sticky;
   bottom: 0;
+  background-color: #fff;
 
   button {
     width: 100%;
