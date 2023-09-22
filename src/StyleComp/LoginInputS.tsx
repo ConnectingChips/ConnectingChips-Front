@@ -23,12 +23,12 @@ const LogInS = styled.div`
 
 /** 2023-08-24 LoginInputS.tsx - 로그인 아이디 */
 const LoginInputS = styled.input`
-  padding: 1rem;
-  font-size: 1rem;
+  padding: 16px 18px;
+  font-size: var(--body-b);
   border: 0.1rem solid var(--color-disabled2);
   border-radius: 0.5rem;
   box-shadow: none;
-  height: 1.5rem;
+  height: 1.25rem;
 
   &.failed {
     border-color: var(--system-red);
