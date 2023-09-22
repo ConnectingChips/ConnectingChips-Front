@@ -39,8 +39,8 @@ const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.E
           <img src={postData.profileImage} alt='프로필 사진' />
         </PostProfileImageS>
         <PostProfileNickNameS>
-          <h2>{postData.nickname}</h2>
-          <p>{postData.createDate}</p>
+          <p className='nickname'>{postData.nickname}</p>
+          <p className='date'>{postData.createDate}</p>
         </PostProfileNickNameS>
       </PostHeaderProfileS>
       {/* editBtnToggle ? 수정버튼 나오게 : 수정버튼 사라짐 */}
@@ -157,17 +157,12 @@ const PostProfileImageS = styled.div`
 const PostProfileNickNameS = styled.div`
   display: flex;
   flex-direction: column;
-  h2 {
+  .nickname {
     font-size: 0.875rem;
-    font-style: normal;
     font-weight: 500;
-    line-height: normal;
   }
-  p {
+  .date {
     font-size: 0.75rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
     color: var(--font-color3);
   }
 `;

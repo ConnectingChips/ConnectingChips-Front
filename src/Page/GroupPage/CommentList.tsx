@@ -310,7 +310,6 @@ const CommentOptionS = styled.div`
   display: flex;
   gap: 1.5rem;
   font-size: 0.875rem;
-
   .delete {
     color: var(--font-color3);
   }
