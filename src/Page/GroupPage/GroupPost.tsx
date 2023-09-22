@@ -29,13 +29,17 @@ const GroupPost = ({
     setEdit,
   };
 
+  console.log(postData);
+
   return (
     <GroupPostS passsort={passsort}>
       <PostS>
         <PostHeader editbind={editbind} postData={postData} refreshBind={refreshBind} />
-        <PostImageS>
-          <img src={postData.image} alt='업로드 사진' />
-        </PostImageS>
+        {postData.image !== '' && (
+          <PostImageS>
+            <img src={postData.image} alt='업로드 사진' />
+          </PostImageS>
+        )}
         <PostContent
           editbind={editbind}
           postData={postData}
