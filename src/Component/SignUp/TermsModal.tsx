@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../image/Icon/close_icon.svg';
-
-import Demo from './Markdown';
+import MarkDown from './Markdown';
 
 interface TermsModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,9 +53,8 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
         <h2>{termsData.title}</h2>
       </ModalHeaderS>
       <ModalContentS>
-        <p>{termsData.contents}</p>
+        <MarkDown source={termsData.contents} className='modal_contents' />
       </ModalContentS>
-      <Demo />
       <ButtonWrapperS>
         <button onClick={handleAgreeButtonClick}>동의</button>
       </ButtonWrapperS>
@@ -100,9 +98,12 @@ const ModalContentS = styled.div`
   max-height: 90dvh;
   overflow-y: auto;
 
-  p {
+  &.modal_contents {
     height: 100%;
-    padding: 1rem 1rem 5.5rem 1rem;
+  }
+
+  p {
+    font-size: 14px;
   }
 `;
 
