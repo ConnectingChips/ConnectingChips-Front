@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TermsModal from './TermsModal';
-import { terms, privacyPolicy, personalInfoCollection } from './terms_data';
+import { terms, privacyPolicy, personalInfoCollection } from '../../data/termsPolicyData';
 
 interface TermsProps {
   isAllAgreed: boolean;
