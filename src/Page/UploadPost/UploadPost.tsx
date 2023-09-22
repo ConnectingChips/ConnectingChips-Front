@@ -92,6 +92,7 @@ const UploadPost = () => {
         } else if (error.response?.data.code === 4011) {
           console.error(error.response?.data.code); // 유효하지 않은 토큰 code: 4011
           localStorage.removeItem('access_token');
+          navigate('/LogIn');
         }
       }
     }
