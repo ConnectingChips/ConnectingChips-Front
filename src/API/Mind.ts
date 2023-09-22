@@ -4,9 +4,8 @@ import {
   isDoneSingle,
   isDone,
   Mylist,
-  FinishList,
   TotalMind,
-  MindsType,
+  EndMindType,
 } from '../Type/Mind';
 import logText from './logText';
 import { MindPageInfo } from '../Type/Mind';
@@ -131,10 +130,10 @@ export const getMindFilter = async (mindTypeName: string): Promise<TotalMind[]> 
 };
 
 // 나의 참여했던 작심 반환
-export const getMindAFinished = async (): Promise<FinishList[]> => {
+export const getMindAFinished = async (): Promise<EndMindType[]> => {
   try {
     const { tockenHeader } = getToken();
-    const response = await getData<FinishList[]>('/minds/my-joined-mind-list', tockenHeader);
+    const response = await getData<EndMindType[]>('/minds/my-joined-mind-list', tockenHeader);
 
     // response.data.forEach((mind) => logText(mind));
     return response.data;
@@ -213,6 +212,19 @@ export const getMyList = async (): Promise<Mylist[]> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<Mylist[]>('/minds/my-list', tockenHeader);
+    // console.log('response: ', response);
+    return response.data;
+  } catch (error) {
+    // console.error(error);
+    throw new Error('나의 작심 리스트를 호출하는 데 실패했습니다.');
+  }
+};
+
+// 나의 참여했던 작심 반환
+export const getEndList = async (): Promise<EndMindType[]> => {
+  try {
+    const { tockenHeader } = getToken();
+    const response = await getData<EndMindType[]>('/minds/my-joined-mind-list', tockenHeader);
     // console.log('response: ', response);
     return response.data;
   } catch (error) {

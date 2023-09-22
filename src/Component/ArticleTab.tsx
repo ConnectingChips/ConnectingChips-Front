@@ -1,5 +1,5 @@
-import { Mylist, getMyList, styled, useEffect, useState } from '../Page/MyPage/MypageBarrel';
-import { CurrentMind, FinishedMindList } from '../Page/MyPage/MypageBarrel';
+import { MyListContext, MyListContextType, styled, useContext, useEffect, useState } from '../Page/MyPage/MypageBarrel';
+import { CurrentMind, EndMindList } from '../Page/MyPage/MypageBarrel';
 
 /**
  * 탭에 해당하는 컴텐츠를 보여주는 컴포넌트(마이페이지, 그룹페이지)
@@ -7,7 +7,7 @@ import { CurrentMind, FinishedMindList } from '../Page/MyPage/MypageBarrel';
  * @param compArr 탭에 해당하는 컴포넌트 배열
  */
 const ArticleTab = (): JSX.Element => {
-  const compArr: JSX.Element[] = [<CurrentMind />, <FinishedMindList />];
+  const compArr: JSX.Element[] = [<CurrentMind />, <EndMindList />];
   const [articleIndex, setArticleIndex] = useState<number>(0);
 
   return (
@@ -27,12 +27,12 @@ const TabHead = ({
   isFirst: boolean;
   setArticleIndex: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {
-  const [myList, setMylist] = useState<Mylist[]>([]);
+  const { myList } = useContext<MyListContextType>(MyListContext);
 
   useEffect(() => {
-    getMyList()
-      .then((res: Mylist[]) => setMylist(res))
-      .catch((error) => console.log(error));
+    // getMyList()
+    //   .then((res: Mylist[]) => setMylist(res))
+    //   .catch((error) => console.log(error));
   }, []);
 
   const tabText: string[] = [`참여중인 작심(${myList.length}/3)`, '참여했던 작심'];

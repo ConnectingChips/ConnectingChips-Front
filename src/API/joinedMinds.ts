@@ -1,6 +1,7 @@
 import { getData, postData, putData } from './axiosConfig';
 import logText from './logText';
 import { tockenHeader } from '../data/tocken';
+import { Mylist } from '../Type/Mind';
 
 // 참여중인 작심인지 반환
 export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {
@@ -39,11 +40,21 @@ export const putReJoin = async (mind_id: number): Promise<void> => {
 };
 
 // 참여중인 작심 그만두기
-export const putMindExit = async (mind_id: Number): Promise<void> => {
+export const putMindExit = async (
+  mindId: number,
+  myList: Mylist[],
+  setMylist: React.Dispatch<React.SetStateAction<Mylist[]>>,
+): Promise<void> => {
   try {
-    await putData(`/joined-minds/${mind_id}/exit`, {}, tockenHeader);
+    console.log(1);
+
+    await putData(`/joined-minds/${mindId}/exit`, {}, tockenHeader);
+    const exitList = myList.filter((mind) => mind.mindId !== mindId);
+    setMylist(exitList);
+    console.log(2);
   } catch (error) {
+    console.log(3);
     console.error(error);
-    throw new Error('Failed to put Exit Mind');
+    throw new Error('작심을 그만둘 수 없습니다');
   }
 };

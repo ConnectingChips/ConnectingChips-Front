@@ -49,10 +49,11 @@ export interface Mylist {
   isDoneToday: boolean;
 }
 
-export interface FinishList {
+export interface EndMindType {
   mindId: number;
   name: string;
   canJoin: number;
+  boardCount: number;
 }
 
 // 그룹 인트로 + 페이지 - FIXME: 고도화때 삭제
