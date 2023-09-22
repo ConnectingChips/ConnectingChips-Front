@@ -18,10 +18,14 @@ const GroupPostList = () => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
       setPostData(res);
     });
+  }, [refresh]);
+
+  useEffect(() => {
     getUser().then((userInfo: GetUser) => {
       setUserInfo(userInfo);
     });
-  }, [refresh]);
+  }, []);
+
   return (
     <GroupPostListS>
       <h2>작심 인증글</h2>
