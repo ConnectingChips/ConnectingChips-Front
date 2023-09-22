@@ -44,7 +44,7 @@ const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.E
         </PostProfileNickNameS>
       </PostHeaderProfileS>
       {/* editBtnToggle ? 수정버튼 나오게 : 수정버튼 사라짐 */}
-      {!editBtnToggle && (
+      {editBtnToggle && (
         <MoreIconS onClick={handlerToogleSwitch}>
           <img src={point3} alt='point3_icon' />
           {/* editModalToggle ? 수정모달나오게 : 수정모달 사라짐 */}
