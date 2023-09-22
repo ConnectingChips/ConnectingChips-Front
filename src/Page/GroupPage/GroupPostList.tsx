@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { getUser } from '../../API/Users';
 import { GetUser } from '../../Type/User';
 import { initUser } from '../../data/initialData';
-
+import lodingspinner from '../../image/lodingspinner.svg';
 interface GroupPostListProps {
   refreshBind: {
     refresh: number;
@@ -19,7 +19,7 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
   const { mindId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-
+  const [loding, setLoding] = useState<boolean>(true);
   const { refresh, setRefresh } = refreshBind;
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
@@ -28,31 +28,39 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
   }, [refresh]);
 
   useEffect(() => {
-    getUser().then((userInfo: GetUser) => {
-      setUserInfo(userInfo);
-    });
+    async function fetchData() {
+      await getUser().then((userInfo: GetUser) => {
+        setUserInfo(userInfo);
+      });
+      setLoding(false);
+    }
+    fetchData();
   }, []);
 
   return (
     <GroupPostListS>
-      <h2>작심 인증글</h2>
-      <>
-        {postData.length > 0 ? (
-          postData.map((postData, i) => (
-            <div key={i}>
-              <GroupPost
-                passsort='Page'
-                postData={postData}
-                userInfo={userInfo}
-                refreshBind={refreshBind}
-              />
-              <Comment postData={postData} userInfo={userInfo} refreshBind={refreshBind} />
-            </div>
-          ))
-        ) : (
-          <GroupNoPost />
-        )}
-      </>
+      {!loding ? (
+        <LodingS src={lodingspinner} alt='loding' />
+      ) : (
+        <>
+          <h2>작심 인증글</h2>
+          {postData.length > 0 ? (
+            postData.map((postData, i) => (
+              <div key={i}>
+                <GroupPost
+                  passsort='Page'
+                  postData={postData}
+                  userInfo={userInfo}
+                  refreshBind={refreshBind}
+                />
+                <Comment postData={postData} userInfo={userInfo} refreshBind={refreshBind} />
+              </div>
+            ))
+          ) : (
+            <GroupNoPost />
+          )}
+        </>
+      )}
     </GroupPostListS>
   );
 };
@@ -68,6 +76,8 @@ const GroupNoPost = () => {
     </GroupNoPostS>
   );
 };
+
+const LodingS = styled.img``;
 
 const GroupPostListS = styled.div`
   margin: 0 1rem;
