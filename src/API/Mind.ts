@@ -198,6 +198,7 @@ interface getkeepJoin {
 // 작심 활동 현황 (main / Page)
 export const getkeepJoin = async (mindId: number): Promise<getkeepJoin> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await getData<getkeepJoin>(`/minds/keep-join/${mindId}`, tockenHeader);
     // console.log('response: ', response);
     return response.data;

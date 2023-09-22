@@ -1,5 +1,5 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-import { tockenHeader } from '../data/tocken';
+import { getToken, tockenHeader } from '../data/tocken';
 import { getUser } from './Users';
 import axios from 'axios';
 
