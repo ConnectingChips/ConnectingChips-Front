@@ -37,6 +37,7 @@ const HeadLineS = styled.div<{ passsort: string }>`
   h1 {
     font-size: 1.5rem;
     font-weight: 500;
+    margin-bottom: ${(props) => props.passsort === 'Create' && '0.75rem'};
   }
 
   .subTitle {
