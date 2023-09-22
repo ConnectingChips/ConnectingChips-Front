@@ -52,9 +52,7 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
         <CloseIcon onClick={handleCloseButtonClick} />
         <h2>{termsData.title}</h2>
       </ModalHeaderS>
-      <ModalContentS>
-        <MarkDown source={termsData.contents} className='modal_contents' />
-      </ModalContentS>
+      <MarkDown source={termsData.contents} className='modal_contents' />
       <ButtonWrapperS>
         <button onClick={handleAgreeButtonClick}>동의</button>
       </ButtonWrapperS>
@@ -91,51 +89,6 @@ const ModalHeaderS = styled.div`
     top: 50%;
     left: 1rem;
     transform: translateY(-50%);
-  }
-`;
-
-const ModalContentS = styled.div`
-  max-height: calc(100dvh - 88px);
-  overflow-y: auto;
-
-  &.modal_contents {
-    height: 100%;
-  }
-
-  p {
-    font-size: 14px;
-    margin-bottom: 7px;
-  }
-
-  li p {
-    margin-bottom: 0;
-  }
-
-  ul,
-  ol {
-    margin: 0;
-    padding-left: 16px;
-  }
-
-  ul {
-    padding: 0;
-    list-style-type: circle;
-  }
-
-  li {
-    white-space: normal;
-  }
-
-  ol {
-    list-style-type: decimal;
-  }
-
-  ol > li {
-    list-style: number;
-  }
-
-  ol li p {
-    margin: 0;
   }
 `;
 
