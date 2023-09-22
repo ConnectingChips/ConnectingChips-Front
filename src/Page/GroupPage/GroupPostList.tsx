@@ -6,42 +6,61 @@ import { useParams } from 'react-router-dom';
 import { getUser } from '../../API/Users';
 import { GetUser } from '../../Type/User';
 import { initUser } from '../../data/initialData';
+import lodingspinner from '../../image/lodingspinner.svg';
+interface GroupPostListProps {
+  refreshBind: {
+    refresh: number;
+    setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  };
+}
 
-const GroupPostList = () => {
+const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
   // TODO: post업애려면 Commendted false로 바꾸기
   const { mindId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-  const [refresh, setRefresh] = useState(1);
-  const refreshBind = { refresh, setRefresh };
+  const [loding, setLoding] = useState<boolean>(true);
+  const { refresh, setRefresh } = refreshBind;
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
       setPostData(res);
     });
-    getUser().then((userInfo: GetUser) => {
-      setUserInfo(userInfo);
-    });
   }, [refresh]);
+
+  useEffect(() => {
+    async function fetchData() {
+      await getUser().then((userInfo: GetUser) => {
+        setUserInfo(userInfo);
+      });
+      setLoding(false);
+    }
+    fetchData();
+  }, []);
+
   return (
     <GroupPostListS>
-      <h2>작심 인증글</h2>
-      <>
-        {postData.length > 0 ? (
-          postData.map((postData, i) => (
-            <div key={i}>
-              <GroupPost
-                passsort='Page'
-                postData={postData}
-                userInfo={userInfo}
-                refreshBind={refreshBind}
-              />
-              <Comment postData={postData} userInfo={userInfo} refreshBind={refreshBind} />
-            </div>
-          ))
-        ) : (
-          <GroupNoPost />
-        )}
-      </>
+      {loding ? (
+        <LodingS src={lodingspinner} alt='loding' />
+      ) : (
+        <>
+          <h2>작심 인증글</h2>
+          {postData.length > 0 ? (
+            postData.map((postData, i) => (
+              <div key={i}>
+                <GroupPost
+                  passsort='Page'
+                  postData={postData}
+                  userInfo={userInfo}
+                  refreshBind={refreshBind}
+                />
+                <Comment postData={postData} userInfo={userInfo} refreshBind={refreshBind} />
+              </div>
+            ))
+          ) : (
+            <GroupNoPost />
+          )}
+        </>
+      )}
     </GroupPostListS>
   );
 };
@@ -58,14 +77,16 @@ const GroupNoPost = () => {
   );
 };
 
+const LodingS = styled.img`
+  width: 6rem;
+`;
+
 const GroupPostListS = styled.div`
   margin: 0 1rem;
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
   gap: 0.5rem;
-  // FIXME: commentinput의 하단자리가 부족해서 댓글을 가려버려서 임시로 넣음
-  margin-bottom: 50px;
   h2 {
     font-size: 1.125rem;
   }

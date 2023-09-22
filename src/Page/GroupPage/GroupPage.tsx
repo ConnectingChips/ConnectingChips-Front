@@ -10,7 +10,8 @@ import GroupBtn from './GroupBtn';
 const GroupPage = (): JSX.Element => {
   const { mindId } = useParams<string>();
   const [pageImage, setPageImage] = useState<string>('');
-
+  const [refresh, setRefresh] = useState(1);
+  const refreshBind = { refresh, setRefresh };
   useEffect(() => {
     getMind_IntroImage(Number(mindId)).then((data) => {
       setPageImage(data.introImage);
@@ -19,13 +20,12 @@ const GroupPage = (): JSX.Element => {
 
   return (
     <GroupPageS>
-      <GroupHeader />
+      <GroupHeader refresh={refresh} />
       <GroupImageS url={pageImage} />
       <GroupArticle selected={[0, 1]} passsort='Page' />
-      <GroupBtn />
+      <GroupBtn refresh={refresh} />
       <DivideBaS />
-
-      <GroupPostList />
+      <GroupPostList refreshBind={refreshBind} />
     </GroupPageS>
   );
 };

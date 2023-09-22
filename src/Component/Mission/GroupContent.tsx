@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import GroupArticle from './GroupArticle';
-import { IntroExample, CreateExample } from '../../Page/GroupIntro/ActiveExample';
+import { CreateExample } from '../../Page/GroupIntro/ActiveExample';
 import { PageSort } from '../../Type/MissionType';
 import DivideBaS from './DivideBa';
 
@@ -14,8 +14,7 @@ const GroupContent = ({ selected, passsort }: GroupContentProps) => {
   return (
     <GroupContentS passsort={passsort}>
       <GroupArticle selected={selected} passsort={passsort} />
-      {/* FIXME: Intro일경우 예시사진이 없어야하는데 혹시몰라서 코드 남겨놓음 */}
-      {passsort === 'Intro' ? null : passsort === 'Create' ? ( // <IntroExample passsort={passsort} />
+      {passsort === 'Intro' ? null : passsort === 'Create' ? (
         <>
           <CreateExample passsort={passsort} />
           <DivideBaS />
