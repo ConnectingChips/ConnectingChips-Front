@@ -43,8 +43,14 @@ const CommentInput = ({
   };
 
   // 댓글에 붙은 input누르면 하단에 붙음
-  const handleFormClickFalse = () => {
+  const handleFormClickFalse = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
     inputToggle && setInputToggle(false);
+  };
+
+  // 댓글에 붙은 input누르면 하단에 붙음
+  const handleFormClickTrue = () => {
+    !inputToggle && setInputToggle(true);
   };
 
   // input 버튼 핸들러
@@ -89,26 +95,44 @@ const CommentInput = ({
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
 
-  console.log(inputToggle);
   return (
-    <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
-      <input
-        placeholder={placeholderText}
-        value={commentInput}
-        onChange={handleInputChange}
-        type='text'
-        maxLength={400}
-      />
-      <button onClick={inputBtnHandler}>
-        {<img src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`} alt='sendIcon' />}
-      </button>
-    </CommentFormS>
+    <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
+      <CommentFormS
+        onClick={(e) => {
+          handleFormClickFalse(e);
+        }}
+        inputToggle={inputToggle}
+      >
+        <input
+          placeholder={placeholderText}
+          value={commentInput}
+          onChange={handleInputChange}
+          type='text'
+          maxLength={400}
+        />
+        <button onClick={inputBtnHandler}>
+          {
+            <img
+              src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
+              alt='sendIcon'
+            />
+          }
+        </button>
+      </CommentFormS>
+    </CommentFormBGS>
   );
 };
 
 export { CommentInput };
 
-const CommentFormS = styled.form<{ inputToggle: boolean }>`
+const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
+  ${(props) =>
+    props.inputToggle
+      ? ''
+      : 'position: fixed;display: flex;justify-content: center;align-items: center;top: 0;left: 0;right: 0;bottom: 0;z-index: 1000;overflow:auto;'}
+`;
+
+const CommentFormS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
   bottom: 0;
   margin: 0.5rem 0;
