@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../image/Icon/close_icon.svg';
+import MarkDown from './Markdown';
 
 interface TermsModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,7 +12,8 @@ interface TermsModalProps {
   setIsAgreed: React.Dispatch<
     React.SetStateAction<{
       terms: boolean;
-      privacy: boolean;
+      privacyPolicy: boolean;
+      personalInfoCollection: boolean;
     }>
   >;
 }
@@ -28,12 +30,15 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
         ...prev,
         terms: true,
       }));
-    }
-
-    if (termsData.type === 'privacy') {
+    } else if (termsData.type === 'privacyPolicy') {
       setIsAgreed((prev) => ({
         ...prev,
-        privacy: true,
+        privacyPolicy: true,
+      }));
+    } else if (termsData.type === 'personalInfoCollection') {
+      setIsAgreed((prev) => ({
+        ...prev,
+        personalInfoCollection: true,
       }));
     }
 
@@ -47,9 +52,7 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
         <CloseIcon onClick={handleCloseButtonClick} />
         <h2>{termsData.title}</h2>
       </ModalHeaderS>
-      <ModalContentS>
-        <p>{termsData.contents}</p>
-      </ModalContentS>
+      <MarkDown source={termsData.contents} className='modal_contents' />
       <ButtonWrapperS>
         <button onClick={handleAgreeButtonClick}>동의</button>
       </ButtonWrapperS>
@@ -62,7 +65,7 @@ export default TermsModal;
 const Container = styled.div`
   width: 100%;
   height: 100dvh;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -89,19 +92,9 @@ const ModalHeaderS = styled.div`
   }
 `;
 
-const ModalContentS = styled.div`
-  max-height: 90dvh;
-  overflow-y: auto;
-
-  p {
-    height: 100%;
-    padding: 1rem 1rem 5.5rem 1rem;
-  }
-`;
-
 const ButtonWrapperS = styled.div`
   padding: 1rem;
-  position: fixed;
+  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
