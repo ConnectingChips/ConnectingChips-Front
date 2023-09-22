@@ -109,7 +109,7 @@ const CTAButtonS = styled(LinkButtonS)<{ valid: string }>`
   margin-bottom: 1rem;
   position: sticky;
   bottom: 0rem;
-  font-size : var(--button-mid)
+  font-size : var(--button-mid);
   color: ${(props) => (props.valid === 'true' ? 'var(--font-color1)' : 'var(--color-disabled1)')};
   font-size: 1rem;
 `;

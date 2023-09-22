@@ -1,7 +1,7 @@
 import { styled, useEffect, useState, useContext, useNavigate } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal } from './MypageBarrel';
-import { scrollTop, getUser, logoutUser } from './MypageBarrel';
+import { scrollTop, getUser } from './MypageBarrel';
 import { initUser, MyListContext } from './MypageBarrel';
 import type { GetUser, MyListContextType } from './MypageBarrel';
 
@@ -11,7 +11,6 @@ const MyPage = (): JSX.Element => {
 
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
 
-  const navigate = useNavigate();
   useEffect(() => {
     scrollTop();
 
@@ -52,10 +51,6 @@ const MyPage = (): JSX.Element => {
           setConfirm={setConfirmLogout}
           confirmText='로그아웃하시겠습니까?'
           action='로그아웃'
-          method={async() => {
-            await logoutUser();
-            navigate('/');
-          }}
         />
       )}
     </MyPageS>

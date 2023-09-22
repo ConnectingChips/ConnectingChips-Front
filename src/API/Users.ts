@@ -1,7 +1,7 @@
 import { getData, postData } from './axiosConfig';
 import { GetUser, User } from '../Type/User';
 import logText from './logText';
-import { tockenHeader, tokenValue } from '../data/tocken';
+import { getToken } from '../data/tocken';
 
 type IsLogin = {
   isLogin: boolean;
@@ -10,14 +10,7 @@ type IsLogin = {
 // 로그인한 유저인지 확인
 export const getIsLogined = async (): Promise<boolean> => {
   try {
-    const access_token = localStorage.getItem('access_token');
-    const tockenHeader = {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        withCredentials: true,
-      },
-    };
-
+    const { tokenValue } = getToken();
     const response = await getData<IsLogin>('/users/check-login', tokenValue);
 
     // console.log('isLogin: ', response.data.isLogin);
@@ -30,14 +23,7 @@ export const getIsLogined = async (): Promise<boolean> => {
 // 로그인한 유저 정보 조회
 export const getUser = async (): Promise<GetUser> => {
   try {
-    const access_token = localStorage.getItem('access_token');
-    const tockenHeader = {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        withCredentials: true,
-      },
-    };
-
+    const { tockenHeader } = getToken();
     const response = await getData<GetUser>('/users', tockenHeader);
 
     // logText(response.data);
@@ -65,6 +51,7 @@ export const logoutUser = async (): Promise<void> => {
   try {
     // await putData('/users/logout', tockenHeader(access_token))
     // localStorage.removeItem('access_token');
+    
     localStorage.clear();
   } catch (error) {
     console.error(error);
@@ -75,6 +62,7 @@ export const logoutUser = async (): Promise<void> => {
 // 유저 정보 수정
 export const putUserEdit = async (): Promise<GetUser> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await getData<GetUser>('/users', tockenHeader);
 
     // logText(response.data);

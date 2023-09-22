@@ -11,35 +11,31 @@ const ButtonList = ({ myList }: { myList: Mylist[] }): JSX.Element => {
   const { slideRef, count, sort } = buttonProps;
   return (
     <ImageBoxS ref={slideRef} count={count} sort={sort} length={myList.length}>
-      {myList.map((mind, idx) => {
-        const { count, isDoneToday, mindId } = mind;
-        return (
-          <CarreselBtnList myCount={count} completedToday={isDoneToday} mindId={mindId} key={idx} />
-        );
-      })}
+      {myList.map((mind, idx) => (
+        <CarreselBtnList mind={mind} key={idx} />
+      ))}
     </ImageBoxS>
   );
 };
 export default ButtonList;
 
 /** 2023-08-22 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
-const CarreselBtnList = ({
-  myCount,
-  completedToday,
-  mindId,
-}: {
-  myCount: number;
-  completedToday: boolean;
-  mindId: number;
-}) => {
+const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
   const navigate = useNavigate();
-  const remind = async () => putReJoin(mindId);
+
+  const { count, isDoneToday, mindId, boardCount } = mind;
+  const remind = async () =>
+    await putReJoin(mindId)
+      .then(() => {})
+      .catch(() => {});
+
+  const keppJoinReg = boardCount !== 0 && boardCount % 3 === 0 && count === 0;
 
   return (
     <>
-      {myCount === 3 ? (
+      {keppJoinReg ? (
         <ClearBtnS onClick={remind}>재작심 하기</ClearBtnS>
-      ) : completedToday ? (
+      ) : isDoneToday ? (
         <TodayClearBtnS>
           <p>오늘 작심 성공!</p>
         </TodayClearBtnS>
