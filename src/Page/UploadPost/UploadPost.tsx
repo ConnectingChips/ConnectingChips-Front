@@ -7,6 +7,8 @@ import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
+import { StyledToastContainer } from '../../Component/Toast/StyledToastContainer';
+import { notifyImgSizeLimitErr } from '../../Component/Toast/ImgSizeLimitMsg';
 
 import { getUser } from '../../API/Users';
 import { postCreateBoard } from '../../API/Boards';
@@ -50,7 +52,13 @@ const UploadPost = () => {
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
 
-    console.log(e.target.files[0].size); // 이미지 파일 사이즈 체크
+    // 이미지 파일 사이즈 체크
+    console.log(e.target.files[0].size);
+
+    // 10485760 = 10mb 제한
+    if (e.target.files[0].size > 10485760) {
+      return notifyImgSizeLimitErr();
+    }
 
     const file = e.target.files[0];
     setImage({ name: file.name, file });
@@ -144,6 +152,7 @@ const UploadPost = () => {
           <SubmitButtonCTA />
         </SubmitButtonWrapperS>
       </CreateFormS>
+      <StyledToastContainer />
     </CreatePostS>
   );
 };
@@ -268,6 +277,7 @@ const SubmitButtonWrapperS = styled.div`
   align-items: center;
   position: sticky;
   bottom: 0;
+  background-color: #fff;
 
   button {
     width: 100%;
