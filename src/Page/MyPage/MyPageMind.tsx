@@ -1,31 +1,31 @@
 import styled from 'styled-components';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EndMindType } from '../../Type/Mind';
 import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
-import { ConfirmModal, MyListContext, MyListContextType, Mylist } from './MypageBarrel';
-import { getEndList, getMindAFinished } from '../../API/Mind';
-import { putMindExit, putReJoin } from '../../API/joinedMinds';
+import { ConfirmModal, Mylist } from './MypageBarrel';
+import { getEndList, getMindAFinished, getMyListSingle } from '../../API/Mind';
+import { postJoin, putMindExit } from '../../API/joinedMinds';
+
+type ListBind = {
+  curList: Mylist[];
+  setCurList: React.Dispatch<React.SetStateAction<Mylist[]>>;
+};
 
 /** 참여중인 작심 */
-export const CurrentMind = (): JSX.Element => {
-  const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
-  // const [myList, setMylist] = useState<Mylist[]>(initMyList);
+export const CurrentMind = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
   const [confirmExitMind, setConfirmExitMind] = useState<boolean>(false);
   const [mindId, setMindId] = useState<number>(0);
 
-  // useEffect(() => {
-  //   getMyList().then((res: Mylist[]) => setMylist(res));
-  // }, []);
-  // console.log('myList: ', myList);
+  const { curList, setCurList } = ListBind;
+  const isExist = curList.length > 0;
 
-  const isExist = myList.length > 0;
   return (
     <CurrentMindListS>
       {isExist ? (
         <>
           <ExistComp
-            myList={myList}
+            myList={curList}
             setConfirmExitMind={setConfirmExitMind}
             setMindId={setMindId}
           />
@@ -34,7 +34,7 @@ export const CurrentMind = (): JSX.Element => {
               setConfirm={setConfirmExitMind}
               confirmText='작심그룹에서 나가시겠어요?'
               action='나가기'
-              method={putMindExit(mindId, myList, setMylist)}
+              method={() => putMindExit(mindId, curList, setCurList)}
             />
           )}
         </>
@@ -59,8 +59,8 @@ const ExistComp = ({ myList, setConfirmExitMind, setMindId }: ExitButton): JSX.E
             <p className='main'>{myGroup.name}</p>
             <ExitButtonS
               onClick={() => {
-                setConfirmExitMind(true);
                 setMindId(myGroup.mindId);
+                setConfirmExitMind(true);
               }}
             >
               그룹 나가기
@@ -86,28 +86,53 @@ const NoneExistComp = (): JSX.Element => {
 };
 
 /** 참여했던 작심 */
-export const EndMindList = (): JSX.Element => {
+export const EndMindList = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
   const [endList, setEndlist] = useState<EndMindType[]>();
 
   useEffect(() => {
-    getEndList().then((res: EndMindType[]) => setEndlist(res));
+    getEndList().then((endMind: EndMindType[]) => setEndlist(endMind));
   }, []);
 
   const isExist = endList && endList.length > 0;
 
-  return <CurrentMindListS>{isExist ? <EndMind /> : <NoneExistComp />}</CurrentMindListS>;
+  return (
+    <CurrentMindListS>
+      {isExist ? <EndMind ListBind={ListBind} /> : <NoneExistComp />}
+    </CurrentMindListS>
+  );
 };
 
 const initEndList: EndMindType[] = [];
 
-const EndMind = () => {
-  const { myList } = useContext<MyListContextType>(MyListContext);
-  const [endList, setendList] = useState<EndMindType[]>(initEndList);
+const EndMind = ({ ListBind }: { ListBind: ListBind }) => {
+  const [endList, setEndList] = useState<EndMindType[]>(initEndList);
+  const { curList, setCurList } = ListBind;
+  const myList = curList;
 
   useEffect(() => {
-    getMindAFinished().then((list: EndMindType[]) => setendList(list));
+    (async () => await getMindAFinished().then((list: EndMindType[]) => setEndList(list)))();
   }, []);
-  
+
+  const ReMindButton = ({ list }: { list: EndMindType }) => {
+    return curList.length < 3 && curList.length >= 0 && list.canJoin === 1 ? (
+      <ReMindButtonS
+        onClick={() => {
+          const curList = endList.filter((mind) => mind.mindId !== list.mindId);
+          setEndList(curList);
+          postJoin(list.mindId);
+          getMyListSingle(list.mindId).then((list: Mylist) => {
+            const newList = [...myList, list];
+            setCurList(newList);
+          });
+        }}
+      >
+        다시 참여하기
+      </ReMindButtonS>
+    ) : (
+      <FullJoinButtonS>다시 참여하기</FullJoinButtonS>
+    );
+  };
+
   return (
     <>
       {endList.map((list, index) => {
@@ -119,11 +144,7 @@ const EndMind = () => {
                 <span className='date'>{list.boardCount}</span>일 작심 성공
               </p>
             </div>
-            {myList.length < 3 && myList.length >= 0 && list.canJoin === 1 ? (
-              <ReMindButtonS onClick={() => putReJoin(list.mindId)}>다시 참여하기</ReMindButtonS>
-            ) : (
-              <FullJoinButtonS>다시 참여하기</FullJoinButtonS>
-            )}
+            <ReMindButton list={list} />
           </MindS>
         );
       })}

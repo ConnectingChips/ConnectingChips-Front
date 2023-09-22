@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { putReJoin } from '../../API/joinedMinds';
+import { postJoin } from '../../API/joinedMinds';
 import { getkeepJoin } from '../../API/Mind';
 
 const GroupBtn = () => {
@@ -33,7 +33,7 @@ const GroupBtn = () => {
       navigate(`/uploadPost/${mindId}`);
     }
     if (buttonText === '재작심') {
-      putReJoin(Number(mindId));
+      postJoin(Number(mindId));
     }
   };
 

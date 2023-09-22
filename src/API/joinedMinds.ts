@@ -19,23 +19,13 @@ export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {
   }
 };
 
-// 작심 참여하기 (작심당 1번만 가능)
+// 작심 참여하기 (작심당 1번만 가능) // 재참여하기도 가능
 export const postJoin = async (mind_id: number): Promise<void> => {
   try {
     await postData(`/joined-minds/${mind_id}`, {}, tockenHeader);
   } catch (error) {
     console.error(error);
     throw new Error('Failed to post Join');
-  }
-};
-
-// 재작심(재참여)하기
-export const putReJoin = async (mind_id: number): Promise<void> => {
-  try {
-    await putData(`/joined-minds/${mind_id}/remind`, {}, tockenHeader);
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to put Rejoin');
   }
 };
 
@@ -46,8 +36,6 @@ export const putMindExit = async (
   setMylist: React.Dispatch<React.SetStateAction<Mylist[]>>,
 ): Promise<void> => {
   try {
-    console.log(1);
-
     await putData(`/joined-minds/${mindId}/exit`, {}, tockenHeader);
     const exitList = myList.filter((mind) => mind.mindId !== mindId);
     setMylist(exitList);

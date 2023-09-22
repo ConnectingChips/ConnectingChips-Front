@@ -43,7 +43,7 @@ export interface Mylist {
   mindId: number;
   mindTypeName: string;
   name: string;
-  count: number;
+  count: 0 | 1 | 2 | 3;
   boardCount: number;
   myListImage: string;
   isDoneToday: boolean;

@@ -1,18 +1,17 @@
-import { MyListContext, MyListContextType, styled, useContext, useEffect, useState } from '../Page/MyPage/MypageBarrel';
+import { Mylist, styled, useState } from '../Page/MyPage/MypageBarrel';
 import { CurrentMind, EndMindList } from '../Page/MyPage/MypageBarrel';
 
-/**
- * 탭에 해당하는 컴텐츠를 보여주는 컴포넌트(마이페이지, 그룹페이지)
- * @param tabText 탭 이름 배열
- * @param compArr 탭에 해당하는 컴포넌트 배열
- */
-const ArticleTab = (): JSX.Element => {
-  const compArr: JSX.Element[] = [<CurrentMind />, <EndMindList />];
+type ListBind = {
+  curList: Mylist[];
+  setCurList: React.Dispatch<React.SetStateAction<Mylist[]>>;
+};
+const ArticleTab = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
+  const compArr: JSX.Element[] = [<CurrentMind ListBind={ListBind} />, <EndMindList ListBind={ListBind}/>];
   const [articleIndex, setArticleIndex] = useState<number>(0);
 
   return (
     <ArticleTabS>
-      <TabHead isFirst={articleIndex === 0} setArticleIndex={setArticleIndex} />
+      <TabHead isFirst={articleIndex === 0} setArticleIndex={setArticleIndex} ListBind={ListBind} />
       {articleIndex === 0 ? compArr[0] : compArr[1]}
     </ArticleTabS>
   );
@@ -23,19 +22,14 @@ export default ArticleTab;
 const TabHead = ({
   isFirst,
   setArticleIndex,
+  ListBind,
 }: {
   isFirst: boolean;
   setArticleIndex: React.Dispatch<React.SetStateAction<number>>;
+  ListBind: ListBind;
 }): JSX.Element => {
-  const { myList } = useContext<MyListContextType>(MyListContext);
-
-  useEffect(() => {
-    // getMyList()
-    //   .then((res: Mylist[]) => setMylist(res))
-    //   .catch((error) => console.log(error));
-  }, []);
-
-  const tabText: string[] = [`참여중인 작심(${myList.length}/3)`, '참여했던 작심'];
+  const { curList } = ListBind;
+  const tabText: string[] = [`참여중인 작심(${curList.length}/3)`, '참여했던 작심'];
   return (
     <TabHeadS>
       <li className={isFirst ? 'selected' : ''} onClick={() => setArticleIndex(0)}>

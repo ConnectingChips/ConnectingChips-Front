@@ -5,7 +5,7 @@ import { initMyList } from '../data/initialData';
 const useMission = () => {
   /** 캐러샐 UI 상태 관리 */
   const slideRef = useRef(null);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<0 | 1 | 2 | 3>(0);
   const [sort, setSort] = useState('');
 
   /** Mylist - 내 작심 삼일 상태 관리 */

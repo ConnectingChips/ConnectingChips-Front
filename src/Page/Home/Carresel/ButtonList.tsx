@@ -4,7 +4,7 @@ import ImageBoxS from '../../../StyleComp/ImageBoxS';
 
 import { Mylist } from '../HomeBarrel';
 import useMission from '../../../Hooks/useMission';
-import { getCheckedJoined, putReJoin } from '../../../API/joinedMinds';
+import { getCheckedJoined, postJoin } from '../../../API/joinedMinds';
 
 const ButtonList = ({ myList }: { myList: Mylist[] }): JSX.Element => {
   const { buttonProps } = useMission();
@@ -25,7 +25,7 @@ const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
 
   const { count, isDoneToday, mindId, boardCount } = mind;
   const remind = async () =>
-    await putReJoin(mindId)
+    await postJoin(mindId)
       .then(() => {})
       .catch(() => {});
 

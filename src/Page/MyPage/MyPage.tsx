@@ -1,28 +1,28 @@
-import { styled, useEffect, useState, useContext, logoutUser } from './MypageBarrel';
+import { initMyList } from '../../data/initialData';
+import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal } from './MypageBarrel';
 import { scrollTop, getUser } from './MypageBarrel';
-import { initUser, MyListContext } from './MypageBarrel';
-import type { GetUser, MyListContextType, Mylist } from './MypageBarrel';
+import { initUser } from './MypageBarrel';
+import type { GetUser, Mylist } from './MypageBarrel';
 import TermsModal from './TermsModal';
 
 const MyPage = (): JSX.Element => {
-  const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-  // const [curList, setCurList] = useState<Mylist[]>(initMyList);
-  // console.log('curList: ', curList);
+  const [curList, setCurList] = useState<Mylist[]>(initMyList);
+  const ListBind = { curList, setCurList };
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
   const [showTerms, setshowTerms] = useState<boolean>(false);
-
+  
   useEffect(() => {
     scrollTop();
 
     getUser()
       .then((userInfo: GetUser) => setUserInfo(userInfo))
       .catch(() => {});
-    // getMyList()
-    //   .then((res: Mylist[]) => setCurList(res))
-    //   .catch(() => {});
+    getMyList()
+      .then((res: Mylist[]) => setCurList(res))
+      .catch(() => {});
   }, []);
 
   return (
@@ -36,14 +36,14 @@ const MyPage = (): JSX.Element => {
         </h2>
         <img src={userInfo.profileImage} alt='기본프로필' />
       </ProfileHeaderS>
-      {myList.length === 3 && (
+      {curList.length === 3 && (
         <LimitInfoS>
           <img src={Info_icon_B} alt='인포프로필' />
           <p>최대 3개의 그룹까지 참여 가능합니다.</p>
         </LimitInfoS>
       )}
 
-      <ArticleTab />
+      <ArticleTab ListBind={ListBind} />
       <MyPageSetS>
         <h2>설정</h2>
         <ul>
@@ -58,7 +58,7 @@ const MyPage = (): JSX.Element => {
           setConfirm={setConfirmLogout}
           confirmText='로그아웃 하시겠어요?'
           action='로그아웃'
-          method={logoutUser()}
+          method={() => logoutUser()}
           routeUrl='/'
         />
       )}

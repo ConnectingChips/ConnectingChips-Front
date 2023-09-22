@@ -1,12 +1,5 @@
 import { getData } from './axiosConfig';
-import {
-  MindIntroInfo,
-  isDoneSingle,
-  isDone,
-  Mylist,
-  TotalMind,
-  EndMindType,
-} from '../Type/Mind';
+import { MindIntroInfo, isDoneSingle, isDone, Mylist, TotalMind, EndMindType } from '../Type/Mind';
 import logText from './logText';
 import { MindPageInfo } from '../Type/Mind';
 import { getToken } from '../data/tocken';
@@ -147,13 +140,13 @@ export const getMindAFinished = async (): Promise<EndMindType[]> => {
 export const getMindSingle = async (mindId: number): Promise<boolean> => {
   try {
     const { tockenHeader } = getToken();
-    const response = await getData<isDoneSingle>(`/minds/keepJoin/${mindId}`, tockenHeader);
+    const response = await getData<isDoneSingle>(`/minds/keep-join/${mindId}`, tockenHeader);
 
     logText(response.data);
     return response.data.isDoneToday;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get Single Minds');
+    throw new Error('당일 개별 작심 인증 여부 확인을 실패하였습니다.');
   }
 };
 
@@ -169,23 +162,6 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
   } catch (error) {
     // console.error(error);
     throw new Error('전체 작심 인증 여부 실패함');
-  }
-};
-
-// 당일 개별 작심 인증 여부
-export const getisDoneSingle = async (joined_mind_id: number): Promise<isDoneSingle> => {
-  try {
-    const { tockenHeader } = getToken();
-    const response = await getData<isDoneSingle>(
-      `/minds/today-check/${joined_mind_id}`,
-      tockenHeader,
-    );
-
-    logText(response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to get isDone Single Valid');
   }
 };
 
@@ -212,6 +188,19 @@ export const getMyList = async (): Promise<Mylist[]> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<Mylist[]>('/minds/my-list', tockenHeader);
+    // console.log('response: ', response);
+    return response.data;
+  } catch (error) {
+    // console.error(error);
+    throw new Error('나의 작심 리스트를 호출하는 데 실패했습니다.');
+  }
+};
+
+// 나의 작심 현황 개별
+export const getMyListSingle = async (mindID: number): Promise<Mylist> => {
+  try {
+    const { tockenHeader } = getToken();
+    const response = await getData<Mylist>(`/minds/my-list/${mindID}`, tockenHeader);
     // console.log('response: ', response);
     return response.data;
   } catch (error) {
