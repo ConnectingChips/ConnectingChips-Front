@@ -105,6 +105,36 @@ const ModalContentS = styled.div`
   p {
     font-size: 14px;
   }
+
+  li p {
+    margin-bottom: 0;
+  }
+
+  ul,
+  ol {
+    margin: 0;
+    padding-left: 16px;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  li {
+    white-space: normal;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ol li {
+    list-style: number;
+  }
+
+  ol li p {
+    margin: 0;
+  }
 `;
 
 const ButtonWrapperS = styled.div`
