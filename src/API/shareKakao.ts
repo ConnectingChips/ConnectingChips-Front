@@ -1,7 +1,7 @@
 const { Kakao } = window;
 
 const shareKakao = () => {
-  const realUrl = process.env.REACT_APP_BASE_URL;
+  const realUrl = process.env.REACT_APP_BASE_URL || '';
   const linkData = {
     mobileWebUrl: realUrl,
     webUrl: realUrl,

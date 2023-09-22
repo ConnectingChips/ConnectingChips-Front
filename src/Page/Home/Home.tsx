@@ -31,13 +31,14 @@ const Home = (): JSX.Element => {
     setHome(setMyInfo, setMylist, setIsDone);
   }, []);
 
+  Kakao.cleanup();
   // 카카오 공유하기
-  // const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE;
+  const KAKAO_KEY = process.env.REACT_APP_KAKAO_SHARE || '';
 
-  // Kakao.cleanup();
-  // if (!Kakao.isInitialized()) {
-  //   Kakao.init(KAKAO_KEY);
-  // }
+  if (!Kakao.isInitialized()) {
+    // Kakao.init(KAKAO_KEY);
+    Kakao.init('32d7b0b4384ac044847a779c94928c0c');
+  }
 
   const navigate = useNavigate();
 
