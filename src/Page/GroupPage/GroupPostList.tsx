@@ -39,7 +39,7 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
 
   return (
     <GroupPostListS>
-      {!loding ? (
+      {loding ? (
         <LodingS src={lodingspinner} alt='loding' />
       ) : (
         <>
@@ -77,7 +77,9 @@ const GroupNoPost = () => {
   );
 };
 
-const LodingS = styled.img``;
+const LodingS = styled.img`
+  width: 6rem;
+`;
 
 const GroupPostListS = styled.div`
   margin: 0 1rem;
