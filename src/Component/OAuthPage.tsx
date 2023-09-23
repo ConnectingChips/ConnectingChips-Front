@@ -26,7 +26,7 @@ const OAuthPage = ({ component, authenticated }: OAuthPageProps): JSX.Element =>
     const access_token = localStorage.getItem('access_token');
     if (authenticated === 'access' && access_token !== null) return component;
     if (authenticated === 'block' && access_token === null) return component;
-    return <GoNotFound />;
+    return <GoHome />;
   };
 
   return <ResultComp />;
@@ -34,10 +34,10 @@ const OAuthPage = ({ component, authenticated }: OAuthPageProps): JSX.Element =>
 
 export default OAuthPage;
 
-// 에러 페이지로 가버려
-const GoNotFound = (): JSX.Element => {
+// 에러 페이지로 가버려 -> 홈으로 가자
+const GoHome = (): JSX.Element => {
   const navigate = useNavigate();
-  navigate('/error');
+  navigate('/');
 
   return <NotFound />;
 };
