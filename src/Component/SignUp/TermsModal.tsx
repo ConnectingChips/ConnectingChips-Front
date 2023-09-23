@@ -72,6 +72,8 @@ const Container = styled.div`
   bottom: 0;
   z-index: 2;
   background-color: var(--color-white);
+  /* 스크롤이 있을 때도 화면 크기에 맞게 적용되도록 */
+  overflow: auto;
 `;
 
 const ModalHeaderS = styled.div`
