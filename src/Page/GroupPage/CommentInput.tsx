@@ -103,21 +103,23 @@ const CommentInput = ({
   return (
     <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
       <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
-        <input
-          placeholder={placeholderText}
-          value={commentInput}
-          onChange={handleInputChange}
-          type='text'
-          maxLength={400}
-        />
-        <button onClick={inputBtnHandler}>
-          {
-            <img
-              src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
-              alt='sendIcon'
-            />
-          }
-        </button>
+        <InputS inputToggle={inputToggle}>
+          <input
+            placeholder={placeholderText}
+            value={commentInput}
+            onChange={handleInputChange}
+            type='text'
+            maxLength={400}
+          />
+          <button onClick={inputBtnHandler}>
+            {
+              <img
+                src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
+                alt='sendIcon'
+              />
+            }
+          </button>
+        </InputS>
       </CommentFormS>
     </CommentFormBGS>
   );
@@ -134,8 +136,18 @@ const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
 
 const CommentFormS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+  width: 100%;
+  height: 4.5rem;
   bottom: 0;
-  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+`;
+
+const InputS = styled.div<{ inputToggle: boolean }>`
+  position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+
   background-color: #fff;
   border: 1px solid #e3e3e3;
   border-radius: 0.5rem;
