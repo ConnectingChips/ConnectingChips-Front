@@ -3,40 +3,42 @@ import { Mylist } from '../HomeBarrel';
 
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
 const Carresel = ({ myList }: { myList: Mylist[] }) => {
-
-  /** 2023-09-22 Carresel.tsx - 내 작심 현황 - Kadesti */
-  const Mylist = myList.map((mygroup, idx) => {
-    const { mindId, mindTypeName, name, myListImage, boardCount, count } = mygroup;
-
-    return (
-      <li key={idx}>
-        <MyMissionInfoS href={`/groupPage/${mindId}`}>
-          <img src={myListImage} alt='main_image' />
-          <MissionContentS>
-            <MissionSingleWide text={mindTypeName} />
-            <h2>{name}</h2>
-            <p>
-              🔥 <span className='date'>{boardCount}</span>일차 맛보기 중
-            </p>
-          </MissionContentS>
-          <ChipList count={count} />
-        </MyMissionInfoS>
-      </li>
-    );
-  });
-
   return (
     <div>
       <MissionListS>
-        {/* 나의 작심 컨텐츠 */}
-        {/* <ul>{Mylist}</ul> */}
-        <ul>{Mylist}</ul>
+        <ul>
+          {myList.map((mygroup, idx) => {
+            return (
+              <li key={idx}>
+                <CarreselItem mygroup={mygroup} />
+              </li>
+            );
+          })}
+        </ul>
       </MissionListS>
     </div>
   );
 };
 
 export default Carresel;
+
+const CarreselItem = ({ mygroup }: { mygroup: Mylist }) => {
+  const { mindId, mindTypeName, name, myListImage, boardCount, count } = mygroup;
+
+  return (
+    <MyMissionInfoS href={`/groupPage/${mindId}`}>
+      <img src={myListImage} alt='main_image' />
+      <MissionContentS>
+        <MissionSingleWide text={mindTypeName} />
+        <h2>{name}</h2>
+        <p>
+          🔥 <span className='date'>{boardCount}</span>일차 맛보기 중
+        </p>
+      </MissionContentS>
+      <ChipList count={count} />
+    </MyMissionInfoS>
+  );
+};
 
 /** 2023-09-02 Carresel.tsx - 캐러샐 영역 - Kadesti */
 const MissionListS = styled.div`
