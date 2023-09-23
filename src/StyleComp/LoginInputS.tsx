@@ -31,7 +31,7 @@ const LogInS = styled.div`
 /** 2023-08-24 LoginInputS.tsx - 로그인 아이디 */
 const LoginInputS = styled.input`
   padding: 16px 18px;
-  font-size: var(--body-b);
+  font-size: var(--body-a);
   border: 1px solid var(--color-disabled2);
   border-radius: 0.5rem;
   box-shadow: none;

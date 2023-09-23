@@ -61,9 +61,7 @@ const LogIn = (): JSX.Element => {
             {!isDefault && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>}
           </LoginContainerS>
 
-          <SignClearBtnS type='submit'>
-            <p>로그인</p>
-          </SignClearBtnS>
+          <SignClearBtnS type='submit'>로그인</SignClearBtnS>
         </LoginFormS>
         <NudgeSignS>
           <p className='hoxy'>회원이 아니신가요?</p>
