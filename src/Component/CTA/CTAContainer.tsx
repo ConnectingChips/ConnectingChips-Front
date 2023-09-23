@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { MyListContext, MyListContextType } from '../../API/Context';
 import { postJoin } from '../../API/joinedMinds';
@@ -12,7 +12,7 @@ const JoinButtonCTA = (): JSX.Element => {
   const [isLogin, setIsLogin] = useState(false);
   const [validJoin, setValidJoin] = useState('true');
   const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
-
+  const location = useLocation();
   useEffect(() => {
     if (localStorage.getItem('access_token')) {
       setIsLogin(true);
@@ -24,6 +24,7 @@ const JoinButtonCTA = (): JSX.Element => {
     if (!isLogin) return navigate('/logIn');
     try {
       await postJoin(Number(mindId));
+      sessionStorage.setItem(`intro_${mindId}`, location.pathname);
       navigate(`/groupPage/${Number(mindId)}`);
     } catch (error) {
       console.error('참여하기 실패: ', error);

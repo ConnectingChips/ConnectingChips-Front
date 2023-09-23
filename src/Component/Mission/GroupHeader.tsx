@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { Arrow_Left_B, Arrow_Left_W } from '../ArrowBarrel';
 import post_Icon from '../../image/Icon/post_Icon.svg';
 import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getkeepJoin } from '../../API/Mind';
 
@@ -24,12 +24,22 @@ const GroupHeader = ({ children, className, refresh }: GroupHeaderProps): JSX.El
   const { mindId } = useParams();
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
   const [keepJoin, setKeepJoin] = useState<boolean>(false);
+  const navigate = useNavigate();
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
       setIsDoneToday(data.isDoneToday);
       setKeepJoin(data.keepJoin);
     });
   }, [refresh]);
+
+  const goBack = (): void => {
+    const introhistory = sessionStorage.getItem(`intro_${mindId}`);
+    console.log(!introhistory);
+    if (!introhistory) {
+      window.history.back();
+    }
+    navigate('/');
+  };
 
   return (
     <GroupBGHeaderS className={className}>
