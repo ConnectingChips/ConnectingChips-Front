@@ -2,7 +2,7 @@ import { useState, Link, styled, useNavigate } from './LoginBarrel';
 import { LogInS, LoginInputS, SignClearBtnS, Arrow_Right } from './LoginBarrel';
 import Banner from '../../Component/SignUp/Banner';
 import Loginheader from '../../Component/SignUp/Loginheader';
-import useLoginCheck from '../../Hooks/useLoginCheck';
+// import useLoginCheck from '../../Hooks/useLoginCheck';
 
 import { postLogin } from '../../API/login';
 
@@ -20,7 +20,8 @@ const LogIn = (): JSX.Element => {
   const pwBind: bindValue = { value: password, setValue: setPassword };
   const navigate = useNavigate();
 
-  useLoginCheck(navigate, 'Done');
+  // TODO: 로그인 여부는 라우터에서 처리중(사용하지 않으면 삭제하기)
+  // useLoginCheck(navigate, 'Done');
 
   const isDefault = inputState === 'default';
 
@@ -29,7 +30,7 @@ const LogIn = (): JSX.Element => {
     try {
       const { accessToken } = await postLogin(nickname, password);
       localStorage.setItem('access_token', accessToken);
-      navigate(-1);
+      navigate('/');
     } catch (error) {
       console.error('로그인 실패');
       setInputState('failed');
@@ -44,15 +45,23 @@ const LogIn = (): JSX.Element => {
         <LoginFormS onSubmit={handleLoginSubmit}>
           <LoginContainerS>
             <LoginInnerContainerS>
-              <LoginInput sort='ID' isdefault={isDefault} inputbind={idBind} />
-              <LoginInput sort='PW' isdefault={isDefault} inputbind={pwBind} />
+              <LoginInput
+                sort='ID'
+                isdefault={isDefault}
+                inputbind={idBind}
+                setInputState={setInputState}
+              />
+              <LoginInput
+                sort='PW'
+                isdefault={isDefault}
+                inputbind={pwBind}
+                setInputState={setInputState}
+              />
             </LoginInnerContainerS>
             {!isDefault && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>}
           </LoginContainerS>
 
-          <SignClearBtnS type='submit'>
-            <p>로그인</p>
-          </SignClearBtnS>
+          <SignClearBtnS type='submit'>로그인</SignClearBtnS>
         </LoginFormS>
         <NudgeSignS>
           <p className='hoxy'>회원이 아니신가요?</p>
@@ -68,22 +77,25 @@ const LogIn = (): JSX.Element => {
 
 export default LogIn;
 
-/**
- * 2023-08-24 LogIn.tsx - 입력 창
- * @param sort id인지 password인지 식별
- * @param isDefault 기본값인지 한번 틀린상태인지 구분
- * @returns id입력창 또는 pw입력창
- */
+interface LoginInputProps {
+  sort: 'ID' | 'PW';
+  isdefault: boolean;
+  inputbind: bindValue;
+  setInputState: React.Dispatch<React.SetStateAction<string>>;
+}
+
 const LoginInput = ({
   sort,
   isdefault,
   inputbind,
-}: {
-  sort: 'ID' | 'PW';
-  isdefault: boolean;
-  inputbind: bindValue;
-}): JSX.Element => {
+  setInputState,
+}: LoginInputProps): JSX.Element => {
   const { value, setValue } = inputbind;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    setInputState('default');
+  };
 
   if (sort === 'ID')
     return (
@@ -91,7 +103,7 @@ const LoginInput = ({
         placeholder='아이디를 입력해 주세요'
         className={isdefault ? '' : 'failed'}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleInputChange}
       />
     );
 
@@ -101,7 +113,7 @@ const LoginInput = ({
       className={isdefault ? '' : 'failed'}
       type={true ? 'password' : 'text'}
       value={value}
-      onChange={(e) => setValue(e.target.value)}
+      onChange={handleInputChange}
     />
   );
 };

@@ -11,8 +11,8 @@ import {
 } from './SignUpBarrel';
 import { type handlerBind, useSignup } from './SignUpBarrel';
 import { postSignup, idDuplicateCheck } from '../../API/signup';
+import scrollTopSmooth from '../../Hooks/scrollTopSmooth';
 
-/** 2023-08-24 SignUp - 회원가입 페이지 */
 const SignUp = (): JSX.Element => {
   const [isValid, setIsValid] = useState(true);
   const [inputState, setInputState] = useState('default');
@@ -55,7 +55,7 @@ const SignUp = (): JSX.Element => {
   };
 
   const emailValidationCheck = () => {
-    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/g;
+    const emailReg = /^[a-z0-9_.]+@[a-z0-9_.]+\.(com)$/g;
     const isValidEmail = emailReg.test(email);
     setValidation((prev) => ({ ...prev, email: isValidEmail }));
   };
@@ -86,7 +86,8 @@ const SignUp = (): JSX.Element => {
         await postSignup(signupData);
         return navigate('/LogIn');
       } else {
-        return setInputState('failed');
+        setInputState('failed');
+        return scrollTopSmooth();
       }
     } catch (error) {
       console.error(error);
@@ -105,6 +106,7 @@ const SignUp = (): JSX.Element => {
             handlerBind={idBind}
             isFailed={isFailed}
             validationCheck={idValidationCheck}
+            isError={id !== '' && validation.id === false}
           />
           <p className={(id && validation.id === false) || isFailed ? 'hidden' : ''}>
             <img src={infoIcon} alt='infoIcon' />
@@ -121,6 +123,7 @@ const SignUp = (): JSX.Element => {
             sort='Email'
             handlerBind={emailBind}
             validationCheck={emailValidationCheck}
+            isError={email !== '' && validation.email === false}
           />
           {email && validation.email === false && (
             <p className='error'>이메일 형식이 올바르지 않습니다.</p>
@@ -132,6 +135,7 @@ const SignUp = (): JSX.Element => {
             sort='Nickname'
             handlerBind={nicknameBind}
             validationCheck={nicknameValidationCheck}
+            isError={nickname !== '' && validation.nickname === false}
           />
           <p className={nickname && validation.nickname === false ? 'hidden' : ''}>
             <img src={infoIcon} alt='infoIcon' />
@@ -141,7 +145,12 @@ const SignUp = (): JSX.Element => {
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>비밀번호</h2>
-          <SignUpInput sort='PW' handlerBind={passBind} validationCheck={passwordValidationCheck} />
+          <SignUpInput
+            sort='PW'
+            handlerBind={passBind}
+            validationCheck={passwordValidationCheck}
+            isError={password !== '' && validation.password === false}
+          />
           <p className={password && validation.password === false ? 'hidden' : ''}>
             <img src={infoIcon} alt='infoIcon' />
             영문+숫자 10~20자 조합, 공백 및 특수문자 불가
@@ -156,6 +165,7 @@ const SignUp = (): JSX.Element => {
             sort='PWconfirm'
             handlerBind={confirmBind}
             validationCheck={passwordConfirmCheck}
+            isError={confirmPassword !== '' && validation.confirmPassword === false}
           />
           {confirmPassword && validation.confirmPassword === false && (
             <p className='error'>비밀번호가 일치하지 않습니다.</p>
@@ -166,11 +176,11 @@ const SignUp = (): JSX.Element => {
       <BtnWrapperS>
         {isValid && isAllAgreed ? (
           <SignClearBtnS type='submit' className='btn_width' onClick={handleSubmitButtonClick}>
-            <p>회원가입</p>
+            회원가입
           </SignClearBtnS>
         ) : (
           <SignNotClearBtnS type='submit' className='btn_width' disabled={isValid && isAllAgreed}>
-            <p>회원가입</p>
+            회원가입
           </SignNotClearBtnS>
         )}
       </BtnWrapperS>
@@ -180,29 +190,24 @@ const SignUp = (): JSX.Element => {
 
 export default SignUp;
 
-/** 2023-08-24 SignUp.tsx - 입력창 props */
 type Sort = 'ID' | 'PW' | 'Email' | 'Nickname' | 'PWconfirm';
 interface SignUpInputProps {
   sort: Sort;
   handlerBind: handlerBind;
   isFailed?: boolean;
   validationCheck: () => void;
+  isError: boolean;
 }
 
-/**
- * 2023-08-24 SignUp.tsx - 입력 창
- * @param sort id인지 password인지 식별
- * @returns id입력창 또는 pw입력창
- */
-
-// TODO: 컴포넌트 분리
 const SignUpInput = ({
   sort,
   handlerBind,
   isFailed,
   validationCheck,
+  isError,
 }: SignUpInputProps): JSX.Element => {
   const { value, setValue } = handlerBind;
+
   const handlerOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setValue(inputValue.trim());
@@ -235,14 +240,13 @@ const SignUpInput = ({
     <LoginInputS
       placeholder={placeholder}
       type={type}
-      className={isFailed ? 'failed' : ''}
+      className={`${isFailed ? 'failed' : ''} ${isError ? 'error' : ''}`}
       value={value}
       onChange={handlerOnChange}
     />
   );
 };
 
-/** 2023-08-24 LogIn.tsx - 로그인 입력폼 */
 const LoginFormS = styled.form`
   display: flex;
   flex-direction: column;
@@ -250,12 +254,15 @@ const LoginFormS = styled.form`
   padding: 1rem;
 `;
 
-/** 2023-08-24 LogIn.tsx - 로그인 입력 컨테이너 */
 const LoginInputContainerS = styled.div`
   height: 7.5rem;
   display: flex;
   flex-direction: column;
   gap: var(--height-gap);
+
+  input.error {
+    border-color: var(--system-red);
+  }
 
   p {
     color: var(--font-color2);
