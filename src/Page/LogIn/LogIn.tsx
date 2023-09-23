@@ -2,7 +2,7 @@ import { useState, Link, styled, useNavigate } from './LoginBarrel';
 import { LogInS, LoginInputS, SignClearBtnS, Arrow_Right } from './LoginBarrel';
 import Banner from '../../Component/SignUp/Banner';
 import Loginheader from '../../Component/SignUp/Loginheader';
-import useLoginCheck from '../../Hooks/useLoginCheck';
+// import useLoginCheck from '../../Hooks/useLoginCheck';
 
 import { postLogin } from '../../API/login';
 
@@ -20,7 +20,8 @@ const LogIn = (): JSX.Element => {
   const pwBind: bindValue = { value: password, setValue: setPassword };
   const navigate = useNavigate();
 
-  useLoginCheck(navigate, 'Done');
+  // TODO: 로그인 여부는 라우터에서 처리중(사용하지 않으면 삭제하기)
+  // useLoginCheck(navigate, 'Done');
 
   const isDefault = inputState === 'default';
 
@@ -29,7 +30,7 @@ const LogIn = (): JSX.Element => {
     try {
       const { accessToken } = await postLogin(nickname, password);
       localStorage.setItem('access_token', accessToken);
-      navigate(-1);
+      navigate('/');
     } catch (error) {
       console.error('로그인 실패');
       setInputState('failed');
