@@ -39,30 +39,22 @@ const GroupIntro = (): JSX.Element => {
 
 export default GroupIntro;
 
-/** 2023-08-21 GroupIntro.tsx - 메인 컴프 */
 const GroupIntroS = styled.div<{ img: string }>`
   position: relative;
   color: white;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  border: 1px solid;
   height: 100vh;
-
   background-image: url(${(props) => props.img});
 `;
 
-/** 2023-08-21 GroupIntro.tsx - 백 어두운 레이어 추가 */
 const BGDarkS = styled.div`
   width: 100%;
   height: 100%;
-
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-/** 2023-08-21 GroupIntro.tsx - 그룹 인트로 뒤로가기 + 컨텐츠 + 예시 + CTA */
 const GroupContainerS = styled.div`
   height: 100%;
   display: flex;
