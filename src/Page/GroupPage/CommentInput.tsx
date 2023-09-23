@@ -33,8 +33,15 @@ const CommentInput = ({
 }: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
-  const { isComment } = isCommentBind;
+  const { isComment, setIsComment } = isCommentBind;
   const { setRefresh } = refreshBind;
+
+  const getPlaceholderText = (isComment: number, commentCount: number) => {
+    if (isComment !== 0) return '';
+    return commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
+  };
+
+  const placeholderText = getPlaceholderText(isComment, postData.commentCount);
 
   // input에 들어갈 내용 CommentInput에 넣는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,9 +54,10 @@ const CommentInput = ({
     inputToggle && setInputToggle(false);
   };
 
-  // 댓글에 붙은 input누르면 하단에 붙음
+  // input 바깥쪽누르면 되돌아감
   const handleFormClickTrue = () => {
     !inputToggle && setInputToggle(true);
+    setIsComment(0);
   };
 
   // input 버튼 핸들러
@@ -83,10 +91,6 @@ const CommentInput = ({
       console.error('오류 발생:', error);
     }
   };
-
-  // 댓글 개수에 따라 input placeholder 변경
-  const placeholderText =
-    postData.commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
 
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
