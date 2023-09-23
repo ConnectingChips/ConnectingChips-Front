@@ -11,8 +11,8 @@ import {
 } from './SignUpBarrel';
 import { type handlerBind, useSignup } from './SignUpBarrel';
 import { postSignup, idDuplicateCheck } from '../../API/signup';
+import scrollTopSmooth from '../../Hooks/scrollTopSmooth';
 
-/** 2023-08-24 SignUp - 회원가입 페이지 */
 const SignUp = (): JSX.Element => {
   const [isValid, setIsValid] = useState(true);
   const [inputState, setInputState] = useState('default');
@@ -86,14 +86,14 @@ const SignUp = (): JSX.Element => {
         await postSignup(signupData);
         return navigate('/LogIn');
       } else {
-        return setInputState('failed');
+        setInputState('failed');
+        return scrollTopSmooth();
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  // TODO: 에러일때 border red로 변경 (failed class)
   return (
     <LogInS>
       <Loginheader type='회원가입' />
@@ -176,11 +176,11 @@ const SignUp = (): JSX.Element => {
       <BtnWrapperS>
         {isValid && isAllAgreed ? (
           <SignClearBtnS type='submit' className='btn_width' onClick={handleSubmitButtonClick}>
-            <p>회원가입</p>
+            회원가입
           </SignClearBtnS>
         ) : (
           <SignNotClearBtnS type='submit' className='btn_width' disabled={isValid && isAllAgreed}>
-            <p>회원가입</p>
+            회원가입
           </SignNotClearBtnS>
         )}
       </BtnWrapperS>
@@ -190,7 +190,6 @@ const SignUp = (): JSX.Element => {
 
 export default SignUp;
 
-/** 2023-08-24 SignUp.tsx - 입력창 props */
 type Sort = 'ID' | 'PW' | 'Email' | 'Nickname' | 'PWconfirm';
 interface SignUpInputProps {
   sort: Sort;
@@ -200,13 +199,6 @@ interface SignUpInputProps {
   isError: boolean;
 }
 
-/**
- * 2023-08-24 SignUp.tsx - 입력 창
- * @param sort id인지 password인지 식별
- * @returns id입력창 또는 pw입력창
- */
-
-// TODO: 컴포넌트 분리
 const SignUpInput = ({
   sort,
   handlerBind,
@@ -255,7 +247,6 @@ const SignUpInput = ({
   );
 };
 
-/** 2023-08-24 LogIn.tsx - 로그인 입력폼 */
 const LoginFormS = styled.form`
   display: flex;
   flex-direction: column;
@@ -263,7 +254,6 @@ const LoginFormS = styled.form`
   padding: 1rem;
 `;
 
-/** 2023-08-24 LogIn.tsx - 로그인 입력 컨테이너 */
 const LoginInputContainerS = styled.div`
   height: 7.5rem;
   display: flex;
