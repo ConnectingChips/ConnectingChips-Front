@@ -35,7 +35,9 @@ const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
       navigate(`/uploadPost/${mindId}`);
     }
     if (buttonText === '재작심') {
-      postJoin(Number(mindId));
+      postJoin(Number(mindId)).then(() => {
+        navigate(`/upuploadPost/${mindId}`);
+      });
     }
   };
 

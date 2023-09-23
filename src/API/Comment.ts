@@ -1,5 +1,5 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-import { tockenHeader } from '../data/tocken';
+import { getToken } from '../data/tocken';
 
 interface AddComment {
   commentId?: number;
@@ -14,6 +14,7 @@ interface AddComment {
 //댓글 추가 -> post
 export const postAddComment = async (commentData: AddComment): Promise<AddComment> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await postData<AddComment>(`/comments`, commentData, tockenHeader);
     return response.data;
   } catch (error) {
@@ -25,6 +26,7 @@ export const postAddComment = async (commentData: AddComment): Promise<AddCommen
 //댓글 삭제 -> delete요청
 export const deleteComment = async (comment_id: number): Promise<void> => {
   try {
+    const { tockenHeader } = getToken();
     await deleteData(`/comments/${comment_id}`, tockenHeader);
   } catch (error) {
     console.error(error);
@@ -45,6 +47,7 @@ interface AddReply {
 // 답글 추가 -> post
 export const postAddReply = async (replyData: AddReply): Promise<AddReply> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await postData<AddReply>(`/replies`, replyData, tockenHeader);
     return response.data;
   } catch (error) {
@@ -56,6 +59,7 @@ export const postAddReply = async (replyData: AddReply): Promise<AddReply> => {
 //답글 삭제 -> delete요청
 export const deleteReply = async (reply_id: number): Promise<void> => {
   try {
+    const { tockenHeader } = getToken();
     await deleteData(`/replies/${reply_id}`, tockenHeader);
   } catch (error) {
     console.error(error);

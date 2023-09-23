@@ -21,6 +21,10 @@ interface commentInputProps {
     refresh: number;
     setRefresh: React.Dispatch<React.SetStateAction<number>>;
   };
+  commentFlipBind: {
+    commentFlip: boolean;
+    setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
 
 const CommentInput = ({
@@ -30,11 +34,20 @@ const CommentInput = ({
   postData,
   userInfo,
   refreshBind,
+  commentFlipBind,
 }: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
-  const { isComment } = isCommentBind;
+  const { isComment, setIsComment } = isCommentBind;
+  const { commentFlip, setCommentFlip } = commentFlipBind;
   const { setRefresh } = refreshBind;
+
+  const getPlaceholderText = (isComment: number, commentCount: number) => {
+    if (isComment !== 0) return '';
+    return commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
+  };
+
+  const placeholderText = getPlaceholderText(isComment, postData.commentCount);
 
   // input에 들어갈 내용 CommentInput에 넣는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,9 +60,10 @@ const CommentInput = ({
     inputToggle && setInputToggle(false);
   };
 
-  // 댓글에 붙은 input누르면 하단에 붙음
+  // input 바깥쪽누르면 되돌아감
   const handleFormClickTrue = () => {
     !inputToggle && setInputToggle(true);
+    setIsComment(0);
   };
 
   // input 버튼 핸들러
@@ -59,7 +73,6 @@ const CommentInput = ({
     e.preventDefault();
     setInputToggle(true);
     if (commentInput.length === 0) return;
-
     try {
       if (isComment === 0) {
         const AddCommentData = {
@@ -76,17 +89,13 @@ const CommentInput = ({
         };
         await postAddReply(AddReplyData);
       }
-
       setCommentInput('');
+      setCommentFlip(false);
       setRefresh((prevRefresh) => prevRefresh + 1);
     } catch (error) {
       console.error('오류 발생:', error);
     }
   };
-
-  // 댓글 개수에 따라 input placeholder 변경
-  const placeholderText =
-    postData.commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
 
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
@@ -94,21 +103,23 @@ const CommentInput = ({
   return (
     <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
       <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
-        <input
-          placeholder={placeholderText}
-          value={commentInput}
-          onChange={handleInputChange}
-          type='text'
-          maxLength={400}
-        />
-        <button onClick={inputBtnHandler}>
-          {
-            <img
-              src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
-              alt='sendIcon'
-            />
-          }
-        </button>
+        <InputS inputToggle={inputToggle}>
+          <input
+            placeholder={placeholderText}
+            value={commentInput}
+            onChange={handleInputChange}
+            type='text'
+            maxLength={400}
+          />
+          <button onClick={inputBtnHandler}>
+            {
+              <img
+                src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
+                alt='sendIcon'
+              />
+            }
+          </button>
+        </InputS>
       </CommentFormS>
     </CommentFormBGS>
   );
@@ -125,8 +136,18 @@ const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
 
 const CommentFormS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+  width: 100%;
+  height: 4.5rem;
   bottom: 0;
-  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+`;
+
+const InputS = styled.div<{ inputToggle: boolean }>`
+  position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+
   background-color: #fff;
   border: 1px solid #e3e3e3;
   border-radius: 0.5rem;

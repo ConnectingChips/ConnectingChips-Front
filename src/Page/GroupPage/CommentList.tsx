@@ -247,7 +247,7 @@ const CommentContainerS = styled.div<{ sort: 'comment' | 'reply' }>`
   align-items: start;
   min-height: 2rem;
   border-radius: 1rem;
-  background-color: ${(props) => (props.sort === 'reply' ? 'var(--color-bg)' : '')};
+  border: ${(props) => (props.sort === 'reply' ? '2px solid var(--color-line);' : '')};
   padding: ${(props) => (props.sort === 'reply' ? '1rem' : '')};
 
   img {
