@@ -14,11 +14,10 @@ interface GroupPostListProps {
 }
 
 const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
-  // TODO: post업애려면 Commendted false로 바꾸기
   const { mindId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-  const { refresh, setRefresh } = refreshBind;
+  const { refresh } = refreshBind;
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
       setPostData(res);
@@ -40,8 +39,8 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
             <GroupPost
               passsort='Page'
               postData={postData}
-              userInfo={userInfo}
               refreshBind={refreshBind}
+              userInfo={userInfo}
             />
             <Comment postData={postData} userInfo={userInfo} refreshBind={refreshBind} />
           </div>

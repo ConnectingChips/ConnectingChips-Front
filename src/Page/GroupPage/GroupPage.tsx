@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GroupBtn from './GroupBtn';
 
-/** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
   const { mindId } = useParams<string>();
   const [pageImage, setPageImage] = useState<string>('');
@@ -38,7 +37,6 @@ const GroupPageS = styled.div`
   position: relative;
 `;
 
-/** 2023-08-22 GroupPage.tsx - 그룹페이지 대표 이미지 */
 const GroupImageS = styled.div<{ url: string }>`
   background-image: url(${(props) => props.url});
   background-size: 26rem;

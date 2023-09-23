@@ -4,11 +4,22 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postJoin } from '../../API/joinedMinds';
 import { getkeepJoin } from '../../API/Mind';
 
-const GroupBtn = ({ refresh }: { refresh: number }) => {
+const buttonLabels = {
+  인증: '작심 인증하기',
+  성공: '오늘 작심 성공!',
+  재작심: '재작심 하기',
+};
+
+interface GroupBtnProps {
+  refresh: number;
+}
+
+const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
   const navigate = useNavigate();
   const { mindId } = useParams();
   const [keepJoin, setKeepJoin] = useState<boolean>(false);
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
+
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
       setKeepJoin(data.keepJoin);
@@ -17,14 +28,7 @@ const GroupBtn = ({ refresh }: { refresh: number }) => {
   }, [refresh]);
 
   // 버튼 텍스트를 결정하는 함수
-  const getButtonText = () => {
-    if (!keepJoin) {
-      return isDoneToday ? '성공' : '인증';
-    } else {
-      return '재작심';
-    }
-  };
-  const buttonText = getButtonText();
+  const buttonText = !keepJoin ? (isDoneToday ? '성공' : '인증') : '재작심';
 
   const groupBtnHandler = () => {
     if (buttonText === '인증') {
@@ -35,21 +39,19 @@ const GroupBtn = ({ refresh }: { refresh: number }) => {
     }
   };
 
-  const buttonLabels = {
-    인증: '작심 인증하기',
-    성공: '오늘 작심 성공!',
-    재작심: '재작심 하기',
-  };
-
   return (
-    <div style={{ margin: '0 1rem' }}>
+    <GroupBtnWrapper>
       <GroupBtnContainerS btntext={buttonText} onClick={groupBtnHandler}>
         {buttonLabels[buttonText]}
       </GroupBtnContainerS>
-    </div>
+    </GroupBtnWrapper>
   );
 };
 export default GroupBtn;
+
+const GroupBtnWrapper = styled.div`
+  margin: 0 1rem;
+`;
 
 const GroupBtnContainerS = styled.button<{ btntext: string }>`
   width: 100%;

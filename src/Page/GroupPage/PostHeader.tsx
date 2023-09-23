@@ -1,8 +1,9 @@
 import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
-import { DetailedHTMLProps, ImgHTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BoardsType, getBoardCheck, deleteBoard } from '../../API/Boards';
 import DeleteModal from '../../Component/DeleteModal';
+import { GetUser } from '../Home/HomeBarrel';
 interface PostHeaderProps {
   editbind: {
     edit: boolean;
@@ -13,33 +14,25 @@ interface PostHeaderProps {
     refresh: number;
     setRefresh: React.Dispatch<React.SetStateAction<number>>;
   };
+  userInfo: GetUser;
 }
 
-const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.Element => {
+const PostHeader = ({
+  editbind,
+  postData,
+  refreshBind,
+  userInfo,
+}: PostHeaderProps): JSX.Element => {
   const [editModalToggle, setEditModalToggle] = useState(false);
-  const [editBtnToggle, setEditBtnToggle] = useState(false);
   const [modalBtn, setModalBtn] = useState(false);
-  const { edit, setEdit } = editbind;
+  const { setEdit } = editbind;
+  const { profileImage, nickname, createDate, boardId, userId } = postData;
 
   const handlerToogleSwitch = () => {
     setEditModalToggle((prev) => !prev);
   };
 
   // 자신의 게시글인지 확인
-  useEffect(() => {
-    getBoardCheck(postData.boardId).then((data) => {
-      data.canEdit ? setEditBtnToggle(true) : setEditBtnToggle(false);
-    });
-  }, []);
-
-  //데이터 뽑아오기
-  const getPostData = () => {
-    const profileImage = postData.profileImage;
-    const nickname = postData.nickname;
-    const createDate = postData.createDate;
-    return { profileImage, nickname, createDate };
-  };
-  const { profileImage, nickname, createDate } = getPostData();
 
   return (
     <PostHeaderS>
@@ -52,7 +45,7 @@ const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.E
           <p className='date'>{createDate}</p>
         </PostProfileNickNameS>
       </PostHeaderProfileS>
-      {editBtnToggle && (
+      {userInfo.userId === userId && (
         <MoreIconS onClick={handlerToogleSwitch}>
           <img src={point3} alt='point3_icon' />
           {editModalToggle && (
@@ -80,7 +73,7 @@ const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.E
           setConfirm={setModalBtn}
           confirmText='이 게시글을 삭제할까요?'
           action='삭제'
-          method={() => deleteBoard(postData.boardId)}
+          method={() => deleteBoard(boardId)}
           refreshBind={refreshBind}
         />
       )}
@@ -90,7 +83,6 @@ const PostHeader = ({ editbind, postData, refreshBind }: PostHeaderProps): JSX.E
 
 export default PostHeader;
 
-/** 2023-08-22 PostHeader.tsx - 그룹페이지 아티클 헤더 */
 const PostHeaderS = styled.header`
   display: flex;
   align-items: center;
@@ -101,7 +93,6 @@ const PostHeaderS = styled.header`
   }
 `;
 
-/** 2023-08-22 PostHeader.tsx - 그룹페이지 아티클 헤더 프로필 */
 const PostHeaderProfileS = styled.div`
   height: 2.5rem;
   display: flex;
@@ -115,7 +106,6 @@ const PostHeaderProfileS = styled.div`
   }
 `;
 
-/** 2023-08-22 PostHeader.tsx - 그룹페이지 아티클 헤더 프로필 */
 const MoreIconS = styled.div`
   height: 3rem;
   display: flex;
@@ -146,7 +136,6 @@ const ModalS = styled.div`
   }
 `;
 
-/** 2023-08-22 PostHeader.tsx - 그룹페이지 아티클 인증 이미지(임시) */
 const PostProfileImageS = styled.div`
   width: 2.5rem;
   height: 2.5rem;
@@ -160,7 +149,6 @@ const PostProfileImageS = styled.div`
   }
 `;
 
-/** 2023-08-22 PostHeader.tsx - 그룹페이지 아티클 인증 이미지(임시) */
 const PostProfileNickNameS = styled.div`
   display: flex;
   flex-direction: column;
