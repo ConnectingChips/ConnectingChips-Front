@@ -51,12 +51,14 @@ type ExitButton = {
   setMindId: React.Dispatch<React.SetStateAction<number>>;
 };
 const ExistComp = ({ myList, setConfirmExitMind, setMindId }: ExitButton): JSX.Element => {
+  const naviagate = useNavigate();
+
   return (
     <>
       {myList.map((myGroup, idx) => {
         return (
           <MindS key={idx}>
-            <p className='main'>{myGroup.name}</p>
+            <p className='main' onClick={()=>naviagate(`/groupPage/${myGroup.mindId}`)}>{myGroup.name}</p>
             <ExitButtonS
               onClick={() => {
                 setMindId(myGroup.mindId);
@@ -106,7 +108,7 @@ const initEndList: EndMindType[] = [];
 
 const EndMind = ({ ListBind }: { ListBind: ListBind }) => {
   const [endList, setEndList] = useState<EndMindType[]>(initEndList);
-  const { curList, setCurList } = ListBind;
+  const { curList } = ListBind;
   const navigate = useNavigate();
 
   useEffect(() => {
