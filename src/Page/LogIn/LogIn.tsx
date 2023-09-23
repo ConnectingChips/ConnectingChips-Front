@@ -45,8 +45,18 @@ const LogIn = (): JSX.Element => {
         <LoginFormS onSubmit={handleLoginSubmit}>
           <LoginContainerS>
             <LoginInnerContainerS>
-              <LoginInput sort='ID' isdefault={isDefault} inputbind={idBind} />
-              <LoginInput sort='PW' isdefault={isDefault} inputbind={pwBind} />
+              <LoginInput
+                sort='ID'
+                isdefault={isDefault}
+                inputbind={idBind}
+                setInputState={setInputState}
+              />
+              <LoginInput
+                sort='PW'
+                isdefault={isDefault}
+                inputbind={pwBind}
+                setInputState={setInputState}
+              />
             </LoginInnerContainerS>
             {!isDefault && <p className='error'>아이디 혹은 비밀번호가 일치하지 않습니다</p>}
           </LoginContainerS>
@@ -79,12 +89,19 @@ const LoginInput = ({
   sort,
   isdefault,
   inputbind,
+  setInputState,
 }: {
   sort: 'ID' | 'PW';
   isdefault: boolean;
   inputbind: bindValue;
+  setInputState: React.Dispatch<React.SetStateAction<string>>;
 }): JSX.Element => {
   const { value, setValue } = inputbind;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    setInputState('default');
+  };
 
   if (sort === 'ID')
     return (
@@ -92,7 +109,7 @@ const LoginInput = ({
         placeholder='아이디를 입력해 주세요'
         className={isdefault ? '' : 'failed'}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleInputChange}
       />
     );
 
@@ -102,7 +119,7 @@ const LoginInput = ({
       className={isdefault ? '' : 'failed'}
       type={true ? 'password' : 'text'}
       value={value}
-      onChange={(e) => setValue(e.target.value)}
+      onChange={handleInputChange}
     />
   );
 };
