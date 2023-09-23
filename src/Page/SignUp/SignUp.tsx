@@ -106,6 +106,7 @@ const SignUp = (): JSX.Element => {
             handlerBind={idBind}
             isFailed={isFailed}
             validationCheck={idValidationCheck}
+            isError={id !== '' && validation.id === false}
           />
           <p className={(id && validation.id === false) || isFailed ? 'hidden' : ''}>
             <img src={infoIcon} alt='infoIcon' />
@@ -122,6 +123,7 @@ const SignUp = (): JSX.Element => {
             sort='Email'
             handlerBind={emailBind}
             validationCheck={emailValidationCheck}
+            isError={email !== '' && validation.email === false}
           />
           {email && validation.email === false && (
             <p className='error'>이메일 형식이 올바르지 않습니다.</p>
@@ -133,6 +135,7 @@ const SignUp = (): JSX.Element => {
             sort='Nickname'
             handlerBind={nicknameBind}
             validationCheck={nicknameValidationCheck}
+            isError={nickname !== '' && validation.nickname === false}
           />
           <p className={nickname && validation.nickname === false ? 'hidden' : ''}>
             <img src={infoIcon} alt='infoIcon' />
@@ -142,7 +145,12 @@ const SignUp = (): JSX.Element => {
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>비밀번호</h2>
-          <SignUpInput sort='PW' handlerBind={passBind} validationCheck={passwordValidationCheck} />
+          <SignUpInput
+            sort='PW'
+            handlerBind={passBind}
+            validationCheck={passwordValidationCheck}
+            isError={password !== '' && validation.password === false}
+          />
           <p className={password && validation.password === false ? 'hidden' : ''}>
             <img src={infoIcon} alt='infoIcon' />
             영문+숫자 10~20자 조합, 공백 및 특수문자 불가
@@ -157,6 +165,7 @@ const SignUp = (): JSX.Element => {
             sort='PWconfirm'
             handlerBind={confirmBind}
             validationCheck={passwordConfirmCheck}
+            isError={confirmPassword !== '' && validation.confirmPassword === false}
           />
           {confirmPassword && validation.confirmPassword === false && (
             <p className='error'>비밀번호가 일치하지 않습니다.</p>
@@ -188,6 +197,7 @@ interface SignUpInputProps {
   handlerBind: handlerBind;
   isFailed?: boolean;
   validationCheck: () => void;
+  isError: boolean;
 }
 
 /**
@@ -202,8 +212,10 @@ const SignUpInput = ({
   handlerBind,
   isFailed,
   validationCheck,
+  isError,
 }: SignUpInputProps): JSX.Element => {
   const { value, setValue } = handlerBind;
+
   const handlerOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setValue(inputValue.trim());
@@ -236,7 +248,7 @@ const SignUpInput = ({
     <LoginInputS
       placeholder={placeholder}
       type={type}
-      className={isFailed ? 'failed' : ''}
+      className={`${isFailed ? 'failed' : ''} ${isError ? 'error' : ''}`}
       value={value}
       onChange={handlerOnChange}
     />
@@ -257,6 +269,10 @@ const LoginInputContainerS = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--height-gap);
+
+  input.error {
+    border-color: var(--system-red);
+  }
 
   p {
     color: var(--font-color2);
