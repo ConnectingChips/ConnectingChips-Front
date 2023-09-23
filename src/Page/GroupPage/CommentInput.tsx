@@ -21,6 +21,10 @@ interface commentInputProps {
     refresh: number;
     setRefresh: React.Dispatch<React.SetStateAction<number>>;
   };
+  commentFlipBind: {
+    commentFlip: boolean;
+    setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
 
 const CommentInput = ({
@@ -30,10 +34,12 @@ const CommentInput = ({
   postData,
   userInfo,
   refreshBind,
+  commentFlipBind,
 }: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
   const { isComment, setIsComment } = isCommentBind;
+  const { commentFlip, setCommentFlip } = commentFlipBind;
   const { setRefresh } = refreshBind;
 
   const getPlaceholderText = (isComment: number, commentCount: number) => {
@@ -67,7 +73,6 @@ const CommentInput = ({
     e.preventDefault();
     setInputToggle(true);
     if (commentInput.length === 0) return;
-
     try {
       if (isComment === 0) {
         const AddCommentData = {
@@ -84,8 +89,8 @@ const CommentInput = ({
         };
         await postAddReply(AddReplyData);
       }
-
       setCommentInput('');
+      setCommentFlip(false);
       setRefresh((prevRefresh) => prevRefresh + 1);
     } catch (error) {
       console.error('오류 발생:', error);
