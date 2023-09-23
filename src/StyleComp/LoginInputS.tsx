@@ -32,7 +32,7 @@ const LogInS = styled.div`
 const LoginInputS = styled.input`
   padding: 16px 18px;
   font-size: var(--body-b);
-  border: 0.1rem solid var(--color-disabled2);
+  border: 1px solid var(--color-disabled2);
   border-radius: 0.5rem;
   box-shadow: none;
   height: 1.25rem;
@@ -42,7 +42,7 @@ const LoginInputS = styled.input`
   }
 
   &:focus {
-    border: 0.1rem solid var(--color-main);
+    border-color: var(--color-main);
     outline: none;
   }
 `;
