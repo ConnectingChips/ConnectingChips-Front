@@ -16,7 +16,7 @@ const Carresel = ({ myList }: { myList: Mylist[] }) => {
             <MissionSingleWide text={mindTypeName} />
             <h2>{name}</h2>
             <p>
-              🔥 <span className='date'>{boardCount}</span>일자 맛보기 중
+              🔥 <span className='date'>{boardCount}</span>일차 맛보기 중
             </p>
           </MissionContentS>
           <ChipList count={count} />

@@ -18,7 +18,7 @@ const GroupCheck = ({
         if (!isJoined) navigate('/');
         if (sort === 'Upload') {
           getMindSingle(Number(mindId))
-            .then((isDoneToday: boolean) => isDoneToday && navigate('/error'))
+            .then((isDoneToday: boolean) => isDoneToday && navigate('/'))
             .catch(() => {});
         }
       }))();
