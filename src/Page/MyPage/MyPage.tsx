@@ -13,7 +13,7 @@ const MyPage = (): JSX.Element => {
   const ListBind = { curList, setCurList };
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
   const [showTerms, setshowTerms] = useState<boolean>(false);
-  
+
   useEffect(() => {
     scrollTop();
 
@@ -125,6 +125,10 @@ const ProfileHeaderS = styled.div`
 
   background-color: var(--font-color1);
   color: #fff;
+  
+  img{
+    width: 3.75rem;
+  }
 `;
 
 const LimitInfoS = styled.div`
