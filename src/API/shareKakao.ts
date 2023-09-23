@@ -7,10 +7,12 @@ const shareKakao = () => {
     webUrl: realUrl,
   };
 
+  const imageUrl =
+    'https://chips-bucket-image.s3.ap-northeast-2.amazonaws.com/images/Kakao_share.png';
   const shareData = {
-    title: '공유 테스트 제목',
-    description: '공유 테스트 내용',
-    imageUrl: '',
+    title: '작심삼칩 - 직장인 운동 습관 형성 커뮤니티',
+    description: '목표는 단 3일! 작심삼일을 반복해 탄탄한 습관 만들기',
+    imageUrl: imageUrl,
     link: linkData,
   };
 
@@ -19,11 +21,7 @@ const shareKakao = () => {
     content: shareData,
     buttons: [
       {
-        title: '웹으로 이동',
-        link: linkData,
-      },
-      {
-        title: '앱으로 이동',
+        title: '참여하기',
         link: linkData,
       },
     ],
