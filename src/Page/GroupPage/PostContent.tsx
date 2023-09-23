@@ -1,12 +1,10 @@
 import { styled } from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { BoardsType, putEditBoard } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
-import { GetUser } from '../../Type/User';
 interface PostContentProps {
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
   postData: BoardsType;
-  userInfo: GetUser;
   refreshBind: {
     refresh: number;
     setRefresh: React.Dispatch<React.SetStateAction<number>>;
@@ -14,24 +12,21 @@ interface PostContentProps {
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({
-  editbind,
-  postData,
-  userInfo,
-  refreshBind,
-}: PostContentProps): JSX.Element => {
+const PostContent = ({ editbind, postData, refreshBind }: PostContentProps): JSX.Element => {
+  const { mindId } = useParams();
+  const { content, boardId } = postData;
   const { edit, setEdit } = editbind;
-  const [editContent, setEditContent] = useState(postData.content);
-  const textarea = useRef<HTMLTextAreaElement | null>(null);
-  let { mindId } = useParams();
   const { refresh, setRefresh } = refreshBind;
+  const [editContent, setEditContent] = useState(content);
+  const textarea = useRef<HTMLTextAreaElement | null>(null);
+
   // textarea에 글자적으면 자동 height변경
-  const handleResizeHeight = () => {
+  const handleResizeHeight = useCallback(() => {
     if (textarea.current) {
       textarea.current.style.height = 'auto';
-      textarea.current.style.height = textarea.current.scrollHeight + 'px';
+      textarea.current.style.height = `${textarea.current.scrollHeight}px`;
     }
-  };
+  }, []);
 
   if (typeof mindId === 'undefined') return <></>;
 
@@ -41,8 +36,9 @@ const PostContent = ({
     content: editContent,
   };
 
+  // 게시글 수정
   const EditReq = async () => {
-    await putEditBoard(postData.boardId, postEditData).then((res) => {
+    await putEditBoard(boardId, postEditData).then((res) => {
       setEditContent(res.content);
     });
     setRefresh(refresh + 1);
@@ -59,12 +55,12 @@ const PostContent = ({
               handleResizeHeight();
               setEditContent(e.target.value);
             }}
-            rows={2} // 기본 높이 설정
+            rows={2}
             placeholder='인증글을 입력해주세요.'
             maxLength={800}
             value={editContent}
           >
-            {postData.content}
+            {content}
           </textarea>
           <BtnContainerS>
             <button
@@ -78,7 +74,7 @@ const PostContent = ({
           </BtnContainerS>
         </>
       ) : (
-        <p className='post'>{postData.content}</p>
+        <p className='post'>{content}</p>
       )}
     </PostContentS>
   );
@@ -89,7 +85,6 @@ export default PostContent;
 const BtnContainerS = styled.div`
   text-align: right;
   font-size: var(--button-mid);
-
   button {
     width: 4.25rem;
     height: 2rem;
@@ -103,14 +98,12 @@ const BtnContainerS = styled.div`
   }
 `;
 
-/** 2023-08-22 GroupActive.tsx - 그룹페이지 아티클 내용 */
 const PostContentS = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 0.5rem;
-
   textarea {
     background-color: white;
     border-radius: 1rem;

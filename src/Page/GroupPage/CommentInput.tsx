@@ -1,4 +1,3 @@
-import { SetStateAction, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { BoardsType } from '../../API/Boards';
 import { GetUser } from '../../Type/User';
@@ -34,8 +33,8 @@ const CommentInput = ({
 }: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
-  const { isComment, setIsComment } = isCommentBind;
-  const { refresh, setRefresh } = refreshBind;
+  const { isComment } = isCommentBind;
+  const { setRefresh } = refreshBind;
 
   // input에 들어갈 내용 CommentInput에 넣는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,10 +58,7 @@ const CommentInput = ({
   const inputBtnHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setInputToggle(true);
-
-    if (commentInput.length === 0) {
-      return;
-    }
+    if (commentInput.length === 0) return;
 
     try {
       if (isComment === 0) {
@@ -97,12 +93,7 @@ const CommentInput = ({
 
   return (
     <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
-      <CommentFormS
-        onClick={(e) => {
-          handleFormClickFalse(e);
-        }}
-        inputToggle={inputToggle}
-      >
+      <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
         <input
           placeholder={placeholderText}
           value={commentInput}

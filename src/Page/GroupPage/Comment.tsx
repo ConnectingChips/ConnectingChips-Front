@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CommentHeader } from './CommentHeader';
 import { CommentList } from './CommentList';
 import { CommentInput } from './CommentInput';
-import { CommentType, BoardsType } from '../../API/Boards';
+import { BoardsType } from '../../API/Boards';
 import { GetUser } from '../../Type/User';
 
 interface CommentListDataProps {
@@ -14,7 +14,7 @@ interface CommentListDataProps {
   };
 }
 
-const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps) => {
+const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps): JSX.Element => {
   // 댓글접기
   const [commentFlip, setCommentFlip] = useState(true);
   // input 바텀에 붙거나 말거나

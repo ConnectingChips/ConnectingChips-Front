@@ -4,24 +4,22 @@ import PostHeader from './PostHeader';
 import PostContent from './PostContent';
 import { useState } from 'react';
 import { BoardsType } from '../../API/Boards';
-import { GetUser } from '../../Type/User';
-
+import { GetUser } from '../Home/HomeBarrel';
 interface GroupGroupPostProps {
   passsort: PageSort;
   postData: BoardsType;
-  userInfo: GetUser;
   refreshBind: {
     refresh: number;
     setRefresh: React.Dispatch<React.SetStateAction<number>>;
   };
+  userInfo: GetUser;
 }
 
-/** 2023-08-22 GroupPost.tsx - 작심 인증 글 */
 const GroupPost = ({
   passsort,
   postData,
-  userInfo,
   refreshBind,
+  userInfo,
 }: GroupGroupPostProps): JSX.Element => {
   const [edit, setEdit] = useState<boolean>(false);
   const editbind = {
@@ -32,18 +30,18 @@ const GroupPost = ({
   return (
     <GroupPostS passsort={passsort}>
       <PostS>
-        <PostHeader editbind={editbind} postData={postData} refreshBind={refreshBind} />
+        <PostHeader
+          editbind={editbind}
+          postData={postData}
+          refreshBind={refreshBind}
+          userInfo={userInfo}
+        />
         {postData.image !== '' && (
           <PostImageS>
             <img src={postData.image} alt='업로드 사진' />
           </PostImageS>
         )}
-        <PostContent
-          editbind={editbind}
-          postData={postData}
-          userInfo={userInfo}
-          refreshBind={refreshBind}
-        />
+        <PostContent editbind={editbind} postData={postData} refreshBind={refreshBind} />
       </PostS>
     </GroupPostS>
   );
@@ -51,7 +49,6 @@ const GroupPost = ({
 
 export default GroupPost;
 
-/** 2023-08-22 GroupPost.tsx - 작심 인증 글 */
 const GroupPostS = styled.div<{ passsort: PageSort }>`
   margin: ${(props) => (props.passsort === 'Intro' ? '0 1rem 1rem 1rem' : null)};
 
@@ -60,13 +57,11 @@ const GroupPostS = styled.div<{ passsort: PageSort }>`
   }
 `;
 
-/** 2023-08-22 GroupPost.tsx - 그룹페이지 아티클 */
 const PostS = styled.article`
   border-radius: 0.5rem;
   background-color: var(--color-bg);
 `;
 
-/** 2023-08-22 GroupPost.tsx - 그룹페이지 아티클 인증 이미지(임시) */
 const PostImageS = styled.div`
   width: 100%;
   overflow: hidden;

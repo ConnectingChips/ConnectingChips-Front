@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { CommentType, ReplyType } from '../../API/Boards';
 import { GetUser } from '../../Type/User';
-import { deleteComment, deleteReply, postAddReply } from '../../API/Comment';
+import { deleteComment, deleteReply } from '../../API/Comment';
 import { useState } from 'react';
 import DeleteModal from '../../Component/DeleteModal';
 
@@ -34,7 +34,7 @@ const CommentList = ({
   userInfo,
   refreshBind,
 }: CommentHeaderProps) => {
-  const { commentFlip, setCommentFlip } = commentFlipBind;
+  const { commentFlip } = commentFlipBind;
   return (
     <CommentListS commentFlip={commentFlip}>
       {commentListData.map((commentData, i) => {
@@ -45,7 +45,7 @@ const CommentList = ({
             commentData={commentData}
             userInfo={userInfo}
             refreshBind={refreshBind}
-            key={i}
+            key={commentData.commentId}
           />
         );
       })}
@@ -132,43 +132,38 @@ const CommentBoxMaker = ({
   isCommentBind,
   refreshBind,
 }: CommentBoxMakerProps) => {
+  const { profileImage, nickname, createDate, content, commentId, userId } = commentData;
   const [modalBtn, setModalBtn] = useState(false);
-  const { inputToggle, setInputToggle } = inputToggleBind;
-  const { isComment, setIsComment } = isCommentBind;
-  const AddReplyHander = (commentId: number) => {
+  const { setInputToggle } = inputToggleBind;
+  const { setIsComment } = isCommentBind;
+
+  const addReplyHandler = () => {
     setInputToggle(false);
     setIsComment(commentId);
   };
 
+  const openModal = () => setModalBtn(true);
+
+  const deleteAction = () => deleteComment(commentId);
+
   return (
     <CommentContainerS sort={sort}>
-      <img src={commentData.profileImage} alt='답글프로필' />
+      <img src={profileImage} alt='답글프로필' />
       <CommentContentS sort={sort}>
         <div>
           <div className='profile'>
-            <h2>{commentData.nickname}</h2>
-            <p className='date'>{commentData.createDate}</p>
+            <h2>{nickname}</h2>
+            <p className='date'>{createDate}</p>
           </div>
-          <p className='text'>{commentData.content}</p>
+          <p className='text'>{content}</p>
         </div>
         <CommentOptionS>
-          <p
-            onClick={() => {
-              AddReplyHander(commentData.commentId);
-            }}
-          >
-            답글
-          </p>
-          {userInfo.userId === commentData.userId ? (
-            <p
-              onClick={() => {
-                setModalBtn(true);
-              }}
-              className={'delete'}
-            >
+          <p onClick={addReplyHandler}>답글</p>
+          {userInfo.userId === userId && (
+            <p onClick={openModal} className={'delete'}>
               삭제
             </p>
-          ) : null}
+          )}
         </CommentOptionS>
       </CommentContentS>
       {modalBtn && (
@@ -176,9 +171,7 @@ const CommentBoxMaker = ({
           setConfirm={setModalBtn}
           confirmText='이 댓글을 삭제할까요?'
           action='삭제'
-          method={() => {
-            return deleteComment(commentData.commentId);
-          }}
+          method={deleteAction}
           refreshBind={refreshBind}
         />
       )}
@@ -198,29 +191,27 @@ interface ReplyBoxMakerProps {
 
 /** 답글 box */
 const ReplyBoxMaker = ({ sort, replyData, userInfo, refreshBind }: ReplyBoxMakerProps) => {
+  const { profileImage, nickname, createDate, content, userId, replyId } = replyData;
   const [modalBtn, setModalBtn] = useState(false);
+  const openModal = () => setModalBtn(true);
+  const deleteAction = () => deleteReply(replyId);
   return (
     <CommentContainerS sort={sort}>
-      <img src={replyData.profileImage} alt='답글프로필' />
+      <img src={profileImage} alt='답글프로필' />
       <CommentContentS sort={sort}>
         <div>
           <div className='profile'>
-            <h2>{replyData.nickname}</h2>
-            <p className='date'>{replyData.createDate}</p>
+            <h2>{nickname}</h2>
+            <p className='date'>{createDate}</p>
           </div>
-          <p className='text'>{replyData.content}</p>
+          <p className='text'>{content}</p>
         </div>
         <CommentOptionS>
-          {userInfo.userId === replyData.userId ? (
-            <p
-              onClick={() => {
-                setModalBtn(true);
-              }}
-              className='delete'
-            >
+          {userInfo.userId === userId && (
+            <p onClick={openModal} className='delete'>
               삭제
             </p>
-          ) : null}
+          )}
         </CommentOptionS>
       </CommentContentS>
       {modalBtn && (
@@ -228,7 +219,7 @@ const ReplyBoxMaker = ({ sort, replyData, userInfo, refreshBind }: ReplyBoxMaker
           setConfirm={setModalBtn}
           confirmText='이 댓글을 삭제할까요?'
           action='삭제'
-          method={() => deleteReply(replyData.replyId)}
+          method={deleteAction}
           refreshBind={refreshBind}
         />
       )}
@@ -245,14 +236,12 @@ const CommentListS = styled.div<{ commentFlip: boolean }>`
   gap: 1rem;
 `;
 
-/** 2023-09-02 Comment.tsx - 댓글+ 답글 / 답글 간격 - Kadesti */
 const CommentBoxS = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 `;
 
-/** 2023-08-25 Comment.tsx - 그룹페이지 댓글 전체 내용 */
 const CommentContainerS = styled.div<{ sort: 'comment' | 'reply' }>`
   display: flex;
   align-items: start;
@@ -266,7 +255,6 @@ const CommentContainerS = styled.div<{ sort: 'comment' | 'reply' }>`
   }
 `;
 
-/** 2023-08-25 Comment.tsx - 그룹페이지 댓글 내용, 답글 탭 */
 const CommentContentS = styled.div<{ sort: 'comment' | 'reply' }>`
   margin-left: 0.5rem;
 
@@ -305,7 +293,6 @@ const CommentContentS = styled.div<{ sort: 'comment' | 'reply' }>`
   }
 `;
 
-/** 2023-09-02 Comment.tsx - 답글, 삭제 */
 const CommentOptionS = styled.div`
   display: flex;
   gap: 1.5rem;
