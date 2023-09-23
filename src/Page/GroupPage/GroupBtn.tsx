@@ -28,14 +28,17 @@ const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
   }, [refresh]);
 
   // 버튼 텍스트를 결정하는 함수
-  const buttonText = !keepJoin ? (isDoneToday ? '성공' : '인증') : '재작심';
+  const buttonText = keepJoin ? (isDoneToday ? '성공' : '인증') : '재작심';
 
   const groupBtnHandler = () => {
     if (buttonText === '인증') {
       navigate(`/uploadPost/${mindId}`);
     }
     if (buttonText === '재작심') {
-      postJoin(Number(mindId));
+      postJoin(Number(mindId)).then(() => {
+        setKeepJoin(true);
+        setIsDoneToday(false);
+      });
     }
   };
 
