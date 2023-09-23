@@ -79,23 +79,19 @@ const LogIn = (): JSX.Element => {
 
 export default LogIn;
 
-/**
- * 2023-08-24 LogIn.tsx - 입력 창
- * @param sort id인지 password인지 식별
- * @param isDefault 기본값인지 한번 틀린상태인지 구분
- * @returns id입력창 또는 pw입력창
- */
+interface LoginInputProps {
+  sort: 'ID' | 'PW';
+  isdefault: boolean;
+  inputbind: bindValue;
+  setInputState: React.Dispatch<React.SetStateAction<string>>;
+}
+
 const LoginInput = ({
   sort,
   isdefault,
   inputbind,
   setInputState,
-}: {
-  sort: 'ID' | 'PW';
-  isdefault: boolean;
-  inputbind: bindValue;
-  setInputState: React.Dispatch<React.SetStateAction<string>>;
-}): JSX.Element => {
+}: LoginInputProps): JSX.Element => {
   const { value, setValue } = inputbind;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
