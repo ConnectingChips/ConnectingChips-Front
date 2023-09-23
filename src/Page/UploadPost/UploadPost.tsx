@@ -139,7 +139,7 @@ const UploadPost = () => {
           <input
             type='file'
             id='image-upload'
-            accept='image/png, image/jpeg, image/jpg, .heic'
+            accept='image/png, image/jpeg, image/jpg,'
             ref={(ref) => (fileRef.current = ref)}
             onChange={handleFileInputChange}
           />
