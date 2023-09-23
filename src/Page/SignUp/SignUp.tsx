@@ -55,7 +55,7 @@ const SignUp = (): JSX.Element => {
   };
 
   const emailValidationCheck = () => {
-    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/g;
+    const emailReg = /^[a-z0-9_.]+@[a-z0-9_.]+\.(com)$/g;
     const isValidEmail = emailReg.test(email);
     setValidation((prev) => ({ ...prev, email: isValidEmail }));
   };
@@ -93,6 +93,7 @@ const SignUp = (): JSX.Element => {
     }
   };
 
+  // TODO: 에러일때 border red로 변경 (failed class)
   return (
     <LogInS>
       <Loginheader type='회원가입' />
