@@ -51,12 +51,14 @@ type ExitButton = {
   setMindId: React.Dispatch<React.SetStateAction<number>>;
 };
 const ExistComp = ({ myList, setConfirmExitMind, setMindId }: ExitButton): JSX.Element => {
+  const naviagate = useNavigate();
+
   return (
     <>
       {myList.map((myGroup, idx) => {
         return (
           <MindS key={idx}>
-            <p className='main'>{myGroup.name}</p>
+            <p className='main' onClick={()=>naviagate(`/groupPage/${myGroup.mindId}`)}>{myGroup.name}</p>
             <ExitButtonS
               onClick={() => {
                 setMindId(myGroup.mindId);
@@ -87,10 +89,10 @@ const NoneExistComp = (): JSX.Element => {
 
 /** 참여했던 작심 */
 export const EndMindList = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
-  const [endList, setEndlist] = useState<EndMindType[]>();
+  const [endList, setEndList] = useState<EndMindType[]>();
 
   useEffect(() => {
-    getEndList().then((endMind: EndMindType[]) => setEndlist(endMind));
+    getEndList().then((endMind: EndMindType[]) => setEndList(endMind));
   }, []);
 
   const isExist = endList && endList.length > 0;
@@ -106,8 +108,8 @@ const initEndList: EndMindType[] = [];
 
 const EndMind = ({ ListBind }: { ListBind: ListBind }) => {
   const [endList, setEndList] = useState<EndMindType[]>(initEndList);
-  const { curList, setCurList } = ListBind;
-  const myList = curList;
+  const { curList } = ListBind;
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => await getMindAFinished().then((list: EndMindType[]) => setEndList(list)))();
@@ -115,17 +117,7 @@ const EndMind = ({ ListBind }: { ListBind: ListBind }) => {
 
   const ReMindButton = ({ list }: { list: EndMindType }) => {
     return curList.length < 3 && curList.length >= 0 && list.canJoin === 1 ? (
-      <ReMindButtonS
-        onClick={() => {
-          const curList = endList.filter((mind) => mind.mindId !== list.mindId);
-          setEndList(curList);
-          postJoin(list.mindId);
-          getMyListSingle(list.mindId).then((list: Mylist) => {
-            const newList = [...myList, list];
-            setCurList(newList);
-          });
-        }}
-      >
+      <ReMindButtonS onClick={() => navigate(`/groupIntro/${list.mindId}`)}>
         다시 참여하기
       </ReMindButtonS>
     ) : (

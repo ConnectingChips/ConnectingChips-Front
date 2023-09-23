@@ -51,7 +51,22 @@ const GroupListItem = ({ mind }: { mind: TotalMind }): JSX.Element => {
 };
 
 const ItemContent = ({ mind }: { mind: TotalMind }): JSX.Element => {
-  const isFirst = mind.userCount === 0;
+  const message = (() => {
+    if (mind.userCount === 0) return <p>작심의 첫 주인공이 되어 보세요!</p>;
+    if (mind.userCount === 1)
+      return (
+        <p>
+          <span className='people'>1</span>명 맛보기 중
+        </p>
+      );
+    if (mind.userCount > 1)
+      return (
+        <p>
+          <span className='people'>{mind.userCount - 1}</span>명과 함께 참여 중
+        </p>
+      );
+    return <></>;
+  })();
 
   return (
     <ItemContentS>
@@ -59,13 +74,7 @@ const ItemContent = ({ mind }: { mind: TotalMind }): JSX.Element => {
         <ItemTabS>{mind.mindTypeName}</ItemTabS>
         <h2>{mind.name}</h2>
       </div>
-      {isFirst ? (
-        <p>작심의 첫 주인공이 되어 보세요!</p>
-      ) : (
-        <p>
-          <span className='people'>{mind.userCount}</span>명 함께 맛보기 중
-        </p>
-      )}
+      {message}
     </ItemContentS>
   );
 };

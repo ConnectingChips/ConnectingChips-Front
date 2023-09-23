@@ -13,7 +13,7 @@ const MyPage = (): JSX.Element => {
   const ListBind = { curList, setCurList };
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
   const [showTerms, setshowTerms] = useState<boolean>(false);
-  
+
   useEffect(() => {
     scrollTop();
 
@@ -39,7 +39,7 @@ const MyPage = (): JSX.Element => {
       {curList.length === 3 && (
         <LimitInfoS>
           <img src={Info_icon_B} alt='인포프로필' />
-          <p>최대 3개의 그룹까지 참여 가능합니다.</p>
+          <p>다른 그룹에 참여하시려면 그룹 나가기를 해주세요.(최대 참여 그룹 3개)</p>
         </LimitInfoS>
       )}
 
@@ -125,17 +125,31 @@ const ProfileHeaderS = styled.div`
 
   background-color: var(--font-color1);
   color: #fff;
+  
+  img{
+    width: 3.75rem;
+  }
 `;
 
 const LimitInfoS = styled.div`
   background: #ffd32c;
-  height: 2.0625rem;
+  height: 3.25rem;
 
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 
-  padding: 0 1rem;
+  box-sizing: border-box;
+  padding: 0.5rem 1rem;
   gap: 0.25rem;
+
+  img{
+    margin-top: 0.155rem;
+  }
+  p {
+    width: 16rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
 `;
 
 const MyPageSetS = styled.div`

@@ -1,6 +1,5 @@
 import { getData, postData, putData } from './axiosConfig';
-import logText from './logText';
-import { tockenHeader, getToken } from '../data/tocken';
+import { getToken, tockenHeader } from '../data/tocken';
 import { Mylist } from '../Type/Mind';
 
 // 참여중인 작심인지 반환
@@ -10,8 +9,7 @@ export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {
       `/joined-minds/${mind_id}/join-check`,
       tockenHeader,
     );
-
-    logText(response.data);
+    
     return response.data.isJoining;
   } catch (error) {
     console.error(error);
@@ -37,6 +35,7 @@ export const putMindExit = async (
   setMylist: React.Dispatch<React.SetStateAction<Mylist[]>>,
 ): Promise<void> => {
   try {
+    const { tockenHeader } = getToken();
     await putData(`/joined-minds/${mindId}/exit`, {}, tockenHeader);
     const exitList = myList.filter((mind) => mind.mindId !== mindId);
     setMylist(exitList);

@@ -22,7 +22,7 @@ const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
   const { count, isDoneToday, mindId, boardCount } = mind;
   const remind = async () =>
     await postJoin(mindId)
-      .then(() => {})
+      .then(() => navigate(`/uploadPost/${mind.mindId}`))
       .catch(() => {});
 
   const keppJoinReg = boardCount !== 0 && boardCount % 3 === 0 && count === 0;
