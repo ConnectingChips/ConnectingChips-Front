@@ -15,6 +15,7 @@ import { GNB } from '../../AppBarral';
 import { MyInfoContextType, MyListContextType } from '../../API/Context';
 import { initUser } from '../MyPage/MypageBarrel';
 import { initMyList } from '../../data/initialData';
+import { isDone } from '../../Type/Mind';
 
 const { Kakao } = window;
 
@@ -25,6 +26,7 @@ const Home = (): JSX.Element => {
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
   const isLogin = myInfo !== initUser;
+  console.log('istodayDone: ', istodayDone);
 
   useEffect(() => {
     scrollTop();
@@ -112,11 +114,6 @@ const setHome = async (
   setMylist: React.Dispatch<React.SetStateAction<Mylist[]>>,
   setIsDone: React.Dispatch<React.SetStateAction<boolean>>,
 ): Promise<void> => {
-  type isDone = {
-    joinedMindId: number;
-    isDoneToday: boolean;
-  };
-
   const isLogin = localStorage.getItem('access_token') || '';
 
   if (isLogin !== '') {
@@ -128,7 +125,9 @@ const setHome = async (
       .catch(() => {});
     await getisDoneAll()
       .then((isDone: isDone[]) => {
-        const doneValid = isDone.some((data) => data.isDoneToday);
+        console.log('isDone: ', isDone);
+
+        const doneValid = isDone.some((data) => data.doneToday);
         setIsDone(doneValid);
       })
       .catch(() => {});
