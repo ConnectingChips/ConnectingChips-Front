@@ -16,11 +16,14 @@ export const StyledToastContainer = (): JSX.Element => {
 
 const StyledContainer = styled(ToastContainer)`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 1rem;
 
   &&.Toastify__toast-container {
-    padding-bottom: 88px; // 버튼 배경 박스에 딱 붙게
-    font-size: 12px;
+    padding-bottom: 88px;
+    font-size: var(--body-c);
   }
 
   .Toastify__toast-body {
@@ -31,26 +34,18 @@ const StyledContainer = styled(ToastContainer)`
   .Toastify__toast {
     min-height: 0;
     padding: 13px 16px;
+    margin-bottom: 0;
   }
 
   .net-error,
-  .client-error,
-  .img-limit-err {
+  .client-error {
+    min-width: 17.5625rem;
     border-radius: 0.625rem;
     color: white;
     font-size: var(--body-c);
     font-weight: 400;
     font-family: Noto Sans KR;
     background-color: rgba(0, 0, 0, 0.6);
-  }
-
-  .net-error,
-  .client-error {
-    width: 23rem;
-  }
-
-  .img-limit-err {
-    min-width: 17.5625rem;
   }
 
   @keyframes fade-in {
