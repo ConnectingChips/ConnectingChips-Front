@@ -34,20 +34,14 @@ const StyledContainer = styled(ToastContainer)`
   }
 
   .net-error,
-  .client-error,
-  .img-limit-err {
+  .client-error {
+    min-width: 17.5625rem;
     border-radius: 0.625rem;
     color: white;
     font-size: var(--body-c);
     font-weight: 400;
     font-family: Noto Sans KR;
     background-color: rgba(0, 0, 0, 0.6);
-  }
-
-  .net-error,
-  .client-error,
-  .img-limit-err {
-    min-width: 17.5625rem;
   }
 
   @keyframes fade-in {

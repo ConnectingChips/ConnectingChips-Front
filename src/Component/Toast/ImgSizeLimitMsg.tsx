@@ -4,7 +4,7 @@ import { ErrorMsgNetS, fade } from './ToastMsgStyle';
 
 export const notifyImgSizeLimitErr = () =>
   toast(ImgSizeLimitMsg, {
-    className: 'img-limit-err',
+    className: 'client-error',
     transition: fade,
   });
 
