@@ -8,8 +8,10 @@ import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 import { StyledToastContainer } from '../../Component/Toast/StyledToastContainer';
+
 import { notifyImgSizeLimitErr } from '../../Component/Toast/ImgSizeLimitMsg';
 import { notifyNetErr } from '../../Component/Toast/NetworkErrorMsg';
+import { notifyExtensionsBlockErr } from '../../Component/Toast/ExtensionsBlockMsg';
 
 import { getUser } from '../../API/Users';
 import { postCreateBoard } from '../../API/Boards';
@@ -60,8 +62,7 @@ const UploadPost = () => {
     // 이미지 확장자 제한
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
       console.log('비허용:: ', fileExtension); // TODO: 테스트 후 제거
-      // 동영상은 올릴 수 없어요
-      return;
+      return notifyExtensionsBlockErr();
     }
 
     // 10485760 = 10mb 제한
