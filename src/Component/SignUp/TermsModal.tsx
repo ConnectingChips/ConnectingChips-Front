@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../image/Icon/close_icon.svg';
 import MarkDown from '../Markdown/Markdown';
@@ -19,9 +20,16 @@ interface TermsModalProps {
 }
 
 const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const handleCloseButtonClick = () => {
     setIsOpen(false);
-    document.body.style.overflow = 'unset';
+    // document.body.style.overflow = 'unset';
   };
 
   const handleAgreeButtonClick = () => {
@@ -43,7 +51,7 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
     }
 
     setIsOpen(false);
-    document.body.style.overflow = 'unset';
+    // document.body.style.overflow = 'unset';
   };
 
   return (
@@ -72,8 +80,10 @@ const Container = styled.div`
   bottom: 0;
   z-index: 2;
   background-color: var(--color-white);
-  /* 스크롤이 있을 때도 화면 크기에 맞게 적용되도록 */
-  overflow: auto;
+  /* overflow: auto; */
+  /* .scroll::-webkit-scrollbar {
+    display: none;
+  } */
 `;
 
 const ModalHeaderS = styled.div`
