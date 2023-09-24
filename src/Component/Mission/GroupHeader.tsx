@@ -70,16 +70,16 @@ export { GroupHeader, GroupIntroHeader };
 
 /** 2023-08-22 GroupHeader.tsx - 그룹 인트로 뒤로가기 */
 const GroupHeaderS = styled.header`
-  /* position: fixed; */
-  cursor: pointer;
-  position: sticky;
-  top: 0;
-
-  height: 1.5rem;
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  height: var(--height-header);
 `;
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */

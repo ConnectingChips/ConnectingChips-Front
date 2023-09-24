@@ -58,7 +58,7 @@ const GroupArticleS = styled.article<{ passsort: PageSort }>`
     props.passsort === 'Intro'
       ? '0 1rem 0.5rem 1rem'
       : props.passsort === 'Create'
-      ? '0.75rem 1rem 0.5rem 1rem'
+      ? '3.75rem 1rem 0.5rem 1rem'
       : '0.87rem 1rem 1.25rem 1rem'};
 
   p {
