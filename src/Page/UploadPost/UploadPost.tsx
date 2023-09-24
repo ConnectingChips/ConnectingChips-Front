@@ -28,7 +28,6 @@ interface Image {
   file: null | File;
 }
 
-/** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const UploadPost = () => {
   const INITIAL_TEXT = '오늘 작심 성공!';
   const navigate = useNavigate();
@@ -96,29 +95,24 @@ const UploadPost = () => {
       });
       navigate(`/groupPage/${mindId}`);
     } catch (error) {
-      console.error('error:: ', error);
+      console.error(error);
 
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 500) {
-          return console.error(error.response?.status); // 서버 에러 status: 500
-          // alert('잠시 후 다시 시도해 주세요');
+          return notifyNetErr(); // TODO: 임시 토스트 메시지
         }
 
         if (error.response?.data.code === 4012) {
-          console.error(error.response?.data.code); // 만료된 토큰 code: 4012
-          // alert('다시 로그인 해주세요');
           localStorage.removeItem('access_token');
           return navigate('/LogIn');
         }
 
         if (error.response?.data.code === 4011) {
-          console.error(error.response?.data.code); // 유효하지 않은 토큰 code: 4011
           localStorage.removeItem('access_token');
           return navigate('/LogIn');
         }
 
         if (error.code === 'ERR_NETWORK') {
-          console.log('ERR_NETWORK');
           return notifyNetErr();
         }
       }
@@ -178,7 +172,6 @@ const UploadPost = () => {
 
 export default UploadPost;
 
-/** 2023-08-24 CreatePost.tsx - 인증글쓰기 페이지 */
 const CreatePostS = styled.div`
   width: var(--width-mobile);
   height: 100vh;
@@ -198,14 +191,12 @@ const UploadPostHeaderS = styled(GroupHeader)`
   }
 `;
 
-/** 2023-08-25 CreatePost.tsx - 인증글쓰기 폼 */
 const CreateFormS = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
 `;
 
-/** 2023-08-25 CreatePost.tsx - 인증글쓰기 이미지/채팅 컨테이너 */
 const CreateFormUploadS = styled.div`
   display: flex;
   flex-direction: column;
