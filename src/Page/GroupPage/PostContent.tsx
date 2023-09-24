@@ -49,8 +49,6 @@ const PostContent = ({ editbind, postData, refreshBind }: PostContentProps): JSX
     setRefresh(refresh + 1);
     setEdit(false);
   };
-  console.log(imgCheck);
-
   return (
     <PostContentS imgCheck={imgCheck}>
       {edit ? (
