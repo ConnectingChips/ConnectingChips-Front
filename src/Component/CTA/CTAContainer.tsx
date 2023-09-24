@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { MyListContext, MyListContextType } from '../../API/Context';
 import { postJoin } from '../../API/joinedMinds';
+import { getMyList } from '../../API/Mind';
 
 // TODO: api: 참여하기 요청보내기 /joined-minds/{joined_mind_id}
 /** 2023-08-22 CTAContainer.tsx - 참여하기 버튼 */
@@ -13,15 +14,14 @@ const JoinButtonCTA = (): JSX.Element => {
   const [validJoin, setValidJoin] = useState('true');
   const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
   const location = useLocation();
+
   useEffect(() => {
-    if (localStorage.getItem('access_token')) {
-      setIsLogin(true);
-      if (myList.length >= 3) setValidJoin('false');
-    }
-  }, [myList.length]);
+    getMyList().then((data) => {
+      data.length === 3 && setValidJoin('false');
+    });
+  }, []);
 
   const joinGroup = async () => {
-    if (!isLogin) return navigate('/logIn');
     try {
       await postJoin(Number(mindId));
       sessionStorage.setItem(`intro_${mindId}`, location.pathname);
