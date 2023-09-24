@@ -20,7 +20,7 @@ const StyledContainer = styled(ToastContainer)`
 
   &&.Toastify__toast-container {
     padding-bottom: 88px; // 버튼 배경 박스에 딱 붙게
-    font-size: 12px;
+    font-size: var(--body-c);
   }
 
   .Toastify__toast-body {
@@ -45,10 +45,7 @@ const StyledContainer = styled(ToastContainer)`
   }
 
   .net-error,
-  .client-error {
-    width: 23rem;
-  }
-
+  .client-error,
   .img-limit-err {
     min-width: 17.5625rem;
   }
