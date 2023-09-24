@@ -64,7 +64,6 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
   const showModal = () => {
     setIsOpen(true);
     // document.body.style.overflow = 'hidden';
-    // window.history.pushState(null, '', window.location.href);
   };
 
   return (
