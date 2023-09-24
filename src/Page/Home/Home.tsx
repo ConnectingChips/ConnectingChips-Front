@@ -94,7 +94,9 @@ const Home = (): JSX.Element => {
               </h1>
             )}
           </WelcomeTextS>
-          {!isLogin && <img src={`${process.env.PUBLIC_URL}/oneChip.png`} alt='원칩이' />}
+          {!isLogin && (
+            <img src={`${process.env.PUBLIC_URL}/oneChip.png`} alt='원칩이' className='noLogin' />
+          )}
         </WelcomeHeadS>
         {myList.length !== 0 && isLogin && <MyMisson myList={myList} />}
         <Banner />
@@ -138,7 +140,8 @@ const setHome = async (
 
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */
 const HomeS = styled.section`
-  width: var(--width-mobile);
+  max-width: var(--width-mobile);
+  /* width: var(--width-mobile); */
   display: flex;
   justify-content: center;
 
@@ -155,9 +158,12 @@ const WelcomeHeadS = styled.div`
   margin-top: var(--height-header);
   padding: 1.25rem 0;
   height: 7.8125rem;
+  gap: 0.63rem;
 
-  img {
+  img.noLogin {
     margin-right: 1.25rem;
+    object-fit: contain;
+    width: 9.75rem;
   }
 `;
 
@@ -226,6 +232,7 @@ const HomeHeaderS = styled.header`
     padding: 1rem;
     width: 100vw;
     top: 0;
+    left: 0;
 
     box-sizing: border-box;
     height: var(--height-header);
@@ -263,9 +270,9 @@ const UserInfoS = styled.div`
 
 /** 2023-08-20 Home.tsx - WelcomeTextS, MyMisson, CurrentMission 컨테이너 */
 const HomeContentS = styled.div`
-  width: 100%;
   margin: 0 1rem;
   margin-bottom: 5rem;
+  margin-top: var(--height-header);
 `;
 
 /** 2023-08-20 Home.tsx - 오늘도 득근한 하루 되세요 */

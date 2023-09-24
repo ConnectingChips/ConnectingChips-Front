@@ -35,7 +35,7 @@ export const getData = async <T>(
     const response = await client.get<APIResponse<T>>(url, config);
     return response.data;
   } catch (error: any) {
-    throw new Error(error.message);
+    return Promise.reject(error);
   }
 };
 
