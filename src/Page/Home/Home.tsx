@@ -124,8 +124,6 @@ const setHome = async (
       .catch(() => {});
     await getisDoneAll()
       .then((isDone: isDone[]) => {
-        console.log('isDone: ', isDone);
-
         const doneValid = isDone.some((data) => data.doneToday);
         setIsDone(doneValid);
       })

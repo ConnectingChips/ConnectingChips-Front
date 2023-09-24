@@ -159,16 +159,16 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
   }
 };
 
-interface getkeepJoin {
+interface GetkeepJoin {
   keepJoin: boolean;
   isDoneToday: boolean;
 }
 
 // 작심 활동 현황 (main / Page)
-export const getkeepJoin = async (mindId: number): Promise<getkeepJoin> => {
+export const getkeepJoin = async (mindId: number): Promise<GetkeepJoin> => {
   try {
     const { tockenHeader } = getToken();
-    const response = await getData<getkeepJoin>(`/minds/keep-join/${mindId}`, tockenHeader);
+    const response = await getData<GetkeepJoin>(`/minds/keep-join/${mindId}`, tockenHeader);
     return response.data;
   } catch (error) {
     throw new Error('작심 활동 현황을 호출하는 데 실패했습니다.');

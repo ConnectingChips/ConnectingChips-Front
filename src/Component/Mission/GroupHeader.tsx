@@ -34,7 +34,6 @@ const GroupHeader = ({ children, className, refresh }: GroupHeaderProps): JSX.El
 
   const goBack = (): void => {
     const introhistory = sessionStorage.getItem(`intro_${mindId}`);
-    console.log(!introhistory);
     if (!introhistory) {
       window.history.back();
     }
