@@ -26,8 +26,7 @@ const Home = (): JSX.Element => {
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
   const isLogin = myInfo !== initUser;
-  console.log('istodayDone: ', istodayDone);
-
+  
   useEffect(() => {
     scrollTop();
     setHome(setMyInfo, setMylist, setIsDone);

@@ -77,4 +77,5 @@ const ClearBtnS = styled(CommonBtnS)`
 
 const NoneClearBtnS = styled(CommonBtnS)`
   border: 0.1rem solid var(--color-main);
+  color: black;
 `;
