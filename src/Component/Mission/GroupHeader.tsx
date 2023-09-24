@@ -76,6 +76,7 @@ const GroupHeaderS = styled.header`
   left: 0;
   box-sizing: border-box;
   height: var(--height-header);
+  z-index: 20;
 `;
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
@@ -91,8 +92,5 @@ const GroupBGHeaderS = styled(GroupHeaderS)`
   left: 0;
   box-sizing: border-box;
   height: var(--height-header);
-
-  // 자연스럽게 붙이기
-  /* padding-top: 3rem;
-top: -2rem; */
+  z-index: 20;
 `;
