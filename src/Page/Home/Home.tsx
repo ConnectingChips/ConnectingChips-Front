@@ -141,9 +141,7 @@ const setHome = async (
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */
 const HomeS = styled.section`
   max-width: var(--width-mobile);
-  /* width: var(--width-mobile); */
-  /* display: flex; */
-  /* justify-content: center; */
+  margin: 0 auto;
 
   .CTA {
     position: sticky;
