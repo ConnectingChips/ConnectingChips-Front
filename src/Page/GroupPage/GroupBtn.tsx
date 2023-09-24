@@ -22,7 +22,7 @@ const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
   const { mindId } = useParams();
   // const [keepJoin, setKeepJoin] = useState<boolean>(false);
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
-  const [myList, setMylist] = useState<Mylist[]>(initMyList)
+  const [myList, setMylist] = useState<Mylist[]>(initMyList);
 
   useEffect(() => {
     getkeepJoin(Number(mindId))
@@ -84,7 +84,7 @@ const GroupBtnContainerS = styled.button<{ btntext: string }>`
   border-radius: 1.25rem;
   border: 1px solid var(--color-main);
   background: var(--color-white);
-  font-size: 0.75rem;
+  font-size: var(--button-mid);
   ${(props) =>
     props.btntext === '성공' &&
     `

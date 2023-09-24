@@ -132,22 +132,22 @@ const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
   ${(props) =>
     props.inputToggle
       ? ''
-      : 'position: fixed;display: flex;justify-content: center;align-items: center;top: 0;left: 0;right: 0;bottom: 0;z-index: 100;overflow:auto;'}
+      : 'position: fixed; display: flex; flex-direction: column-reverse; top: 0;left: 0;right: 0;bottom: 0;z-index: 100;overflow:auto;'}
 `;
 
 const CommentFormS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: static;
   width: 100%;
   height: 4.5rem;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: white;
 `;
 
 const InputS = styled.div<{ inputToggle: boolean }>`
-  font-size: 1rem;
+  width: 375px;
   position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
   background-color: #fff;
   border: 1px solid #e3e3e3;
@@ -155,9 +155,10 @@ const InputS = styled.div<{ inputToggle: boolean }>`
   height: 3.5rem;
   display: flex;
   align-items: center;
-  padding: 0 1.1rem;
+  justify-content: space-around;
   z-index: 10;
   input {
+    font-size: 1rem;
     width: 16.4rem;
     height: 1.25rem;
     border: none;

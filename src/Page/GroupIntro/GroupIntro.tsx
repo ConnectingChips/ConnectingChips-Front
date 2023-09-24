@@ -40,12 +40,13 @@ const GroupIntro = (): JSX.Element => {
 export default GroupIntro;
 
 const GroupIntroS = styled.div<{ img: string }>`
+  width: 100vw;
+  height: 100vh;
   position: relative;
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
   background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
   background-size: cover;
@@ -59,10 +60,10 @@ const BGDarkS = styled.div`
 
 const GroupContainerS = styled.div`
   height: 100%;
+  margin: 0 auto;
+  width: var(--width-mobile);
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow-y: scroll;
+  flex-direction: column-reverse;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -71,5 +72,5 @@ const GroupContainerS = styled.div`
 const GroupIntroArticleS = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-end;.
 `;

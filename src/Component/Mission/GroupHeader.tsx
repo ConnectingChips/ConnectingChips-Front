@@ -33,11 +33,7 @@ const GroupHeader = ({ children, className, refresh }: GroupHeaderProps): JSX.El
   }, [refresh]);
 
   const goBack = (): void => {
-    // const introhistory = sessionStorage.getItem(`intro_${mindId}`);
-    // if (!introhistory) {
-    //   window.history.back();
-    // }
-    navigate('/');
+    window.history.back();
   };
 
   return (
@@ -70,26 +66,31 @@ export { GroupHeader, GroupIntroHeader };
 
 /** 2023-08-22 GroupHeader.tsx - 그룹 인트로 뒤로가기 */
 const GroupHeaderS = styled.header`
-  /* position: fixed; */
-  cursor: pointer;
-  position: sticky;
-  top: 0;
-
-  height: 1.5rem;
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  height: var(--height-header);
+  z-index: 20;
 `;
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
 const GroupBGHeaderS = styled(GroupHeaderS)`
-  backdrop-filter: none;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
-  cursor: default;
-  z-index: 30;
-
-  // 자연스럽게 붙이기
-  /* padding-top: 3rem;
-top: -2rem; */
+  padding: 1rem;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  height: var(--height-header);
+  z-index: 20;
 `;

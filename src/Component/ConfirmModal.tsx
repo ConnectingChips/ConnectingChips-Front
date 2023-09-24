@@ -71,7 +71,6 @@ const ConfirmModalS = styled.div`
 
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 
   div {
     /* height: 2.5rem; */

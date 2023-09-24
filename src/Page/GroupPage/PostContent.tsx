@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { BoardsType, putEditBoard } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
 interface PostContentProps {
@@ -18,7 +18,12 @@ const PostContent = ({ editbind, postData, refreshBind }: PostContentProps): JSX
   const { edit, setEdit } = editbind;
   const { refresh, setRefresh } = refreshBind;
   const [editContent, setEditContent] = useState(content);
+  const [imgCheck, setImgCheck] = useState(true);
   const textarea = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (postData.image !== '') setImgCheck(false);
+  }, [refresh]);
 
   // textarea에 글자적으면 자동 height변경
   const handleResizeHeight = useCallback(() => {
@@ -44,9 +49,8 @@ const PostContent = ({ editbind, postData, refreshBind }: PostContentProps): JSX
     setRefresh(refresh + 1);
     setEdit(false);
   };
-
   return (
-    <PostContentS>
+    <PostContentS imgCheck={imgCheck}>
       {edit ? (
         <>
           <textarea
@@ -98,8 +102,8 @@ const BtnContainerS = styled.div`
   }
 `;
 
-const PostContentS = styled.div`
-  padding: 1rem;
+const PostContentS = styled.div<{ imgCheck: boolean }>`
+  padding: ${(props) => (props.imgCheck === true ? '0 1rem 1rem 1rem;' : '1rem;')}
   display: flex;
   flex-direction: column;
   justify-content: space-between;

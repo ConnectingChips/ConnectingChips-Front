@@ -27,11 +27,13 @@ const MissionRuleS = styled.div<{ passsort: PageSort }>`
   padding: 1rem;
   margin-top: ${(props) => (props.passsort === 'Create' ? '' : '1.25rem')};
   border-radius: 1rem;
-
+  width: 311px;
+  font-size: var(--head-b);
+  font-weight: 500;
   p {
     margin-top: 8px;
     white-space: pre-line;
-    font-size: 0.875rem;
+    font-size: var(--body-b);
   }
 
   .rule {
