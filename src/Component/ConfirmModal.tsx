@@ -49,7 +49,7 @@ const ConfirmModal = ({
 export default ConfirmModal;
 
 const ConfirmBGS = styled.div`
-  position: absolute;
+  position: fixed;
   background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
@@ -71,7 +71,6 @@ const ConfirmModalS = styled.div`
 
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 
   div {
     /* height: 2.5rem; */
