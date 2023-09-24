@@ -7,7 +7,7 @@ const GroupCheck = ({
   sort,
 }: {
   component: JSX.Element;
-  sort: 'Mind' | 'Upload';
+  sort: 'Page' | 'Upload' | 'Intro';
 }): JSX.Element => {
   const navigate = useNavigate();
   const { mindId } = useParams();
@@ -15,7 +15,8 @@ const GroupCheck = ({
   const ResultComp = (): JSX.Element => {
     (async () =>
       await getCheckedJoined(Number(mindId)).then((isJoined: boolean) => {
-        if (!isJoined) navigate('/');
+        if (sort === 'Page' && !isJoined) navigate('/');
+        if (sort === 'Intro' && isJoined) navigate('/');
         if (sort === 'Upload') {
           getMindSingle(Number(mindId))
             .then((isDoneToday: boolean) => isDoneToday && navigate('/'))

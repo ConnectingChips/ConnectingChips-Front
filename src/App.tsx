@@ -35,10 +35,13 @@ function App() {
               path='/SignUp'
               element={<OAuthPage component={<SignUp />} authenticated='block' />}
             />
-            <Route path='/groupIntro/:mindId' element={<GroupIntro />} />
+            <Route
+              path='/groupIntro/:mindId'
+              element={<GroupCheck component={<GroupPage />} sort='Intro' />}
+            />
             <Route
               path='/groupPage/:mindId'
-              element={<GroupCheck component={<GroupPage />} sort='Mind' />}
+              element={<GroupCheck component={<GroupPage />} sort='Page' />}
             />
             <Route
               path='/uploadPost/:mindId'
