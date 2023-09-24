@@ -29,7 +29,6 @@ const GroupIntro = (): JSX.Element => {
           <GroupIntroHeader />
           <GroupIntroArticleS>
             <GroupContent selected={[0, 1, 2]} passsort='Intro' />
-            {/* TODO: 참여하기 : 로그인 상태라면 참여 요청을 보내고 작심 그룹 페이지로 라우팅 / 비로그인 상태라면 로그인 페이지로 이동  */}
             <CTAContainer />
           </GroupIntroArticleS>
         </GroupContainerS>
@@ -48,6 +47,8 @@ const GroupIntroS = styled.div<{ img: string }>`
   justify-content: space-between;
   height: 100vh;
   background-image: url(${(props) => props.img});
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const BGDarkS = styled.div`
