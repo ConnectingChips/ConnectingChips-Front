@@ -40,6 +40,7 @@ const GroupIntro = (): JSX.Element => {
 export default GroupIntro;
 
 const GroupIntroS = styled.div<{ img: string }>`
+  width: 100vw;
   position: relative;
   color: white;
   display: flex;
