@@ -27,7 +27,7 @@ export const getUser = async (): Promise<GetUser> => {
     // logText(response.data);
     return response.data;
   } catch (error) {
-    throw new Error('유저 정보 호출에 실패하였습니다');
+    return Promise.reject(error);
   }
 };
 
@@ -49,7 +49,7 @@ export const logoutUser = async (): Promise<void> => {
   try {
     // await putData('/users/logout', tockenHeader(access_token))
     // localStorage.removeItem('access_token');
-    
+
     localStorage.clear();
   } catch (error) {
     console.error(error);
