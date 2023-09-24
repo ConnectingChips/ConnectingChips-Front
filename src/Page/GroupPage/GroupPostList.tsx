@@ -2,10 +2,17 @@
 import { useState, styled, useEffect } from './GroupPageBarrel';
 import { Comment, GroupPost } from './GroupPageBarrel';
 import { getBoards, BoardsType } from '../../API/Boards';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getUser } from '../../API/Users';
 import { GetUser } from '../../Type/User';
 import { initUser } from '../../data/initialData';
+import axios from 'axios';
+import {
+  SERVER_ERROR,
+  INVALID_TOKEN,
+  EXPIRED_TOKEN,
+  AXIOS_NETWORK_ERROR,
+} from '../../constant/error';
 interface GroupPostListProps {
   refreshBind: {
     refresh: number;
@@ -17,6 +24,7 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
   const { mindId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
+  const navigate = useNavigate();
   const { refresh } = refreshBind;
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
@@ -24,10 +32,34 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
     });
   }, [refresh]);
 
+  // useEffect(() => {
+  //   getUser().then((userInfo: GetUser) => {
+  //     setUserInfo(userInfo);
+  //   });
+  // }, []);
+
   useEffect(() => {
-    getUser().then((userInfo: GetUser) => {
-      setUserInfo(userInfo);
-    });
+    (async () => {
+      try {
+        const res = await getUser();
+        setUserInfo(res);
+      } catch (error) {
+        console.error(error);
+
+        // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
+        if (axios.isAxiosError(error)) {
+          if (error.response?.data.code === EXPIRED_TOKEN) {
+            localStorage.removeItem('access_token');
+            return navigate('/');
+          }
+
+          if (error.response?.data.code === INVALID_TOKEN) {
+            localStorage.removeItem('access_token');
+            return navigate('/');
+          }
+        }
+      }
+    })();
   }, []);
 
   return (
