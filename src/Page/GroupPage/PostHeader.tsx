@@ -107,6 +107,7 @@ const PostHeaderProfileS = styled.div`
 `;
 
 const MoreIconS = styled.div`
+  z-index: 20;
   height: 3rem;
   display: flex;
   align-items: center;

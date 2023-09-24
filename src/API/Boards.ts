@@ -124,6 +124,7 @@ export interface RsEditBoard {
 //게시글 수정 -> put요청
 export const putEditBoard = async (boardId: number, content: RsEditBoard): Promise<RsEditBoard> => {
   try {
+    const { tockenHeader } = getToken();
     const response = await putData<RsEditBoard>(`/boards/${boardId}`, content, tockenHeader);
     return response.data;
   } catch (error) {
@@ -135,6 +136,7 @@ export const putEditBoard = async (boardId: number, content: RsEditBoard): Promi
 //게시글 삭제 -> delete요청
 export const deleteBoard = async (boardId: number): Promise<void> => {
   try {
+    const { tockenHeader } = getToken();
     await deleteData(`/boards/${boardId}`, tockenHeader);
   } catch (error) {
     console.error(error);

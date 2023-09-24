@@ -39,9 +39,9 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
   };
 
   const handleAgreedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target;
-    setIsAgreed((prev) => ({ ...prev, [name]: checked }));
-    const allChecked = Object.values({ ...isAgreed, [name]: checked }).every(
+    const { id, checked } = e.target;
+    setIsAgreed((prev) => ({ ...prev, [id]: checked }));
+    const allChecked = Object.values({ ...isAgreed, [id]: checked }).every(
       (value) => value === true,
     );
     setIsAllAgreed(allChecked);
@@ -63,7 +63,7 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
 
   const showModal = () => {
     setIsOpen(true);
-    document.body.style.overflow = 'hidden';
+    // document.body.style.overflow = 'hidden';
   };
 
   return (
@@ -71,13 +71,10 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
       <DividerS />
       <TermsTitleWrapperS>
         <TermsTitleS>
-          <input
-            type='checkbox'
-            name='all'
-            checked={isAllAgreed}
-            onChange={handleAllAgreedChange}
-          />
-          <strong className='terms_title'>약관 전체 동의</strong>
+          <input type='checkbox' id='all' checked={isAllAgreed} onChange={handleAllAgreedChange} />
+          <label htmlFor='all' className='terms_title'>
+            약관 전체 동의
+          </label>
         </TermsTitleS>
       </TermsTitleWrapperS>
 
@@ -85,11 +82,11 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
         <TermsTitleS>
           <input
             type='checkbox'
-            name='terms'
+            id='terms'
             checked={isAgreed.terms}
             onChange={handleAgreedChange}
           />
-          <strong>이용약관 동의&#40;필수&#41;</strong>
+          <label htmlFor='terms'>이용약관 동의&#40;필수&#41;</label>
         </TermsTitleS>
         <ViewDetailsButtonS type='button' id='terms' onClick={handleDetailClick}>
           보기
@@ -100,11 +97,11 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
         <TermsTitleS>
           <input
             type='checkbox'
-            name='privacyPolicy'
+            id='privacyPolicy'
             checked={isAgreed.privacyPolicy}
             onChange={handleAgreedChange}
           />
-          <strong>개인정보 처리 방침 동의&#40;필수&#41;</strong>
+          <label htmlFor='privacyPolicy'>개인정보 처리 방침 동의&#40;필수&#41;</label>
         </TermsTitleS>
         <ViewDetailsButtonS type='button' id='privacyPolicy' onClick={handleDetailClick}>
           보기
@@ -115,11 +112,11 @@ const Terms = ({ isAllAgreed, setIsAllAgreed }: TermsProps): JSX.Element => {
         <TermsTitleS>
           <input
             type='checkbox'
-            name='personalInfoCollection'
+            id='personalInfoCollection'
             checked={isAgreed.personalInfoCollection}
             onChange={handleAgreedChange}
           />
-          <strong>개인정보 수집 및 이용 동의&#40;필수&#41;</strong>
+          <label htmlFor='personalInfoCollection'>개인정보 수집 및 이용 동의&#40;필수&#41;</label>
         </TermsTitleS>
         <ViewDetailsButtonS type='button' id='personalInfoCollection' onClick={handleDetailClick}>
           보기
@@ -171,9 +168,8 @@ const TermsTitleS = styled.div`
     box-shadow: 0 0 0 0.375rem var(--font-color1) inset;
   }
 
-  strong:not(.terms_title) {
-    font-weight: 400;
-    color: var(--font-color1);
+  .terms_title {
+    font-weight: 500;
   }
 `;
 

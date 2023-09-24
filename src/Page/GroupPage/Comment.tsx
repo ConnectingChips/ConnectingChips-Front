@@ -62,6 +62,7 @@ const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps): JSX
         postData={postData}
         userInfo={userInfo}
         refreshBind={refreshBind}
+        commentFlipBind={commentFlipBind}
       />
     </>
   );

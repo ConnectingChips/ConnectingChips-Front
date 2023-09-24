@@ -4,6 +4,7 @@ import { Mylist } from '../Type/Mind';
 
 // 참여중인 작심인지 반환
 export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {
+  const { tockenHeader } = getToken();
   try {
     const response = await getData<{ isJoining: boolean }>(
       `/joined-minds/${mind_id}/join-check`,
