@@ -1,6 +1,6 @@
 import error_Icon from '../../image/error_Icon.png';
-import { cssTransition, toast } from 'react-toastify';
-import styled from 'styled-components';
+import { toast } from 'react-toastify';
+import { ErrorMsgNetS, fade } from './ToastMsgStyle';
 
 export const notifyImgSizeLimitErr = () =>
   toast(ImgSizeLimitMsg, {
@@ -20,20 +20,3 @@ const ImgSizeLimitMsg = () => {
     </ErrorMsgNetS>
   );
 };
-
-const ErrorMsgNetS = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.37rem;
-
-  img {
-    width: 3rem;
-    height: 1.59675rem;
-  }
-`;
-
-const fade = cssTransition({
-  enter: 'fade-in',
-  exit: 'fade-out',
-  collapseDuration: 200,
-});
