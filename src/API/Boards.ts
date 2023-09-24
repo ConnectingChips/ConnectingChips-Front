@@ -76,7 +76,11 @@ export interface CreateBoard {
 }
 
 //게시글 작성 -> POST요청
-export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => {
+interface PostCreateBoardType {
+  statusCode: number;
+}
+
+export const postCreateBoard = async (BoardData: CreateBoard): Promise<PostCreateBoardType> => {
   const { mindId, userId, content, image } = BoardData;
   const formData = new FormData();
   const boardRequestDto = { mindId, userId, content };
@@ -92,7 +96,8 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<void> => 
   }
 
   try {
-    await postData(`/boards`, formData, tockenHeader);
+    const response = await postData<PostCreateBoardType>(`/boards`, formData, tockenHeader);
+    return response;
   } catch (error) {
     return Promise.reject(error);
   }

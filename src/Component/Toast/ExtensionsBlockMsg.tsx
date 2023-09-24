@@ -12,7 +12,11 @@ const ExtensionsBlockMsg = () => {
   return (
     <ErrorMsgNetS>
       <img src={error_Icon} alt='error_Icon' />
-      <div>동영상은 올릴 수 없어요</div>
+      <div>
+        png, jpg, jpeg 형식의 파일만 지원하고
+        <br />
+        있습니다. 다시 업로드해 주세요.
+      </div>
     </ErrorMsgNetS>
   );
 };
