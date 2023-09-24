@@ -33,11 +33,7 @@ const GroupHeader = ({ children, className, refresh }: GroupHeaderProps): JSX.El
   }, [refresh]);
 
   const goBack = (): void => {
-    // const introhistory = sessionStorage.getItem(`intro_${mindId}`);
-    // if (!introhistory) {
-    //   window.history.back();
-    // }
-    navigate('/');
+    window.history.back();
   };
 
   return (
