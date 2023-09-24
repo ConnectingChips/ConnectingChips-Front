@@ -26,7 +26,7 @@ const Home = (): JSX.Element => {
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
   const isLogin = myInfo !== initUser;
-  
+
   useEffect(() => {
     scrollTop();
     setHome(setMyInfo, setMylist, setIsDone);
@@ -141,7 +141,7 @@ const setHome = async (
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */
 const HomeS = styled.section`
   max-width: var(--width-mobile);
-  width: var(--width-mobile);
+  /* width: var(--width-mobile); */
   display: flex;
   justify-content: center;
 
@@ -232,16 +232,10 @@ const HomeHeaderS = styled.header`
     padding: 1rem;
     width: 100vw;
     top: 0;
-    background-color: var(--font-color1);
-    padding: 1rem;
-
-    position: absolute;
-    width: 100vw;
     left: 0;
-    top: 0;
 
     box-sizing: border-box;
-    height: 3.5rem;
+    height: var(--height-header);
 
     .Logo {
       height: 1.3125rem;
@@ -276,10 +270,9 @@ const UserInfoS = styled.div`
 
 /** 2023-08-20 Home.tsx - WelcomeTextS, MyMisson, CurrentMission 컨테이너 */
 const HomeContentS = styled.div`
-  width: 100%;
   margin: 0 1rem;
   margin-bottom: 5rem;
-  margin-top: var(--height-banner);
+  margin-top: var(--height-header);
 `;
 
 /** 2023-08-20 Home.tsx - 오늘도 득근한 하루 되세요 */
