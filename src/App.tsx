@@ -35,10 +35,13 @@ function App() {
               path='/SignUp'
               element={<OAuthPage component={<SignUp />} authenticated='block' />}
             />
-            <Route path='/groupIntro/:mindId' element={<GroupIntro />} />
+            <Route
+              path='/groupIntro/:mindId'
+              element={<GroupCheck component={<GroupIntro />} sort='Intro' />}
+            />
             <Route
               path='/groupPage/:mindId'
-              element={<GroupCheck component={<GroupPage />} sort='Mind' />}
+              element={<GroupCheck component={<GroupPage />} sort='Page' />}
             />
             <Route
               path='/uploadPost/:mindId'
@@ -61,9 +64,6 @@ export default App;
 
 /** 2023-08-20 App.tsx 모바일 케이스 */
 const MobileS = styled.div`
-  max-width: var(--width-mobile);
-
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
 `;

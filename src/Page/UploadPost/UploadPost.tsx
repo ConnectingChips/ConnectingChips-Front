@@ -52,8 +52,15 @@ const UploadPost = () => {
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
 
-    // 이미지 파일 사이즈 체크
-    console.log(e.target.files[0].size);
+    const fileName = e.target.files[0].name;
+    const allowedExtensions = ['.png', '.jpg', '.jpeg'];
+    const fileExtension = fileName.slice(fileName.lastIndexOf('.'));
+
+    // 이미지 확장자 제한
+    if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
+      console.log('비허용:: ', fileExtension); // TODO: 테스트 후 제거
+      return;
+    }
 
     // 10485760 = 10mb 제한
     if (e.target.files[0].size > 10485760) {
@@ -139,8 +146,7 @@ const UploadPost = () => {
           <input
             type='file'
             id='image-upload'
-            // accept='image/png, image/jpeg, image/jpg, .heic'
-            accept='.png, .jpeg, .jpg'
+            accept='image/png, image/jpeg, image/jpg'
             ref={(ref) => (fileRef.current = ref)}
             onChange={handleFileInputChange}
           />

@@ -159,16 +159,16 @@ export const getisDoneAll = async (): Promise<isDone[]> => {
   }
 };
 
-interface getkeepJoin {
+interface GetkeepJoin {
   keepJoin: boolean;
   isDoneToday: boolean;
 }
 
 // 작심 활동 현황 (main / Page)
-export const getkeepJoin = async (mindId: number): Promise<getkeepJoin> => {
+export const getkeepJoin = async (mindId: number): Promise<GetkeepJoin> => {
   try {
     const { tockenHeader } = getToken();
-    const response = await getData<getkeepJoin>(`/minds/keep-join/${mindId}`, tockenHeader);
+    const response = await getData<GetkeepJoin>(`/minds/keep-join/${mindId}`, tockenHeader);
     return response.data;
   } catch (error) {
     throw new Error('작심 활동 현황을 호출하는 데 실패했습니다.');
@@ -206,5 +206,19 @@ export const getEndList = async (): Promise<EndMindType[]> => {
     return response.data;
   } catch (error) {
     throw new Error('나의 작심 리스트를 호출하는 데 실패했습니다.');
+  }
+};
+
+// 글쓰기 예시 이미지 가져오기
+interface ExampleImage {
+  exampleImage: string;
+}
+
+export const getExampleImage = async (mindId: number): Promise<string> => {
+  try {
+    const response = await getData<ExampleImage>(`/minds/upload/${mindId}/image`);
+    return response.data.exampleImage;
+  } catch (error) {
+    throw new Error('예시이미지를 가져오지 못했습니다.');
   }
 };

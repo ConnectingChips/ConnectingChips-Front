@@ -14,8 +14,7 @@ interface GroupArticleProps {
   passsort: PageSort;
 }
 
-//passsort === Page || Intro || Create
-/** 2023-08-22 GroupArticle.tsx - 그룹 아티클 - 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 */
+/** 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 // passsort === Page || Intro || Create */
 const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element => {
   const { mindId } = useParams<string>();
   const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);

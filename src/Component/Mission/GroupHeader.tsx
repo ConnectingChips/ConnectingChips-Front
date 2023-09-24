@@ -34,7 +34,6 @@ const GroupHeader = ({ children, className, refresh }: GroupHeaderProps): JSX.El
 
   const goBack = (): void => {
     const introhistory = sessionStorage.getItem(`intro_${mindId}`);
-    console.log(!introhistory);
     if (!introhistory) {
       window.history.back();
     }
@@ -90,7 +89,7 @@ const GroupBGHeaderS = styled(GroupHeaderS)`
   backdrop-filter: none;
   background-color: white;
   cursor: default;
-  z-index: 10;
+  z-index: 30;
 
   img {
     cursor: pointer;

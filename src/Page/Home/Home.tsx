@@ -26,7 +26,6 @@ const Home = (): JSX.Element => {
   const [istodayDone, setIsDone] = useState<boolean>(false);
 
   const isLogin = myInfo !== initUser;
-  console.log('istodayDone: ', istodayDone);
 
   useEffect(() => {
     scrollTop();
@@ -53,14 +52,16 @@ const Home = (): JSX.Element => {
   return (
     <HomeS>
       <HomeHeaderS>
-        <img src={Logo_002} alt='logo' className='Logo' />
-        <UserInfoS>
-          <img className='share' src={Share_Icon} alt='share' onClick={() => shareKakao()} />
-          <div className='profile' onClick={profileClick}>
-            <img src={myInfo.profileImage} alt='기본 프로필' />
-            <p>MY</p>
-          </div>
-        </UserInfoS>
+        <div className='header'>
+          <img src={Logo_002} alt='logo' className='Logo' />
+          <UserInfoS>
+            <img className='share' src={Share_Icon} alt='share' onClick={() => shareKakao()} />
+            <div className='profile' onClick={profileClick}>
+              <img src={myInfo.profileImage} alt='기본 프로필' />
+              <p>MY</p>
+            </div>
+          </UserInfoS>
+        </div>
       </HomeHeaderS>
       <HomeContentS>
         <WelcomeHeadS>
@@ -125,8 +126,6 @@ const setHome = async (
       .catch(() => {});
     await getisDoneAll()
       .then((isDone: isDone[]) => {
-        console.log('isDone: ', isDone);
-
         const doneValid = isDone.some((data) => data.doneToday);
         setIsDone(doneValid);
       })
@@ -139,9 +138,9 @@ const setHome = async (
 
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */
 const HomeS = styled.section`
-  height: 100%;
-  max-width: var(--width-mobile);
   width: var(--width-mobile);
+  display: flex;
+  justify-content: center;
 
   .CTA {
     position: sticky;
@@ -153,6 +152,7 @@ const HomeS = styled.section`
 const WelcomeHeadS = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: var(--height-header);
   padding: 1.25rem 0;
   height: 7.8125rem;
 
@@ -215,21 +215,24 @@ const BannerS = styled.a`
 /** 2023-08-20 Home.tsx - 홈화면 헤더 */
 const HomeHeaderS = styled.header`
   z-index: 10;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: fixed;
 
-  background-color: var(--font-color1);
-  padding: 1rem;
+  div.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-  position: sticky;
-  top: 0;
+    background-color: var(--font-color1);
+    padding: 1rem;
+    width: 100vw;
+    top: 0;
 
-  box-sizing: border-box;
-  height: 3.5rem;
+    box-sizing: border-box;
+    height: var(--height-header);
 
-  .Logo {
-    height: 1.3125rem;
+    .Logo {
+      height: 1.3125rem;
+    }
   }
 `;
 
@@ -260,6 +263,7 @@ const UserInfoS = styled.div`
 
 /** 2023-08-20 Home.tsx - WelcomeTextS, MyMisson, CurrentMission 컨테이너 */
 const HomeContentS = styled.div`
+  width: 100%;
   margin: 0 1rem;
   margin-bottom: 5rem;
 `;
