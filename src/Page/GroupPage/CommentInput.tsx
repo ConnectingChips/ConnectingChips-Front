@@ -88,6 +88,7 @@ const CommentInput = ({
           content: commentInput,
         };
         await postAddReply(AddReplyData);
+        setIsComment(0);
       }
       setCommentInput('');
       setCommentFlip(false);
