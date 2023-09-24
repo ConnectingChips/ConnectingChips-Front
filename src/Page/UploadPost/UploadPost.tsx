@@ -87,7 +87,6 @@ const UploadPost = () => {
 
     // 이미지 확장자 제한
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
-      console.log('비허용:: ', fileExtension); // TODO: 테스트 후 제거
       return notifyExtensionsBlockErr();
     }
 
@@ -101,13 +100,22 @@ const UploadPost = () => {
     setImageUrl(URL.createObjectURL(file));
   };
 
+  const handleFileInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    e.currentTarget.value = '';
+  };
+
   const handleDeleteIconClick = () => {
     URL.revokeObjectURL(imageUrl);
     setImageUrl('');
+    setImage({ name: '', file: null });
   };
 
   const handleInfoIconClick = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -147,10 +155,6 @@ const UploadPost = () => {
     }
   };
 
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-  };
-
   return (
     <CreatePostS>
       <UploadPostHeaderS>
@@ -183,6 +187,7 @@ const UploadPost = () => {
             accept='image/png, image/jpeg, image/jpg'
             ref={(ref) => (fileRef.current = ref)}
             onChange={handleFileInputChange}
+            onClick={handleFileInputClick}
           />
         </CreateFormUploadS>
         <CreateFormUploadS>
