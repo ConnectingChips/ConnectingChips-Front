@@ -21,8 +21,10 @@ const GroupPage = (): JSX.Element => {
     <GroupPageS>
       <GroupHeader refresh={refresh} />
       <GroupImageS url={pageImage} />
-      <GroupArticle selected={[0, 1]} passsort='Page' />
-      <GroupBtn refresh={refresh} />
+      <div style={{ margin: '0 auto', width: '375px' }}>
+        <GroupArticle selected={[0, 1]} passsort='Page' />
+        <GroupBtn refresh={refresh} />
+      </div>
       <DivideBaS />
       <GroupPostList refreshBind={refreshBind} />
     </GroupPageS>
@@ -32,14 +34,16 @@ const GroupPage = (): JSX.Element => {
 export default GroupPage;
 
 const GroupPageS = styled.div`
-  width: var(--width-mobile);
-  margin-bottom: 3rem;
+  width: 100vw;
+  margin: 0 auto;
   position: relative;
 `;
 
 const GroupImageS = styled.div<{ url: string }>`
+  margin-top: 3.5rem;
   background-image: url(${(props) => props.url});
-  background-size: 26rem;
-  background-position: 0 -1rem;
   height: 10rem;
+  height: 10rem;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;

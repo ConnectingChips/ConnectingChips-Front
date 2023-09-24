@@ -65,7 +65,8 @@ const GroupNoPost = () => {
 };
 
 const GroupPostListS = styled.div`
-  margin: 0 1rem;
+  margin: 0 auto;
+  width: var(--width-mobile);
   display: flex;
   flex-direction: column;
   border-radius: 1rem;

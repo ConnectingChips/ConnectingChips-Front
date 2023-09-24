@@ -137,17 +137,13 @@ const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
 
 const CommentFormS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+  position: static;
   width: 100%;
   height: 4.5rem;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: white;
 `;
 
 const InputS = styled.div<{ inputToggle: boolean }>`
-  font-size: 1rem;
   position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
   background-color: #fff;
   border: 1px solid #e3e3e3;
@@ -155,9 +151,10 @@ const InputS = styled.div<{ inputToggle: boolean }>`
   height: 3.5rem;
   display: flex;
   align-items: center;
-  padding: 0 1.1rem;
+  justify-content: space-around;
   z-index: 10;
   input {
+    font-size: 1rem;
     width: 16.4rem;
     height: 1.25rem;
     border: none;

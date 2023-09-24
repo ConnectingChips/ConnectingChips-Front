@@ -84,10 +84,17 @@ const GroupHeaderS = styled.header`
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
 const GroupBGHeaderS = styled(GroupHeaderS)`
-  backdrop-filter: none;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
-  cursor: default;
-  z-index: 30;
+  padding: 1rem;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  height: var(--height-header);
 
   // 자연스럽게 붙이기
   /* padding-top: 3rem;
