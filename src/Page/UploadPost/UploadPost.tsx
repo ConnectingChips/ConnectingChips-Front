@@ -9,6 +9,7 @@ import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 import { StyledToastContainer } from '../../Component/Toast/StyledToastContainer';
 import { notifyImgSizeLimitErr } from '../../Component/Toast/ImgSizeLimitMsg';
+import { notifyNetErr } from '../../Component/Toast/NetworkErrorMsg';
 
 import { getUser } from '../../API/Users';
 import { postCreateBoard } from '../../API/Boards';
@@ -59,6 +60,7 @@ const UploadPost = () => {
     // 이미지 확장자 제한
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
       console.log('비허용:: ', fileExtension); // TODO: 테스트 후 제거
+      // 동영상은 올릴 수 없어요
       return;
     }
 
@@ -97,17 +99,26 @@ const UploadPost = () => {
 
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 500) {
-          console.error(error.response?.status); // 서버 에러 status: 500
+          return console.error(error.response?.status); // 서버 에러 status: 500
           // alert('잠시 후 다시 시도해 주세요');
-        } else if (error.response?.data.code === 4012) {
+        }
+
+        if (error.response?.data.code === 4012) {
           console.error(error.response?.data.code); // 만료된 토큰 code: 4012
           // alert('다시 로그인 해주세요');
           localStorage.removeItem('access_token');
-          navigate('/LogIn');
-        } else if (error.response?.data.code === 4011) {
+          return navigate('/LogIn');
+        }
+
+        if (error.response?.data.code === 4011) {
           console.error(error.response?.data.code); // 유효하지 않은 토큰 code: 4011
           localStorage.removeItem('access_token');
-          navigate('/LogIn');
+          return navigate('/LogIn');
+        }
+
+        if (error.code === 'ERR_NETWORK') {
+          console.log('ERR_NETWORK');
+          return notifyNetErr();
         }
       }
     }
