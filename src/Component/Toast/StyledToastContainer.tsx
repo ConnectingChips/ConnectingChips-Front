@@ -16,10 +16,13 @@ export const StyledToastContainer = (): JSX.Element => {
 
 const StyledContainer = styled(ToastContainer)`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 1rem;
 
   &&.Toastify__toast-container {
-    padding-bottom: 88px; // 버튼 배경 박스에 딱 붙게
+    padding-bottom: 88px;
     font-size: var(--body-c);
   }
 
@@ -31,6 +34,7 @@ const StyledContainer = styled(ToastContainer)`
   .Toastify__toast {
     min-height: 0;
     padding: 13px 16px;
+    margin-bottom: 0;
   }
 
   .net-error,
