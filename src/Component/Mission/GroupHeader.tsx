@@ -89,7 +89,7 @@ const GroupBGHeaderS = styled(GroupHeaderS)`
   backdrop-filter: none;
   background-color: white;
   cursor: default;
-  z-index: 10;
+  z-index: 30;
 
   img {
     cursor: pointer;
