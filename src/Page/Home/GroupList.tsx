@@ -25,7 +25,7 @@ const GroupList = (): JSX.Element => {
   }, [curFocused, isLogin]);
 
   return (
-    <article>
+    <article style={{ margin: '0 1rem' }}>
       <h2>작심 그룹 리스트</h2>
       <MissonTab missionTab={missionTab} focusbind={curFocusBind} />
       <GroupListListS>
