@@ -20,17 +20,12 @@ const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
   const navigate = useNavigate();
 
   const { count, isDoneToday, mindId, boardCount } = mind;
-  const remind = async () =>
-    await postJoin(mindId)
-      .then(() => navigate(`/uploadPost/${mind.mindId}`))
-      .catch(() => {});
-
   const keppJoinReg = boardCount !== 0 && boardCount % 3 === 0 && count === 0;
 
   return (
     <>
       {keppJoinReg ? (
-        <ClearBtnS onClick={remind}>재작심 하기</ClearBtnS>
+        <ClearBtnS onClick={() => navigate(`/uploadPost/${mind.mindId}`)}>재작심 하기</ClearBtnS>
       ) : isDoneToday ? (
         <TodayClearBtnS>
           <p>오늘 작심 성공!</p>

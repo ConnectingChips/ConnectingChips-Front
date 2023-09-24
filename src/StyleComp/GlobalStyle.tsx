@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
     --width-my-mission: 11.25rem;
 
     /* 세로 폭 */
-    --height-banner: 3.5rem;
+    --height-header: 3.5rem;
     --height-gap: 0.5rem;
 
     /* 폰트 크기 */
