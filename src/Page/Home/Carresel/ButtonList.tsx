@@ -67,6 +67,7 @@ const TodayClearBtnS = styled(CommonBtnS)`
   background-color: black;
   p {
     margin-top: -2px;
+    font-size: var(--button-mid);
   }
 `;
 
