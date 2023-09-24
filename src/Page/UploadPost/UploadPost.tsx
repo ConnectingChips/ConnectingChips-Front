@@ -22,6 +22,12 @@ import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 
 import { useNavigate } from '../GroupPage/GroupPageBarrel';
+import {
+  SERVER_ERROR,
+  INVALID_TOKEN,
+  EXPIRED_TOKEN,
+  AXIOS_NETWORK_ERROR,
+} from '../../constant/error';
 
 interface Image {
   name: string;
@@ -47,6 +53,27 @@ const UploadPost = () => {
         setUserId(res.userId);
       } catch (error) {
         console.error(error);
+
+        // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === SERVER_ERROR) {
+            return notifyNetErr(); // TODO: 임시 토스트 메시지
+          }
+
+          if (error.response?.data.code === EXPIRED_TOKEN) {
+            localStorage.removeItem('access_token');
+            return navigate('/');
+          }
+
+          if (error.response?.data.code === INVALID_TOKEN) {
+            localStorage.removeItem('access_token');
+            return navigate('/');
+          }
+
+          if (error.code === AXIOS_NETWORK_ERROR) {
+            return notifyNetErr();
+          }
+        }
       }
     })();
   }, []);
@@ -97,22 +124,23 @@ const UploadPost = () => {
     } catch (error) {
       console.error(error);
 
+      // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 500) {
+        if (error.response?.status === SERVER_ERROR) {
           return notifyNetErr(); // TODO: 임시 토스트 메시지
         }
 
-        if (error.response?.data.code === 4012) {
+        if (error.response?.data.code === EXPIRED_TOKEN) {
           localStorage.removeItem('access_token');
           return navigate('/LogIn');
         }
 
-        if (error.response?.data.code === 4011) {
+        if (error.response?.data.code === INVALID_TOKEN) {
           localStorage.removeItem('access_token');
           return navigate('/LogIn');
         }
 
-        if (error.code === 'ERR_NETWORK') {
+        if (error.code === AXIOS_NETWORK_ERROR) {
           return notifyNetErr();
         }
       }
