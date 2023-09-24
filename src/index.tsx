@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import MobileBGS from './StyleComp/MobileBGS';
@@ -15,15 +16,12 @@ if (process.env.REACT_APP_GOOGLE_ANALYTICS) {
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  // <React.StrictMode>
-  <BrowserRouter>
-    <MobileBGS>
+  <React.StrictMode>
+    <BrowserRouter>
       <GlobalStyle />
       <App />
-    </MobileBGS>
-  </BrowserRouter>
-
-  // </React.StrictMode>
+    </BrowserRouter>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

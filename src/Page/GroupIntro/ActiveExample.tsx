@@ -1,8 +1,10 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { PageSort } from '../../Type/MissionType';
 import 자전거운동 from '../../image/예시사진모음/자전거운동.jpg';
 import { Arrow_Down, Arrow_Up } from '../../Component/ArrowBarrel';
+import { getExampleImage } from '../../API/Mind';
 
 /** 2023-08-22 ActiveExample.tsx - 작심 인증 글 */
 const IntroExample = ({ passsort }: { passsort: PageSort }): JSX.Element => {
@@ -19,6 +21,20 @@ const IntroExample = ({ passsort }: { passsort: PageSort }): JSX.Element => {
 /** 2023-08-22 ActiveExample.tsx - 작심 인증 글 */
 const CreateExample = ({ passsort }: { passsort: PageSort }): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
+  const [exampleImage, setExampleImage] = useState(자전거운동);
+  const { mindId } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const imageData = await getExampleImage(Number(mindId));
+        setExampleImage(imageData);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
   return (
     <PostS passsort={passsort}>
       <CreateHeaderS>
@@ -33,7 +49,7 @@ const CreateExample = ({ passsort }: { passsort: PageSort }): JSX.Element => {
       </CreateHeaderS>
       {isOpen && (
         <PostImageS>
-          <img src={자전거운동} alt='업로드 사진' />
+          <img src={exampleImage} alt='업로드 사진' />
         </PostImageS>
       )}
     </PostS>
