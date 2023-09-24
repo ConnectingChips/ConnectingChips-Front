@@ -43,7 +43,7 @@ const CommentInput = ({
   const { setRefresh } = refreshBind;
 
   const getPlaceholderText = (isComment: number, commentCount: number) => {
-    if (isComment !== 0) return '';
+    if (isComment !== 0) return '답글';
     return commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
   };
 
