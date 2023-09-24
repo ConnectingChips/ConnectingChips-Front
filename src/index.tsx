@@ -21,7 +21,7 @@ root.render(
       <GlobalStyle />
       <App />
     </MobileBGS>
-  </BrowserRouter>,
+  </BrowserRouter>
 
   // </React.StrictMode>
 );
