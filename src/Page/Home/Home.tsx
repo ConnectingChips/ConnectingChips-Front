@@ -142,8 +142,8 @@ const setHome = async (
 const HomeS = styled.section`
   max-width: var(--width-mobile);
   /* width: var(--width-mobile); */
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  /* justify-content: center; */
 
   .CTA {
     position: sticky;
@@ -153,6 +153,7 @@ const HomeS = styled.section`
 
 /** 2023-09-02 Home.tsx - 인사말과 캐릭터 - Kadesti */
 const WelcomeHeadS = styled.div`
+  margin: 0 1rem;
   display: flex;
   justify-content: space-between;
   margin-top: var(--height-header);
@@ -193,8 +194,7 @@ const BannerS = styled.a`
   background-color: var(--color-line);
 
   padding: 1rem;
-  margin-bottom: 1.25rem;
-
+  margin: 0 1rem 1.25em 1rem;
   border-radius: 0.63rem;
 
   .bannerText {
@@ -224,6 +224,7 @@ const HomeHeaderS = styled.header`
   position: fixed;
 
   div.header {
+    position: fixed;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -270,7 +271,6 @@ const UserInfoS = styled.div`
 
 /** 2023-08-20 Home.tsx - WelcomeTextS, MyMisson, CurrentMission 컨테이너 */
 const HomeContentS = styled.div`
-  margin: 0 1rem;
   margin-bottom: 5rem;
   margin-top: var(--height-header);
 `;
