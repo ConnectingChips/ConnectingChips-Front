@@ -86,7 +86,6 @@ export { JoinButtonCTA, PostButton, SubmitButtonCTA, CTAContainer, BackButton, E
 const CTAContainerS = styled.div`
   position: sticky;
   bottom: 0;
-  width: var(--width-mobile);
   display: flex;
   flex-direction: column-reverse;
   gap: 1rem;
