@@ -11,7 +11,7 @@ const LogInS = styled.div`
 
   header {
     width: calc(var(--width-mobile) - 1rem);
-    height: var(--height-banner);
+    height: var(--height-header);
     display: flex;
     justify-content: flex-start;
     align-items: center;

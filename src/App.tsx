@@ -64,9 +64,6 @@ export default App;
 
 /** 2023-08-20 App.tsx 모바일 케이스 */
 const MobileS = styled.div`
-  max-width: var(--width-mobile);
-
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
 `;
