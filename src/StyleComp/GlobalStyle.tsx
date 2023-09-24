@@ -38,7 +38,8 @@ const GlobalStyle = createGlobalStyle`
     --Button-Small: 11px
     
     /* 가로 폭 */
-    --width-mobile: 375px;
+    /* --width-mobile: 23.4375rem; */
+    --width-mobile: 22.5rem;
 
     
     &::-webkit-scrollbar {
