@@ -146,8 +146,8 @@ const CommentFormS = styled.div<{ inputToggle: boolean }>`
 `;
 
 const InputS = styled.div<{ inputToggle: boolean }>`
+  font-size: 1rem;
   position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
-
   background-color: #fff;
   border: 1px solid #e3e3e3;
   border-radius: 0.5rem;
