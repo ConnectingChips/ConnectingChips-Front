@@ -37,7 +37,7 @@ function App() {
             />
             <Route
               path='/groupIntro/:mindId'
-              element={<GroupCheck component={<GroupPage />} sort='Intro' />}
+              element={<GroupCheck component={<GroupIntro />} sort='Intro' />}
             />
             <Route
               path='/groupPage/:mindId'
