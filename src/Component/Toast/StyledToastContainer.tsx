@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const StyledToastContainer = (): JSX.Element => {
   return (
-    <StyledContainer
+    <StyledContainerS
       position='bottom-center'
       hideProgressBar={true}
       closeButton={false}
@@ -14,7 +14,7 @@ export const StyledToastContainer = (): JSX.Element => {
   );
 };
 
-const StyledContainer = styled(ToastContainer)`
+const StyledContainerS = styled(ToastContainer)`
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -11,7 +11,7 @@ export const notifySignUp = () =>
 const SignUpMsg = () => {
   return (
     <ErrorMsgNetS>
-      <img src={welcomeIcon} alt='welcome icon' />
+      <img src={welcomeIcon} alt='welcome icon' className='welcome_icon' />
       <div>
         새로운 칩스의 가입을 환영합니다!
         <br />
