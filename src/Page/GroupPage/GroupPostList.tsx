@@ -64,7 +64,7 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
 
   return (
     <GroupPostListS>
-      <h2>작심 인증글</h2>
+      <h2 style={{ margin: '0 1rem' }}>작심 인증글</h2>
       {postData.length > 0 ? (
         postData.map((postData, i) => (
           <div key={i}>
@@ -109,6 +109,7 @@ const GroupPostListS = styled.div`
 `;
 
 const GroupNoPostS = styled.div`
+  height: 466px;
   display: flex;
   flex-direction: column;
   align-items: center;

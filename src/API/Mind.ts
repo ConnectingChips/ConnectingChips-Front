@@ -30,6 +30,19 @@ export const getMind_IntroImage = async (mind_id: number): Promise<{ introImage:
   }
 };
 
+//그룹 페이지 이미지
+export const getMind_PageImage = async (mind_id: number): Promise<{ pageImage: string }> => {
+  try {
+    const response = await getData<{ pageImage: string }>(`/minds/page/${mind_id}/image`);
+
+    // logText(response.data)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('그룹페이지 이미지 불러오기 실패');
+  }
+};
+
 export interface getMindInfoType {
   mindId: number;
   mindTypeName: string;
@@ -182,8 +195,9 @@ export const getMyList = async (): Promise<Mylist[]> => {
     const response = await getData<Mylist[]>('/minds/my-list', tockenHeader);
     return response.data;
   } catch (error) {
-    // console.error(error);
-    throw new Error('나의 작심 리스트를 호출하는 데 실패했습니다.');
+    console.error(error);
+    // throw new Error('나의 작심 현황 호출하는 데 실패했습니다.');
+    return [];
   }
 };
 

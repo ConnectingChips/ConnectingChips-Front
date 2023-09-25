@@ -1,10 +1,11 @@
+import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { MyListContext, MyListContextType } from '../../API/Context';
 import { postJoin } from '../../API/joinedMinds';
 import { getMyList } from '../../API/Mind';
-
+import { EXPIRED_TOKEN, INVALID_TOKEN } from '../../constant/error';
 // TODO: api: 참여하기 요청보내기 /joined-minds/{joined_mind_id}
 /** 2023-08-22 CTAContainer.tsx - 참여하기 버튼 */
 const JoinButtonCTA = (): JSX.Element => {
@@ -28,6 +29,20 @@ const JoinButtonCTA = (): JSX.Element => {
       navigate(`/groupPage/${Number(mindId)}`);
     } catch (error) {
       console.error('참여하기 실패: ', error);
+
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.data.code);
+
+        if (error.response?.data.code === EXPIRED_TOKEN) {
+          localStorage.removeItem('access_token');
+          return navigate('/LogIn');
+        }
+
+        if (error.response?.data.code === INVALID_TOKEN) {
+          localStorage.removeItem('access_token');
+          return navigate('/LogIn');
+        }
+      }
     }
   };
 

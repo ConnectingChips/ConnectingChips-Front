@@ -1,7 +1,7 @@
 import { styled } from './GroupPageBarrel';
 import { GroupHeader, DivideBaS, GroupArticle } from './GroupPageBarrel';
 import { GroupPostList } from './GroupPostList';
-import { getMind_IntroImage } from '../../API/Mind';
+import { getMind_PageImage } from '../../API/Mind';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GroupBtn from './GroupBtn';
@@ -12,8 +12,8 @@ const GroupPage = (): JSX.Element => {
   const [refresh, setRefresh] = useState(1);
   const refreshBind = { refresh, setRefresh };
   useEffect(() => {
-    getMind_IntroImage(Number(mindId)).then((data) => {
-      setPageImage(data.introImage);
+    getMind_PageImage(Number(mindId)).then((data) => {
+      setPageImage(data.pageImage);
     });
   }, []);
 
@@ -34,6 +34,7 @@ const GroupPage = (): JSX.Element => {
 export default GroupPage;
 
 const GroupPageS = styled.div`
+  height: 100dvh;
   width: 100vw;
   margin: 0 auto;
   position: relative;
