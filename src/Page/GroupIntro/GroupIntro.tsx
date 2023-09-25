@@ -11,6 +11,7 @@ import { getMind_IntroImage } from '../../API/Mind';
 const GroupIntro = (): JSX.Element => {
   const { mindId } = useParams<string>();
   const [pageImage, setPageImage] = useState<string>('');
+  const location = useLocation();
   useEffect(() => {
     scrollTop();
 

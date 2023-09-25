@@ -10,10 +10,11 @@ export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {
       `/joined-minds/${mind_id}/join-check`,
       tockenHeader,
     );
+    
     return response.data.isJoining;
   } catch (error) {
     console.error(error);
-    return Promise.reject(error);
+    throw new Error('가입한 여부를 확인할 수 없습니다.');
   }
 };
 

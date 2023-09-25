@@ -1,11 +1,10 @@
-import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { MyListContext, MyListContextType } from '../../API/Context';
 import { postJoin } from '../../API/joinedMinds';
 import { getMyList } from '../../API/Mind';
-import { EXPIRED_TOKEN, INVALID_TOKEN } from '../../constant/error';
+
 // TODO: api: 참여하기 요청보내기 /joined-minds/{joined_mind_id}
 /** 2023-08-22 CTAContainer.tsx - 참여하기 버튼 */
 const JoinButtonCTA = (): JSX.Element => {
@@ -17,26 +16,9 @@ const JoinButtonCTA = (): JSX.Element => {
   const location = useLocation();
 
   useEffect(() => {
-    getMyList()
-      .then((data) => {
-        data.length === 3 && setValidJoin('false');
-      })
-      .catch((error) => {
-        // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
-        if (axios.isAxiosError(error)) {
-          console.log(error);
-
-          if (error.response?.data.code === EXPIRED_TOKEN) {
-            localStorage.removeItem('access_token');
-            return navigate('/');
-          }
-
-          if (error.response?.data.code === INVALID_TOKEN) {
-            localStorage.removeItem('access_token');
-            return navigate('/');
-          }
-        }
-      });
+    getMyList().then((data) => {
+      data.length === 3 && setValidJoin('false');
+    });
   }, []);
 
   const joinGroup = async () => {

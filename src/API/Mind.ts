@@ -183,7 +183,7 @@ export const getMyList = async (): Promise<Mylist[]> => {
     return response.data;
   } catch (error) {
     // console.error(error);
-    return Promise.reject(error);
+    throw new Error('나의 작심 리스트를 호출하는 데 실패했습니다.');
   }
 };
 
