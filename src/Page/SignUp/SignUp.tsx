@@ -125,6 +125,10 @@ const SignUp = (): JSX.Element => {
             validationCheck={emailValidationCheck}
             isError={email !== '' && validation.email === false}
           />
+          <p className={email && validation.email === false ? 'hidden' : ''}>
+            <img src={infoIcon} alt='infoIcon' />
+            .com .net 만 사용 가능
+          </p>
           {email && validation.email === false && (
             <p className='error'>이메일 형식이 올바르지 않습니다.</p>
           )}
