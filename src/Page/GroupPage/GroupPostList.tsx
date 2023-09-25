@@ -109,6 +109,7 @@ const GroupPostListS = styled.div`
 `;
 
 const GroupNoPostS = styled.div`
+  height: 466px;
   display: flex;
   flex-direction: column;
   align-items: center;
