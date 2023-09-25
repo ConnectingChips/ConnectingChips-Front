@@ -98,4 +98,8 @@ const ConfirmModalS = styled.div`
     align-items: center;
     font-size: 1rem;
   }
+
+  button {
+    color: #000;
+  }
 `;

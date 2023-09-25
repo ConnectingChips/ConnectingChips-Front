@@ -197,6 +197,7 @@ const ExitButtonS = styled(myPageButton)`
   background-color: #fff;
   border: 1px solid var(--font-color3);
   width: 5.5rem;
+  color: #000;
 `;
 
 const ReMindButtonS = styled(myPageButton)`
