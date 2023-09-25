@@ -21,7 +21,7 @@ const GroupPage = (): JSX.Element => {
     <GroupPageS>
       <GroupHeader refresh={refresh} />
       <GroupImageS url={pageImage} />
-      <div style={{ margin: '0 auto', width: '375px' }}>
+      <div style={{ margin: '0 auto' }}>
         <GroupArticle selected={[0, 1]} passsort='Page' />
         <GroupBtn refresh={refresh} />
       </div>
@@ -34,6 +34,7 @@ const GroupPage = (): JSX.Element => {
 export default GroupPage;
 
 const GroupPageS = styled.div`
+  height: 100dvh;
   width: 100vw;
   margin: 0 auto;
   position: relative;

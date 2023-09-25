@@ -52,6 +52,7 @@ const GlobalStyle = createGlobalStyle`
   } */
   
   body {
+    /* overflow-x: hidden; */
     color: var(--font-color1);
     font-family: 'Noto Sans KR', sans-serif;
     font-style: normal;
