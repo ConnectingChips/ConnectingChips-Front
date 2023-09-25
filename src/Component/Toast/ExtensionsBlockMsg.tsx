@@ -1,6 +1,6 @@
-import error_Icon from '../../image/error_Icon.png';
+import error_Icon from '../../image/error_chips.png';
 import { toast } from 'react-toastify';
-import { ErrorMsgNetS, fade } from './ToastMsgStyle';
+import { ErrorMsgNetS, fade, IconWrapper } from './ToastMsgStyle';
 
 export const notifyExtensionsBlockErr = () =>
   toast(ExtensionsBlockMsg, {
@@ -11,7 +11,9 @@ export const notifyExtensionsBlockErr = () =>
 const ExtensionsBlockMsg = () => {
   return (
     <ErrorMsgNetS>
-      <img src={error_Icon} alt='error_Icon' />
+      <IconWrapper>
+        <img src={error_Icon} alt='error_Icon' className='error_icon' />
+      </IconWrapper>
       <div>
         png, jpg, jpeg 형식의 파일만 지원하고
         <br />

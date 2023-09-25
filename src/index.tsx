@@ -7,6 +7,7 @@ import GlobalStyle from './StyleComp/GlobalStyle';
 import reportWebVitals from './reportWebVitals';
 // import axios from "axios";
 import ReactGA from 'react-ga4';
+import { StyledToastContainer } from './Component/Toast/StyledToastContainer';
 
 // axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -20,6 +21,7 @@ root.render(
     <BrowserRouter>
       <GlobalStyle />
       <App />
+      <StyledToastContainer />
     </BrowserRouter>
   </React.StrictMode>,
 );

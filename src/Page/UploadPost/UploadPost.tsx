@@ -7,7 +7,6 @@ import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
-import { StyledToastContainer } from '../../Component/Toast/StyledToastContainer';
 
 import { notifyImgSizeLimitErr } from '../../Component/Toast/ImgSizeLimitMsg';
 import { notifyNetErr } from '../../Component/Toast/NetworkErrorMsg';
@@ -222,8 +221,6 @@ const UploadPost = () => {
           <SubmitButtonCTA />
         </SubmitButtonWrapperS>
       </CreateFormS>
-
-      <StyledToastContainer />
     </CreatePostS>
   );
 };
@@ -232,7 +229,7 @@ export default UploadPost;
 
 const CreatePostS = styled.div`
   width: var(--width-mobile);
-  height: 100dvh; // TODO: 모바일 테스트 필수
+  // height: 100dvh; // TODO: 모바일 테스트 필수
 `;
 
 const UploadPostHeaderS = styled(GroupHeader)`
