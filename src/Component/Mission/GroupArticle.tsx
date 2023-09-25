@@ -53,7 +53,7 @@ export default GroupArticle;
 
 /** 2023-08-22 GroupArticle.tsx - 그룹 인트로 아티클 */
 const GroupArticleS = styled.article<{ passsort: PageSort }>`
-  width: var(--width-mobile);
+  /* width: var(--width-mobile); */ // TODO: 배포 버전 확인하고 필요없으면 삭제
   margin: ${(props) =>
     props.passsort === 'Intro'
       ? '0 1rem 0.5rem 1rem'
