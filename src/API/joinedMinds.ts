@@ -1,5 +1,5 @@
 import { getData, postData, putData } from './axiosConfig';
-import { getToken, tockenHeader } from '../data/tocken';
+import { getToken } from '../data/tocken';
 import { Mylist } from '../Type/Mind';
 
 // 참여중인 작심인지 반환

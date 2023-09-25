@@ -35,7 +35,10 @@ function App() {
               path='/SignUp'
               element={<OAuthPage component={<SignUp />} authenticated='block' />}
             />
-            <Route path='/groupIntro/:mindId' element={<GroupIntro />} />
+            <Route
+              path='/groupIntro/:mindId'
+              element={<GroupCheck component={<GroupIntro />} sort='Intro' />}
+            />
             <Route
               path='/groupPage/:mindId'
               element={<GroupCheck component={<GroupPage />} sort='Page' />}
