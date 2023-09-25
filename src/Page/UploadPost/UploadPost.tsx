@@ -229,7 +229,7 @@ export default UploadPost;
 
 const CreatePostS = styled.div`
   width: var(--width-mobile);
-  height: 100dvh; // TODO: 모바일 테스트 필수
+  // height: 100dvh; // TODO: 모바일 테스트 필수
 `;
 
 const UploadPostHeaderS = styled(GroupHeader)`
