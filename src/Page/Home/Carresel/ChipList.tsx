@@ -1,21 +1,20 @@
-import { styled } from "styled-components";
-import { chip_Active, chip_NoneActive } from "./CarreselBarrel";
-
+import { styled } from 'styled-components';
+import { chip_Active, chip_NoneActive } from './CarreselBarrel';
 
 /** 2023-08-20 ChipList.tsx - 현재 카운트 (칩스) */
-const ChipList = ({ count }: { count: number }): JSX.Element => {
-  const isChecked: string[] = ["", "", ""];
+const ChipList = ({ count }: { count: 0 | 1 | 2 | 3 }): JSX.Element => {
+  const isChecked: string[] = ['', '', ''];
   for (let idx = 0; idx < count; idx++) {
-    isChecked[idx] = "checked";
+    isChecked[idx] = 'checked';
   }
 
   return (
     <ChipListS>
       {isChecked.map((className, idx) => {
-        const chipState = className === "checked" ? chip_Active : chip_NoneActive;
+        const chipState = className === 'checked' ? chip_Active : chip_NoneActive;
         return (
           <ChipCicleS state={className} key={idx}>
-            <img src={chipState} alt="chip State" key={idx} />
+            <img src={chipState} alt='chip State' key={idx} />
           </ChipCicleS>
         );
       })}
@@ -38,7 +37,7 @@ const ChipListS = styled.ul`
 const ChipCicleS = styled.li<{ state: string }>`
   width: 2.52456rem;
   aspect-ratio: 1/1;
-  background-color: ${(props) => (props.state === "checked" ? "#FFD32C" : "#D9D9D9")};
+  background-color: ${(props) => (props.state === 'checked' ? '#FFD32C' : '#D9D9D9')};
   border-radius: 100%;
 
   display: flex;

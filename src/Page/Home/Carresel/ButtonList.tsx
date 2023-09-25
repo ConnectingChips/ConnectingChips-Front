@@ -1,66 +1,77 @@
-import { Link } from "react-router-dom";
-import { styled } from "styled-components";
-import { ButtonListProps } from "../../../Type/MissionType";
-import ImageBoxS from "../../../StyleComp/ImageBoxS";
+import { useNavigate } from 'react-router-dom';
+import { styled } from 'styled-components';
 
-/** 2023-09-02 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
-const ButtonList = ({ buttonListProps }: { buttonListProps: ButtonListProps }): JSX.Element => {
-  const { slideRef, count, sort, TOTAL_SLIDES, IMG, doneList, uuidList, countList } = buttonListProps;
+import { Mylist } from '../HomeBarrel';
+import { getCheckedJoined, postJoin } from '../../../API/joinedMinds';
+
+const ButtonList = ({ myList }: { myList: Mylist[] }): JSX.Element => {
   return (
-    <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
-      {IMG.map((_, index) => {
-        return <CarreselBtnList myCount={countList[index]} completedToday={doneList[index]} uuid={uuidList[index]} key={index} />;
-      })}
-    </ImageBoxS>
+    <ul>
+      {myList.map((mind, idx) => (
+        <CarreselBtnList mind={mind} key={idx} />
+      ))}
+    </ul>
   );
 };
-
 export default ButtonList;
 
 /** 2023-08-22 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
-const CarreselBtnList = ({ myCount, completedToday, uuid }: { myCount: number; completedToday: boolean; uuid: number }) => {
+const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
+  const navigate = useNavigate();
+
+  const { count, isDoneToday, mindId, boardCount } = mind;
+  const keppJoinReg = boardCount !== 0 && boardCount % 3 === 0 && count === 0;
+
   return (
     <>
-      {myCount === 3 ? (
-        <Link to={`/groupPage/${uuid}`}>
-          <ClearBtnS>재작심하기</ClearBtnS>
-        </Link>
-      ) : completedToday ? (
-        <TodayClearBtnS>오늘 작심 성공!</TodayClearBtnS>
+      {keppJoinReg ? (
+        <ClearBtnS onClick={() => navigate(`/uploadPost/${mind.mindId}`)}>재작심 하기</ClearBtnS>
+      ) : isDoneToday ? (
+        <TodayClearBtnS>
+          <p>오늘 작심 성공!</p>
+        </TodayClearBtnS>
       ) : (
-        <Link to="/uploadPost/1">
-          <NoneClearBtnS>작심 인증하기</NoneClearBtnS>
-        </Link>
+        <NoneClearBtnS
+          onClick={() => {
+            goPost(mindId)
+              .then(() => navigate(`/uploadPost/${mindId}`))
+              .catch(() => navigate('/error'));
+          }}
+        >
+          작심 인증하기
+        </NoneClearBtnS>
       )}
     </>
   );
 };
 
-/** 2023-08-21 ButtonList.tsx - 다른 작심 둘러보기 버튼 */
-const ClearBtnS = styled.button`
-  padding: 1rem;
+const goPost = async (mindId: number): Promise<boolean> => await getCheckedJoined(mindId);
+
+const CommonBtnS = styled.button`
   width: var(--width-my-mission);
   border-radius: 2rem;
-  background-color: black;
-  color: var(--color-main);
+  box-sizing: border-box;
+  height: 2.5rem;
+  font-size: var(--button-mid);
+
+  text-align: center;
 `;
 
-/** 2023-08-27 ButtonList.tsx - 오늘 작심 성공! 버튼 */
-const TodayClearBtnS = styled.button`
-  padding: 1rem;
-  width: var(--width-my-mission);
-  border-radius: 2rem;
-  background-color: var(--color-main);
-  color: black;
-  &:hover {
-    cursor: default;
+const TodayClearBtnS = styled(CommonBtnS)`
+  color: var(--color-main);
+  background-color: black;
+  p {
+    margin-top: -2px;
+    font-size: var(--button-mid);
   }
 `;
 
-/** 2023-08-21 ButtonList.tsx - 작심 인증하기 버튼 */
-const NoneClearBtnS = styled.button`
-  border: 0.1rem solid yellow;
-  padding: 1rem;
-  width: var(--width-my-mission);
-  border-radius: 2rem;
+const ClearBtnS = styled(CommonBtnS)`
+  background-color: var(--color-main);
+  color: black;
+`;
+
+const NoneClearBtnS = styled(CommonBtnS)`
+  border: 0.1rem solid var(--color-main);
+  color: black;
 `;

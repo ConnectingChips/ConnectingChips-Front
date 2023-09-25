@@ -1,34 +1,52 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { styled } from "styled-components";
-import { myGroupList } from "../../data/myInfo";
-
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { styled } from 'styled-components';
+import { MyListContext, MyListContextType } from '../../API/Context';
+import { postJoin } from '../../API/joinedMinds';
+import { getMyList } from '../../API/Mind';
+import { EXPIRED_TOKEN, INVALID_TOKEN } from '../../constant/error';
+// TODO: api: 참여하기 요청보내기 /joined-minds/{joined_mind_id}
 /** 2023-08-22 CTAContainer.tsx - 참여하기 버튼 */
 const JoinButtonCTA = (): JSX.Element => {
   const navigate = useNavigate();
-  const { uuid } = useParams();
+  const { mindId } = useParams();
   const [isLogin, setIsLogin] = useState(false);
-  const [validJoin, setValidJoin] = useState("true");
+  const [validJoin, setValidJoin] = useState('true');
+  const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
+  const location = useLocation();
 
   useEffect(() => {
-    if (localStorage.getItem("access_token")) {
-      setIsLogin(true);
-
-      if (myGroupList.length === 3) setValidJoin("false");
-    }
+    getMyList().then((data) => {
+      data.length === 3 && setValidJoin('false');
+    });
   }, []);
 
   const joinGroup = async () => {
-    if (!isLogin) return navigate("/logIn");
-
     try {
-      navigate(`/groupPage/${uuid}`);
+      await postJoin(Number(mindId));
+      sessionStorage.setItem(`intro_${mindId}`, location.pathname);
+      navigate(`/groupPage/${Number(mindId)}`);
     } catch (error) {
-      console.error("참여하기 실패: ", error);
+      console.error('참여하기 실패: ', error);
+
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.data.code);
+
+        if (error.response?.data.code === EXPIRED_TOKEN) {
+          localStorage.removeItem('access_token');
+          return navigate('/LogIn');
+        }
+
+        if (error.response?.data.code === INVALID_TOKEN) {
+          localStorage.removeItem('access_token');
+          return navigate('/LogIn');
+        }
+      }
     }
   };
 
-  return validJoin === "true" ? (
+  return validJoin === 'true' ? (
     <CTAButtonS valid={validJoin} onClick={joinGroup}>
       참여하기
     </CTAButtonS>
@@ -51,7 +69,7 @@ const BackButton = (): JSX.Element => {
 
 /** 2023-08-22 CTAContainer.tsx - 인증하기 버튼 */
 const SubmitButtonCTA = (): JSX.Element => {
-  return <CTAButtonS valid={"true"}>인증하기</CTAButtonS>;
+  return <CTAButtonS valid={'true'}>인증하기</CTAButtonS>;
 };
 
 /** 2023-08-22 CTAContainer.tsx - CTA 참여하기 + GNB */
@@ -70,7 +88,7 @@ const ErrorCTA = (): JSX.Element => {
 
   return (
     <CTAContainerS>
-      <CTAButtonS valid={"true"} onClick={() => navigate("/")}>
+      <CTAButtonS valid={'true'} onClick={() => navigate('/')}>
         메인으로
       </CTAButtonS>
     </CTAContainerS>
@@ -83,8 +101,6 @@ export { JoinButtonCTA, PostButton, SubmitButtonCTA, CTAContainer, BackButton, E
 const CTAContainerS = styled.div`
   position: sticky;
   bottom: 0;
-  width: var(--width-mobile);
-
   display: flex;
   flex-direction: column-reverse;
   gap: 1rem;
@@ -93,11 +109,8 @@ const CTAContainerS = styled.div`
 /** 2023-08-22 CTAContainer.tsx - 버튼 공통 스타일 */
 const LinkButtonS = styled.button`
   height: 3.5rem;
-
   border-radius: 1.88rem;
-
   margin-top: 1.25rem;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,13 +118,14 @@ const LinkButtonS = styled.button`
 
 /** 2023-08-22 CTAContainer.tsx - CTA 버튼(참여하기, 인증하기) */
 const CTAButtonS = styled(LinkButtonS)<{ valid: string }>`
-  background-color: ${(props) => (props.valid === "true" ? "var(--color-main)" : "var(--color-disabled2)")};
-  margin: 0 1rem;
+  background-color: ${(props) =>
+    props.valid === 'true' ? 'var(--color-main)' : 'var(--color-disabled2)'};
+  margin: 1rem;
   margin-bottom: 1rem;
   position: sticky;
   bottom: 0rem;
-
-  color: ${(props) => (props.valid === "true" ? "var(--font-color1)" : "var(--color-disabled1)")};
+  font-size: var(--button-mid);
+  color: ${(props) => (props.valid === 'true' ? 'var(--font-color1)' : 'var(--color-disabled1)')};
   font-size: 1rem;
 `;
 
@@ -119,7 +133,7 @@ const CTAButtonS = styled(LinkButtonS)<{ valid: string }>`
 const MissionButtonS = styled(LinkButtonS)`
   border: 0.1rem solid;
   border-color: var(--color-main);
-
+  font-size: var(--button-mid);
   width: 100%;
 `;
 
@@ -127,6 +141,5 @@ const MissionButtonS = styled(LinkButtonS)`
 const BackButtonS = styled(MissionButtonS)`
   height: 2.5rem;
   width: 11.25rem;
-
-  font-size: 0.75rem;
+  font-size: var(--button-mid);
 `;

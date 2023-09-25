@@ -1,48 +1,36 @@
-import { styled } from "styled-components";
-import { Link } from "react-router-dom";
-import { MissonTab } from "../../Component/Mission/MissionTab";
-import { GroupInfoType } from "../../Type/MissionType";
-import groupListData from "../../data/groupListData";
-import { myGroupList } from "../../data/myInfo";
-import { useEffect, useState } from "react";
-import missionTab from "../../data/missionTab";
-import { initGroup } from "../../data/initialData";
+import { styled } from 'styled-components';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { MissonTab } from '../../Component/Mission/MissionTab';
+import missionTab from '../../data/missionTab';
+import { getMindAll, getMindFilter } from '../../API/Mind';
+import { TotalMind } from '../../Type/Mind';
 
 /** 23-08-20 GroupList.tsx - 메인 컴프 */
 const GroupList = (): JSX.Element => {
-  const access_token = localStorage.getItem("access_token");
-  const [newGroup, setNewGroup] = useState([initGroup]);
-
-  const myGroupIds = myGroupList.map((group) => group.group_id);
-
-  const [curFocused, setCurFocused] = useState(missionTab[0].title);
+  const [showList, setShowList] = useState<TotalMind[]>([]);
+  const [curFocused, setCurFocused] = useState<string>(missionTab[0].title);
   const curFocusBind = { curFocused, setCurFocused };
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
-    const setGroup =
-      curFocused === "전체"
-        ? access_token !== null
-          ? groupListData.filter((group) => myGroupIds.find((myGroupID) => myGroupID === group.group_id) === undefined)
-          : groupListData
-        : access_token !== null
-        ? groupListData.filter((group) => {
-            const focusValid = group.tab === curFocused;
-            const mygroupIndex = myGroupIds.findIndex((groupId) => groupId === group.group_id);
-
-            return focusValid && mygroupIndex;
-          })
-        : groupListData.filter((group) => group.tab === curFocused);
-
-    setNewGroup(setGroup);
-  }, [curFocused, access_token]);
+    if (curFocused === '전체')
+      getMindAll(isLogin, setIsLogin)
+        .then((mindList: TotalMind[]) => setShowList(mindList))
+        .catch(() => {});
+    else
+      getMindFilter(curFocused)
+        .then((mindList) => setShowList(mindList))
+        .catch(() => {});
+  }, [curFocused, isLogin]);
 
   return (
-    <article>
+    <article style={{ margin: '0 1rem' }}>
       <h2>작심 그룹 리스트</h2>
       <MissonTab missionTab={missionTab} focusbind={curFocusBind} />
       <GroupListListS>
-        {newGroup.map((groupInfo) => (
-          <GroupListItem groupInfo={groupInfo} key={groupInfo.group_id} />
+        {showList.map((mind, idx) => (
+          <GroupListItem mind={mind} key={idx} />
         ))}
       </GroupListListS>
     </article>
@@ -51,23 +39,43 @@ const GroupList = (): JSX.Element => {
 
 export default GroupList;
 
-/** 2023-08-20 GroupList.tsx - 작심 그룹 항목 */
-const GroupListItem = ({ groupInfo }: { groupInfo: GroupInfoType }): JSX.Element => {
-  const isFirst = groupInfo.memberList.length === 0;
-  const groupID = groupInfo.group_id;
-  const imageUrl = groupInfo.defaultImage.list_url;
-  if (imageUrl === undefined) return <></>;
+const GroupListItem = ({ mind }: { mind: TotalMind }): JSX.Element => {
+  return (
+    <Link to={`/groupIntro/${mind.mindId}`}>
+      <GroupListItemS key={mind.mindId} img={mind.totalListImage}>
+        <ItemContent mind={mind} />
+        <button>참여하기</button>
+      </GroupListItemS>
+    </Link>
+  );
+};
+
+const ItemContent = ({ mind }: { mind: TotalMind }): JSX.Element => {
+  const message = (() => {
+    if (mind.userCount === 0) return <p>작심의 첫 주인공이 되어 보세요!</p>;
+    if (mind.userCount === 1)
+      return (
+        <p>
+          <span className='people'>1</span>명 맛보기 중
+        </p>
+      );
+    if (mind.userCount > 1)
+      return (
+        <p>
+          <span className='people'>{mind.userCount - 1}</span>명과 함께 참여 중
+        </p>
+      );
+    return <></>;
+  })();
 
   return (
-    <GroupListItemS key={groupID} img={imageUrl}>
-      <div>
-        <h2>{groupInfo.title}</h2>
-        {isFirst ? <p>작심의 첫 주인공이 되어보세요!</p> : <p>{groupInfo.memberList.length}명 참여중</p>}
+    <ItemContentS>
+      <div className='Item-Name'>
+        <ItemTabS>{mind.mindTypeName}</ItemTabS>
+        <h2>{mind.name}</h2>
       </div>
-      <Link to={`/groupIntro/${groupID}`}>
-        <button>참여하기</button>
-      </Link>
-    </GroupListItemS>
+      {message}
+    </ItemContentS>
   );
 };
 
@@ -81,33 +89,60 @@ const GroupListListS = styled.ul`
 const GroupListItemS = styled.li<{ img: string }>`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
+  align-items: end;
+  padding: 1.06rem;
 
-  border: 1px solid;
-  border-radius: 1.25rem;
+  border-radius: 0.625rem;
 
   background-image: url(${(props) => props.img});
 
   color: white;
 
-  h2 {
-    font-size: 1rem;
-    margin-bottom: var(--height-gap);
-  }
-
   button {
-    padding: 0.5rem;
-    border: 0.15rem solid;
-    border-radius: 2rem;
+    outline: 1px solid;
+    border-radius: 1rem;
 
-    font-size: 0.8125rem;
+    font-size: var(--button-mid);
+    /* font-size: 14px; */
+    width: 4.3125rem;
+    height: 1.625rem;
     color: white;
 
-    &:hover {
-      background-color: black;
+    a {
       color: white;
-      border: 0.15rem solid black;
     }
   }
+`;
+
+const ItemContentS = styled.div`
+  height: 3.88rem;
+
+  .Item-Name {
+    display: flex;
+    flex-direction: column;
+    height: 2.81rem;
+    gap: 0.125rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+    margin-top: 0;
+  }
+
+  .people {
+    color: var(--color-main);
+    font-weight: 500;
+  }
+
+  p {
+    margin-top: 3px;
+  }
+`;
+
+const ItemTabS = styled.div`
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 0.12rem 0.86rem;
+  font-size: 0.6875rem;
+  width: fit-content;
 `;

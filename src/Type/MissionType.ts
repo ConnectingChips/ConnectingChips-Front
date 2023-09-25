@@ -1,6 +1,6 @@
 /** 2023-08-22 MissionType.tsx - 미션 그룹 멤버 정보 */
 export interface MemberInfo {
-  member_id: string;
+  member_id: number;
   day: number;
   count: number;
   done: boolean;
@@ -44,7 +44,7 @@ export type GroupListTab = {
   title: string;
 };
 
-export type PageSort = "Page" | "Intro" | "Create";
+export type PageSort = 'Page' | 'Intro' | 'Create';
 
 export type doneBind = {
   doneList: boolean[];
@@ -59,26 +59,16 @@ export type uuidBind = {
   setUuidList: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
-interface CommonProps {
+export interface CommonProps {
   slideRef: React.MutableRefObject<null>;
   count: number;
   sort: string;
   TOTAL_SLIDES: number;
 }
-
-export interface CarreselProps extends CommonProps {
-  setCount: React.Dispatch<React.SetStateAction<number>>;
-  setSort: React.Dispatch<React.SetStateAction<string>>;
-  doneBind: doneBind;
-  countBind: countBind;
-  uuidBind: uuidBind;
-}
-
 export interface ButtonListProps extends CommonProps {
   doneList: boolean[];
   uuidList: number[];
   countList: number[];
-  IMG: (string | undefined)[];
   // TODO: 값 다 채워지면 아래로 교체
   // IMG: string[];
 }

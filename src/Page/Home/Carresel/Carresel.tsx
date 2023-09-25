@@ -1,47 +1,20 @@
-import { CarreselProps } from "../../../Type/MissionType";
-import { MissionSingleWide, myGroupImages, myInfo, myGroupList, ChipList, styled } from "./CarreselBarrel";
-import useCarresel from "./useCarresel";
-import ImageBoxS from "../../../StyleComp/ImageBoxS";
-import CarreselSlideButton from "./CarreselSlideButton";
+import { MissionSingleWide, ChipList, styled } from './CarreselBarrel';
+import { Mylist } from '../HomeBarrel';
 
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
-const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
-  const { slideRef, count, setCount, sort, setSort, TOTAL_SLIDES, doneBind, countBind, uuidBind } = carreselProps;
-  const { dateList, doneList, countList, uuidList } = useCarresel(doneBind, countBind, uuidBind);
-
-  /** 2023-09-22 Carresel.tsx - 내 작심 현황 - Kadesti */
-  const Mylist = myGroupList.map((mygroup, index) => {
-    const missionInfo = mygroup.memberList.find((member) => member.member_id === myInfo.my_id);
-    if (missionInfo === undefined) return <></>;
-
-    const { tab, title } = mygroup;
-
-    return (
-      // <li key={uuidList[index]}>
-      <li key={index}>
-        <MyMissionInfoS href={`/groupPage/${uuidList[index]}`}>
-          <img src={myGroupImages[index]} alt="main_image" />
-          <MissionContentS>
-            <MissionSingleWide text={tab} />
-            <h2>{title}</h2>
-            <p>
-              🔥 <span className="date">{dateList[index]}</span>일자 맛보기 중
-            </p>
-          </MissionContentS>
-          <ChipList count={countList[index]} />
-        </MyMissionInfoS>
-      </li>
-    );
-  });
-
+const Carresel = ({ myList }: { myList: Mylist[] }) => {
   return (
     <div>
       <MissionListS>
-        {/* 나의 작심 컨텐츠 */}
-        <ImageBoxS ref={slideRef} count={count} sort={sort} length={TOTAL_SLIDES}>
-          {Mylist}
-        </ImageBoxS>
-        <CarreselSlideButton count={count} setSort={setSort} setCount={setCount} TOTAL_SLIDES={TOTAL_SLIDES} />
+        <ul>
+          {myList.map((mygroup, idx) => {
+            return (
+              <li key={idx}>
+                <CarreselItem mygroup={mygroup} />
+              </li>
+            );
+          })}
+        </ul>
       </MissionListS>
     </div>
   );
@@ -49,10 +22,35 @@ const Carresel = ({ carreselProps }: { carreselProps: CarreselProps }) => {
 
 export default Carresel;
 
+const CarreselItem = ({ mygroup }: { mygroup: Mylist }) => {
+  const { mindId, mindTypeName, name, myListImage, boardCount, count } = mygroup;
+
+  return (
+    <MyMissionInfoS href={`/groupPage/${mindId}`}>
+      <img src={myListImage} alt='main_image' />
+      <MissionContentS>
+        <MissionSingleWide text={mindTypeName} />
+        <h2>{name}</h2>
+        <p>
+          🔥 <span className='date'>{boardCount}</span>일차 맛보기 중
+        </p>
+      </MissionContentS>
+      <ChipList count={count} />
+    </MyMissionInfoS>
+  );
+};
+
 /** 2023-09-02 Carresel.tsx - 캐러샐 영역 - Kadesti */
 const MissionListS = styled.div`
   display: flex;
   position: relative;
+
+  margin-bottom: 0.5rem;
+
+  ul {
+    display: flex;
+    gap: 0.75rem;
+  }
 `;
 
 /** 2023-08-21 MyMisson.tsx - 나의 작심 현황 항목 정보 */
@@ -63,7 +61,6 @@ const MyMissionInfoS = styled.a`
 
   border: 0.1px solid;
   border-radius: 0.625rem;
-  margin-bottom: 1rem;
 
   color: white;
   position: relative;
@@ -72,8 +69,8 @@ const MyMissionInfoS = styled.a`
 
   h2 {
     font-size: 1.3rem;
-    margin-top: 0.2rem;
-    height: 4rem;
+    margin-top: 0.38rem;
+    margin-bottom: 0.5rem;
   }
 
   div,
@@ -92,4 +89,12 @@ const MyMissionInfoS = styled.a`
 const MissionContentS = styled.div`
   position: absolute;
   padding: 1rem;
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  > p {
+    font-weight: 500;
+  }
 `;

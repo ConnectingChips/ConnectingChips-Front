@@ -1,33 +1,27 @@
-import { styled } from "styled-components";
-import { MissionSingleWide } from "./MissionTab";
-import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import groupListData from "../../data/groupListData";
+import { styled } from 'styled-components';
+import { getMindInfoType } from '../../API/Mind';
+import { MissionSingleWide } from './MissionTab';
+import { PageSort } from '../../Type/MissionType';
+import { MindPageInfo, MindIntroInfo, MindsType } from '../../Type/Mind';
+interface HeadLineType {
+  // getMindInfoData: MindPageInfo | MindIntroInfo;
+  getMindInfoData: MindsType;
+  passsort: PageSort;
+}
 
-/** 2023-08-22 HeadLine.tsx - 타이틀 / 태그 / n일차 */
-const HeadLine = (): JSX.Element => {
-  const { uuid } = useParams();
+const HeadLine = ({ getMindInfoData, passsort }: HeadLineType) => {
+  const { mindTypeName, name, userCount } = getMindInfoData;
 
-  const [urlPath, setUrlPath] = useState("");
-  const location = useLocation();
-
-  useEffect(() => {
-    const url = location.pathname;
-    const keyword = "groupIntro";
-    const extractedValue = url.split("/").find((part) => part === keyword);
-    if (extractedValue === undefined) return;
-
-    setUrlPath(extractedValue);
-  }, [location]);
-
-  const groupInfo = groupListData.find((groupData) => groupData.group_id === Number(uuid));
-  if (groupInfo === undefined) return <></>;
+  let message;
+  if (userCount <= 0) message = '첫번째로 작심 맛보기!';
+  else if (userCount === 1) message = '1명 맛보기 중';
+  else message = `${userCount - 1}명과 함께 맛보기 중`;
 
   return (
-    <HeadLineS>
-      <MissionSingleWide text={groupInfo.tab} />
-      <h1>{groupInfo.title}</h1>
-      <p className={urlPath === "groupIntro" ? "" : "subTitle"}>{groupInfo.memberList.length > 0 ? `${groupInfo.memberList.length - 1}명과 함께 맛보기 중` : "첫번째로 작심 맛보기!"}</p>
+    <HeadLineS passsort={passsort}>
+      <MissionSingleWide text={mindTypeName} />
+      <h1>{name}</h1>
+      {passsort !== 'Create' ? <p className='subTitle'>{message}</p> : null}
     </HeadLineS>
   );
 };
@@ -35,7 +29,7 @@ const HeadLine = (): JSX.Element => {
 export default HeadLine;
 
 /** 2023-08-22 HeadLine.tsx - 그룹 인트로 아티클 */
-const HeadLineS = styled.div`
+const HeadLineS = styled.div<{ passsort: string }>`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -43,13 +37,11 @@ const HeadLineS = styled.div`
   h1 {
     font-size: 1.5rem;
     font-weight: 500;
+    margin-bottom: ${(props) => props.passsort === 'Create' && '0.75rem'};
   }
 
-  p {
+  .subTitle {
     font-size: 0.75rem;
-
-    &.subTitle {
-      color: var(--font-color2);
-    }
+    color: ${(props) => props.passsort === 'Page' && 'var(--font-color3)'};
   }
 `;

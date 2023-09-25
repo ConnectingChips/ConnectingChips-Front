@@ -1,24 +1,23 @@
-import { GroupInfoType } from "../Type/MissionType";
+import { GetUser } from '../Type/User';
+import { MindsType, Mylist } from '../Type/Mind';
 
-export const initImage = {
-  image_id: 0,
-  url: "",
-  path: "",
+export const initMyList: Mylist[] = [];
+
+export const initUser: GetUser = {
+  userId: 0,
+  nickname: '',
+  profileImage: `${process.env.PUBLIC_URL}/Chips_signout.png`,
+  roles: '',
 };
 
-export const initGroup: GroupInfoType = {
-  group_id: 0,
-  tab: "",
-  title: "",
-  intro: "",
-  rule: "",
-  memberList: [{ member_id: "", day: 0, count: 0, done: false }],
-  posts: [{ post_id: 0, title: "", image: initImage }],
-  defaultImage: {
-    defaultImage_id: 0,
-    main_url: "",
-    list_url: "",
-    intro_url: "",
-    group_url: "",
-  },
+export const initMind: MindsType = {
+  mindId: 0,
+  mindTypeName: '',
+  name: '',
+  introduce: '',
+  userCount: 0,
+  writeFormat: '',
+  isDoneToday: false,
+  count: 0,
+  canJoin: 0,
 };

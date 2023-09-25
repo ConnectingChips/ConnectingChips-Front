@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -13,14 +13,33 @@ const GlobalStyle = createGlobalStyle`
     --color-disabled1: #999999;
     --color-disabled2: #E5E5EC;
     --system-green: #04B014;
+    --color-white: #ffffff;
 
     /* 가로 폭 */
     --width-mobile: 375px;
     --width-my-mission: 11.25rem;
 
     /* 세로 폭 */
-    --height-banner: 3.5rem;
+    --height-header: 3.5rem;
     --height-gap: 0.5rem;
+
+    /* 폰트 크기 */
+    --welcome: 28px;
+    --header: 20px;
+    --head-a: 24px;
+    --head-b: 18px;
+    --head-c: 16px;
+    --body-a: 16px;
+    --body-b: 14px;
+    --body-c: 12px;
+    --button-big: 1rem;
+    --button-mid: 0.875rem;
+    --button-mid-bold: 14px;  // 볼드 속성 
+    --button-small: 11px;
+    
+    /* 가로 폭 */
+    /* --width-mobile: 23.4375rem; */
+    --width-mobile: 22.5rem;
 
     
     &::-webkit-scrollbar {
@@ -33,8 +52,9 @@ const GlobalStyle = createGlobalStyle`
   } */
   
   body {
+    /* overflow-x: hidden; */
     color: var(--font-color1);
-    font-family: Noto Sans KR;
+    font-family: 'Noto Sans KR', sans-serif;
     font-style: normal;
     line-height: normal;    
     margin:0;
@@ -48,10 +68,6 @@ const GlobalStyle = createGlobalStyle`
     list-style: none;
 
     &.button{
-      &:hover{
-          cursor: pointer;
-          opacity: 60%;
-      }
       &.active{
         background: #000;
         color: white;
@@ -91,16 +107,12 @@ const GlobalStyle = createGlobalStyle`
   button {
     background-color: transparent;
     border: 0;
-    font-family: Noto Sans KR;
-
-    &:hover {
-        cursor: pointer;
-    }
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   textarea{
     padding: 1rem;
-    font-family: Noto Sans KR;
+    font-family: 'Noto Sans KR', sans-serif;
     font-size: 1rem;
   }
 `;

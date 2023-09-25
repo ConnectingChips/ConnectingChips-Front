@@ -1,78 +1,50 @@
-import { useState, styled } from "./GroupPageBarrel";
-import { useNavigate, useFindGroup, useLoginCheck } from "./GroupPageBarrel";
-import { GroupHeader, type LikeBind, Comment, DivideBaS, GroupActive, GroupArticle } from "./GroupPageBarrel";
+import { styled } from './GroupPageBarrel';
+import { GroupHeader, DivideBaS, GroupArticle } from './GroupPageBarrel';
+import { GroupPostList } from './GroupPostList';
+import { getMind_PageImage } from '../../API/Mind';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import GroupBtn from './GroupBtn';
 
-/** 2023-08-22 GroupPage.tsx - 메인 컴프 */
 const GroupPage = (): JSX.Element => {
-  const { intro, rule, url } = useFindGroup('page');
+  const { mindId } = useParams<string>();
+  const [pageImage, setPageImage] = useState<string>('');
+  const [refresh, setRefresh] = useState(1);
+  const refreshBind = { refresh, setRefresh };
+  useEffect(() => {
+    getMind_PageImage(Number(mindId)).then((data) => {
+      setPageImage(data.pageImage);
+    });
+  }, []);
 
   return (
     <GroupPageS>
-      <GroupHeader />
-      <GroupImageS url={url} />
-      <GroupSummary intro={intro} rule={rule} selected={[0, 1, 3]} />
-      <GroupPostListS>
-        <GroupPost />
-        <GroupPost />
-      </GroupPostListS>
+      <GroupHeader refresh={refresh} />
+      <GroupImageS url={pageImage} />
+      <div style={{ margin: '0 auto', width: '375px' }}>
+        <GroupArticle selected={[0, 1]} passsort='Page' />
+        <GroupBtn refresh={refresh} />
+      </div>
+      <DivideBaS />
+      <GroupPostList refreshBind={refreshBind} />
     </GroupPageS>
   );
 };
 
 export default GroupPage;
 
-type GroupPostProps = {
-  intro: string;
-  rule: string;
-  selected: number[] | null;
-};
-
-/** 2023-08-26 GroupPage.tsx - 그룹페이지 소개글 - 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 */
-const GroupSummary = ({ intro, rule, selected }: GroupPostProps) => {
-  return (
-    <>
-      <GroupArticle groupText={intro} groupRule={rule} selected={selected} passsort="Page" />
-      <DivideBaS />
-    </>
-  );
-};
-
-/** 2023-08-26 GroupPage.tsx - 그룹페이지 글 항목 */
-const GroupPost = () => {
-  const [Commented, setCommented] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  const likeBind: LikeBind = { isLiked, setIsLiked };
-
-  return (
-    <GroupPostS>
-      <GroupActive passsort="Page" setCommented={setCommented} likeBind={likeBind} />
-      <Comment Commented={Commented} />
-    </GroupPostS>
-  );
-};
-
 const GroupPageS = styled.div`
-  width: var(--width-mobile);
+  height: 100dvh;
+  width: 100vw;
+  margin: 0 auto;
   position: relative;
 `;
 
-/** 2023-08-22 GroupPage.tsx - 그룹페이지 대표 이미지 */
 const GroupImageS = styled.div<{ url: string }>`
+  margin-top: 3.5rem;
   background-image: url(${(props) => props.url});
-  background-size: 25rem;
-  background-position: 0 -1rem;
   height: 10rem;
-`;
-
-const GroupPostListS = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: var(--height-gap);
-`;
-
-/** 2023-08-22 GroupPage.tsx - 그룹페이지 아티클 + 인증 글 */
-const GroupPostS = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  height: 10rem;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
