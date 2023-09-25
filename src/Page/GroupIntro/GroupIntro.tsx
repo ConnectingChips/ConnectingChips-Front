@@ -41,7 +41,7 @@ export default GroupIntro;
 
 const GroupIntroS = styled.div<{ img: string }>`
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   position: relative;
   color: white;
   display: flex;

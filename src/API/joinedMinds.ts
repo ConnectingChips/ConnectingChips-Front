@@ -10,7 +10,7 @@ export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {
       `/joined-minds/${mind_id}/join-check`,
       tockenHeader,
     );
-    
+
     return response.data.isJoining;
   } catch (error) {
     console.error(error);
@@ -24,8 +24,8 @@ export const postJoin = async (mind_id: number): Promise<void> => {
     const { tockenHeader } = getToken();
     await postData(`/joined-minds/${mind_id}`, {}, tockenHeader);
   } catch (error) {
-    console.error(error);
-    throw new Error('Failed to post Join');
+    // console.error(error);
+    return Promise.reject(error);
   }
 };
 

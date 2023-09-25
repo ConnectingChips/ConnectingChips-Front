@@ -53,7 +53,7 @@ export default GroupArticle;
 
 /** 2023-08-22 GroupArticle.tsx - 그룹 인트로 아티클 */
 const GroupArticleS = styled.article<{ passsort: PageSort }>`
-  width: var(--width-mobile);
+  /* width: var(--width-mobile); */
   margin: ${(props) =>
     props.passsort === 'Intro'
       ? '0 1rem 0.5rem 1rem'
@@ -61,7 +61,7 @@ const GroupArticleS = styled.article<{ passsort: PageSort }>`
       ? '3.75rem 1rem 0.5rem 1rem'
       : '0.87rem 1rem 1.25rem 1rem'};
 
-  p {
+  /* p {
     font-size: 0.875rem;
-  }
+  } */
 `;

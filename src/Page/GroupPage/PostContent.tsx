@@ -53,7 +53,7 @@ const PostContent = ({ editbind, postData, refreshBind }: PostContentProps): JSX
     <PostContentS imgCheck={imgCheck}>
       {edit ? (
         <>
-          <textarea
+          <TextareaS
             ref={textarea}
             onChange={(e) => {
               handleResizeHeight();
@@ -65,7 +65,7 @@ const PostContent = ({ editbind, postData, refreshBind }: PostContentProps): JSX
             value={editContent}
           >
             {content}
-          </textarea>
+          </TextareaS>
           <BtnContainerS>
             <button
               onClick={() => {
@@ -85,6 +85,10 @@ const PostContent = ({ editbind, postData, refreshBind }: PostContentProps): JSX
 };
 
 export default PostContent;
+
+const TextareaS = styled.textarea`
+  border: 1px solid #e5e5ec;
+`;
 
 const BtnContainerS = styled.div`
   text-align: right;

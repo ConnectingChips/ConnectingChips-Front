@@ -51,6 +51,7 @@ export default GroupPost;
 
 const GroupPostS = styled.div<{ passsort: PageSort }>`
   margin: ${(props) => (props.passsort === 'Intro' ? '0 1rem 1rem 1rem' : null)};
+  margin: ${(props) => (props.passsort === 'Page' ? '0 1rem 1rem 1rem' : null)};
 
   h2 {
     margin-bottom: var(--height-gap);
