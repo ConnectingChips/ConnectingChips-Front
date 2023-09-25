@@ -33,7 +33,7 @@ const StyledContainer = styled(ToastContainer)`
 
   .Toastify__toast {
     min-height: 0;
-    padding: 13px 16px;
+    padding: 8px 16px;
     margin-bottom: 0;
   }
 

@@ -7,8 +7,8 @@ export const ErrorMsgNetS = styled.div`
   gap: 0.37rem;
 
   img {
-    width: 3rem;
-    height: 1.59675rem;
+    width: 45px;
+    height: 44px;
   }
 `;
 
