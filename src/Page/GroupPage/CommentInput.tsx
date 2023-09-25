@@ -155,7 +155,7 @@ const InputS = styled.div<{ inputToggle: boolean }>`
   height: 3.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: ${(props) => (props.inputToggle ? 'center' : 'space-around')};
   z-index: 10;
   input {
     font-size: 1rem;
