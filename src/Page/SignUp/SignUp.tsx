@@ -55,7 +55,7 @@ const SignUp = (): JSX.Element => {
   };
 
   const emailValidationCheck = () => {
-    const emailReg = /^[a-z0-9_.]+@[a-z0-9_.]+\.(com)$/g;
+    const emailReg = /^[a-z0-9_.]+@[a-z0-9_.]+\.(com|net)$/g;
     const isValidEmail = emailReg.test(email);
     setValidation((prev) => ({ ...prev, email: isValidEmail }));
   };
