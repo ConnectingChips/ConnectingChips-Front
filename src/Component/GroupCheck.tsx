@@ -1,7 +1,8 @@
+import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getCheckedJoined } from '../API/joinedMinds';
 import { getMindSingle } from '../API/Mind';
-
+import { EXPIRED_TOKEN, INVALID_TOKEN } from '../constant/error';
 const GroupCheck = ({
   component,
   sort,
@@ -16,7 +17,7 @@ const GroupCheck = ({
     (async () =>
       await getCheckedJoined(Number(mindId)).then((isJoined: boolean) => {
         if (sort === 'Page' && !isJoined) navigate('/');
-        if (sort === 'Intro' && isJoined) navigate('/');
+        // if (sort === 'Intro' && isJoined) navigate('/');
         if (sort === 'Upload') {
           getMindSingle(Number(mindId))
             .then((isDoneToday: boolean) => isDoneToday && navigate('/'))
