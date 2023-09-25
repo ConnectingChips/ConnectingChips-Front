@@ -102,7 +102,7 @@ const GroupPostListS = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
-  gap: 0.5rem;
+  gap: 2.5rem;
   h2 {
     font-size: 1.125rem;
   }

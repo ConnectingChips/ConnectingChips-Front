@@ -18,6 +18,7 @@ export default MissionIntro;
 
 /** 2023-08-22 MissionIntro.tsx - 미션 소개글 */
 const IntroduceS = styled.p<{ passsort: string }>`
+  font-size: 0.875rem;
   margin-top: 1rem;
   line-height: 1.25rem;
   color: ${(props) => props.passsort === 'Page' && 'var(--font-color2)'};
