@@ -55,7 +55,7 @@ const SignUp = (): JSX.Element => {
   };
 
   const emailValidationCheck = () => {
-    const emailReg = /^[a-z0-9_.]+@[a-z0-9_.]+\.(com|net)$/g;
+    const emailReg = /^[a-z0-9_.]+@[a-z0-9_.]+\.[a-z0-9]*$/g;
     const isValidEmail = emailReg.test(email);
     setValidation((prev) => ({ ...prev, email: isValidEmail }));
   };
@@ -125,10 +125,6 @@ const SignUp = (): JSX.Element => {
             validationCheck={emailValidationCheck}
             isError={email !== '' && validation.email === false}
           />
-          <p className={email && validation.email === false ? 'hidden' : ''}>
-            <img src={infoIcon} alt='infoIcon' />
-            .com .net 만 사용 가능
-          </p>
           {email && validation.email === false && (
             <p className='error'>이메일 형식이 올바르지 않습니다.</p>
           )}
