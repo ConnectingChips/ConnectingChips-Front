@@ -58,7 +58,9 @@ const ExistComp = ({ myList, setConfirmExitMind, setMindId }: ExitButton): JSX.E
       {myList.map((myGroup, idx) => {
         return (
           <MindS key={idx}>
-            <p className='main' onClick={()=>naviagate(`/groupPage/${myGroup.mindId}`)}>{myGroup.name}</p>
+            <p className='main' onClick={() => naviagate(`/groupPage/${myGroup.mindId}`)}>
+              {myGroup.name}
+            </p>
             <ExitButtonS
               onClick={() => {
                 setMindId(myGroup.mindId);
@@ -130,12 +132,7 @@ const EndMind = ({ ListBind }: { ListBind: ListBind }) => {
       {endList.map((list, index) => {
         return (
           <MindS key={index}>
-            <div>
-              <p className='main'>{list.name}</p>
-              <p className='sub'>
-                <span className='date'>{list.boardCount}</span>일 작심 성공
-              </p>
-            </div>
+            <p className='main'>{list.name}</p>
             <ReMindButton list={list} />
           </MindS>
         );
@@ -151,6 +148,7 @@ const CurrentMindListS = styled.ul`
 
   margin: 1.25rem 1rem;
 `;
+
 const MindS = styled.li`
   display: flex;
   justify-content: space-between;
@@ -162,6 +160,7 @@ const MindS = styled.li`
   box-sizing: border-box;
   height: 4.375rem;
   border-radius: 5px;
+  gap: 0.75rem;
 
   p.nonExist {
     color: var(--color-disabled1);
@@ -175,6 +174,9 @@ const MindS = styled.li`
   p.main {
     font-size: 1rem;
     font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   p.sub {
     color: var(--font-color2);
@@ -193,17 +195,17 @@ const myPageButton = styled.button`
 
 const ExitButtonS = styled(myPageButton)`
   background-color: #fff;
-  padding: 0 0.75rem;
   border: 1px solid var(--font-color3);
+  width: 5.5rem;
 `;
 
 const ReMindButtonS = styled(myPageButton)`
   background-color: var(--color-main);
-  padding: 0 1rem;
+  width: 6.9375rem;
 `;
 
 const FullJoinButtonS = styled(myPageButton)`
   background-color: var(--color-disabled2);
   color: var(--color-disabled1);
-  padding: 0 1rem;
+  width: 6.9375rem;
 `;
