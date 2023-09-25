@@ -106,6 +106,7 @@ const GroupBGHeaderS = styled(MyPageHeaderS)`
   width: 100vw;
   top: 0;
   left: 0;
+  background-color: white;
 
   img {
     position: absolute;

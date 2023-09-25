@@ -59,8 +59,6 @@ const ConfirmBGS = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  /* right: 0;
-  bottom: 0; */
 `;
 
 const ConfirmModalS = styled.div`
@@ -71,9 +69,9 @@ const ConfirmModalS = styled.div`
 
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   div {
-    /* height: 2.5rem; */
     display: flex;
 
     button {
