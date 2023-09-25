@@ -1,13 +1,12 @@
 import { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
 import axios from 'axios';
 
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
-import { StyledToastContainer } from '../../Component/Toast/StyledToastContainer';
 
 import { notifyImgSizeLimitErr } from '../../Component/Toast/ImgSizeLimitMsg';
 import { notifyNetErr } from '../../Component/Toast/NetworkErrorMsg';
@@ -20,6 +19,7 @@ import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
+import { ReactComponent as LoadingSpinner } from '../../image/loading.svg';
 
 import { useNavigate } from '../GroupPage/GroupPageBarrel';
 import {
@@ -45,6 +45,7 @@ const UploadPost = () => {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [text, setText] = useState<string>(INITIAL_TEXT);
   const [image, setImage] = useState<Image>({ name: '', file: null });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -87,12 +88,12 @@ const UploadPost = () => {
 
     // 이미지 확장자 제한
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
-      console.log('비허용:: ', fileExtension); // TODO: 테스트 후 제거
       return notifyExtensionsBlockErr();
     }
 
     // 10485760 = 10mb 제한
     if (e.target.files[0].size > 10485760) {
+      // TODO: constant
       return notifyImgSizeLimitErr();
     }
 
@@ -101,25 +102,42 @@ const UploadPost = () => {
     setImageUrl(URL.createObjectURL(file));
   };
 
+  const handleFileInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    e.currentTarget.value = '';
+  };
+
   const handleDeleteIconClick = () => {
     URL.revokeObjectURL(imageUrl);
     setImageUrl('');
+    setImage({ name: '', file: null });
   };
 
   const handleInfoIconClick = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
+  };
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      await postCreateBoard({
+      setIsLoading(true);
+
+      const response = await postCreateBoard({
         mindId: Number(mindId),
         userId,
         content: text,
         image,
       });
+
+      if (response.statusCode === 200) {
+        // TODO: constant
+        setIsLoading(false);
+      }
+
       navigate(`/groupPage/${mindId}`);
     } catch (error) {
       console.error(error);
@@ -147,10 +165,6 @@ const UploadPost = () => {
     }
   };
 
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-  };
-
   return (
     <CreatePostS>
       <UploadPostHeaderS>
@@ -158,42 +172,55 @@ const UploadPost = () => {
       </UploadPostHeaderS>
       <GroupContent selected={[0, 2]} passsort='Create' />
       <CreateFormS onSubmit={handleFormSubmit}>
-        <CreateFormUploadS>
-          <UploadImageTitleS>
-            <h2>인증샷 올리기</h2>
-            <InfoIcon onClick={handleInfoIconClick} />
-            {isOpen && <InfoMessage className='info_message_position' setIsOpen={setIsOpen} />}
-          </UploadImageTitleS>
-          {imageUrl ? (
-            <AddedImageS>
-              <ImageS>
-                <img src={imageUrl} alt='추가된 이미지' />
-              </ImageS>
-              <DeleteIcon className='delete_icon' onClick={handleDeleteIconClick} />
-            </AddedImageS>
-          ) : (
-            <UploadImageS htmlFor='image-upload'>
-              <img src={UploadImageIcon} alt='이미지 업로드' />
-              <AddIcon className='add_icon' />
-            </UploadImageS>
-          )}
-          <input
-            type='file'
-            id='image-upload'
-            accept='image/png, image/jpeg, image/jpg'
-            ref={(ref) => (fileRef.current = ref)}
-            onChange={handleFileInputChange}
-          />
-        </CreateFormUploadS>
-        <CreateFormUploadS>
-          <h2>오늘의 작심은 어땠나요?</h2>
-          <textarea placeholder={INITIAL_TEXT} maxLength={800} onChange={handleTextareaChange} />
-        </CreateFormUploadS>
+        {isLoading ? (
+          <LoadingSpinnerContainer>
+            <LoadingSpinner />
+          </LoadingSpinnerContainer>
+        ) : (
+          <>
+            <CreateFormUploadS>
+              <UploadImageTitleS>
+                <h2>인증샷 올리기</h2>
+                <InfoIcon onClick={handleInfoIconClick} />
+                {isOpen && <InfoMessage className='info_message_position' setIsOpen={setIsOpen} />}
+              </UploadImageTitleS>
+              {imageUrl ? (
+                <AddedImageS>
+                  <ImageS>
+                    <img src={imageUrl} alt='추가된 이미지' />
+                  </ImageS>
+                  <DeleteIcon className='delete_icon' onClick={handleDeleteIconClick} />
+                </AddedImageS>
+              ) : (
+                <UploadImageS htmlFor='image-upload'>
+                  <img src={UploadImageIcon} alt='이미지 업로드' />
+                  <AddIcon className='add_icon' />
+                </UploadImageS>
+              )}
+              <input
+                type='file'
+                id='image-upload'
+                accept='image/png, image/jpeg, image/jpg'
+                ref={(ref) => (fileRef.current = ref)}
+                onChange={handleFileInputChange}
+                onClick={handleFileInputClick}
+              />
+            </CreateFormUploadS>
+            <CreateFormUploadS>
+              <h2>오늘의 작심은 어땠나요?</h2>
+              <textarea
+                placeholder={INITIAL_TEXT}
+                maxLength={800}
+                onChange={handleTextareaChange}
+              />
+            </CreateFormUploadS>
+          </>
+        )}
+
         <SubmitButtonWrapperS>
           <SubmitButtonCTA />
         </SubmitButtonWrapperS>
       </CreateFormS>
-      <StyledToastContainer />
     </CreatePostS>
   );
 };
@@ -202,7 +229,7 @@ export default UploadPost;
 
 const CreatePostS = styled.div`
   width: var(--width-mobile);
-  height: 100vh;
+  // height: 100dvh; // TODO: 모바일 테스트 필수
 `;
 
 const UploadPostHeaderS = styled(GroupHeader)`
@@ -319,5 +346,26 @@ const SubmitButtonWrapperS = styled.div`
 
   button {
     width: 100%;
+  }
+`;
+
+const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const LoadingSpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100dvh - 362.16px);
+
+  svg {
+    animation: ${spin} 1s linear infinite;
   }
 `;

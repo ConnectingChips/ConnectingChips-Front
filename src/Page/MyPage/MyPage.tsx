@@ -102,7 +102,11 @@ const GroupBGHeaderS = styled(MyPageHeaderS)`
 
   display: flex;
   justify-content: center;
-  position: relative;
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  background-color: white;
 
   img {
     position: absolute;
@@ -120,13 +124,14 @@ const ProfileHeaderS = styled.div`
   display: flex;
   align-items: center;
   padding: 0 1rem;
+  margin-top: 3.125rem;
 
   justify-content: space-between;
 
   background-color: var(--font-color1);
   color: #fff;
-  
-  img{
+
+  img {
     width: 3.75rem;
   }
 `;
@@ -142,7 +147,7 @@ const LimitInfoS = styled.div`
   padding: 0.5rem 1rem;
   gap: 0.25rem;
 
-  img{
+  img {
     margin-top: 0.155rem;
   }
   p {

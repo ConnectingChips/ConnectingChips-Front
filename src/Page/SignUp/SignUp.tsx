@@ -12,6 +12,7 @@ import {
 import { type handlerBind, useSignup } from './SignUpBarrel';
 import { postSignup, idDuplicateCheck } from '../../API/signup';
 import scrollTopSmooth from '../../Hooks/scrollTopSmooth';
+import { notifySignUp } from '../../Component/Toast/SignUpMsg';
 
 const SignUp = (): JSX.Element => {
   const [isValid, setIsValid] = useState(true);
@@ -55,7 +56,7 @@ const SignUp = (): JSX.Element => {
   };
 
   const emailValidationCheck = () => {
-    const emailReg = /^[a-z0-9_.]+@[a-z0-9_.]+\.(com)$/g;
+    const emailReg = /^[a-z0-9_.]+@[a-z0-9_.]+\.[a-z0-9]*$/g;
     const isValidEmail = emailReg.test(email);
     setValidation((prev) => ({ ...prev, email: isValidEmail }));
   };
@@ -84,6 +85,7 @@ const SignUp = (): JSX.Element => {
       const isUsable = await idDuplicateCheck(id);
       if (isUsable) {
         await postSignup(signupData);
+        notifySignUp();
         return navigate('/LogIn');
       } else {
         setInputState('failed');

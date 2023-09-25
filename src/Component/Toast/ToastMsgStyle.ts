@@ -6,9 +6,14 @@ export const ErrorMsgNetS = styled.div`
   align-items: center;
   gap: 0.37rem;
 
-  img {
-    width: 3rem;
-    height: 1.59675rem;
+  img.welcome_icon {
+    width: 45px;
+    height: 44px;
+  }
+
+  img.error_icon {
+    width: 48px;
+    height: 34px;
   }
 `;
 
@@ -17,3 +22,10 @@ export const fade = cssTransition({
   exit: 'fade-out',
   collapseDuration: 200,
 });
+
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 48px;
+  height: 44px;
+`;

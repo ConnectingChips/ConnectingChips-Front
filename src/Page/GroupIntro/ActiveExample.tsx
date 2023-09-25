@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { PageSort } from '../../Type/MissionType';
 import 자전거운동 from '../../image/예시사진모음/자전거운동.jpg';
+import defaultImage from '../../image/ex_image_err.png';
 import { Arrow_Down, Arrow_Up } from '../../Component/ArrowBarrel';
 import { getExampleImage } from '../../API/Mind';
 
@@ -21,7 +22,7 @@ const IntroExample = ({ passsort }: { passsort: PageSort }): JSX.Element => {
 /** 2023-08-22 ActiveExample.tsx - 작심 인증 글 */
 const CreateExample = ({ passsort }: { passsort: PageSort }): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
-  const [exampleImage, setExampleImage] = useState(자전거운동);
+  const [exampleImage, setExampleImage] = useState(defaultImage);
   const { mindId } = useParams();
 
   useEffect(() => {
