@@ -4,6 +4,7 @@ import { CommentList } from './CommentList';
 import { CommentInput } from './CommentInput';
 import { BoardsType } from '../../API/Boards';
 import { GetUser } from '../../Type/User';
+import { styled } from 'styled-components';
 
 interface CommentListDataProps {
   postData: BoardsType;
@@ -41,7 +42,7 @@ const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps): JSX
   };
 
   return (
-    <>
+    <CommentContainerS>
       {postData.commentCount > 0 && (
         <>
           <CommentHeader commentFlipBind={commentFlipBind} postData={postData} />
@@ -64,8 +65,12 @@ const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps): JSX
         refreshBind={refreshBind}
         commentFlipBind={commentFlipBind}
       />
-    </>
+    </CommentContainerS>
   );
 };
 
 export default Comment;
+
+const CommentContainerS = styled.div`
+  margin: 0 1rem;
+`;
