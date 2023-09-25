@@ -104,6 +104,6 @@ const MissionSingleWideS = styled.div`
   border: 1px solid;
   width: fit-content;
   p {
-    font-size: var(--button-small);
+    font-size: 11px;
   }
 `;

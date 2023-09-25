@@ -61,7 +61,7 @@ const GroupArticleS = styled.article<{ passsort: PageSort }>`
       ? '3.75rem 1rem 0.5rem 1rem'
       : '0.87rem 1rem 1.25rem 1rem'};
 
-  p {
+  /* p {
     font-size: 0.875rem;
-  }
+  } */
 `;

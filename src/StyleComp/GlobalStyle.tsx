@@ -35,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
     --button-big: 1rem;
     --button-mid: 0.875rem;
     --button-mid-bold: 14px;  // 볼드 속성 
-    --button-small: 11px
+    --button-small: 11px;
     
     /* 가로 폭 */
     /* --width-mobile: 23.4375rem; */
