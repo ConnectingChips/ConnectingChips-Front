@@ -14,7 +14,7 @@ const CommentHeader = ({ commentFlipBind, postData }: CommentHeaderProps) => {
   const { commentFlip, setCommentFlip } = commentFlipBind;
   return (
     <CommentHeaderS>
-      <h2>댓글 {postData.commentCount}</h2>
+      <h2 className='commentfont'>댓글 {postData.commentCount}</h2>
       <div onClick={() => setCommentFlip(!commentFlip)}>
         {commentFlip ? (
           <img style={{ paddingTop: '5px' }} src={Arrow_icon_Down} alt='댓글열기' />
@@ -30,7 +30,10 @@ const CommentHeader = ({ commentFlipBind, postData }: CommentHeaderProps) => {
 export { CommentHeader };
 
 const CommentHeaderS = styled.div`
-  margin: 0.75rem 0;
+  margin-top: 0.75rem;
   display: flex;
   gap: 0.5rem;
+  .commentfont {
+    font-size: 1rem;
+  }
 `;
