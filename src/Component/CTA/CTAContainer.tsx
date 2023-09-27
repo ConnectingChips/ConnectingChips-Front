@@ -87,11 +87,11 @@ const ErrorCTA = (): JSX.Element => {
   const navigate = useNavigate();
 
   return (
-    <CTAContainerS>
+    <ErrorCTAS>
       <CTAButtonS valid={'true'} onClick={() => navigate('/')}>
         메인으로
       </CTAButtonS>
-    </CTAContainerS>
+    </ErrorCTAS>
   );
 };
 
@@ -114,6 +114,14 @@ const LinkButtonS = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const ErrorCTAS = styled.div`
+  position: fixed;
+  bottom: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 /** 2023-08-22 CTAContainer.tsx - CTA 버튼(참여하기, 인증하기) */
