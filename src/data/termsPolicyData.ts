@@ -198,7 +198,7 @@ export const terms = {
   제 21 조 (팀의 연락처)
   "팀"의 상호 및 주소 등은 다음과 같습니다.
     - 상호: 팀 커넥팅칩스
-    - 메일: m2_jun@naver.com
+    - 메일: connectingchips@gmail.com 
   
   <br/>
   제 22 조 (해외이용)
@@ -302,7 +302,7 @@ export const privacyPolicy = {
   
   규정하고 관리와 감독을 실시하고 있습니다.
   (1) Amazon Web Service
-  수탁 업무 내용 :  데이터 보관 및 인프라 운영
+  수탁 업무 내용 : 데이터 보관 및 인프라 운영
   개인정보 보유 및 이용 기간 : 회원 탈퇴 시 또는 위탁 계약 종료시까지
   위탁업무의 내용이나 수탁자가 변경될 경우에는 지체없이 본 개인정보 처리방침을 통하여 공개 하도록 하겠습니다.
   
@@ -354,7 +354,7 @@ export const privacyPolicy = {
     - 이름: 박준형
     - 소속: 팀 커넥팅칩스
     - 직위: PM
-  이메일 : m2_jun@naver.com
+  이메일 : connectingchips@gmail.com 
   
   <br/>
 
