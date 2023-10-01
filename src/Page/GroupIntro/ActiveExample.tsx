@@ -80,7 +80,6 @@ const CreateHeaderS = styled.div`
   button {
     display: flex;
     align-items: center;
-    cursor: pointer;
   }
 `;
 

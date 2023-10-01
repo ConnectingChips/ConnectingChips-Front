@@ -266,10 +266,6 @@ const CreateFormUploadS = styled.div`
     outline: none;
   }
 
-  label {
-    cursor: pointer;
-  }
-
   input[type='file'] {
     display: none;
   }

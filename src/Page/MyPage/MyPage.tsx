@@ -86,7 +86,6 @@ const MyPageS = styled.div`
 `;
 
 const MyPageHeaderS = styled.header`
-  cursor: pointer;
   position: sticky;
   top: 0;
 

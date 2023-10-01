@@ -88,9 +88,6 @@ const PostHeaderS = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  img {
-    cursor: pointer;
-  }
 `;
 
 const PostHeaderProfileS = styled.div`
@@ -111,7 +108,6 @@ const MoreIconS = styled.div`
   height: 3rem;
   display: flex;
   align-items: center;
-  cursor: pointer;
   position: relative;
 `;
 
