@@ -1,7 +1,7 @@
 import { getData, postData } from './axiosConfig';
 import { GetUser, User } from '../Type/User';
 import logText from './logText';
-import { getToken } from '../data/tocken';
+import getToken from '../data/tocken';
 
 type IsLogin = {
   isLogin: boolean;
@@ -47,9 +47,6 @@ export const createUser = async (newUser: User): Promise<User> => {
 // 로그아웃 -> PUT 요청
 export const logoutUser = async (): Promise<void> => {
   try {
-    // await putData('/users/logout', tockenHeader(access_token))
-    // localStorage.removeItem('access_token');
-
     localStorage.clear();
   } catch (error) {
     console.error(error);

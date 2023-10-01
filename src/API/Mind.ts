@@ -2,7 +2,7 @@ import { getData } from './axiosConfig';
 import { MindIntroInfo, isDoneSingle, isDone, Mylist, TotalMind, EndMindType } from '../Type/Mind';
 import logText from './logText';
 import { MindPageInfo } from '../Type/Mind';
-import { getToken } from '../data/tocken';
+import getToken from '../data/tocken';
 import { getIsLogined } from './Users';
 
 // 작심 정보 반환 (그룹 인트로 / 인증하기)
