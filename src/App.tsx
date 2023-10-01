@@ -11,11 +11,11 @@ import {
   NotFound,
   MyPage,
   OAuthPage,
+  RouteChangeTracker,
+  GroupCheck,
 } from './AppBarral';
-import RouteChangeTracker from './RouteChangeTracker';
 import { MyInfoContext, MyListContext } from './API/Context';
 import useMyContext from './Hooks/useMyContext';
-import GroupCheck from './Component/GroupCheck';
 
 function App() {
   RouteChangeTracker();
