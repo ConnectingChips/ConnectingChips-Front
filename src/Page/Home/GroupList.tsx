@@ -1,6 +1,4 @@
-import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { styled, useEffect, useState, Link } from './HomeBarrel';
 import { MissonTab } from '../../Component/Mission/MissionTab';
 import missionTab from '../../data/missionTab';
 import { getMindAll, getMindFilter } from '../../API/Mind';
@@ -95,7 +93,6 @@ const GroupListItemS = styled.li<{ img: string }>`
   border-radius: 0.625rem;
 
   background-image: url(${(props) => props.img});
-
   color: white;
 
   button {
@@ -103,14 +100,9 @@ const GroupListItemS = styled.li<{ img: string }>`
     border-radius: 1rem;
 
     font-size: var(--button-mid);
-    /* font-size: 14px; */
     width: 4.3125rem;
     height: 1.625rem;
     color: white;
-
-    a {
-      color: white;
-    }
   }
 `;
 
