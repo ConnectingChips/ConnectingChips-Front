@@ -21,8 +21,6 @@ const LoginheaderS = styled.header`
   padding-left: 1rem;
 
   .back {
-    cursor: pointer;
-
     width: 1.75rem;
     margin-right: 5.95rem;
     display: flex;

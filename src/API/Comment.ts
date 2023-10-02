@@ -1,5 +1,5 @@
-import { getData, postData, putData, deleteData } from './axiosConfig';
-import { getToken } from '../data/tocken';
+import { postData, deleteData } from './axiosConfig';
+import getToken from '../data/tocken';
 
 interface AddComment {
   commentId?: number;

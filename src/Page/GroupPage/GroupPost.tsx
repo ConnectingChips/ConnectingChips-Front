@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { PageSort } from '../../Type/MissionType';
+import { PageSort } from '../../Type/Mind'; 
 import PostHeader from './PostHeader';
 import PostContent from './PostContent';
 import { useState } from 'react';

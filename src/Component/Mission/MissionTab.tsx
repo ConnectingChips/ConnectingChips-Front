@@ -1,6 +1,5 @@
 import { styled } from 'styled-components';
-import { GroupListTab } from '../../Type/MissionType';
-import missionTab from '../../data/missionTab';
+import { GroupListTab, missionTab } from '../../data/missionTab';
 
 /** 2023-08-21 MyMisson.tsx - 작심 중인 리스트 Props */
 type MissonTabProps = {

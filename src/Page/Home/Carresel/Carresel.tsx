@@ -4,19 +4,17 @@ import { Mylist } from '../HomeBarrel';
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
 const Carresel = ({ myList }: { myList: Mylist[] }) => {
   return (
-    <div>
-      <MissionListS>
-        <ul>
-          {myList.map((mygroup, idx) => {
-            return (
-              <li key={idx}>
-                <CarreselItem mygroup={mygroup} />
-              </li>
-            );
-          })}
-        </ul>
-      </MissionListS>
-    </div>
+    <MissionListS>
+      <ul>
+        {myList.map((mygroup, idx) => {
+          return (
+            <li key={idx}>
+              <CarreselItem mygroup={mygroup} />
+            </li>
+          );
+        })}
+      </ul>
+    </MissionListS>
   );
 };
 
@@ -46,38 +44,20 @@ const MissionListS = styled.div`
   position: relative;
 
   margin-bottom: 0.5rem;
-
-  ul {
-    display: flex;
-    gap: 0.75rem;
-  }
 `;
 
 /** 2023-08-21 MyMisson.tsx - 나의 작심 현황 항목 정보 */
 const MyMissionInfoS = styled.a`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
   border: 0.1px solid;
-  border-radius: 0.625rem;
 
   color: white;
   position: relative;
-
-  cursor: pointer;
 
   h2 {
     font-size: 1.3rem;
     margin-top: 0.38rem;
     margin-bottom: 0.5rem;
-  }
-
-  div,
-  p,
-  li,
-  h2 {
-    cursor: pointer;
   }
 
   span.date {

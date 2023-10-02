@@ -101,7 +101,6 @@ const GlobalStyle = createGlobalStyle`
   a{
     text-decoration: none;
     color: var(--font-color1);
-    cursor: pointer;
   }
 
   button {
