@@ -1,18 +1,20 @@
-import { initMyList } from '../../data/initialData';
 import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
-import { ArticleTab, ConfirmModal } from './MypageBarrel';
+import { ArticleTab, ConfirmModal, TermsModal } from './MypageBarrel';
 import { scrollTop, getUser } from './MypageBarrel';
-import { initUser } from './MypageBarrel';
 import type { GetUser, Mylist } from './MypageBarrel';
-import TermsModal from './TermsModal';
+import { initUser, initMyList } from './MypageBarrel';
+import { CurrentMind, EndMindList } from './MypageBarrel';
 
 const MyPage = (): JSX.Element => {
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
   const [curList, setCurList] = useState<Mylist[]>(initMyList);
   const ListBind = { curList, setCurList };
-  const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
-  const [showTerms, setshowTerms] = useState<boolean>(false);
+  const compArr: JSX.Element[] = [
+    <CurrentMind ListBind={ListBind} />,
+    <EndMindList ListBind={ListBind} />,
+  ];
+  const tabText: string[] = [`참여중인 작심(${curList.length}/3)`, '참여했던 작심'];
 
   useEffect(() => {
     scrollTop();
@@ -39,11 +41,39 @@ const MyPage = (): JSX.Element => {
       {curList.length === 3 && (
         <LimitInfoS>
           <img src={Info_icon_B} alt='인포프로필' />
-          <p>다른 그룹에 참여하시려면 그룹 나가기를 해주세요.(최대 참여 그룹 3개)</p>
+          <p>
+            다른 그룹에 참여하시려면 그룹 나가기를 해주세요.
+            <br />
+            (최대 참여 그룹 3개)
+          </p>
         </LimitInfoS>
       )}
 
-      <ArticleTab ListBind={ListBind} />
+      <ArticleTab compArr={compArr} tabText={tabText} />
+      <MyPageSetting />
+    </MyPageS>
+  );
+};
+
+export default MyPage;
+
+const MyPageHeader = (): JSX.Element => {
+  const goBack = (): void => window.history.back();
+
+  return (
+    <GroupBGHeaderS>
+      <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
+      <h2>MY</h2>
+    </GroupBGHeaderS>
+  );
+};
+
+const MyPageSetting = (): JSX.Element => {
+  const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
+  const [showTerms, setshowTerms] = useState<boolean>(false);
+
+  return (
+    <>
       <MyPageSetS>
         <h2>설정</h2>
         <ul>
@@ -62,27 +92,12 @@ const MyPage = (): JSX.Element => {
           routeUrl='/'
         />
       )}
-    </MyPageS>
-  );
-};
-
-export default MyPage;
-
-const goBack = (): void => {
-  window.history.back();
-};
-
-const MyPageHeader = (): JSX.Element => {
-  return (
-    <GroupBGHeaderS>
-      <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      <h2>MY</h2>
-    </GroupBGHeaderS>
+    </>
   );
 };
 
 const MyPageS = styled.div`
-  width: var(--width-mobile);
+  width: 100%;
 `;
 
 const MyPageHeaderS = styled.header`
@@ -98,13 +113,7 @@ const MyPageHeaderS = styled.header`
 
 const GroupBGHeaderS = styled(MyPageHeaderS)`
   z-index: 10;
-
-  display: flex;
   justify-content: center;
-  position: fixed;
-  width: 100vw;
-  top: 0;
-  left: 0;
   background-color: white;
 
   img {
@@ -123,7 +132,6 @@ const ProfileHeaderS = styled.div`
   display: flex;
   align-items: center;
   padding: 0 1rem;
-  margin-top: 3.125rem;
 
   justify-content: space-between;
 
@@ -150,7 +158,6 @@ const LimitInfoS = styled.div`
     margin-top: 0.155rem;
   }
   p {
-    width: 16rem;
     font-size: 0.75rem;
     font-weight: 500;
   }
