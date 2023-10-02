@@ -95,6 +95,10 @@ const MissionContentS = styled.div`
   }
 
   > p {
-    font-weight: 500;
+    font-weight: 400;
+
+    .date {
+      font-weight: 500;
+    }
   }
 `;
