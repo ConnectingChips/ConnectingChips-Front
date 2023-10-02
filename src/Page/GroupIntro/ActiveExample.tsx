@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { PageSort } from '../../Type/MissionType';
+import { PageSort } from '../../Type/Mind';
 import 자전거운동 from '../../image/예시사진모음/자전거운동.jpg';
 import defaultImage from '../../image/ex_image_err.png';
 import { Arrow_Down, Arrow_Up } from '../../Component/ArrowBarrel';

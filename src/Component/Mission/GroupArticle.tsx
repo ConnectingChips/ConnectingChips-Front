@@ -3,16 +3,26 @@ import HeadLine from '../../Component/Mission/HeadLine';
 import MissionRule from '../../Component/Mission/MissionRule';
 import MissionIntro from './MissionIntro';
 import { PostButton } from '../CTA/CTAContainer';
-import { PageSort } from '../../Type/MissionType';
 import { useEffect, useState } from 'react';
 import { getMindInfo, getMindInfo_Intro } from '../../API/Mind';
 import { useParams } from 'react-router-dom';
-import { MindsType, MindIntroInfo } from '../../Type/Mind';
-import { initMind } from '../../data/initialData';
+import { MindsType, MindIntroInfo, PageSort } from '../../Type/Mind';
 interface GroupArticleProps {
   selected: number[];
   passsort: PageSort;
 }
+
+export const initMind: MindsType = {
+  mindId: 0,
+  mindTypeName: '',
+  name: '',
+  introduce: '',
+  userCount: 0,
+  writeFormat: '',
+  isDoneToday: false,
+  count: 0,
+  canJoin: 0,
+};
 
 /** 0 : 헤드라인 1 : 소개 2 : 규칙 3 : 버튼 // passsort === Page || Intro || Create */
 const GroupArticle = ({ selected, passsort }: GroupArticleProps): JSX.Element => {

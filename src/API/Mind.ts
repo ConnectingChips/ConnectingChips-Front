@@ -43,23 +43,11 @@ export const getMind_PageImage = async (mind_id: number): Promise<{ pageImage: s
   }
 };
 
-export interface getMindInfoType {
-  mindId: number;
-  mindTypeName: string;
-  name: string;
-  userCount: number;
-  introduce: string;
-  writeFormat: string;
-  pageImage: string;
-  isDoneToday: boolean;
-  count: number;
-}
-
 // 그룹페이지 Minds 정보
-export const getMindInfo = async (mindId: number): Promise<getMindInfoType> => {
+export const getMindInfo = async (mindId: number): Promise<MindPageInfo> => {
   try {
     const { tockenHeader } = getToken();
-    const response = await getData<getMindInfoType>(`/minds/page/${mindId}`, tockenHeader);
+    const response = await getData<MindPageInfo>(`/minds/page/${mindId}`, tockenHeader);
     return response.data;
   } catch (error) {
     console.error(error);

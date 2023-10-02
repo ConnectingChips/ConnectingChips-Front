@@ -1,7 +1,5 @@
 import { styled } from 'styled-components';
-import { getMindInfoType } from '../../API/Mind';
-import { MindsType } from '../../Type/Mind';
-import { PageSort } from '../../Type/MissionType';
+import { MindsType,PageSort } from '../../Type/Mind';
 
 /** 2023-08-22 MissionIntro.tsx - 미션 소개글 */
 const MissionIntro = ({

@@ -1,6 +1,4 @@
-// 답글 정보
-export type Reply = {
-  replyId: number;
+type Common = {
   userId: number;
   nickname: string;
   content: string;
@@ -8,25 +6,20 @@ export type Reply = {
   createDate: string;
 };
 
+// 답글 정보
+export type Reply = Common & {
+  replyId: number;
+};
+
 // 댓글 정보
-export type Comment = {
-  commentId: 2;
-  userId: 2;
-  nickname: string;
-  content: string;
-  profileImage: string;
-  createDate: string;
+export type Comment = Common & {
+  commentId: number;
   replyList: Reply[];
 };
 
 // 글 정보
-export type Board = {
+export type Board = Common & {
   boardId: number;
-  userId: number;
-  nickname: string;
-  content: string;
-  profileImage: string;
-  createDate: string;
   image: string;
   commentCount: number;
   commentList: Comment[];

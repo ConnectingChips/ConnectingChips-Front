@@ -1,7 +1,6 @@
-import { styled } from 'styled-components';
 import GroupArticle from './GroupArticle';
 import { CreateExample } from '../../Page/GroupIntro/ActiveExample';
-import { PageSort } from '../../Type/MissionType';
+import { PageSort } from '../../Type/Mind';
 import DivideBaS from './DivideBa';
 
 type GroupContentProps = {

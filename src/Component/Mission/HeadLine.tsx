@@ -1,10 +1,7 @@
 import { styled } from 'styled-components';
-import { getMindInfoType } from '../../API/Mind';
 import { MissionSingleWide } from './MissionTab';
-import { PageSort } from '../../Type/MissionType';
-import { MindPageInfo, MindIntroInfo, MindsType } from '../../Type/Mind';
+import { MindsType, PageSort } from '../../Type/Mind';
 interface HeadLineType {
-  // getMindInfoData: MindPageInfo | MindIntroInfo;
   getMindInfoData: MindsType;
   passsort: PageSort;
 }

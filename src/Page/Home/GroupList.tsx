@@ -1,6 +1,6 @@
 import { styled, useEffect, useState, Link } from './HomeBarrel';
 import { MissonTab } from '../../Component/Mission/MissionTab';
-import missionTab from '../../data/missionTab';
+import { missionTab } from '../../data/missionTab';
 import { getMindAll, getMindFilter } from '../../API/Mind';
 import { TotalMind } from '../../Type/Mind';
 
