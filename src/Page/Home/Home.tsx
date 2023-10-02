@@ -107,7 +107,7 @@ const setHome = async (
       .catch(() => {});
     await getisDoneAll()
       .then((isDone: isDone[]) => {
-        const doneValid = isDone.some((data) => data.doneToday);
+        const doneValid = isDone.some((data) => data.isDoneToday);
         setIsDone(doneValid);
       })
       .catch(() => {});

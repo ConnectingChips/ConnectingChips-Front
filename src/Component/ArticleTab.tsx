@@ -1,46 +1,31 @@
-import { Mylist, styled, useState } from '../Page/MyPage/MypageBarrel';
-import { CurrentMind, EndMindList } from '../Page/MyPage/MypageBarrel';
+import { styled, useState } from '../Page/MyPage/MypageBarrel';
 
-type ListBind = {
-  curList: Mylist[];
-  setCurList: React.Dispatch<React.SetStateAction<Mylist[]>>;
-};
-const ArticleTab = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
-  const compArr: JSX.Element[] = [<CurrentMind ListBind={ListBind} />, <EndMindList ListBind={ListBind}/>];
+const ArticleTab = ({
+  compArr,
+  tabText,
+}: {
+  compArr: JSX.Element[];
+  tabText: string[];
+}): JSX.Element => {
   const [articleIndex, setArticleIndex] = useState<number>(0);
 
   return (
     <ArticleTabS>
-      <TabHead isFirst={articleIndex === 0} setArticleIndex={setArticleIndex} ListBind={ListBind} />
+      <TabHeadS>
+        <li className={articleIndex === 0 ? 'selected' : ''} onClick={() => setArticleIndex(0)}>
+          {tabText[0]}
+        </li>
+        <li className={articleIndex === 1 ? 'selected' : ''} onClick={() => setArticleIndex(1)}>
+          {tabText[1]}
+        </li>
+      </TabHeadS>
+
       {articleIndex === 0 ? compArr[0] : compArr[1]}
     </ArticleTabS>
   );
 };
 
 export default ArticleTab;
-
-const TabHead = ({
-  isFirst,
-  setArticleIndex,
-  ListBind,
-}: {
-  isFirst: boolean;
-  setArticleIndex: React.Dispatch<React.SetStateAction<number>>;
-  ListBind: ListBind;
-}): JSX.Element => {
-  const { curList } = ListBind;
-  const tabText: string[] = [`참여중인 작심(${curList.length}/3)`, '참여했던 작심'];
-  return (
-    <TabHeadS>
-      <li className={isFirst ? 'selected' : ''} onClick={() => setArticleIndex(0)}>
-        {tabText[0]}
-      </li>
-      <li className={isFirst ? '' : 'selected'} onClick={() => setArticleIndex(1)}>
-        {tabText[1]}
-      </li>
-    </TabHeadS>
-  );
-};
 
 const ArticleTabS = styled.article`
   &::after {

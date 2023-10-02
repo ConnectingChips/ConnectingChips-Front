@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { EndMindType } from '../../Type/Mind';
 import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
 import { ConfirmModal, Mylist } from './MypageBarrel';
-import { getEndList, getMindAFinished, getMyListSingle } from '../../API/Mind';
-import { postJoin, putMindExit } from '../../API/joinedMinds';
+import { getEndList, getMindAFinished } from '../../API/Mind';
+import { putMindExit } from '../../API/joinedMinds';
 
 type ListBind = {
   curList: Mylist[];
@@ -89,7 +89,6 @@ const NoneExistComp = (): JSX.Element => {
   );
 };
 
-/** 참여했던 작심 */
 export const EndMindList = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
   const [endList, setEndList] = useState<EndMindType[]>();
 
@@ -174,7 +173,6 @@ const MindS = styled.li`
   p.main {
     font-size: 1rem;
     font-weight: 500;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
