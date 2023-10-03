@@ -20,7 +20,7 @@ const IntroExample = ({ passsort }: { passsort: PageSort }): JSX.Element => {
 };
 
 /** 2023-08-22 ActiveExample.tsx - 작심 인증 글 */
-const CreateExample = ({ passsort }: { passsort: PageSort }): JSX.Element => {
+const CreateExample = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [exampleImage, setExampleImage] = useState(defaultImage);
   const { mindId } = useParams();
@@ -37,7 +37,7 @@ const CreateExample = ({ passsort }: { passsort: PageSort }): JSX.Element => {
   }, []);
 
   return (
-    <PostS passsort={passsort}>
+    <PostS passsort={'Create'}>
       <CreateHeaderS>
         <h2>인증 사진 예시</h2>
         <button onClick={() => setIsOpen((prev) => !prev)}>
