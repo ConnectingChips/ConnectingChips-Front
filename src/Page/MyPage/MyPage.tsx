@@ -1,3 +1,4 @@
+import { goBack } from '../../Component/Mission/GroupHeader';
 import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal, TermsModal } from './MypageBarrel';
@@ -58,8 +59,6 @@ const MyPage = (): JSX.Element => {
 export default MyPage;
 
 const MyPageHeader = (): JSX.Element => {
-  const goBack = (): void => window.history.back();
-
   return (
     <GroupBGHeaderS>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
