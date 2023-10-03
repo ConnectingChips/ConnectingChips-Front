@@ -99,7 +99,7 @@ const ErrorCTAS = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 500px;
+  max-width: var(--width-max);
 `;
 
 /** 2023-08-22 CTAContainer.tsx - 버튼 공통 스타일 */

@@ -18,6 +18,8 @@ const GlobalStyle = createGlobalStyle`
     /* 가로 폭 */
     --width-mobile: 375px;
     --width-my-mission: 11.25rem;
+    --width-max: 500px;
+
 
     /* 세로 폭 */
     --height-header: 3.5rem;
@@ -102,6 +104,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   button {
+    color: black;
     background-color: transparent;
     border: 0;
     font-family: 'Noto Sans KR', sans-serif;
