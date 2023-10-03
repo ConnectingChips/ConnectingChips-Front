@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
-import GroupContent from '../../Component/Mission/GroupContent';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 
 import { notifyImgSizeLimitErr } from '../../Component/Toast/ImgSizeLimitMsg';
@@ -21,13 +20,22 @@ import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 import { ReactComponent as LoadingSpinner } from '../../image/loading.svg';
 
-import { useNavigate } from '../GroupPage/GroupPageBarrel';
+import { DivideBaS, useNavigate } from '../GroupPage/GroupPageBarrel';
 import {
   SERVER_ERROR,
   INVALID_TOKEN,
   EXPIRED_TOKEN,
   AXIOS_NETWORK_ERROR,
 } from '../../constant/error';
+import {
+  GroupArticleS,
+  HeadLine,
+  MissionRule,
+  initMind,
+} from '../../Component/Mission/GroupArticle';
+import { CreateExample } from '../GroupIntro/ActiveExample';
+import { MindIntroInfo, MindsType } from '../../Type/Mind';
+import { getMindInfo_Intro } from '../../API/Mind';
 
 interface Image {
   name: string;
@@ -46,12 +54,14 @@ const UploadPost = () => {
   const [text, setText] = useState<string>(INITIAL_TEXT);
   const [image, setImage] = useState<Image>({ name: '', file: null });
   const [isLoading, setIsLoading] = useState(false);
+  const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);
 
   useEffect(() => {
     (async () => {
       try {
         const res = await getUser();
         setUserId(res.userId);
+        getMindInfo_Intro(Number(mindId)).then((data: MindIntroInfo) => setGetMindInfoData(data));
       } catch (error) {
         console.error(error);
 
@@ -170,7 +180,12 @@ const UploadPost = () => {
       <UploadPostHeaderS>
         <h1>작심 글쓰기</h1>
       </UploadPostHeaderS>
-      <GroupContent selected={[0, 2]} passsort='Create' />
+      <GroupArticleS passsort={'Create'}>
+        <HeadLine getMindInfoData={getMindInfoData} passsort={'Create'} />
+        <MissionRule getMindInfoData={getMindInfoData} passsort={'Create'} />
+      </GroupArticleS>
+      <CreateExample />
+      <DivideBaS />
       <CreateFormS onSubmit={handleFormSubmit}>
         {isLoading ? (
           <LoadingSpinnerContainer>

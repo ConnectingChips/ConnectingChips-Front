@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
+import { useEffect, useState } from 'react';
 import { Arrow_Left_B, Arrow_Left_W } from '../ArrowBarrel';
 import post_Icon from '../../image/Icon/post_Icon.svg';
 import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { getkeepJoin } from '../../API/Mind';
 
 interface GroupHeaderProps {
@@ -24,17 +24,13 @@ const GroupHeader = ({ children, className, refresh }: GroupHeaderProps): JSX.El
   const { mindId } = useParams();
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
   const [keepJoin, setKeepJoin] = useState<boolean>(false);
-  const navigate = useNavigate();
+  
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
       setIsDoneToday(data.isDoneToday);
       setKeepJoin(data.keepJoin);
     });
   }, [refresh]);
-
-  const goBack = (): void => {
-    window.history.back();
-  };
 
   return (
     <GroupBGHeaderS className={className}>
@@ -68,29 +64,17 @@ export { GroupHeader, GroupIntroHeader };
 const GroupHeaderS = styled.header`
   position: fixed;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  width: 100vw;
   top: 0;
-  left: 0;
   box-sizing: border-box;
   height: var(--height-header);
-  z-index: 20;
 `;
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
 const GroupBGHeaderS = styled(GroupHeaderS)`
-  position: fixed;
-  display: flex;
   justify-content: space-between;
-  align-items: center;
   background-color: white;
-  padding: 1rem;
   width: 100vw;
-  top: 0;
-  left: 0;
-  box-sizing: border-box;
-  height: var(--height-header);
   z-index: 20;
 `;

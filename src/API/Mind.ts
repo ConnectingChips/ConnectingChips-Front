@@ -9,7 +9,6 @@ import { getIsLogined } from './Users';
 export const getMindInfo_Intro = async (mind_id: number): Promise<MindIntroInfo> => {
   try {
     const response = await getData<MindIntroInfo>(`/minds/intro/${mind_id}`);
-    // logText(response.data)
     return response.data;
   } catch (error) {
     console.error(error);
@@ -21,8 +20,6 @@ export const getMindInfo_Intro = async (mind_id: number): Promise<MindIntroInfo>
 export const getMind_IntroImage = async (mind_id: number): Promise<{ introImage: string }> => {
   try {
     const response = await getData<{ introImage: string }>(`/minds/intro/${mind_id}/image`);
-
-    // logText(response.data)
     return response.data;
   } catch (error) {
     console.error(error);
@@ -34,8 +31,6 @@ export const getMind_IntroImage = async (mind_id: number): Promise<{ introImage:
 export const getMind_PageImage = async (mind_id: number): Promise<{ pageImage: string }> => {
   try {
     const response = await getData<{ pageImage: string }>(`/minds/page/${mind_id}/image`);
-
-    // logText(response.data)
     return response.data;
   } catch (error) {
     console.error(error);
@@ -44,7 +39,7 @@ export const getMind_PageImage = async (mind_id: number): Promise<{ pageImage: s
 };
 
 // 그룹페이지 Minds 정보
-export const getMindInfo = async (mindId: number): Promise<MindPageInfo> => {
+export const getMindInfo_Page = async (mindId: number): Promise<MindPageInfo> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<MindPageInfo>(`/minds/page/${mindId}`, tockenHeader);
@@ -91,7 +86,6 @@ export const getMindAll = async (
     }
 
     const response = await getData<TotalMind[]>('/minds/except-me');
-    // response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
     throw new Error('모든 작심 정보를 반환하는데 실패했습니다.');
@@ -125,8 +119,6 @@ export const getMindAFinished = async (): Promise<EndMindType[]> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<EndMindType[]>('/minds/my-joined-mind-list', tockenHeader);
-
-    // response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
     console.error(error);
@@ -139,8 +131,6 @@ export const getMindSingle = async (mindId: number): Promise<boolean> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<isDoneSingle>(`/minds/keep-join/${mindId}`, tockenHeader);
-
-    logText(response.data);
     return response.data.isDoneToday;
   } catch (error) {
     console.error(error);

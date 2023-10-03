@@ -29,8 +29,7 @@ const NotFoundS = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: var(--width-mobile);
-  max-width: var(--width-mobile);
+  width: 100%;
   height: 100vh;
 
   position: relative;
