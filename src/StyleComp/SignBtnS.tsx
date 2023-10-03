@@ -13,7 +13,6 @@ const SignNotClearBtnS = styled.button`
   height: var(--height-header);
   background-color: var(--color-disabled2);
   border-radius: 2rem;
-  cursor: default;
   font-size: 1rem;
   color: var(--color-disabled1);
 `;
