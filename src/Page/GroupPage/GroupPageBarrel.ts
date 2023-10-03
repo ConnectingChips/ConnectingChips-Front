@@ -1,21 +1,33 @@
-import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-
-import useLoginCheck from '../../Hooks/useLoginCheck';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
-import Comment from './Comment';
 import { DivideBaS } from '../../Component/Mission/GroupArticle';
+
+import { GroupPostList } from './GroupPostList';
+import { getMindInfo_Page, getMind_PageImage } from '../../API/Mind';
+import GroupBtn from './GroupBtn';
+import {
+  GroupArticleS,
+  HeadLine,
+  IntroduceS,
+  initMind,
+} from '../../Component/Mission/GroupArticle';
+import { MindPageInfo, MindsType } from '../../Type/Mind';
+
+import Comment from './Comment';
 import GroupPost from './GroupPost';
 
+export { styled, useState, useEffect, useParams, GroupHeader, DivideBaS };
 export {
-  useState,
-  useEffect,
-  styled,
-  useNavigate,
-  useLoginCheck,
-  GroupHeader,
-  Comment,
-  DivideBaS,
-  GroupPost,
+  GroupPostList,
+  getMindInfo_Page,
+  getMind_PageImage,
+  GroupBtn,
+  GroupArticleS,
+  HeadLine,
+  IntroduceS,
+  initMind,
 };
+export { Comment, GroupPost };
+export type { MindPageInfo, MindsType };

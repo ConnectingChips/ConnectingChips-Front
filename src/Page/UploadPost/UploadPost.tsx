@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { styled, keyframes } from 'styled-components';
 import axios from 'axios';
 
-import { GroupHeader } from '../../Component/Mission/GroupHeader';
+import { BackIcon, GroupBGHeaderS } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 
@@ -19,8 +19,9 @@ import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 import { ReactComponent as LoadingSpinner } from '../../image/loading.svg';
+import { DivideBaS } from '../../Component/Mission/GroupArticle';
+import { useNavigate } from 'react-router-dom';
 
-import { DivideBaS, useNavigate } from '../GroupPage/GroupPageBarrel';
 import {
   SERVER_ERROR,
   INVALID_TOKEN,
@@ -177,9 +178,7 @@ const UploadPost = () => {
 
   return (
     <CreatePostS>
-      <UploadPostHeaderS>
-        <h1>작심 글쓰기</h1>
-      </UploadPostHeaderS>
+      <UploadPostHeader />
       <GroupArticleS passsort={'Create'}>
         <HeadLine getMindInfoData={getMindInfoData} passsort={'Create'} />
         <MissionRule getMindInfoData={getMindInfoData} passsort={'Create'} />
@@ -243,12 +242,23 @@ const UploadPost = () => {
 export default UploadPost;
 
 const CreatePostS = styled.div`
-  width: var(--width-mobile);
+  width: 100%;
+  max-width: var(--width-max);
   // height: 100dvh; // TODO: 모바일 테스트 필수
 `;
 
-const UploadPostHeaderS = styled(GroupHeader)`
+const UploadPostHeader = () => {
+  return (
+    <UploadPostHeaderS>
+      <BackIcon/>
+      <h1>작심 글쓰기</h1>
+    </UploadPostHeaderS>
+  );
+};
+
+const UploadPostHeaderS = styled(GroupBGHeaderS)`
   justify-content: center;
+  left: 0;
 
   h1 {
     font-size: var(--header);
