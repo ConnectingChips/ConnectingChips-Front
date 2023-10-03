@@ -34,7 +34,12 @@ const DeleteModal = ({
           <button className='cancel' onClick={() => setConfirm(false)}>
             취소
           </button>
-          <button className='point' onClick={handleConfirm}>
+          <button
+            className={`point ${
+              confirmText === '이 게시글을 삭제할까요?' ? 'post_point' : 'comment_point'
+            }`}
+            onClick={handleConfirm}
+          >
             {action}
           </button>
         </div>
