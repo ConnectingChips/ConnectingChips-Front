@@ -14,17 +14,12 @@ import {
   RouteChangeTracker,
   GroupCheck,
 } from './AppBarral';
-import { MyInfoContext, MyListContext } from './API/Context';
-import useMyContext from './Hooks/useMyContext';
 
 function App() {
   RouteChangeTracker();
-  const { myInfo, setMyInfo, myList, setMylist } = useMyContext();
 
   return (
     <MobileS>
-      <MyInfoContext.Provider value={{ myInfo, setMyInfo }}>
-        <MyListContext.Provider value={{ myList, setMylist }}>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route
@@ -54,8 +49,6 @@ function App() {
             />
             <Route path='*' element={<NotFound />} />
           </Routes>
-        </MyListContext.Provider>
-      </MyInfoContext.Provider>
     </MobileS>
   );
 }

@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { MyListContext, MyListContextType } from '../../API/Context';
 import { postJoin } from '../../API/joinedMinds';
 import { getMyList } from '../../API/Mind';
 import { EXPIRED_TOKEN, INVALID_TOKEN } from '../../constant/error';
@@ -11,9 +10,7 @@ import { EXPIRED_TOKEN, INVALID_TOKEN } from '../../constant/error';
 const JoinButtonCTA = (): JSX.Element => {
   const navigate = useNavigate();
   const { mindId } = useParams();
-  const [isLogin, setIsLogin] = useState(false);
   const [validJoin, setValidJoin] = useState('true');
-  const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
   const location = useLocation();
 
   useEffect(() => {
