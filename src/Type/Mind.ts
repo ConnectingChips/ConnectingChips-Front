@@ -46,6 +46,7 @@ export interface Mylist {
   boardCount: number;
   myListImage: string;
   isDoneToday: boolean;
+  keepJoin: boolean;
 }
 
 export interface EndMindType {
