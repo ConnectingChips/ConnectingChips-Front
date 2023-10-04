@@ -50,7 +50,7 @@ export const putMindExit = async (
 export const putRemind = async (mindId: number): Promise<void> => {
   try {
     const { tockenHeader } = getToken();
-    await putData(`/joined-minds/${mindId}/remind`, tockenHeader);
+    await putData(`/joined-minds/${mindId}/remind`, {}, tockenHeader);
   } catch (error) {
     console.error(error);
     throw new Error('재작심이 되지 않습니다.');
