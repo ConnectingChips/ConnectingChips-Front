@@ -29,11 +29,11 @@ const CarreselItem = ({ mygroup }: { mygroup: Mylist }) => {
     <MyMissionInfoS href={`/groupPage/${mindId}`}>
       <img src={myListImage} alt='main_image' />
       <MissionContentS>
-        <MissionSingleWideS className='GTM-BoardCount'>
+        <MissionSingleWideS>
           <p>{mindTypeName}</p>
         </MissionSingleWideS>
-        <h2 className='GTM-Name'>{name}</h2>
-        <p className='GTM-BoardCount'>
+        <h2>{name}</h2>
+        <p>
           🔥 <span className='date'>{boardCount}</span>일차 맛보기 중
         </p>
       </MissionContentS>
