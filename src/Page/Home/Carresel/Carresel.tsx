@@ -29,7 +29,9 @@ const CarreselItem = ({ mygroup }: { mygroup: Mylist }) => {
     <MyMissionInfoS href={`/groupPage/${mindId}`}>
       <img src={myListImage} alt='main_image' />
       <MissionContentS>
-        <MissionSingleWide text={mindTypeName} />
+        <MissionSingleWideS className='GTM-BoardCount'>
+          <p>{mindTypeName}</p>
+        </MissionSingleWideS>
         <h2 className='GTM-Name'>{name}</h2>
         <p className='GTM-BoardCount'>
           🔥 <span className='date'>{boardCount}</span>일차 맛보기 중
@@ -96,5 +98,16 @@ const MissionContentS = styled.div`
 
   > p {
     font-weight: 500;
+  }
+`;
+
+/** 2023-08-21 MyMisson.tsx - 작심 중인 리스트 항목 가로 길게 */
+const MissionSingleWideS = styled.div`
+  border-radius: 1.5rem;
+  padding: 0.13rem 0.81rem;
+  border: 1px solid;
+  width: fit-content;
+  p {
+    font-size: 11px;
   }
 `;
