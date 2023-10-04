@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { postJoin } from '../../API/joinedMinds';
-import { getMyList, getkeepJoin } from '../../API/Mind';
-
-import { Mylist } from '../../Type/Mind';
-import { initMyList } from '../../data/initialData';
+import { putRemind } from '../../API/joinedMinds';
+import { getkeepJoin } from '../../API/Mind';
 
 const buttonLabels = {
   인증: '작심 인증하기',
@@ -20,37 +17,22 @@ interface GroupBtnProps {
 const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
   const navigate = useNavigate();
   const { mindId } = useParams();
-  // const [keepJoin, setKeepJoin] = useState<boolean>(false);
+  const [keepJoin, setKeepJoin] = useState<boolean>(false);
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
-  const [myList, setMylist] = useState<Mylist[]>(initMyList);
 
   useEffect(() => {
-    getkeepJoin(Number(mindId))
-      .then((data) => {
-        // setKeepJoin(data.keepJoin);
-        setIsDoneToday(data.isDoneToday);
-      })
-      .then(async () => await getMyList().then((list: Mylist[]) => setMylist(list)));
+    getkeepJoin(Number(mindId)).then((data) => {
+      setKeepJoin(data.keepJoin);
+      setIsDoneToday(data.isDoneToday);
+    });
   }, [refresh]);
 
   // 버튼 텍스트를 결정하는 함수
   // const buttonText = !keepJoin ? (isDoneToday ? '성공' : '인증') : '재작심';
   const buttonText = (() => {
-    const initMyList: Mylist = {
-      mindId: 0,
-      mindTypeName: '',
-      name: '',
-      count: 0,
-      boardCount: 0,
-      myListImage: '',
-      isDoneToday: false,
-    };
-    const curMind = myList.find((mind: Mylist) => mind.mindId === Number(mindId)) || initMyList;
-    const { boardCount, count } = curMind;
-
-    if (boardCount !== 0 && boardCount % 3 === 0 && count === 0) return '재작심';
-    if (isDoneToday) return '성공';
-    return '인증';
+    if (!keepJoin && !isDoneToday) return '인증';
+    if (keepJoin && !isDoneToday) return '재작심';
+    return '성공';
   })();
 
   const groupBtnHandler = () => {
@@ -58,7 +40,7 @@ const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
       navigate(`/uploadPost/${mindId}`);
     }
     if (buttonText === '재작심') {
-      postJoin(Number(mindId)).then(() => {
+      putRemind(Number(mindId)).then(() => {
         navigate(`/uploadPost/${mindId}`);
       });
     }
@@ -66,7 +48,7 @@ const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
 
   return (
     <GroupBtnWrapper>
-      <GroupBtnContainerS btntext={buttonText} onClick={groupBtnHandler}>
+      <GroupBtnContainerS buttonText={buttonText} onClick={groupBtnHandler}>
         {buttonLabels[buttonText]}
       </GroupBtnContainerS>
     </GroupBtnWrapper>
@@ -78,7 +60,7 @@ const GroupBtnWrapper = styled.div`
   margin: 0 1rem;
 `;
 
-const GroupBtnContainerS = styled.button<{ btntext: string }>`
+const GroupBtnContainerS = styled.button<{ buttonText: string }>`
   width: 100%;
   height: 2.5rem;
   border-radius: 1.25rem;
@@ -87,7 +69,7 @@ const GroupBtnContainerS = styled.button<{ btntext: string }>`
   font-size: var(--button-mid);
   color: #000;
   ${(props) =>
-    props.btntext === '성공' &&
+    props.buttonText === '성공' &&
     `
       background: black;
       color: var(--color-main);
@@ -95,7 +77,7 @@ const GroupBtnContainerS = styled.button<{ btntext: string }>`
     `};
 
   ${(props) =>
-    props.btntext === '재작심' &&
+    props.buttonText === '재작심' &&
     `
       background: var(--color-main);
     `};

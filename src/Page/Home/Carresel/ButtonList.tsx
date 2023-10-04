@@ -19,13 +19,11 @@ export default ButtonList;
 const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
   const navigate = useNavigate();
 
-  const { count, isDoneToday, mindId, boardCount } = mind;
-  const keppJoinReg = boardCount !== 0 && boardCount % 3 === 0 && count === 0;
-
+  const { isDoneToday, mindId, keepJoin } = mind;
   return (
     <>
-      {keppJoinReg ? (
-        <ClearBtnS onClick={() => navigate(`/uploadPost/${mind.mindId}`)}>재작심 하기</ClearBtnS>
+      {keepJoin ? (
+        <ClearBtnS onClick={() => navigate(`/groupPage/${mind.mindId}`)}>재작심 하기</ClearBtnS>
       ) : isDoneToday ? (
         <TodayClearBtnS>
           <p>오늘 작심 성공!</p>
