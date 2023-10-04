@@ -1,9 +1,7 @@
-import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { BoardsType } from '../../API/Boards';
-import { GetUser } from '../../Type/User';
-import { postAddComment, postAddReply } from '../../API/Comment';
-import { refreshState } from '../../data/initialData';
+import { styled, useRecoilState } from './CommentBarrel';
+import type { BoardsType, GetUser } from './CommentBarrel';
+import { postAddComment, postAddReply, refreshState } from './CommentBarrel';
+
 interface commentInputProps {
   commentInputBind: {
     commentInput: string;
@@ -34,7 +32,6 @@ const CommentInput = ({
   const { inputToggle, setInputToggle } = inputToggleBind;
   const { isComment, setIsComment } = isCommentBind;
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
-
 
   const getPlaceholderText = (isComment: number, commentCount: number) => {
     if (isComment !== 0) return '답글을 적어주세요';

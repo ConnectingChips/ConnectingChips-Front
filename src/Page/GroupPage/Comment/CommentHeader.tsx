@@ -1,7 +1,6 @@
-import { styled } from 'styled-components';
-import Arrow_icon_Up from '../../image/Icon/Arrow/Arrow_icon_Up.svg';
-import Arrow_icon_Down from '../../image/Icon/Arrow/Arrow_icon_Down.svg';
-import { BoardsType } from '../../API/Boards';
+import { styled } from './CommentBarrel';
+import { Arrow_icon_Up, Arrow_icon_Down } from './CommentBarrel';
+import { BoardsType } from './CommentBarrel';
 interface CommentHeaderProps {
   commentFlipBind: {
     commentFlip: boolean;

@@ -10,7 +10,7 @@ import {
   initMind,
 } from './GroupPageBarrel';
 import type { MindPageInfo, MindsType } from './GroupPageBarrel';
-import GroupPostList from './GroupPostList';
+import GroupPostList from './Post/GroupPostList';
 
 const GroupPage = (): JSX.Element => {
   const { mindId } = useParams<string>();

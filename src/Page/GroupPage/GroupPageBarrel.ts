@@ -15,8 +15,8 @@ import {
 } from '../../Component/Mission/GroupArticle';
 import { MindPageInfo, MindsType } from '../../Type/Mind';
 
-import Comment from './Comment';
-import GroupPost from './GroupPost';
+import Comment from './Comment/Comment';
+import GroupPost from './Post/GroupPost';
 
 import { getBoards, BoardsType } from '../../API/Boards';
 import { getUser } from '../../API/Users';
@@ -31,6 +31,8 @@ import {
 import post_Icon from '../../image/Icon/post_Icon.svg';
 import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
 import { getkeepJoin } from '../../API/Mind';
+
+import { PostProps } from './PostPropsType';
 
 export {
   axios,
@@ -54,6 +56,6 @@ export {
   initMind,
 };
 export { Comment, GroupPost, getBoards, getUser, initUser };
-export type { MindPageInfo, MindsType, GetUser, BoardsType };
+export type { MindPageInfo, MindsType, GetUser, BoardsType, PostProps };
 export { INVALID_TOKEN, EXPIRED_TOKEN };
 export { post_Icon, post_Icon_locked, getkeepJoin };

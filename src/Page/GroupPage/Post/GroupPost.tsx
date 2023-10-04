@@ -1,8 +1,6 @@
-import { styled } from 'styled-components';
-import PostHeader from './PostHeader';
-import PostContent from './PostContent';
-import { useState } from 'react';
-import { PostProps } from './PostPropsType';
+import { styled, useState } from './PostBarrel';
+import { PostHeader, PostContent } from './PostBarrel';
+import type { PostProps } from './PostBarrel';
 
 const GroupPost = ({ postProps }: { postProps: PostProps }): JSX.Element => {
   const [edit, setEdit] = useState<boolean>(false);

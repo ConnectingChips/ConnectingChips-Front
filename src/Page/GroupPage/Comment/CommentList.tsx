@@ -1,9 +1,6 @@
-import { styled } from 'styled-components';
-import { CommentType, ReplyType } from '../../API/Boards';
-import { GetUser } from '../../Type/User';
-import { deleteComment, deleteReply } from '../../API/Comment';
-import { useState } from 'react';
-import DeleteModal from '../../Component/DeleteModal';
+import { styled, useState } from './CommentBarrel';
+import type { CommentType, ReplyType, GetUser } from './CommentBarrel';
+import { deleteComment, deleteReply, DeleteModal } from './CommentBarrel';
 
 interface CommentBoxMakerProps {
   commentData: CommentType;
@@ -78,8 +75,6 @@ interface ReplyBoxMakerProps {
   replyData: ReplyType;
   userInfo: GetUser;
 }
-
-
 
 /** 답글 box */
 const ReplyBoxMaker = ({ replyData, userInfo }: ReplyBoxMakerProps) => {

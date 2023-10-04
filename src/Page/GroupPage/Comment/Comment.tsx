@@ -1,9 +1,7 @@
-import { styled } from 'styled-components';
-import { useState } from 'react';
-import { PostProps } from './PostPropsType';
-import { CommentHeader } from './CommentHeader';
-import { CommentInput } from './CommentInput';
-import CommentBoxMaker from './CommentList';
+import { styled, useState } from './CommentBarrel';
+// import { useState } from 'react';
+import type { PostProps } from './CommentBarrel';
+import { CommentHeader, CommentInput, CommentBoxMaker } from './CommentBarrel';
 
 const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
   // 댓글접기
