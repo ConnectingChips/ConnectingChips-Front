@@ -97,7 +97,6 @@ const UploadPost = () => {
     const allowedExtensions = ['.png', '.jpg', '.jpeg'];
     const fileExtension = fileName.slice(fileName.lastIndexOf('.'));
 
-    // 이미지 확장자 제한
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
       return notifyExtensionsBlockErr();
     }
