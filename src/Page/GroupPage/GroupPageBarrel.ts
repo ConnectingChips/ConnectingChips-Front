@@ -23,10 +23,8 @@ import { getUser } from '../../API/Users';
 import { GetUser } from '../../Type/User';
 import { initUser } from '../../data/initialData';
 import {
-  SERVER_ERROR,
   INVALID_TOKEN,
   EXPIRED_TOKEN,
-  AXIOS_NETWORK_ERROR,
 } from '../../constant/error';
 import post_Icon from '../../image/Icon/post_Icon.svg';
 import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';

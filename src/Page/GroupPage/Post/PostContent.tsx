@@ -1,10 +1,15 @@
-import { styled } from 'styled-components';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  styled,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useParams,
+  useRecoilState,
+} from './PostBarrel';
 import { putEditBoard } from '../../../API/Boards';
-import { useParams } from 'react-router-dom';
-import { PostProps } from '../PostPropsType';
-import { useRecoilState } from 'recoil';
-import { refreshState } from '../../../data/initialData';
+import { PostProps, refreshState } from './PostBarrel';
+
 interface PostContentProps {
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
   postProps: PostProps;

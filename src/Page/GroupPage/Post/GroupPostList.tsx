@@ -1,4 +1,3 @@
-import { useRecoilState } from 'recoil';
 import {
   axios,
   styled,
@@ -9,11 +8,12 @@ import {
   initUser,
   getUser,
   useNavigate,
-} from './GroupPageBarrel';
-import type { BoardsType, GetUser } from './GroupPageBarrel';
-import { INVALID_TOKEN, EXPIRED_TOKEN } from './GroupPageBarrel';
-import { Comment, GroupPost } from './GroupPageBarrel';
-import { refreshState } from '../../data/initialData';
+  useRecoilState,
+} from './PostBarrel';
+
+import type { BoardsType, GetUser } from './PostBarrel';
+import { INVALID_TOKEN, EXPIRED_TOKEN } from './PostBarrel';
+import { Comment, GroupPost, refreshState } from './PostBarrel';
 
 const GroupPostList = () => {
   const { mindId } = useParams<string>();
