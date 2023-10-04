@@ -48,11 +48,4 @@ export interface Mylist {
   myListImage: string;
 }
 
-export interface EndMindType {
-  mindId: number;
-  name: string;
-  canJoin: number;
-  boardCount: number;
-}
-
 export type MindsType = MindPageInfo | MindIntroInfo;
