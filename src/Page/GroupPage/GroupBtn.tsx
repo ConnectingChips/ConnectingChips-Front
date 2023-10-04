@@ -22,8 +22,6 @@ const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
 
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
-      console.log(`keepJoin :`, data.keepJoin);
-      console.log(`isDoneToday :`, data.isDoneToday);
       setKeepJoin(data.keepJoin);
       setIsDoneToday(data.isDoneToday);
     });
