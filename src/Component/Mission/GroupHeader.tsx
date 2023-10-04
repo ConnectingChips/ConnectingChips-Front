@@ -22,10 +22,9 @@ const GroupHeader = (): JSX.Element => {
       setIsDoneToday(data.isDoneToday);
       setKeepJoin(data.keepJoin);
     });
-  }, []);
+  }, [refresh]);
 
   const UploadIcon = (): JSX.Element => {
-    useEffect(() => {}, [refresh]);
     return isUpload ? (
       <></>
     ) : !(isDoneToday || keepJoin) ? (
