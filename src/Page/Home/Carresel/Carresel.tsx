@@ -1,5 +1,5 @@
-import { MissionSingleWide, ChipList, styled } from './CarreselBarrel';
-import { Mylist } from '../HomeBarrel';
+import { ChipList, styled, MissionSingleWideS } from './CarreselBarrel';
+import type { Mylist } from './CarreselBarrel';
 
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
 const Carresel = ({ myList }: { myList: Mylist[] }) => {
@@ -27,7 +27,9 @@ const CarreselItem = ({ mygroup }: { mygroup: Mylist }) => {
     <MyMissionInfoS href={`/groupPage/${mindId}`}>
       <img src={myListImage} alt='main_image' />
       <MissionContentS>
-        <MissionSingleWide text={mindTypeName} />
+        <MissionSingleWideS>
+          <p>{mindTypeName}</p>
+        </MissionSingleWideS>
         <h2>{name}</h2>
         <p>
           🔥 <span className='date'>{boardCount}</span>일차 맛보기 중

@@ -1,7 +1,7 @@
-import { styled } from 'styled-components';
-import { BoardsType } from '../../API/Boards';
-import { GetUser } from '../../Type/User';
-import { postAddComment, postAddReply } from '../../API/Comment';
+import { styled, useRecoilState } from './CommentBarrel';
+import type { BoardsType, GetUser } from './CommentBarrel';
+import { postAddComment, postAddReply, refreshState } from './CommentBarrel';
+
 interface commentInputProps {
   commentInputBind: {
     commentInput: string;
@@ -17,14 +17,7 @@ interface commentInputProps {
   };
   postData: BoardsType;
   userInfo: GetUser;
-  refreshBind: {
-    refresh: number;
-    setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  };
-  commentFlipBind: {
-    commentFlip: boolean;
-    setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
-  };
+  setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CommentInput = ({
@@ -33,14 +26,12 @@ const CommentInput = ({
   isCommentBind,
   postData,
   userInfo,
-  refreshBind,
-  commentFlipBind,
+  setCommentFlip,
 }: commentInputProps) => {
   const { commentInput, setCommentInput } = commentInputBind;
   const { inputToggle, setInputToggle } = inputToggleBind;
   const { isComment, setIsComment } = isCommentBind;
-  const { commentFlip, setCommentFlip } = commentFlipBind;
-  const { setRefresh } = refreshBind;
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
   const getPlaceholderText = (isComment: number, commentCount: number) => {
     if (isComment !== 0) return '답글을 적어주세요';
@@ -101,9 +92,9 @@ const CommentInput = ({
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
 
-  return (
-    <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
-      <CommentFormS onClick={handleFormClickFalse} inputToggle={inputToggle}>
+  const CommentForm = () => {
+    return (
+      <CommentFormS inputToggle={inputToggle} onClick={handleFormClickFalse}>
         <InputS inputToggle={inputToggle}>
           <input
             placeholder={placeholderText}
@@ -122,6 +113,13 @@ const CommentInput = ({
           </button>
         </InputS>
       </CommentFormS>
+    );
+  };
+  return inputToggle ? (
+    <CommentForm />
+  ) : (
+    <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
+      <CommentForm />
     </CommentFormBGS>
   );
 };
@@ -136,33 +134,38 @@ const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
 `;
 
 const CommentFormS = styled.div<{ inputToggle: boolean }>`
-  position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+  position: ${(props) => (props.inputToggle ? '' : 'fixed')};
   display: flex;
   justify-content: center;
   align-items: center;
   position: static;
   width: 100%;
-  height: 4.5rem;
   background-color: white;
+  height: 4.5rem;
+  padding: ${(props) => (props.inputToggle ? '0.5rem 0' : '')};
 `;
 
 const InputS = styled.div<{ inputToggle: boolean }>`
-  width: 375px;
-  position: ${(props) => (props.inputToggle ? 'static' : 'fixed')};
+  position: ${(props) => (props.inputToggle ? '' : 'fixed')};
   background-color: #fff;
   border: 1px solid #e3e3e3;
   border-radius: 0.5rem;
-  height: 3.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.06rem 1rem;
   display: flex;
   align-items: center;
   justify-content: ${(props) => (props.inputToggle ? 'center' : 'space-around')};
   z-index: 10;
   input {
     font-size: 1rem;
-    width: 16.4rem;
+    flex: 1;
     height: 1.25rem;
     border: none;
     background-color: transparent;
     color: var(--font-color3);
+  }
+  button {
+    padding: 0;
   }
 `;

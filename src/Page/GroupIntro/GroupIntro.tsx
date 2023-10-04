@@ -60,7 +60,7 @@ const BGDarkS = styled.div`
 
 const GroupContainerS = styled.div`
   height: 100%;
-  max-width: 500px;
+  max-width: var(--width-max);
   display: flex;
   flex-direction: column-reverse;
   width: 100%;

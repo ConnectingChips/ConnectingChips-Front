@@ -56,16 +56,7 @@ const MissionSingle = ({ text, focusBind, index }: MissionSingleProps) => {
   );
 };
 
-/** 2023-08-21 MissonTab.tsx - 공통되는 탭 단일 / 가로 확장 */
-const MissionSingleWide = ({ text }: { text: string }) => {
-  return (
-    <MissionSingleWideS>
-      <p>{text}</p>
-    </MissionSingleWideS>
-  );
-};
-
-export { MissonTab, MissionSingle, MissionSingleWide };
+export { MissonTab, MissionSingle };
 
 /** 2023-08-20 MyMisson.tsx - 작심 중인 리스트 탭 */
 const MyMissonTabS = styled.ul`
@@ -97,7 +88,7 @@ const MissionSingleS = styled.li`
 `;
 
 /** 2023-08-21 MyMisson.tsx - 작심 중인 리스트 항목 가로 길게 */
-const MissionSingleWideS = styled.div`
+export const MissionSingleWideS = styled.div`
   border-radius: 1.5rem;
   padding: 0.13rem 0.81rem;
   border: 1px solid;

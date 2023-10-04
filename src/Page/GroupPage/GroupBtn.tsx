@@ -5,7 +5,8 @@ import { postJoin } from '../../API/joinedMinds';
 import { getMyList, getkeepJoin } from '../../API/Mind';
 
 import { Mylist } from '../../Type/Mind';
-import { initMyList } from '../../data/initialData';
+import { initMyList, refreshState } from '../../data/initialData';
+import { useRecoilState } from 'recoil';
 
 const buttonLabels = {
   인증: '작심 인증하기',
@@ -13,28 +14,20 @@ const buttonLabels = {
   재작심: '재작심 하기',
 };
 
-interface GroupBtnProps {
-  refresh: number;
-}
-
-const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
+const GroupBtn = (): JSX.Element => {
   const navigate = useNavigate();
   const { mindId } = useParams();
-  // const [keepJoin, setKeepJoin] = useState<boolean>(false);
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
   const [myList, setMylist] = useState<Mylist[]>(initMyList);
+  const [refresh] = useRecoilState<number>(refreshState);
 
   useEffect(() => {
     getkeepJoin(Number(mindId))
-      .then((data) => {
-        // setKeepJoin(data.keepJoin);
-        setIsDoneToday(data.isDoneToday);
-      })
+      .then((data) => setIsDoneToday(data.isDoneToday))
       .then(async () => await getMyList().then((list: Mylist[]) => setMylist(list)));
   }, [refresh]);
 
   // 버튼 텍스트를 결정하는 함수
-  // const buttonText = !keepJoin ? (isDoneToday ? '성공' : '인증') : '재작심';
   const buttonText = (() => {
     const initMyList: Mylist = {
       mindId: 0,

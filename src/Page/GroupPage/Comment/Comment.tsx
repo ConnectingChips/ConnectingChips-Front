@@ -1,21 +1,9 @@
-import { useState } from 'react';
-import { CommentHeader } from './CommentHeader';
-import { CommentList } from './CommentList';
-import { CommentInput } from './CommentInput';
-import { BoardsType } from '../../API/Boards';
-import { GetUser } from '../../Type/User';
-import { styled } from 'styled-components';
+import { styled, useState } from './CommentBarrel';
+// import { useState } from 'react';
+import type { PostProps } from './CommentBarrel';
+import { CommentHeader, CommentInput, CommentBoxMaker } from './CommentBarrel';
 
-interface CommentListDataProps {
-  postData: BoardsType;
-  userInfo: GetUser;
-  refreshBind: {
-    refresh: number;
-    setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  };
-}
-
-const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps): JSX.Element => {
+const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
   // 댓글접기
   const [commentFlip, setCommentFlip] = useState(true);
   // input 바텀에 붙거나 말거나
@@ -41,19 +29,24 @@ const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps): JSX
     setIsComment,
   };
 
+  const { postData, userInfo } = postProps;
+
   return (
     <CommentContainerS>
       {postData.commentCount > 0 && (
         <>
           <CommentHeader commentFlipBind={commentFlipBind} postData={postData} />
-          <CommentList
-            commentFlipBind={commentFlipBind}
-            inputToggleBind={inputToggleBind}
-            isCommentBind={isCommentBind}
-            commentListData={postData.commentList}
-            userInfo={userInfo}
-            refreshBind={refreshBind}
-          />
+          <CommentListS commentFlip={commentFlip}>
+            {postData.commentList.map((commentData, i) => (
+              <CommentBoxMaker
+                setInputToggle={setInputToggle}
+                setIsComment={setIsComment}
+                commentData={commentData}
+                userInfo={userInfo}
+                key={i}
+              />
+            ))}
+          </CommentListS>
         </>
       )}
       <CommentInput
@@ -62,8 +55,7 @@ const Comment = ({ postData, userInfo, refreshBind }: CommentListDataProps): JSX
         isCommentBind={isCommentBind}
         postData={postData}
         userInfo={userInfo}
-        refreshBind={refreshBind}
-        commentFlipBind={commentFlipBind}
+        setCommentFlip={setCommentFlip}
       />
     </CommentContainerS>
   );
@@ -73,4 +65,14 @@ export default Comment;
 
 const CommentContainerS = styled.div`
   margin: 0 1rem;
+  margin-top: 0.5rem;
+`;
+
+const CommentListS = styled.div<{ commentFlip: boolean }>`
+  height: ${(props) => (props.commentFlip ? '0px' : 'auto')};
+  margin: ${(props) => (props.commentFlip ? 'none' : '1rem 0')};
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;

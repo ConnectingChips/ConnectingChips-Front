@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { MindsType, PageSort } from '../../Type/Mind';
-import { MissionSingleWide } from './MissionTab';
+import { MissionSingleWideS } from './MissionTab';
 
 export const initMind: MindsType = {
   mindId: 0,
@@ -39,7 +39,9 @@ export const HeadLine = ({ getMindInfoData, passsort }: HeadLineType) => {
 
   return (
     <HeadLineS passsort={passsort}>
-      <MissionSingleWide text={mindTypeName} />
+      <MissionSingleWideS>
+        <p>{mindTypeName}</p>
+      </MissionSingleWideS>
       <h1>{name}</h1>
       {passsort !== 'Create' ? <p className='subTitle'>{message}</p> : null}
     </HeadLineS>

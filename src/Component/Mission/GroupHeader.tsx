@@ -5,26 +5,18 @@ import post_Icon from '../../image/Icon/post_Icon.svg';
 import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { getkeepJoin } from '../../API/Mind';
-
-interface GroupHeaderProps {
-  children?: React.ReactNode;
-  className?: string;
-  refresh?: number;
-}
-
-/** 2023-08-25 GroupHeader.tsx - 뒤로가기 핸들러 */
-const goBack = (): void => {
-  window.history.back();
-};
+import { useRecoilState } from 'recoil';
+import { refreshState } from '../../data/initialData';
 
 /** 2023-08-25 GroupHeader.tsx - 그룹 페이지 헤더 */
-const GroupHeader = ({ children, className, refresh }: GroupHeaderProps): JSX.Element => {
+const GroupHeader = (): JSX.Element => {
   const path = useLocation().pathname;
   const isUpload = path.indexOf('/upload') !== -1;
   const { mindId } = useParams();
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
   const [keepJoin, setKeepJoin] = useState<boolean>(false);
-  
+  const [refresh] = useRecoilState<number>(refreshState);
+
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
       setIsDoneToday(data.isDoneToday);
@@ -32,24 +24,26 @@ const GroupHeader = ({ children, className, refresh }: GroupHeaderProps): JSX.El
     });
   }, [refresh]);
 
+  const UploadIcon = (): JSX.Element => {
+    return isUpload ? (
+      <></>
+    ) : !(isDoneToday || keepJoin) ? (
+      <Link to={`/uploadPost/${mindId}`}>
+        <img src={post_Icon} alt='post icon' />
+      </Link>
+    ) : (
+      <img src={post_Icon_locked} alt='post icon' />
+    );
+  };
+
   return (
-    <GroupBGHeaderS className={className}>
-      <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      {isUpload ? (
-        <div></div>
-      ) : !(isDoneToday || keepJoin) ? (
-        <Link to={`/uploadPost/${mindId}`}>
-          <img src={post_Icon} alt='post icon' />
-        </Link>
-      ) : (
-        <img src={post_Icon_locked} alt='post icon' />
-      )}
-      {children}
+    <GroupBGHeaderS>
+      <BackIcon />
+      <UploadIcon />
     </GroupBGHeaderS>
   );
 };
 
-/** 2023-08-22 GroupHeader.tsx - 그룹 인트로 뒤로가기 */
 const GroupIntroHeader = (): JSX.Element => {
   return (
     <GroupHeaderS onClick={goBack}>
@@ -58,7 +52,9 @@ const GroupIntroHeader = (): JSX.Element => {
   );
 };
 
-export { GroupHeader, GroupIntroHeader };
+const goBack = (): void => window.history.back();
+const BackIcon = () => <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />;
+export { GroupHeader, GroupIntroHeader, goBack, BackIcon };
 
 /** 2023-08-22 GroupHeader.tsx - 그룹 인트로 뒤로가기 */
 const GroupHeaderS = styled.header`
@@ -72,7 +68,7 @@ const GroupHeaderS = styled.header`
 `;
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
-const GroupBGHeaderS = styled(GroupHeaderS)`
+export const GroupBGHeaderS = styled(GroupHeaderS)`
   justify-content: space-between;
   background-color: white;
   width: 100vw;
