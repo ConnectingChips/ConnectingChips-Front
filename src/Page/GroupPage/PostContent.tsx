@@ -1,22 +1,19 @@
 import { styled } from 'styled-components';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { BoardsType, putEditBoard } from '../../API/Boards';
+import { putEditBoard } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
+import { PostProps } from './PostPropsType';
 interface PostContentProps {
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
-  postData: BoardsType;
-  refreshBind: {
-    refresh: number;
-    setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  };
+  postProps: PostProps;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({ editbind, postData, refreshBind }: PostContentProps): JSX.Element => {
+const PostContent = ({ editbind, postProps }: PostContentProps): JSX.Element => {
   const { mindId } = useParams();
+  const { postData } = postProps;
   const { content, boardId } = postData;
   const { edit, setEdit } = editbind;
-  const { refresh, setRefresh } = refreshBind;
   const [editContent, setEditContent] = useState(content);
   const [imgCheck, setImgCheck] = useState(true);
   const textarea = useRef<HTMLTextAreaElement | null>(null);
@@ -88,6 +85,11 @@ export default PostContent;
 
 const TextareaS = styled.textarea`
   border: 1px solid #e5e5ec;
+  margin-bottom: 0.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 const BtnContainerS = styled.div`
@@ -107,11 +109,10 @@ const BtnContainerS = styled.div`
 `;
 
 const PostContentS = styled.div<{ imgCheck: boolean }>`
-  padding: ${(props) => (props.imgCheck === true ? '0 1rem 1rem 1rem;' : '1rem;')}
+  padding: ${(props) => (props.imgCheck === true ? '0 1rem 1rem 1rem' : '1rem')};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0.5rem;
   textarea {
     background-color: white;
     border-radius: 1rem;

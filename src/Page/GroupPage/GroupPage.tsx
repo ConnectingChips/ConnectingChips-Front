@@ -1,7 +1,6 @@
 import { styled, useState, useEffect, useParams } from './GroupPageBarrel';
 import { GroupHeader, DivideBaS } from './GroupPageBarrel';
 import {
-  GroupPostList,
   getMindInfo_Page,
   getMind_PageImage,
   GroupBtn,
@@ -11,12 +10,11 @@ import {
   initMind,
 } from './GroupPageBarrel';
 import type { MindPageInfo, MindsType } from './GroupPageBarrel';
+import GroupPostList from './GroupPostList';
 
 const GroupPage = (): JSX.Element => {
   const { mindId } = useParams<string>();
   const [pageImage, setPageImage] = useState<string>('');
-  const [refresh, setRefresh] = useState<number>(1);
-  const refreshBind = { refresh, setRefresh };
   const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);
 
   useEffect(() => {
@@ -26,25 +24,29 @@ const GroupPage = (): JSX.Element => {
 
   return (
     <GroupPageS>
-      <GroupHeader refresh={refresh} />
+      <GroupHeader />
       <GroupImageS url={pageImage} />
-      <PageInfo mindData={getMindInfoData} refresh={refresh} />
+      <PageInfo mindData={getMindInfoData} />
       <DivideBaS />
-      <GroupPostList refreshBind={refreshBind} />
+
+      <GroupPostListS>
+        <h2 className='headLine'>작심 인증글</h2>
+        <GroupPostList />
+      </GroupPostListS>
     </GroupPageS>
   );
 };
 
 export default GroupPage;
 
-const PageInfo = ({ mindData, refresh }: { mindData: MindsType; refresh: number }) => {
+const PageInfo = ({ mindData }: { mindData: MindsType }) => {
   return (
     <PageInfoS>
       <GroupArticleS passsort={'Page'}>
         <HeadLine getMindInfoData={mindData} passsort={'Page'} />
         <IntroduceS passsort={'Page'}>{mindData.introduce}</IntroduceS>
       </GroupArticleS>
-      <GroupBtn refresh={refresh} />
+      <GroupBtn />
     </PageInfoS>
   );
 };
@@ -64,4 +66,17 @@ const GroupImageS = styled.div<{ url: string }>`
 const PageInfoS = styled.div`
   margin: 0 auto;
   max-width: var(--width-max);
+`;
+
+const GroupPostListS = styled.div`
+  margin: 0 auto;
+  max-width: var(--width-max);
+  display: flex;
+  flex-direction: column;
+
+  h2.headLine {
+    font-size: 1.125rem;
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+  }
 `;

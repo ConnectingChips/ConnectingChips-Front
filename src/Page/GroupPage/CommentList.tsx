@@ -5,151 +5,30 @@ import { deleteComment, deleteReply } from '../../API/Comment';
 import { useState } from 'react';
 import DeleteModal from '../../Component/DeleteModal';
 
-interface CommentHeaderProps {
-  commentFlipBind: {
-    commentFlip: boolean;
-    setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
-  };
-  inputToggleBind: {
-    inputToggle: boolean;
-    setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
-  };
-  isCommentBind: {
-    isComment: number;
-    setIsComment: React.Dispatch<React.SetStateAction<number>>;
-  };
-  commentListData: CommentType[];
-  userInfo: GetUser;
-  refreshBind: {
-    refresh: number;
-    setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  };
-}
-/** 댓글부분 container */
-const CommentList = ({
-  commentFlipBind,
-  inputToggleBind,
-  isCommentBind,
-  commentListData,
-  userInfo,
-  refreshBind,
-}: CommentHeaderProps) => {
-  const { commentFlip } = commentFlipBind;
-  return (
-    <CommentListS commentFlip={commentFlip}>
-      {commentListData.map((commentData, i) => {
-        return (
-          <CommentBox
-            inputToggleBind={inputToggleBind}
-            isCommentBind={isCommentBind}
-            commentData={commentData}
-            userInfo={userInfo}
-            refreshBind={refreshBind}
-            key={commentData.commentId}
-          />
-        );
-      })}
-    </CommentListS>
-  );
-};
-
-export { CommentList };
-
-interface CommentBoxPorps {
-  commentData: CommentType;
-  userInfo: GetUser;
-  inputToggleBind: {
-    inputToggle: boolean;
-    setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
-  };
-  isCommentBind: {
-    isComment: number;
-    setIsComment: React.Dispatch<React.SetStateAction<number>>;
-  };
-  refreshBind: {
-    refresh: number;
-    setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  };
-}
-
-/** 댓글과 답글 list */
-const CommentBox = ({
-  commentData,
-  userInfo,
-  inputToggleBind,
-  isCommentBind,
-  refreshBind,
-}: CommentBoxPorps) => {
-  return (
-    <CommentBoxS>
-      <CommentBoxMaker
-        sort='comment'
-        inputToggleBind={inputToggleBind}
-        isCommentBind={isCommentBind}
-        commentData={commentData}
-        userInfo={userInfo}
-        refreshBind={refreshBind}
-      />
-      {commentData.replyList.map((replyData, i) => {
-        return (
-          <ReplyBoxMaker
-            sort='reply'
-            replyData={replyData}
-            userInfo={userInfo}
-            refreshBind={refreshBind}
-            key={i}
-          />
-        );
-      })}
-    </CommentBoxS>
-  );
-};
-
 interface CommentBoxMakerProps {
-  sort: 'comment';
   commentData: CommentType;
   userInfo: GetUser;
-  inputToggleBind: {
-    inputToggle: boolean;
-    setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
-  };
-  isCommentBind: {
-    isComment: number;
-    setIsComment: React.Dispatch<React.SetStateAction<number>>;
-  };
-  refreshBind: {
-    refresh: number;
-    setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  };
+  setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsComment: React.Dispatch<React.SetStateAction<number>>;
 }
 
 /** 댓글 box */
 const CommentBoxMaker = ({
-  sort,
   commentData,
   userInfo,
-  inputToggleBind,
-  isCommentBind,
-  refreshBind,
+  setInputToggle,
+  setIsComment,
 }: CommentBoxMakerProps) => {
-  const { profileImage, nickname, createDate, content, commentId, userId } = commentData;
+  const { profileImage, commentId } = commentData;
   const [modalBtn, setModalBtn] = useState(false);
-  const { setInputToggle } = inputToggleBind;
-  const { setIsComment } = isCommentBind;
-
-  const addReplyHandler = () => {
-    setInputToggle(false);
-    setIsComment(commentId);
-  };
-
-  const openModal = () => setModalBtn(true);
-
+  const modalBind = { modalBtn, setModalBtn };
   const deleteAction = () => deleteComment(commentId);
 
-  return (
-    <CommentContainerS sort={sort}>
-      <img src={profileImage} alt='답글프로필' />
-      <CommentContentS sort={sort}>
+  const CommentContent = () => {
+    const { nickname, createDate, content, userId } = commentData;
+    const openModal = () => setModalBtn(true);
+    const WriterInfo = () => {
+      return (
         <div>
           <div className='profile'>
             <h2>{nickname}</h2>
@@ -157,6 +36,18 @@ const CommentBoxMaker = ({
           </div>
           <p className='text'>{content}</p>
         </div>
+      );
+    };
+
+    const addReplyHandler = () => {
+      setInputToggle(false);
+      setIsComment(commentId);
+    };
+
+    return (
+      <CommentContentS>
+        <WriterInfo />
+
         <CommentOptionS>
           <p onClick={addReplyHandler}>답글</p>
           {userInfo.userId === userId && (
@@ -166,39 +57,42 @@ const CommentBoxMaker = ({
           )}
         </CommentOptionS>
       </CommentContentS>
-      {modalBtn && (
-        <DeleteModal
-          setConfirm={setModalBtn}
-          confirmText='이 댓글을 삭제할까요?'
-          action='삭제'
-          method={deleteAction}
-          refreshBind={refreshBind}
-        />
-      )}
+    );
+  };
+
+  return (
+    <CommentContainerS>
+      <img src={profileImage} alt='댓글프로필' />
+      <CommentContent />
+      <DeleteModal modalBind={modalBind} deleteAction={deleteAction} />
+      {commentData.replyList.map((replyData, i) => {
+        return <ReplyBoxMaker replyData={replyData} userInfo={userInfo} key={i} />;
+      })}
     </CommentContainerS>
   );
 };
 
+export default CommentBoxMaker;
+
 interface ReplyBoxMakerProps {
-  sort: 'reply';
   replyData: ReplyType;
   userInfo: GetUser;
-  refreshBind: {
-    refresh: number;
-    setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  };
 }
 
+
+
 /** 답글 box */
-const ReplyBoxMaker = ({ sort, replyData, userInfo, refreshBind }: ReplyBoxMakerProps) => {
-  const { profileImage, nickname, createDate, content, userId, replyId } = replyData;
+const ReplyBoxMaker = ({ replyData, userInfo }: ReplyBoxMakerProps) => {
+  const { profileImage, replyId } = replyData;
   const [modalBtn, setModalBtn] = useState(false);
-  const openModal = () => setModalBtn(true);
+  const modalBind = { modalBtn, setModalBtn };
   const deleteAction = () => deleteReply(replyId);
-  return (
-    <CommentContainerS sort={sort}>
-      <img src={profileImage} alt='답글프로필' />
-      <CommentContentS sort={sort}>
+
+  const ReplyContent = (): JSX.Element => {
+    const { nickname, createDate, content, userId } = replyData;
+    const openModal = () => setModalBtn(true);
+    const WriterInfo = () => {
+      return (
         <div>
           <div className='profile'>
             <h2>{nickname}</h2>
@@ -206,59 +100,55 @@ const ReplyBoxMaker = ({ sort, replyData, userInfo, refreshBind }: ReplyBoxMaker
           </div>
           <p className='text'>{content}</p>
         </div>
-        <CommentOptionS>
-          {userInfo.userId === userId && (
+      );
+    };
+
+    return (
+      <ReplyContentS>
+        <WriterInfo />
+
+        {userInfo.userId === userId ? (
+          <CommentOptionS>
             <p onClick={openModal} className='delete'>
               삭제
             </p>
-          )}
-        </CommentOptionS>
-      </CommentContentS>
-      {modalBtn && (
-        <DeleteModal
-          setConfirm={setModalBtn}
-          confirmText='이 댓글을 삭제할까요?'
-          action='삭제'
-          method={deleteAction}
-          refreshBind={refreshBind}
-        />
-      )}
-    </CommentContainerS>
+          </CommentOptionS>
+        ) : (
+          <></>
+        )}
+      </ReplyContentS>
+    );
+  };
+
+  return (
+    <ReplyContainerS>
+      <img src={profileImage} alt='답글프로필' />
+      <ReplyContent />
+      <DeleteModal modalBind={modalBind} deleteAction={deleteAction} />
+    </ReplyContainerS>
   );
 };
 
-const CommentListS = styled.div<{ commentFlip: boolean }>`
-  height: ${(props) => (props.commentFlip ? '0px' : 'auto')};
-  margin: ${(props) => (props.commentFlip ? 'none' : '1rem 0')};
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const CommentBoxS = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const CommentContainerS = styled.div<{ sort: 'comment' | 'reply' }>`
+const CommentContainerS = styled.div`
   display: flex;
   align-items: start;
   min-height: 2rem;
   border-radius: 1rem;
-  border: ${(props) => (props.sort === 'reply' ? '2px solid var(--color-line);' : '')};
-  padding: ${(props) => (props.sort === 'reply' ? '1rem' : '')};
 
   img {
     width: 1.875rem;
   }
 `;
 
-const CommentContentS = styled.div<{ sort: 'comment' | 'reply' }>`
+const ReplyContainerS = styled(CommentContainerS)`
+  border: 2px solid var(--color-line);
+  padding: 1rem;
+`;
+
+const CommentContentS = styled.div`
   margin-left: 0.5rem;
 
-  width: ${(props) => (props.sort === 'comment' ? '19.0625rem' : '18.0625rem')};
+  width: 19.0625rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -291,6 +181,10 @@ const CommentContentS = styled.div<{ sort: 'comment' | 'reply' }>`
     }
     margin-bottom: var(--height-gap);
   }
+`;
+
+const ReplyContentS = styled(CommentContentS)`
+  width: 18.0625rem;
 `;
 
 const CommentOptionS = styled.div`

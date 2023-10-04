@@ -20,7 +20,6 @@ const GlobalStyle = createGlobalStyle`
     --width-my-mission: 11.25rem;
     --width-max: 500px;
 
-
     /* 세로 폭 */
     --height-header: 3.5rem;
     --height-gap: 0.5rem;
@@ -38,12 +37,7 @@ const GlobalStyle = createGlobalStyle`
     --button-mid: 0.875rem;
     --button-mid-bold: 0.875rem;  // 볼드 속성 
     --button-small: 0.6875rem;
-    
-    /* 가로 폭 */
-    /* --width-mobile: 23.4375rem; */
-    --width-mobile: 22.5rem;
 
-    
     &::-webkit-scrollbar {
       display: none;
     }

@@ -1,41 +1,24 @@
+import { useState } from 'react';
 import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
-import { useEffect, useState } from 'react';
-import { BoardsType, getBoardCheck, deleteBoard } from '../../API/Boards';
+import { PostProps } from './PostPropsType';
 import DeleteModal from '../../Component/DeleteModal';
-import { GetUser } from '../Home/HomeBarrel';
+import { deleteBoard } from '../../API/Boards';
 interface PostHeaderProps {
-  editbind: {
-    edit: boolean;
-    setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  };
-  postData: BoardsType;
-  refreshBind: {
-    refresh: number;
-    setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  };
-  userInfo: GetUser;
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  postProps: PostProps;
 }
 
-const PostHeader = ({
-  editbind,
-  postData,
-  refreshBind,
-  userInfo,
-}: PostHeaderProps): JSX.Element => {
-  const [editModalToggle, setEditModalToggle] = useState(false);
+const PostHeader = ({ setEdit, postProps }: PostHeaderProps): JSX.Element => {
   const [modalBtn, setModalBtn] = useState(false);
-  const { setEdit } = editbind;
-  const { profileImage, nickname, createDate, boardId, userId } = postData;
+  const { postData, userInfo } = postProps;
+  const modalBind = { modalBtn, setModalBtn };
+  const deleteAction = () => deleteBoard(postData.boardId);
 
-  const handlerToogleSwitch = () => {
-    setEditModalToggle((prev) => !prev);
-  };
+  const DefaultInfo = () => {
+    const { profileImage, nickname, createDate } = postData;
 
-  // 자신의 게시글인지 확인
-
-  return (
-    <PostHeaderS>
+    return (
       <PostHeaderProfileS>
         <PostProfileImageS>
           <img src={profileImage} alt='프로필 사진' />
@@ -45,55 +28,58 @@ const PostHeader = ({
           <p className='date'>{createDate}</p>
         </PostProfileNickNameS>
       </PostHeaderProfileS>
-      {userInfo.userId === userId && (
-        <MoreIconS onClick={handlerToogleSwitch}>
-          <img src={point3} alt='point3_icon' />
-          {editModalToggle && (
-            <ModalS>
-              <div
-                onClick={() => {
-                  setEdit(true);
-                }}
-              >
-                수정하기
-              </div>
-              <div
-                onClick={() => {
-                  setModalBtn(true);
-                }}
-              >
-                삭제하기
-              </div>
-            </ModalS>
-          )}
-        </MoreIconS>
-      )}
-      {modalBtn && (
-        <DeleteModal
-          setConfirm={setModalBtn}
-          confirmText='이 게시글을 삭제할까요?'
-          action='삭제'
-          method={() => deleteBoard(boardId)}
-          refreshBind={refreshBind}
-        />
-      )}
-    </PostHeaderS>
+    );
+  };
+
+  const UserAuthor = () => {
+    const [editModalToggle, setEditModalToggle] = useState(false);
+    const { userId } = postData;
+
+    const handlerToogleSwitch = () => {
+      setEditModalToggle((prev) => !prev);
+    };
+    return userInfo.userId === userId ? (
+      <MoreIconS onClick={handlerToogleSwitch}>
+        <img src={point3} alt='point3_icon' />
+        {editModalToggle && (
+          <ModalS>
+            <div
+              onClick={() => {
+                setEdit(true);
+              }}
+            >
+              수정하기
+            </div>
+            <div
+              onClick={() => {
+                setModalBtn(true);
+              }}
+            >
+              삭제하기
+            </div>
+          </ModalS>
+        )}
+      </MoreIconS>
+    ) : (
+      <></>
+    );
+  };
+
+  return (
+    <>
+      <DefaultInfo />
+      <UserAuthor />
+      <DeleteModal modalBind={modalBind} deleteAction={deleteAction} />
+    </>
   );
 };
 
 export default PostHeader;
 
-const PostHeaderS = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-`;
-
 const PostHeaderProfileS = styled.div`
-  height: 2.5rem;
   display: flex;
   align-items: center;
+  padding: 1rem;
   h2 {
     margin-right: 0.5rem;
     font-size: 0.875rem;

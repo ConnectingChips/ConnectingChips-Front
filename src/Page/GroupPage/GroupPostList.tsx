@@ -1,48 +1,35 @@
-/** 2023-08-26 GroupPage.tsx - 그룹페이지 글 항목 */
-import { useState, styled, useEffect } from './GroupPageBarrel';
-import { Comment, GroupPost } from './GroupPageBarrel';
-import { getBoards, BoardsType } from '../../API/Boards';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getUser } from '../../API/Users';
-import { GetUser } from '../../Type/User';
-import { initUser } from '../../data/initialData';
-import axios from 'axios';
 import {
-  SERVER_ERROR,
-  INVALID_TOKEN,
-  EXPIRED_TOKEN,
-  AXIOS_NETWORK_ERROR,
-} from '../../constant/error';
-interface GroupPostListProps {
-  refreshBind: {
-    refresh: number;
-    setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  };
-}
+  axios,
+  styled,
+  useState,
+  useEffect,
+  useParams,
+  getBoards,
+  initUser,
+  getUser,
+  useNavigate,
+} from './GroupPageBarrel';
+import type { BoardsType, GetUser } from './GroupPageBarrel';
+import { INVALID_TOKEN, EXPIRED_TOKEN } from './GroupPageBarrel';
+import { Comment, GroupPost } from './GroupPageBarrel';
 
-const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
+const GroupPostList = () => {
   const { mindId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
   const navigate = useNavigate();
-  const { refresh } = refreshBind;
+
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
       setPostData(res);
     });
   }, [refresh]);
 
-  // useEffect(() => {
-  //   getUser().then((userInfo: GetUser) => {
-  //     setUserInfo(userInfo);
-  //   });
-  // }, []);
-
   useEffect(() => {
     (async () => {
       try {
-        const res = await getUser();
-        setUserInfo(res);
+        const userData = await getUser();
+        setUserInfo(userData);
       } catch (error) {
         console.error(error);
 
@@ -62,50 +49,31 @@ const GroupPostList = ({ refreshBind }: GroupPostListProps) => {
     })();
   }, []);
 
-  return (
-    <GroupPostListS>
-      <h2 style={{ margin: '0 1rem' }}>작심 인증글</h2>
-      {postData.length > 0 ? (
-        postData.map((postData, i) => (
-          <div key={i}>
-            <GroupPost
-              passsort='Page'
-              postData={postData}
-              refreshBind={refreshBind}
-              userInfo={userInfo}
-            />
-            <Comment postData={postData} userInfo={userInfo} refreshBind={refreshBind} />
-          </div>
-        ))
-      ) : (
-        <GroupNoPost />
-      )}
-    </GroupPostListS>
-  );
-};
-
-export { GroupPostList };
-
-const GroupNoPost = () => {
-  return (
+  return postData.length === 0 ? (
     <GroupNoPostS>
       <img src={`${process.env.PUBLIC_URL}/noMind.png`} alt='noMind'></img>
       <h2>등록된 인증글이 없습니다.</h2>
       <p>가장 먼저 작심을 인증해 보세요!</p>
     </GroupNoPostS>
+  ) : (
+    <>
+      {postData.map((postData, i) => {
+        const postProps = { postData, userInfo };
+        return (
+          <PostContainerS key={i}>
+            <GroupPost postProps={postProps} />
+            <Comment postProps={postProps} />
+          </PostContainerS>
+        );
+      })}
+    </>
   );
 };
 
-const GroupPostListS = styled.div`
-  margin: 0 auto;
-  width: var(--width-mobile);
-  display: flex;
-  flex-direction: column;
-  border-radius: 1rem;
-  gap: 2.5rem;
-  h2 {
-    font-size: 1.125rem;
-  }
+export default GroupPostList;
+
+const PostContainerS = styled.article`
+  margin-bottom: 2.5rem;
 `;
 
 const GroupNoPostS = styled.div`

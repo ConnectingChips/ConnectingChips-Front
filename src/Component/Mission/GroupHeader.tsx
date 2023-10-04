@@ -7,7 +7,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { getkeepJoin } from '../../API/Mind';
 
 /** 2023-08-25 GroupHeader.tsx - 그룹 페이지 헤더 */
-const GroupHeader = ({ refresh }: {refresh?: number}): JSX.Element => {
+const GroupHeader = (): JSX.Element => {
   const path = useLocation().pathname;
   const isUpload = path.indexOf('/upload') !== -1;
   const { mindId } = useParams();
@@ -19,9 +19,10 @@ const GroupHeader = ({ refresh }: {refresh?: number}): JSX.Element => {
       setIsDoneToday(data.isDoneToday);
       setKeepJoin(data.keepJoin);
     });
-  }, [refresh]);
+  }, []);
 
   const UploadIcon = (): JSX.Element => {
+    useEffect(()=>[refresh])
     return isUpload ? (
       <></>
     ) : !(isDoneToday || keepJoin) ? (
@@ -41,7 +42,6 @@ const GroupHeader = ({ refresh }: {refresh?: number}): JSX.Element => {
   );
 };
 
-
 const GroupIntroHeader = (): JSX.Element => {
   return (
     <GroupHeaderS onClick={goBack}>
@@ -50,9 +50,9 @@ const GroupIntroHeader = (): JSX.Element => {
   );
 };
 
-export const goBack = (): void => window.history.back();
-export { GroupHeader, GroupIntroHeader };
-export const BackIcon = () => <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />;
+const goBack = (): void => window.history.back();
+const BackIcon = () => <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />;
+export { GroupHeader, GroupIntroHeader, goBack, BackIcon };
 
 /** 2023-08-22 GroupHeader.tsx - 그룹 인트로 뒤로가기 */
 const GroupHeaderS = styled.header`
