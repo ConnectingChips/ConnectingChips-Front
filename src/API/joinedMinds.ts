@@ -45,3 +45,14 @@ export const putMindExit = async (
     throw new Error('작심을 그만둘 수 없습니다');
   }
 };
+
+// 재작심하기
+export const putRemind = async (mindId: number): Promise<void> => {
+  try {
+    const { tockenHeader } = getToken();
+    await putData(`/joined-minds/${mindId}/remind`, tockenHeader);
+  } catch (error) {
+    console.error(error);
+    throw new Error('재작심이 되지 않습니다.');
+  }
+};
