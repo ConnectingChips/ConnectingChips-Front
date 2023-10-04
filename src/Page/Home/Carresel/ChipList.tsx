@@ -3,6 +3,8 @@ import { chip_Active, chip_NoneActive } from './CarreselBarrel';
 
 /** 2023-08-20 ChipList.tsx - 현재 카운트 (칩스) */
 const ChipList = ({ count }: { count: 0 | 1 | 2 | 3 }): JSX.Element => {
+  if (count > 3) count = 3;
+  if (count < 0) count = 0;
   const isChecked: string[] = ['', '', ''];
   for (let idx = 0; idx < count; idx++) {
     isChecked[idx] = 'checked';
