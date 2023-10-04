@@ -5,7 +5,8 @@ import { postJoin } from '../../API/joinedMinds';
 import { getMyList, getkeepJoin } from '../../API/Mind';
 
 import { Mylist } from '../../Type/Mind';
-import { initMyList } from '../../data/initialData';
+import { initMyList, refreshState } from '../../data/initialData';
+import { useRecoilState } from 'recoil';
 
 const buttonLabels = {
   인증: '작심 인증하기',
@@ -18,6 +19,7 @@ const GroupBtn = (): JSX.Element => {
   const { mindId } = useParams();
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
   const [myList, setMylist] = useState<Mylist[]>(initMyList);
+  const [refresh] = useRecoilState<number>(refreshState);
 
   useEffect(() => {
     getkeepJoin(Number(mindId))

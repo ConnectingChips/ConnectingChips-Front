@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,21 +14,17 @@ import shareKakao from '../../API/shareKakao';
 import { getUser } from '../../API/Users';
 import { getMyList, getisDoneAll } from '../../API/Mind';
 
-import { MyInfoContext, MyListContext } from '../../API/Context';
-import { MyInfoContextType, MyListContextType } from '../../API/Context';
 import { initUser, initMyList } from '../../data/initialData';
 
-export { styled, useEffect, useState, Link, useNavigate, useContext };
+export { styled, useEffect, useState, Link, useNavigate };
 export { MyMisson, GroupList };
-export type { GetUser, Mylist, MyInfoContextType, MyListContextType, isDone };
+export type { GetUser, Mylist,  isDone };
 export {
   scrollTop,
   shareKakao,
   getUser,
   getMyList,
   getisDoneAll,
-  MyInfoContext,
-  MyListContext,
   initUser,
   initMyList,
 };

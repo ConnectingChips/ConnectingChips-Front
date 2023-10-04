@@ -1,14 +1,12 @@
-import { styled, useEffect, useState, useNavigate, useContext } from './HomeBarrel';
+import { styled, useEffect, useState, useNavigate } from './HomeBarrel';
 import { MyMisson, GroupList } from './HomeBarrel';
-import type { GetUser, Mylist, MyInfoContextType, MyListContextType, isDone } from './HomeBarrel';
+import type { GetUser, Mylist, isDone } from './HomeBarrel';
 import {
   scrollTop,
   shareKakao,
   getUser,
   getMyList,
   getisDoneAll,
-  MyInfoContext,
-  MyListContext,
   initUser,
   initMyList,
 } from './HomeBarrel';
@@ -19,8 +17,8 @@ const { Kakao } = window;
 
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
-  const { myInfo, setMyInfo } = useContext<MyInfoContextType>(MyInfoContext);
-  const { myList, setMylist } = useContext<MyListContextType>(MyListContext);
+  const [myInfo, setMyInfo] = useState<GetUser>(initUser);
+  const [myList, setMylist] = useState<Mylist[]>(initMyList);
   const [istodayDone, setIsDone] = useState<boolean>(false);
   const isLogin = myInfo !== initUser;
 

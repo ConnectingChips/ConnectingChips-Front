@@ -5,6 +5,8 @@ import post_Icon from '../../image/Icon/post_Icon.svg';
 import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { getkeepJoin } from '../../API/Mind';
+import { useRecoilState } from 'recoil';
+import { refreshState } from '../../data/initialData';
 
 /** 2023-08-25 GroupHeader.tsx - 그룹 페이지 헤더 */
 const GroupHeader = (): JSX.Element => {
@@ -13,6 +15,7 @@ const GroupHeader = (): JSX.Element => {
   const { mindId } = useParams();
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
   const [keepJoin, setKeepJoin] = useState<boolean>(false);
+  const [refresh] = useRecoilState<number>(refreshState);
 
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
@@ -22,7 +25,7 @@ const GroupHeader = (): JSX.Element => {
   }, []);
 
   const UploadIcon = (): JSX.Element => {
-    useEffect(()=>[refresh])
+    useEffect(() => {}, [refresh]);
     return isUpload ? (
       <></>
     ) : !(isDoneToday || keepJoin) ? (

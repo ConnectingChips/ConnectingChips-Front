@@ -3,6 +3,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { putEditBoard } from '../../API/Boards';
 import { useParams } from 'react-router-dom';
 import { PostProps } from './PostPropsType';
+import { useRecoilState } from 'recoil';
+import { refreshState } from '../../data/initialData';
 interface PostContentProps {
   editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
   postProps: PostProps;
@@ -17,6 +19,7 @@ const PostContent = ({ editbind, postProps }: PostContentProps): JSX.Element => 
   const [editContent, setEditContent] = useState(content);
   const [imgCheck, setImgCheck] = useState(true);
   const textarea = useRef<HTMLTextAreaElement | null>(null);
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
   useEffect(() => {
     if (postData.image !== '') setImgCheck(false);
