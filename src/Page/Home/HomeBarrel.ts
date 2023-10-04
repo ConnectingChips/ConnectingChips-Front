@@ -18,7 +18,7 @@ import { initUser, initMyList } from '../../data/initialData';
 
 export { styled, useEffect, useState, Link, useNavigate };
 export { MyMisson, GroupList };
-export type { GetUser, Mylist,  isDone };
+export type { GetUser, Mylist, isDone };
 export {
   scrollTop,
   shareKakao,

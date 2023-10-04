@@ -8,23 +8,23 @@ import { initUser, initMyList } from './MypageBarrel';
 import { CurrentMind, EndMindList } from './MypageBarrel';
 
 const MyPage = (): JSX.Element => {
-  const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-  const [curList, setCurList] = useState<Mylist[]>(initMyList);
-  const ListBind = { curList, setCurList };
+  const [myInfo, setMyInfo] = useState<GetUser>(initUser);
+  const [myList, setMyList] = useState<Mylist[]>(initMyList);
+  const ListBind = { myList, setMyList };
   const compArr: JSX.Element[] = [
     <CurrentMind ListBind={ListBind} />,
-    <EndMindList ListBind={ListBind} />,
+    <EndMindList myListLen={myList.length} />,
   ];
-  const tabText: string[] = [`참여중인 작심(${curList.length}/3)`, '참여했던 작심'];
+  const tabText: string[] = [`참여중인 작심(${myList.length}/3)`, '참여했던 작심'];
 
   useEffect(() => {
     scrollTop();
 
     getUser()
-      .then((userInfo: GetUser) => setUserInfo(userInfo))
+      .then((myInfo: GetUser) => setMyInfo(myInfo))
       .catch(() => {});
     getMyList()
-      .then((res: Mylist[]) => setCurList(res))
+      .then((res: Mylist[]) => setMyList(res))
       .catch(() => {});
   }, []);
 
@@ -33,13 +33,13 @@ const MyPage = (): JSX.Element => {
       <MyPageHeader />
       <ProfileHeaderS>
         <h2>
-          {userInfo.nickname}칩스’s
+          {myInfo.nickname}칩스’s
           <br />
           작심서랍
         </h2>
-        <img src={userInfo.profileImage} alt='기본프로필' />
+        <img src={myInfo.profileImage} alt='기본프로필' />
       </ProfileHeaderS>
-      {curList.length === 3 && (
+      {myList.length === 3 && (
         <LimitInfoS>
           <img src={Info_icon_B} alt='인포프로필' />
           <p>

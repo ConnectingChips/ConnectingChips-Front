@@ -18,13 +18,13 @@ const { Kakao } = window;
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
   const [myInfo, setMyInfo] = useState<GetUser>(initUser);
-  const [myList, setMylist] = useState<Mylist[]>(initMyList);
+  const [myList, setMyList] = useState<Mylist[]>(initMyList);
   const [istodayDone, setIsDone] = useState<boolean>(false);
   const isLogin = myInfo !== initUser;
 
   useEffect(() => {
     scrollTop();
-    setHome(setMyInfo, setMylist, setIsDone);
+    setHome(setMyInfo, setMyList, setIsDone);
   }, []);
 
   // 카카오 공유하기
@@ -91,7 +91,7 @@ type WelcomeProps = {
 
 const setHome = async (
   setMyInfo: React.Dispatch<React.SetStateAction<GetUser>>,
-  setMylist: React.Dispatch<React.SetStateAction<Mylist[]>>,
+  setMyList: React.Dispatch<React.SetStateAction<Mylist[]>>,
   setIsDone: React.Dispatch<React.SetStateAction<boolean>>,
 ): Promise<void> => {
   const isLogin = localStorage.getItem('access_token') || '';
@@ -101,7 +101,7 @@ const setHome = async (
       .then((userInfo: GetUser) => setMyInfo(userInfo))
       .catch(() => {});
     await getMyList()
-      .then((list: Mylist[]) => setMylist(list))
+      .then((list: Mylist[]) => setMyList(list))
       .catch(() => {});
     await getisDoneAll()
       .then((isDone: isDone[]) => {
@@ -111,7 +111,7 @@ const setHome = async (
       .catch(() => {});
   } else {
     setMyInfo(initUser);
-    setMylist(initMyList);
+    setMyList(initMyList);
   }
 };
 
