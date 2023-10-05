@@ -1,37 +1,17 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 import { PostProps } from '../PostPropsType';
 import { CommentHeader } from './CommentHeader';
 import { CommentInput } from './CommentInput';
 import CommentBoxMaker from './CommentList';
+import useCommentInput from '../../../API/useCommentInput';
 
 const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
-  // 댓글접기
-  const [commentFlip, setCommentFlip] = useState(true);
-  // input 바텀에 붙거나 말거나
-  const [inputToggle, setInputToggle] = useState<boolean>(true);
-  // input 내용 받아오기
-  const [commentInput, setCommentInput] = useState<string>('');
-  // 댓글과 답글 구분
-  const [isComment, setIsComment] = useState<number>(0);
-  const commentFlipBind = {
-    commentFlip,
-    setCommentFlip,
-  };
-  const inputToggleBind = {
-    inputToggle,
-    setInputToggle,
-  };
-  const commentInputBind = {
-    commentInput,
-    setCommentInput,
-  };
-  const isCommentBind = {
-    isComment,
-    setIsComment,
-  };
-
+  const { commentFlipBind, inputToggleBind, isCommentBind } = useCommentInput();
   const { postData, userInfo } = postProps;
+
+  const { commentFlip, setCommentFlip } = commentFlipBind;
+  const { setInputToggle } = inputToggleBind;
+  const { setIsComment } = isCommentBind;
 
   return (
     <CommentContainerS>
@@ -51,14 +31,7 @@ const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
           </CommentListS>
         </>
       )}
-      <CommentInput
-        commentInputBind={commentInputBind}
-        inputToggleBind={inputToggleBind}
-        isCommentBind={isCommentBind}
-        postData={postData}
-        userInfo={userInfo}
-        setCommentFlip={setCommentFlip}
-      />
+      <CommentInput postData={postData} userInfo={userInfo} setCommentFlip={setCommentFlip} />
     </CommentContainerS>
   );
 };
