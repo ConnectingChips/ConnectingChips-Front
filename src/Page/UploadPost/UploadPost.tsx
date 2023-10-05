@@ -1,11 +1,13 @@
 import { useRef, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { styled, keyframes } from 'styled-components';
 import axios from 'axios';
 
+import { CreateExample } from '../GroupIntro/ActiveExample';
 import { BackIcon, GroupBGHeaderS } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
+import { DivideBaS } from '../../Component/Mission/GroupArticle';
 import {
   GroupArticleS,
   HeadLine,
@@ -26,9 +28,8 @@ import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
 import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 import { ReactComponent as LoadingSpinner } from '../../image/loading.svg';
-import { DivideBaS } from '../../Component/Mission/GroupArticle';
-import { useNavigate } from 'react-router-dom';
 
+import { MindIntroInfo, MindsType } from '../../Type/Mind';
 import {
   SERVER_ERROR,
   INVALID_TOKEN,
