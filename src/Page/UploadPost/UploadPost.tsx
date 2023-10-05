@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { CreateExample } from '../GroupIntro/ActiveExample';
 import { BackIcon, GroupBGHeaderS } from '../../Component/Mission/GroupHeader';
-import InfoMessage from '../../Component/UploadPost/InfoMessage';
+import UploadImageTitle from '../../Component/UploadPost/UploadImageTitle';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 import { DivideBaS } from '../../Component/Mission/GroupArticle';
 import {
@@ -26,7 +26,6 @@ import { getMindInfo_Intro } from '../../API/Mind';
 import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
 import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
-import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 import { ReactComponent as LoadingSpinner } from '../../image/loading.svg';
 
 import { MindIntroInfo, MindsType } from '../../Type/Mind';
@@ -49,7 +48,6 @@ const UploadPost = () => {
   const navigate = useNavigate();
   const { mindId } = useParams();
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>(0);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [text, setText] = useState<string>(INITIAL_TEXT);
@@ -121,10 +119,6 @@ const UploadPost = () => {
     setImage({ name: '', file: null });
   };
 
-  const handleInfoIconClick = () => {
-    setIsOpen(!isOpen);
-  };
-
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
@@ -190,11 +184,7 @@ const UploadPost = () => {
         ) : (
           <>
             <CreateFormUploadS>
-              <UploadImageTitleS>
-                <h2>인증샷 올리기</h2>
-                <InfoIcon onClick={handleInfoIconClick} />
-                {isOpen && <InfoMessage className='info_message_position' setIsOpen={setIsOpen} />}
-              </UploadImageTitleS>
+              <UploadImageTitle />
               {imageUrl ? (
                 <AddedImageS>
                   <ImageS>
@@ -289,25 +279,6 @@ const CreateFormUploadS = styled.div`
 
   input[type='file'] {
     display: none;
-  }
-`;
-
-const UploadImageTitleS = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.38rem;
-  position: relative;
-
-  svg {
-    position: relative;
-    top: 1px;
-  }
-
-  .info_message_position {
-    position: absolute;
-    top: 2.13rem;
-    left: 0;
-    z-index: 1;
   }
 `;
 
