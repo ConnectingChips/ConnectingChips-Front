@@ -1,48 +1,40 @@
-import { styled, useRecoilState } from './CommentBarrel';
-import type { BoardsType, GetUser } from './CommentBarrel';
-import { postAddComment, postAddReply, refreshState } from './CommentBarrel';
+import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { BoardsType, GetUser, useState } from '../GroupPageBarrel';
+import { postAddComment } from '../../../API/Comment';
+import { postAddReply } from '../../../API/Comment';
+import { refreshState } from '../../../data/initialData';
+import Bind from '../../../Type/Bind';
+
 
 interface commentInputProps {
-  commentInputBind: {
-    commentInput: string;
-    setCommentInput: React.Dispatch<React.SetStateAction<string>>;
-  };
-  inputToggleBind: {
-    inputToggle: boolean;
-    setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
-  };
-  isCommentBind: {
-    isComment: number;
-    setIsComment: React.Dispatch<React.SetStateAction<number>>;
-  };
-  postData: BoardsType;
   userInfo: GetUser;
+  postData: BoardsType;
   setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
+  inputToggleBind: Bind<boolean>;
+  isCommentBind: Bind<number>;
 }
 
 const CommentInput = ({
-  commentInputBind,
+  userInfo,
+  postData,
+  setCommentFlip,
   inputToggleBind,
   isCommentBind,
-  postData,
-  userInfo,
-  setCommentFlip,
 }: commentInputProps) => {
-  const { commentInput, setCommentInput } = commentInputBind;
-  const { inputToggle, setInputToggle } = inputToggleBind;
-  const { isComment, setIsComment } = isCommentBind;
-  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
-
-  const getPlaceholderText = (isComment: number, commentCount: number) => {
-    if (isComment !== 0) return '답글을 적어주세요';
-    return commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
-  };
-
-  const placeholderText = getPlaceholderText(isComment, postData.commentCount);
+  const { state: inputToggle, Setter: setInputToggle } = inputToggleBind;
+  const { state: isComment, Setter: setIsComment } = isCommentBind;
+  const [commentInput, setCommentInput] = useState<string>('');
 
   // input에 들어갈 내용 CommentInput에 넣는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInput(e.target.value);
+  };
+
+  // input 바깥쪽누르면 되돌아감
+  const handleFormClickTrue = () => {
+    !inputToggle && setInputToggle(true);
+    setIsComment(0);
   };
 
   // 댓글에 붙은 input누르면 하단에 붙음
@@ -51,11 +43,14 @@ const CommentInput = ({
     inputToggle && setInputToggle(false);
   };
 
-  // input 바깥쪽누르면 되돌아감
-  const handleFormClickTrue = () => {
-    !inputToggle && setInputToggle(true);
-    setIsComment(0);
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
+
+  const getPlaceholderText = (isComment: number, commentCount: number) => {
+    if (isComment !== 0) return '답글을 적어주세요';
+    return commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
   };
+
+  const placeholderText = getPlaceholderText(isComment, postData.commentCount);
 
   // input 버튼 핸들러
   // 0이면 댓글추가
@@ -92,7 +87,7 @@ const CommentInput = ({
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
 
-  const CommentForm = () => {
+  const CommentForm = (): JSX.Element => {
     return (
       <CommentFormS inputToggle={inputToggle} onClick={handleFormClickFalse}>
         <InputS inputToggle={inputToggle}>

@@ -1,48 +1,38 @@
-import { styled, useState } from './CommentBarrel';
-// import { useState } from 'react';
-import type { PostProps } from './CommentBarrel';
-import { CommentHeader, CommentInput, CommentBoxMaker } from './CommentBarrel';
+import styled from 'styled-components';
+import { useState } from 'react';
+import { PostProps } from '../PostPropsType';
+import { CommentHeader } from './CommentHeader';
+import { CommentInput } from './CommentInput';
+import CommentBoxMaker from './CommentList';
+import Bind from '../../../Type/Bind';
 
 const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
+  const { postData, userInfo } = postProps;
+
   // 댓글접기
   const [commentFlip, setCommentFlip] = useState(true);
+  const commentFlipBind:Bind<boolean> = { state: commentFlip, Setter: setCommentFlip };
+
   // input 바텀에 붙거나 말거나
   const [inputToggle, setInputToggle] = useState<boolean>(true);
-  // input 내용 받아오기
-  const [commentInput, setCommentInput] = useState<string>('');
+  const inputToggleBind: Bind<boolean> = { state: inputToggle, Setter: setInputToggle };
+
   // 댓글과 답글 구분
   const [isComment, setIsComment] = useState<number>(0);
-  const commentFlipBind = {
-    commentFlip,
-    setCommentFlip,
-  };
-  const inputToggleBind = {
-    inputToggle,
-    setInputToggle,
-  };
-  const commentInputBind = {
-    commentInput,
-    setCommentInput,
-  };
-  const isCommentBind = {
-    isComment,
-    setIsComment,
-  };
-
-  const { postData, userInfo } = postProps;
+  const isCommentBind: Bind<number> = { state: isComment, Setter: setIsComment };
 
   return (
     <CommentContainerS>
       {postData.commentCount > 0 && (
         <>
-          <CommentHeader commentFlipBind={commentFlipBind} postData={postData} />
+          <CommentHeader postData={postData} commentFlipBind={commentFlipBind} />
           <CommentListS commentFlip={commentFlip}>
             {postData.commentList.map((commentData, i) => (
               <CommentBoxMaker
+                userInfo={userInfo}
                 setInputToggle={setInputToggle}
                 setIsComment={setIsComment}
                 commentData={commentData}
-                userInfo={userInfo}
                 key={i}
               />
             ))}
@@ -50,12 +40,11 @@ const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
         </>
       )}
       <CommentInput
-        commentInputBind={commentInputBind}
-        inputToggleBind={inputToggleBind}
-        isCommentBind={isCommentBind}
         postData={postData}
         userInfo={userInfo}
         setCommentFlip={setCommentFlip}
+        inputToggleBind={inputToggleBind}
+        isCommentBind={isCommentBind}
       />
     </CommentContainerS>
   );
