@@ -6,6 +6,12 @@ import axios from 'axios';
 import { BackIcon, GroupBGHeaderS } from '../../Component/Mission/GroupHeader';
 import InfoMessage from '../../Component/UploadPost/InfoMessage';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
+import {
+  GroupArticleS,
+  HeadLine,
+  MissionRule,
+  initMind,
+} from '../../Component/Mission/GroupArticle';
 
 import { notifyImgSizeLimitErr } from '../../Component/Toast/ImgSizeLimitMsg';
 import { notifyNetErr } from '../../Component/Toast/NetworkErrorMsg';
@@ -13,6 +19,7 @@ import { notifyExtensionsBlockErr } from '../../Component/Toast/ExtensionsBlockM
 
 import { getUser } from '../../API/Users';
 import { postCreateBoard } from '../../API/Boards';
+import { getMindInfo_Intro } from '../../API/Mind';
 
 import UploadImageIcon from '../../image/Icon/image_input_icon.png';
 import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
@@ -28,15 +35,6 @@ import {
   EXPIRED_TOKEN,
   AXIOS_NETWORK_ERROR,
 } from '../../constant/error';
-import {
-  GroupArticleS,
-  HeadLine,
-  MissionRule,
-  initMind,
-} from '../../Component/Mission/GroupArticle';
-import { CreateExample } from '../GroupIntro/ActiveExample';
-import { MindIntroInfo, MindsType } from '../../Type/Mind';
-import { getMindInfo_Intro } from '../../API/Mind';
 
 interface Image {
   name: string;
@@ -46,9 +44,9 @@ interface Image {
 const UploadPost = () => {
   const INITIAL_TEXT = '오늘 작심 성공!';
   const FILE_SIZE_LIMIT_10MB = 10485760;
+
   const navigate = useNavigate();
   const { mindId } = useParams();
-  const fileRef = useRef<HTMLInputElement | null>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>(0);
@@ -57,6 +55,7 @@ const UploadPost = () => {
   const [image, setImage] = useState<Image>({ name: '', file: null });
   const [isLoading, setIsLoading] = useState(false);
   const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);
+  const fileRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     (async () => {
