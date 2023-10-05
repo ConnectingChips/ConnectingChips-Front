@@ -1,6 +1,9 @@
-import { styled, useRecoilState } from './CommentBarrel';
-import type { BoardsType, GetUser } from './CommentBarrel';
-import { postAddComment, postAddReply, refreshState } from './CommentBarrel';
+import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { BoardsType, GetUser } from '../GroupPageBarrel';
+import { postAddComment } from '../../../API/Comment';
+import { postAddReply } from '../../../API/Comment';
+import { refreshState } from '../../../data/initialData';
 
 interface commentInputProps {
   commentInputBind: {

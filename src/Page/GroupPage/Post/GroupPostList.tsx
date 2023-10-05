@@ -1,19 +1,15 @@
-import {
-  axios,
-  styled,
-  useState,
-  useEffect,
-  useParams,
-  getBoards,
-  initUser,
-  getUser,
-  useNavigate,
-  useRecoilState,
-} from './PostBarrel';
-
-import type { BoardsType, GetUser } from './PostBarrel';
-import { INVALID_TOKEN, EXPIRED_TOKEN } from './PostBarrel';
-import { Comment, GroupPost, refreshState } from './PostBarrel';
+import axios from 'axios';
+import { styled } from 'styled-components';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { getBoards } from '../GroupPageBarrel';
+import { initUser,getUser } from '../GroupPageBarrel';
+import { BoardsType,GetUser } from '../GroupPageBarrel';
+import { INVALID_TOKEN, EXPIRED_TOKEN } from '../../../constant/error';
+import Comment from '../Comment/Comment';
+import { refreshState } from '../../../data/initialData';
+import GroupPost from '../Post/GroupPost';
 
 const GroupPostList = () => {
   const { mindId } = useParams<string>();

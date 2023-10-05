@@ -1,6 +1,9 @@
-import { styled } from './CommentBarrel';
-import { Arrow_icon_Up, Arrow_icon_Down } from './CommentBarrel';
-import { BoardsType } from './CommentBarrel';
+import styled from 'styled-components';
+import {
+  Arrow_Up as Arrow_icon_Down,
+  Arrow_Down as Arrow_icon_Up,
+} from '../../../Component/ArrowBarrel';
+import { BoardsType } from '../GroupPageBarrel';
 interface CommentHeaderProps {
   commentFlipBind: {
     commentFlip: boolean;

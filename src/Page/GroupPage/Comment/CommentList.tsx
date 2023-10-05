@@ -1,6 +1,9 @@
-import { styled, useState } from './CommentBarrel';
-import type { CommentType, ReplyType, GetUser } from './CommentBarrel';
-import { deleteComment, deleteReply, DeleteModal } from './CommentBarrel';
+import styled from 'styled-components';
+import { useState } from 'react';
+import { CommentType,ReplyType } from '../../../API/Boards';
+import { GetUser } from '../GroupPageBarrel';
+import { deleteComment, deleteReply } from '../../../API/Comment';
+import DeleteModal from '../../../Component/DeleteModal';
 
 interface CommentBoxMakerProps {
   commentData: CommentType;
