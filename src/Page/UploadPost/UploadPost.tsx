@@ -159,12 +159,12 @@ const UploadPost = () => {
 
         if (error.response?.data.code === EXPIRED_TOKEN) {
           localStorage.removeItem('access_token');
-          return navigate('/LogIn');
+          return navigate('/');
         }
 
         if (error.response?.data.code === INVALID_TOKEN) {
           localStorage.removeItem('access_token');
-          return navigate('/LogIn');
+          return navigate('/');
         }
 
         if (error.code === AXIOS_NETWORK_ERROR) {
