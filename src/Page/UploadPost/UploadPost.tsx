@@ -70,7 +70,7 @@ const UploadPost = () => {
         // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
         if (axios.isAxiosError(error)) {
           if (error.response?.status === SERVER_ERROR) {
-            return notifyNetErr(); // TODO: 임시 토스트 메시지
+            return notifyNetErr();
           }
 
           if (error.response?.data.code === EXPIRED_TOKEN) {
@@ -143,7 +143,6 @@ const UploadPost = () => {
       });
 
       if (response.statusCode === 200) {
-        // TODO: constant
         setIsLoading(false);
       }
 
@@ -154,7 +153,7 @@ const UploadPost = () => {
       // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
       if (axios.isAxiosError(error)) {
         if (error.response?.status === SERVER_ERROR) {
-          return notifyNetErr(); // TODO: 임시 토스트 메시지
+          return notifyNetErr();
         }
 
         if (error.response?.data.code === EXPIRED_TOKEN) {
@@ -242,13 +241,12 @@ export default UploadPost;
 const CreatePostS = styled.div`
   width: 100%;
   max-width: var(--width-max);
-  // height: 100dvh; // TODO: 모바일 테스트 필수
 `;
 
 const UploadPostHeader = () => {
   return (
     <UploadPostHeaderS>
-      <BackIcon/>
+      <BackIcon />
       <h1>작심 글쓰기</h1>
     </UploadPostHeaderS>
   );
