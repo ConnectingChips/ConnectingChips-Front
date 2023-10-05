@@ -45,6 +45,7 @@ interface Image {
 
 const UploadPost = () => {
   const INITIAL_TEXT = '오늘 작심 성공!';
+  const FILE_SIZE_LIMIT_10MB = 10485760;
   const navigate = useNavigate();
   const { mindId } = useParams();
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -101,9 +102,7 @@ const UploadPost = () => {
       return notifyExtensionsBlockErr();
     }
 
-    // 10485760 = 10mb 제한
-    if (e.target.files[0].size > 10485760) {
-      // TODO: constant
+    if (e.target.files[0].size > FILE_SIZE_LIMIT_10MB) {
       return notifyImgSizeLimitErr();
     }
 
