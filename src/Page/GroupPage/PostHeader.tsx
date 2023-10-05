@@ -5,16 +5,22 @@ import { PostProps } from './PostPropsType';
 import DeleteModal from '../../Component/DeleteModal';
 import { deleteBoard } from '../../API/Boards';
 import Bind from '../../Type/Bind';
+import { refreshState } from '../../data/initialData';
+import { useRecoilState } from 'recoil';
 interface PostHeaderProps {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   postProps: PostProps;
 }
 
 const PostHeader = ({ setEdit, postProps }: PostHeaderProps): JSX.Element => {
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
   const [modalBtn, setModalBtn] = useState(false);
   const { postData, userInfo } = postProps;
   const modalBind: Bind<boolean> = { state: modalBtn, Setter: setModalBtn };
-  const deleteAction = () => deleteBoard(postData.boardId);
+  const deleteAction = () =>
+    deleteBoard(postData.boardId).then(() => {
+      setRefresh(refresh + 1);
+    });
 
   const DefaultInfo = () => {
     const { profileImage, nickname, createDate } = postData;
