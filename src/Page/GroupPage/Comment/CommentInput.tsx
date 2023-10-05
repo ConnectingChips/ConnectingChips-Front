@@ -1,29 +1,48 @@
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { BoardsType, GetUser } from '../GroupPageBarrel';
+import { BoardsType, GetUser, useState } from '../GroupPageBarrel';
 import { postAddComment } from '../../../API/Comment';
 import { postAddReply } from '../../../API/Comment';
 import { refreshState } from '../../../data/initialData';
-import useCommentInput from '../../../API/useCommentInput';
+import Bind from '../../../Type/Bind';
+
 
 interface commentInputProps {
   userInfo: GetUser;
   postData: BoardsType;
   setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
+  inputToggleBind: Bind<boolean>;
+  isCommentBind: Bind<number>;
 }
 
-const CommentInput = ({ userInfo, postData, setCommentFlip }: commentInputProps) => {
-  const {
-    isCommentBind,
-    inputToggleBind,
-    commentInputBind,
-    handleFormClickTrue,
-    handleInputChange,
-    handleFormClickFalse,
-  } = useCommentInput();
-  const { isComment, setIsComment } = isCommentBind;
-  const { inputToggle, setInputToggle } = inputToggleBind;
-  const { commentInput, setCommentInput } = commentInputBind;
+const CommentInput = ({
+  userInfo,
+  postData,
+  setCommentFlip,
+  inputToggleBind,
+  isCommentBind,
+}: commentInputProps) => {
+  const { state: inputToggle, Setter: setInputToggle } = inputToggleBind;
+  const { state: isComment, Setter: setIsComment } = isCommentBind;
+  const [commentInput, setCommentInput] = useState<string>('');
+
+  // input에 들어갈 내용 CommentInput에 넣는 함수
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCommentInput(e.target.value);
+  };
+
+  // input 바깥쪽누르면 되돌아감
+  const handleFormClickTrue = () => {
+    !inputToggle && setInputToggle(true);
+    setIsComment(0);
+  };
+
+  // 댓글에 붙은 input누르면 하단에 붙음
+  const handleFormClickFalse = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    inputToggle && setInputToggle(false);
+  };
+
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
   const getPlaceholderText = (isComment: number, commentCount: number) => {

@@ -1,37 +1,51 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { PostProps } from '../PostPropsType';
 import { CommentHeader } from './CommentHeader';
 import { CommentInput } from './CommentInput';
 import CommentBoxMaker from './CommentList';
-import useCommentInput from '../../../API/useCommentInput';
+import Bind from '../../../Type/Bind';
 
 const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
-  const { commentFlipBind, inputToggleBind, isCommentBind } = useCommentInput();
   const { postData, userInfo } = postProps;
 
-  const { commentFlip, setCommentFlip } = commentFlipBind;
-  const { setInputToggle } = inputToggleBind;
-  const { setIsComment } = isCommentBind;
+  // 댓글접기
+  const [commentFlip, setCommentFlip] = useState(true);
+  const commentFlipBind:Bind<boolean> = { state: commentFlip, Setter: setCommentFlip };
+
+  // input 바텀에 붙거나 말거나
+  const [inputToggle, setInputToggle] = useState<boolean>(true);
+  const inputToggleBind: Bind<boolean> = { state: inputToggle, Setter: setInputToggle };
+
+  // 댓글과 답글 구분
+  const [isComment, setIsComment] = useState<number>(0);
+  const isCommentBind: Bind<number> = { state: isComment, Setter: setIsComment };
 
   return (
     <CommentContainerS>
       {postData.commentCount > 0 && (
         <>
-          <CommentHeader commentFlipBind={commentFlipBind} postData={postData} />
+          <CommentHeader postData={postData} commentFlipBind={commentFlipBind} />
           <CommentListS commentFlip={commentFlip}>
             {postData.commentList.map((commentData, i) => (
               <CommentBoxMaker
+                userInfo={userInfo}
                 setInputToggle={setInputToggle}
                 setIsComment={setIsComment}
                 commentData={commentData}
-                userInfo={userInfo}
                 key={i}
               />
             ))}
           </CommentListS>
         </>
       )}
-      <CommentInput postData={postData} userInfo={userInfo} setCommentFlip={setCommentFlip} />
+      <CommentInput
+        postData={postData}
+        userInfo={userInfo}
+        setCommentFlip={setCommentFlip}
+        inputToggleBind={inputToggleBind}
+        isCommentBind={isCommentBind}
+      />
     </CommentContainerS>
   );
 };

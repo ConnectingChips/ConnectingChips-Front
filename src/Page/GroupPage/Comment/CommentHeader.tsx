@@ -4,16 +4,14 @@ import {
   Arrow_Down as Arrow_icon_Up,
 } from '../../../Component/ArrowBarrel';
 import { BoardsType } from '../GroupPageBarrel';
+import Bind from '../../../Type/Bind';
 interface CommentHeaderProps {
-  commentFlipBind: {
-    commentFlip: boolean;
-    setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
-  };
+  commentFlipBind: Bind<boolean>;
   postData: BoardsType;
 }
 
 const CommentHeader = ({ commentFlipBind, postData }: CommentHeaderProps) => {
-  const { commentFlip, setCommentFlip } = commentFlipBind;
+  const { state: commentFlip, Setter: setCommentFlip } = commentFlipBind;
   return (
     <CommentHeaderS>
       <h2 className='commentfont'>댓글 {postData.commentCount}</h2>

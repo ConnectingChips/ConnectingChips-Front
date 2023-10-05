@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { CommentType,ReplyType } from '../../../API/Boards';
+import { CommentType, ReplyType } from '../../../API/Boards';
 import { GetUser } from '../GroupPageBarrel';
 import { deleteComment, deleteReply } from '../../../API/Comment';
 import DeleteModal from '../../../Component/DeleteModal';
@@ -21,7 +21,7 @@ const CommentBoxMaker = ({
 }: CommentBoxMakerProps) => {
   const { profileImage, commentId } = commentData;
   const [modalBtn, setModalBtn] = useState(false);
-  const modalBind = { modalBtn, setModalBtn };
+  const modalBind = { state: modalBtn, Setter: setModalBtn };
   const deleteAction = () => deleteComment(commentId);
 
   const CommentContent = () => {
@@ -83,7 +83,7 @@ interface ReplyBoxMakerProps {
 const ReplyBoxMaker = ({ replyData, userInfo }: ReplyBoxMakerProps) => {
   const { profileImage, replyId } = replyData;
   const [modalBtn, setModalBtn] = useState(false);
-  const modalBind = { modalBtn, setModalBtn };
+  const modalBind = { state: modalBtn, Setter: setModalBtn };
   const deleteAction = () => deleteReply(replyId);
 
   const ReplyContent = (): JSX.Element => {
