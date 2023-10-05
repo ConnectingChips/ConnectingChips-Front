@@ -3,13 +3,10 @@ import { styled } from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { getBoards } from '../GroupPageBarrel';
-import { initUser,getUser } from '../GroupPageBarrel';
-import { BoardsType,GetUser } from '../GroupPageBarrel';
-import { INVALID_TOKEN, EXPIRED_TOKEN } from '../../../constant/error';
-import Comment from '../Comment/Comment';
-import { refreshState } from '../../../data/initialData';
-import GroupPost from '../Post/GroupPost';
+
+import { getBoards, initUser, getUser, Comment, refreshState, GroupPost } from './PostListBarrel';
+import type { BoardsType, GetUser } from './PostListBarrel';
+import { INVALID_TOKEN, EXPIRED_TOKEN } from './PostListBarrel';
 
 const GroupPostList = () => {
   const { mindId } = useParams<string>();
