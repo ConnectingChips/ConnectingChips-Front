@@ -6,6 +6,7 @@ import axios from 'axios';
 import { CreateExample } from '../GroupIntro/ActiveExample';
 import { BackIcon, GroupBGHeaderS } from '../../Component/Mission/GroupHeader';
 import UploadImageTitle from '../../Component/UploadPost/UploadImageTitle';
+import UploadText from '../../Component/UploadPost/UploadText';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
 import { DivideBaS } from '../../Component/Mission/GroupArticle';
 import {
@@ -207,14 +208,8 @@ const UploadPost = () => {
                 onClick={handleFileInputClick}
               />
             </CreateFormUploadS>
-            <CreateFormUploadS>
-              <h2>오늘의 작심은 어땠나요?</h2>
-              <textarea
-                placeholder={INITIAL_TEXT}
-                maxLength={800}
-                onChange={handleTextareaChange}
-              />
-            </CreateFormUploadS>
+
+            <UploadText initialText={INITIAL_TEXT} handleTextareaChange={handleTextareaChange} />
           </>
         )}
 
@@ -268,14 +263,6 @@ const CreateFormUploadS = styled.div`
   flex-direction: column;
   gap: var(--height-gap);
   margin: 0 1rem;
-
-  textarea {
-    resize: none;
-    height: 16.3125rem;
-    border: 1px solid #e3e3e3;
-    border-radius: 1rem;
-    outline: none;
-  }
 
   input[type='file'] {
     display: none;
