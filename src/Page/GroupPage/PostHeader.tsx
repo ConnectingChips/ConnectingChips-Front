@@ -4,6 +4,7 @@ import point3 from '../../image/Icon/3point_icon.svg';
 import { PostProps } from './PostPropsType';
 import DeleteModal from '../../Component/DeleteModal';
 import { deleteBoard } from '../../API/Boards';
+import Bind from '../../Type/Bind';
 interface PostHeaderProps {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   postProps: PostProps;
@@ -12,7 +13,7 @@ interface PostHeaderProps {
 const PostHeader = ({ setEdit, postProps }: PostHeaderProps): JSX.Element => {
   const [modalBtn, setModalBtn] = useState(false);
   const { postData, userInfo } = postProps;
-  const modalBind = { modalBtn, setModalBtn };
+  const modalBind: Bind<boolean> = { state: modalBtn, Setter: setModalBtn };
   const deleteAction = () => deleteBoard(postData.boardId);
 
   const DefaultInfo = () => {
