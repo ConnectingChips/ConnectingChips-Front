@@ -6,7 +6,7 @@ import { GroupIntroHeader } from '../../Component/Mission/GroupHeader';
 import scrollTop from '../../Hooks/scrollTop';
 import { getMind_IntroImage } from '../../API/Mind';
 import { GNB } from '../../AppBarral';
-
+import React from 'react';
 import {
   HeadLine,
   MissionRule,
@@ -21,3 +21,4 @@ export { styled, useEffect, useState, useParams };
 export { CTAContainer, GroupIntroHeader, scrollTop, getMind_IntroImage };
 export { HeadLine, MissionRule, GroupArticleS, IntroduceS, initMind, getMindInfo_Intro };
 export type { MindIntroInfo, MindsType };
+export { React };
