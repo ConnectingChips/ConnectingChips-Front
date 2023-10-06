@@ -4,7 +4,7 @@ import { styled, keyframes } from 'styled-components';
 import axios from 'axios';
 
 import { CreateExample } from '../GroupIntro/ActiveExample';
-import { BackIcon, GroupBGHeaderS } from '../../Component/Mission/GroupHeader';
+import UploadPostHeader from '../../Component/UploadPost/UploadPostHeader';
 import UploadImage from '../../Component/UploadPost/UploadImage';
 import UploadText from '../../Component/UploadPost/UploadText';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
@@ -202,30 +202,6 @@ export default UploadPost;
 const CreatePostS = styled.div`
   width: 100%;
   max-width: var(--width-max);
-`;
-
-const UploadPostHeader = () => {
-  return (
-    <UploadPostHeaderS>
-      <BackIcon />
-      <h1>작심 글쓰기</h1>
-    </UploadPostHeaderS>
-  );
-};
-
-const UploadPostHeaderS = styled(GroupBGHeaderS)`
-  justify-content: center;
-  left: 0;
-
-  h1 {
-    font-size: var(--header);
-    font-weight: 500;
-  }
-
-  img {
-    position: absolute;
-    left: 1rem;
-  }
 `;
 
 const CreateFormS = styled.form`
