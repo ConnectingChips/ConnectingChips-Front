@@ -28,10 +28,7 @@ const GroupPage = (): JSX.Element => {
       <GroupInfo mindData={getMindInfoData} />
       <DivideBaS />
 
-      <GroupPostListS>
-        <h2 className='headLine'>작심 인증글</h2>
-        <GroupPostList />
-      </GroupPostListS>
+      <GroupPostList />
     </GroupPageS>
   );
 };
@@ -65,17 +62,4 @@ const GroupImageS = styled.div<{ url: string }>`
 const GroupInfoS = styled.div`
   margin: 0 auto;
   max-width: var(--width-max);
-`;
-
-const GroupPostListS = styled.div`
-  margin: 0 auto;
-  max-width: var(--width-max);
-  display: flex;
-  flex-direction: column;
-
-  h2.headLine {
-    font-size: 1.125rem;
-    margin-left: 1rem;
-    margin-bottom: 0.5rem;
-  }
 `;
