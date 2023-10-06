@@ -61,5 +61,4 @@ const GroupContainerS = styled.div`
   display: flex;
   flex-direction: column-reverse;
   width: 100%;
-  margin: 0 auto;
 `;
