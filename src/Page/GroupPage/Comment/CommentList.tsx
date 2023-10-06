@@ -132,7 +132,7 @@ const CommentContainerS = styled.div`
   align-items: start;
   min-height: 2rem;
   border-radius: 1rem;
-
+  flex-direction: column;
   img {
     width: 1.875rem;
   }
