@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { PageSort } from '../../Type/Mind';
 import defaultImage from '../../image/ex_image_err.png';
-import { Arrow_Down, Arrow_Up } from '../../Component/ArrowBarrel';
+import { Arrow_Down, Arrow_Up } from '../ArrowBarrel';
 import { getExampleImage } from '../../API/Mind';
 
 /** 2023-08-22 ActiveExample.tsx - 작심 인증 글 */

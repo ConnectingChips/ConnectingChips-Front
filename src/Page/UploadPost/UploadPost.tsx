@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { styled, keyframes } from 'styled-components';
 import axios from 'axios';
 
-import { CreateExample } from '../GroupIntro/ActiveExample';
+import { CreateExample } from '../../Component/UploadPost/CreateExample';
 import UploadPostHeader from '../../Component/UploadPost/UploadPostHeader';
 import UploadImage from '../../Component/UploadPost/UploadImage';
 import UploadText from '../../Component/UploadPost/UploadText';
