@@ -13,17 +13,17 @@ import type { MindIntroInfo, MindsType } from './IntroBarrel';
 /** 2023-08-21 GroupIntro.tsx - 메인 컴프 */
 const GroupIntro = (): JSX.Element => {
   const { mindId } = useParams<string>();
-  const [pageImage, setPageImage] = useState<string>('');
+  const [groupIntroImg, setGroupIntroImg] = useState<string>('');
   const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);
 
   useEffect(() => {
     scrollTop();
-    getMind_IntroImage(Number(mindId)).then((data) => setPageImage(data.introImage));
+    getMind_IntroImage(Number(mindId)).then((data) => setGroupIntroImg(data.introImage));
     getMindInfo_Intro(Number(mindId)).then((data: MindIntroInfo) => setGetMindInfoData(data));
-  }, []);
+  }, [mindId]);
 
   return (
-    <GroupIntroS img={pageImage}>
+    <GroupIntroImgS img={groupIntroImg}>
       <GroupIntroHeader />
       <BGDarkS>
         <GroupContainerS>
@@ -35,13 +35,13 @@ const GroupIntro = (): JSX.Element => {
           </GroupArticleS>
         </GroupContainerS>
       </BGDarkS>
-    </GroupIntroS>
+    </GroupIntroImgS>
   );
 };
 
 export default GroupIntro;
 
-const GroupIntroS = styled.div<{ img: string }>`
+const GroupIntroImgS = styled.div<{ img: string }>`
   width: 100vw;
   height: 100dvh;
   color: white;
@@ -53,9 +53,6 @@ const BGDarkS = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const GroupContainerS = styled.div`

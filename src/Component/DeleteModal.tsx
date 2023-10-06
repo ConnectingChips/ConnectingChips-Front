@@ -18,7 +18,7 @@ const DeleteModal = ({
       setConfirm={setModalBtn}
       confirmText='이 댓글을 삭제할까요?'
       action='삭제'
-      method={deleteAction().then(() => setRefresh(refresh + 1)).then}
+      method={deleteAction}
     />
   ) : (
     <></>
