@@ -8,11 +8,11 @@ import Bind from '../../Type/Bind';
 import { refreshState } from '../../data/initialData';
 import { useRecoilState } from 'recoil';
 interface PostHeaderProps {
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setToggleContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
   postProps: PostProps;
 }
 
-const PostHeader = ({ setEdit, postProps }: PostHeaderProps): JSX.Element => {
+const PostHeader = ({ setToggleContentEdit, postProps }: PostHeaderProps): JSX.Element => {
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
   const [modalBtn, setModalBtn] = useState(false);
   const { postData, userInfo } = postProps;
@@ -21,41 +21,22 @@ const PostHeader = ({ setEdit, postProps }: PostHeaderProps): JSX.Element => {
     deleteBoard(postData.boardId).then(() => {
       setRefresh(refresh + 1);
     });
+  const { profileImage, nickname, createDate } = postData;
 
-  const DefaultInfo = () => {
-    const { profileImage, nickname, createDate } = postData;
-
-    return (
-      <PostHeaderProfileS>
-        <PostProfileS>
-          <PostProfileImageS>
-            <img src={profileImage} alt='프로필 사진' />
-          </PostProfileImageS>
-          <PostProfileNickNameS>
-            <p className='nickname'>{nickname}</p>
-            <p className='date'>{createDate}</p>
-          </PostProfileNickNameS>
-        </PostProfileS>
-        <UserAuthor />
-      </PostHeaderProfileS>
-    );
-  };
-
-  const UserAuthor = () => {
-    const [editModalToggle, setEditModalToggle] = useState(false);
-    const { userId } = postData;
-
-    const handlerToogleSwitch = () => {
-      setEditModalToggle((prev) => !prev);
+  const PostEditBtn = () => {
+    const [toggleEditBtn, setToggleEditBtn] = useState(false);
+    const ToogleHandler = () => {
+      setToggleEditBtn((prev) => !prev);
     };
-    return userInfo.userId === userId ? (
-      <MoreIconS onClick={handlerToogleSwitch}>
+
+    return userInfo.userId === postData.userId ? (
+      <PostEditBtnS onClick={ToogleHandler}>
         <img src={point3} alt='point3_icon' />
-        {editModalToggle && (
-          <ModalS>
+        {toggleEditBtn && (
+          <PostEditS>
             <div
               onClick={() => {
-                setEdit(true);
+                setToggleContentEdit(true);
               }}
             >
               수정하기
@@ -67,84 +48,49 @@ const PostHeader = ({ setEdit, postProps }: PostHeaderProps): JSX.Element => {
             >
               삭제하기
             </div>
-          </ModalS>
+          </PostEditS>
         )}
-      </MoreIconS>
+      </PostEditBtnS>
     ) : (
       <></>
     );
   };
 
   return (
-    <>
-      <DefaultInfo />
-
+    <PostHeaderS>
+      <PostProfileS>
+        <PostProfileImageS src={profileImage} alt='프로필 사진' />
+        <PostProfileNickNameS>
+          <p className='nickname'>{nickname}</p>
+          <p className='date'>{createDate}</p>
+        </PostProfileNickNameS>
+      </PostProfileS>
+      <PostEditBtn />
       <DeleteModal modalBind={modalBind} deleteAction={deleteAction} />
-    </>
+    </PostHeaderS>
   );
 };
 
 export default PostHeader;
 
-const PostHeaderProfileS = styled.div`
+const PostHeaderS = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  h2 {
-    margin-right: 0.5rem;
-    font-size: 0.875rem;
-  }
-  p {
-    color: var(--font-color2);
-  }
 `;
 
 const PostProfileS = styled.div`
   display: flex;
 `;
 
-const MoreIconS = styled.div`
-  z-index: 20;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  position: relative;
-`;
-
-const ModalS = styled.div`
-  position: absolute;
-  top: 3.31rem;
-  right: 0rem;
-  background-color: white;
-  width: 8.8125rem;
-  border-radius: 0.63rem;
-  border: 1px solid var(--color-main);
-  div {
-    height: 3.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    &:first-child {
-      border-radius: 0.63rem 0.63rem 0 0;
-    }
-    &:last-child {
-      border-radius: 0 0 0.63rem 0.63rem;
-    }
-  }
-`;
-
-const PostProfileImageS = styled.div`
+const PostProfileImageS = styled.img`
   width: 2.5rem;
   height: 2.5rem;
   aspect-ratio: 1/1;
   border-radius: 10rem;
   overflow: hidden;
   margin-right: 0.5rem;
-
-  img {
-    width: 2.5rem;
-  }
 `;
 
 const PostProfileNickNameS = styled.div`
@@ -157,5 +103,29 @@ const PostProfileNickNameS = styled.div`
   .date {
     font-size: 0.75rem;
     color: var(--font-color3);
+  }
+`;
+
+const PostEditBtnS = styled.div`
+  z-index: 20;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
+
+const PostEditS = styled.div`
+  position: absolute;
+  top: 3.31rem;
+  right: 0rem;
+  background-color: white;
+  width: 8.8125rem;
+  border-radius: 0.63rem;
+  border: 1px solid var(--color-main);
+  div {
+    height: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;

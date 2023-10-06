@@ -7,16 +7,19 @@ import { PostProps } from '../PostPropsType';
 import { refreshState } from '../../../data/initialData';
 
 interface PostContentProps {
-  editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
+  toggleContentEditbind: {
+    toggleContentEdit: boolean;
+    setToggleContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  };
   postProps: PostProps;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({ editbind, postProps }: PostContentProps): JSX.Element => {
+const PostContent = ({ toggleContentEditbind, postProps }: PostContentProps): JSX.Element => {
   const { mindId } = useParams();
   const { postData } = postProps;
   const { content, boardId } = postData;
-  const { edit, setEdit } = editbind;
+  const { toggleContentEdit, setToggleContentEdit } = toggleContentEditbind;
   const [editContent, setEditContent] = useState(content);
   const [imgCheck, setImgCheck] = useState(true);
   const textarea = useRef<HTMLTextAreaElement | null>(null);
@@ -48,11 +51,11 @@ const PostContent = ({ editbind, postProps }: PostContentProps): JSX.Element => 
       setEditContent(res.content);
     });
     setRefresh(refresh + 1);
-    setEdit(false);
+    setToggleContentEdit(false);
   };
   return (
     <PostContentS imgCheck={imgCheck}>
-      {edit ? (
+      {toggleContentEdit ? (
         <>
           <TextareaS
             ref={textarea}
@@ -70,7 +73,7 @@ const PostContent = ({ editbind, postProps }: PostContentProps): JSX.Element => 
           <BtnContainerS>
             <button
               onClick={() => {
-                setEdit(false);
+                setToggleContentEdit(false);
               }}
             >
               취소
