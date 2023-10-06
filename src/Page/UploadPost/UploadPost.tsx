@@ -1,11 +1,20 @@
-import { useRef, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { styled, keyframes } from 'styled-components';
 import axios from 'axios';
 
-import { BackIcon, GroupBGHeaderS } from '../../Component/Mission/GroupHeader';
-import InfoMessage from '../../Component/UploadPost/InfoMessage';
+import { CreateExample } from '../GroupIntro/ActiveExample';
+import UploadPostHeader from '../../Component/UploadPost/UploadPostHeader';
+import UploadImage from '../../Component/UploadPost/UploadImage';
+import UploadText from '../../Component/UploadPost/UploadText';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
+import { DivideBaS } from '../../Component/Mission/GroupArticle';
+import {
+  GroupArticleS,
+  HeadLine,
+  MissionRule,
+  initMind,
+} from '../../Component/Mission/GroupArticle';
 
 import { notifyImgSizeLimitErr } from '../../Component/Toast/ImgSizeLimitMsg';
 import { notifyNetErr } from '../../Component/Toast/NetworkErrorMsg';
@@ -13,30 +22,16 @@ import { notifyExtensionsBlockErr } from '../../Component/Toast/ExtensionsBlockM
 
 import { getUser } from '../../API/Users';
 import { postCreateBoard } from '../../API/Boards';
+import { getMindInfo_Intro } from '../../API/Mind';
 
-import UploadImageIcon from '../../image/Icon/image_input_icon.png';
-import { ReactComponent as AddIcon } from '../../image/Icon/add_icon.svg';
-import { ReactComponent as DeleteIcon } from '../../image/Icon/delete_icon.svg';
-import { ReactComponent as InfoIcon } from '../../image/Icon/Info_icon.svg';
 import { ReactComponent as LoadingSpinner } from '../../image/loading.svg';
-import { DivideBaS } from '../../Component/Mission/GroupArticle';
-import { useNavigate } from 'react-router-dom';
-
+import { MindIntroInfo, MindsType } from '../../Type/Mind';
 import {
   SERVER_ERROR,
   INVALID_TOKEN,
   EXPIRED_TOKEN,
   AXIOS_NETWORK_ERROR,
 } from '../../constant/error';
-import {
-  GroupArticleS,
-  HeadLine,
-  MissionRule,
-  initMind,
-} from '../../Component/Mission/GroupArticle';
-import { CreateExample } from '../GroupIntro/ActiveExample';
-import { MindIntroInfo, MindsType } from '../../Type/Mind';
-import { getMindInfo_Intro } from '../../API/Mind';
 
 interface Image {
   name: string;
@@ -45,11 +40,11 @@ interface Image {
 
 const UploadPost = () => {
   const INITIAL_TEXT = '오늘 작심 성공!';
+  const FILE_SIZE_LIMIT_10MB = 10485760;
+
   const navigate = useNavigate();
   const { mindId } = useParams();
-  const fileRef = useRef<HTMLInputElement | null>(null);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>(0);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [text, setText] = useState<string>(INITIAL_TEXT);
@@ -69,7 +64,7 @@ const UploadPost = () => {
         // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
         if (axios.isAxiosError(error)) {
           if (error.response?.status === SERVER_ERROR) {
-            return notifyNetErr(); // TODO: 임시 토스트 메시지
+            return notifyNetErr();
           }
 
           if (error.response?.data.code === EXPIRED_TOKEN) {
@@ -97,14 +92,11 @@ const UploadPost = () => {
     const allowedExtensions = ['.png', '.jpg', '.jpeg'];
     const fileExtension = fileName.slice(fileName.lastIndexOf('.'));
 
-    // 이미지 확장자 제한
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
       return notifyExtensionsBlockErr();
     }
 
-    // 10485760 = 10mb 제한
-    if (e.target.files[0].size > 10485760) {
-      // TODO: constant
+    if (e.target.files[0].size > FILE_SIZE_LIMIT_10MB) {
       return notifyImgSizeLimitErr();
     }
 
@@ -121,10 +113,6 @@ const UploadPost = () => {
     URL.revokeObjectURL(imageUrl);
     setImageUrl('');
     setImage({ name: '', file: null });
-  };
-
-  const handleInfoIconClick = () => {
-    setIsOpen(!isOpen);
   };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -145,7 +133,6 @@ const UploadPost = () => {
       });
 
       if (response.statusCode === 200) {
-        // TODO: constant
         setIsLoading(false);
       }
 
@@ -156,17 +143,17 @@ const UploadPost = () => {
       // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
       if (axios.isAxiosError(error)) {
         if (error.response?.status === SERVER_ERROR) {
-          return notifyNetErr(); // TODO: 임시 토스트 메시지
+          return notifyNetErr();
         }
 
         if (error.response?.data.code === EXPIRED_TOKEN) {
           localStorage.removeItem('access_token');
-          return navigate('/LogIn');
+          return navigate('/');
         }
 
         if (error.response?.data.code === INVALID_TOKEN) {
           localStorage.removeItem('access_token');
-          return navigate('/LogIn');
+          return navigate('/');
         }
 
         if (error.code === AXIOS_NETWORK_ERROR) {
@@ -192,42 +179,13 @@ const UploadPost = () => {
           </LoadingSpinnerContainer>
         ) : (
           <>
-            <CreateFormUploadS>
-              <UploadImageTitleS>
-                <h2>인증샷 올리기</h2>
-                <InfoIcon onClick={handleInfoIconClick} />
-                {isOpen && <InfoMessage className='info_message_position' setIsOpen={setIsOpen} />}
-              </UploadImageTitleS>
-              {imageUrl ? (
-                <AddedImageS>
-                  <ImageS>
-                    <img src={imageUrl} alt='추가된 이미지' />
-                  </ImageS>
-                  <DeleteIcon className='delete_icon' onClick={handleDeleteIconClick} />
-                </AddedImageS>
-              ) : (
-                <UploadImageS htmlFor='image-upload'>
-                  <img src={UploadImageIcon} alt='이미지 업로드' />
-                  <AddIcon className='add_icon' />
-                </UploadImageS>
-              )}
-              <input
-                type='file'
-                id='image-upload'
-                accept='image/png, image/jpeg, image/jpg'
-                ref={(ref) => (fileRef.current = ref)}
-                onChange={handleFileInputChange}
-                onClick={handleFileInputClick}
-              />
-            </CreateFormUploadS>
-            <CreateFormUploadS>
-              <h2>오늘의 작심은 어땠나요?</h2>
-              <textarea
-                placeholder={INITIAL_TEXT}
-                maxLength={800}
-                onChange={handleTextareaChange}
-              />
-            </CreateFormUploadS>
+            <UploadImage
+              imageUrl={imageUrl}
+              handleDeleteIconClick={handleDeleteIconClick}
+              handleFileInputChange={handleFileInputChange}
+              handleFileInputClick={handleFileInputClick}
+            />
+            <UploadText initialText={INITIAL_TEXT} handleTextareaChange={handleTextareaChange} />
           </>
         )}
 
@@ -244,117 +202,12 @@ export default UploadPost;
 const CreatePostS = styled.div`
   width: 100%;
   max-width: var(--width-max);
-  // height: 100dvh; // TODO: 모바일 테스트 필수
-`;
-
-const UploadPostHeader = () => {
-  return (
-    <UploadPostHeaderS>
-      <BackIcon/>
-      <h1>작심 글쓰기</h1>
-    </UploadPostHeaderS>
-  );
-};
-
-const UploadPostHeaderS = styled(GroupBGHeaderS)`
-  justify-content: center;
-  left: 0;
-
-  h1 {
-    font-size: var(--header);
-    font-weight: 500;
-  }
-
-  img {
-    position: absolute;
-    left: 1rem;
-  }
 `;
 
 const CreateFormS = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`;
-
-const CreateFormUploadS = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: var(--height-gap);
-  margin: 0 1rem;
-
-  textarea {
-    resize: none;
-    height: 16.3125rem;
-    border: 1px solid #e3e3e3;
-    border-radius: 1rem;
-    outline: none;
-  }
-
-  input[type='file'] {
-    display: none;
-  }
-`;
-
-const UploadImageTitleS = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.38rem;
-  position: relative;
-
-  svg {
-    position: relative;
-    top: 1px;
-  }
-
-  .info_message_position {
-    position: absolute;
-    top: 2.13rem;
-    left: 0;
-    z-index: 1;
-  }
-`;
-
-const AddedImageS = styled.div`
-  width: 5rem;
-  height: 5rem;
-  position: relative;
-
-  .delete_icon {
-    position: absolute;
-    bottom: -7.14px;
-    right: -4.14px;
-  }
-`;
-
-const ImageS = styled.div`
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.625rem;
-  overflow: hidden;
-
-  img {
-    width: 5rem;
-    height: 5rem;
-    object-fit: cover;
-  }
-`;
-
-const UploadImageS = styled.label`
-  width: 5rem;
-  height: 5rem;
-  position: relative;
-
-  img {
-    width: 5rem;
-    height: 5rem;
-  }
-
-  .add_icon {
-    position: absolute;
-    bottom: -11.28px;
-    right: -8.28px;
-  }
 `;
 
 const SubmitButtonWrapperS = styled.div`
