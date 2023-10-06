@@ -14,20 +14,18 @@ const GroupHeader = (): JSX.Element => {
   const isUpload = path.indexOf('/upload') !== -1;
   const { mindId } = useParams();
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
-  const [keepJoin, setKeepJoin] = useState<boolean>(false);
   const [refresh] = useRecoilState<number>(refreshState);
 
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
       setIsDoneToday(data.isDoneToday);
-      setKeepJoin(data.keepJoin);
     });
   }, [refresh]);
 
   const UploadIcon = (): JSX.Element => {
     return isUpload ? (
       <></>
-    ) : !(isDoneToday || keepJoin) ? (
+    ) : !isDoneToday ? (
       <Link to={`/uploadPost/${mindId}`}>
         <img src={post_Icon} alt='post icon' />
       </Link>
