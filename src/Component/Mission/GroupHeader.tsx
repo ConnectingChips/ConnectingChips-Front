@@ -20,7 +20,7 @@ const GroupHeader = (): JSX.Element => {
     getkeepJoin(Number(mindId)).then((data) => {
       setIsDoneToday(data.isDoneToday);
     });
-  }, [refresh]);
+  }, [refresh, mindId]);
 
   const UploadIcon = (): JSX.Element => {
     return isUpload ? (
@@ -67,8 +67,9 @@ const GroupHeaderS = styled.header`
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
 export const GroupBGHeaderS = styled(GroupHeaderS)`
+  width: 100vw;
+  height: var(--height-header);
   justify-content: space-between;
   background-color: white;
-  width: 100vw;
   z-index: 20;
 `;
