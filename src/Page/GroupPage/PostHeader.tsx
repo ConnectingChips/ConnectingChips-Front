@@ -12,52 +12,21 @@ interface PostHeaderProps {
   postProps: PostProps;
 }
 
-const PostHeader = ({ setToggleContentEdit, postProps }: PostHeaderProps): JSX.Element => {
+const PostHeader: React.FC<PostHeaderProps> = ({ setToggleContentEdit, postProps }) => {
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
-  const [modalBtn, setModalBtn] = useState(false);
-  const { postData, userInfo } = postProps;
+  const [modalBtn, setModalBtn] = useState<boolean>(false);
   const modalBind: Bind<boolean> = { state: modalBtn, Setter: setModalBtn };
-  const deleteAction = () =>
+  const { postData, userInfo } = postProps;
+  const { profileImage, nickname, createDate } = postData;
+
+  // 게시글 삭제 핸들러
+  const deletePostHandler = () =>
     deleteBoard(postData.boardId).then(() => {
       setRefresh(refresh + 1);
     });
-  const { profileImage, nickname, createDate } = postData;
-
-  const PostEditBtn = () => {
-    const [toggleEditBtn, setToggleEditBtn] = useState(false);
-    const ToogleHandler = () => {
-      setToggleEditBtn((prev) => !prev);
-    };
-
-    return userInfo.userId === postData.userId ? (
-      <PostEditBtnS onClick={ToogleHandler}>
-        <img src={point3} alt='point3_icon' />
-        {toggleEditBtn && (
-          <PostEditS>
-            <div
-              onClick={() => {
-                setToggleContentEdit(true);
-              }}
-            >
-              수정하기
-            </div>
-            <div
-              onClick={() => {
-                setModalBtn(true);
-              }}
-            >
-              삭제하기
-            </div>
-          </PostEditS>
-        )}
-      </PostEditBtnS>
-    ) : (
-      <></>
-    );
-  };
 
   return (
-    <PostHeaderS>
+    <PostHeaderWrapper>
       <PostProfileS>
         <PostProfileImageS src={profileImage} alt='프로필 사진' />
         <PostProfileNickNameS>
@@ -65,15 +34,53 @@ const PostHeader = ({ setToggleContentEdit, postProps }: PostHeaderProps): JSX.E
           <p className='date'>{createDate}</p>
         </PostProfileNickNameS>
       </PostProfileS>
-      <PostEditBtn />
-      <DeleteModal modalBind={modalBind} deleteAction={deleteAction} />
-    </PostHeaderS>
+      {userInfo.userId === postData.userId && (
+        <PostEditBtn setToggleContentEdit={setToggleContentEdit} setModalBtn={setModalBtn} />
+      )}
+      <DeleteModal modalBind={modalBind} deleteAction={deletePostHandler} />
+    </PostHeaderWrapper>
+  );
+};
+
+interface PostEditBtnProps {
+  setToggleContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalBtn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const PostEditBtn: React.FC<PostEditBtnProps> = ({ setToggleContentEdit, setModalBtn }) => {
+  const [toggleEditBtn, setToggleEditBtn] = useState(false);
+  const ToogleHandler = () => {
+    setToggleEditBtn((prev) => !prev);
+  };
+
+  return (
+    <PostEditBtnS onClick={ToogleHandler}>
+      <img src={point3} alt='point3_icon' />
+      {toggleEditBtn && (
+        <PostEditS>
+          <div
+            onClick={() => {
+              setToggleContentEdit(true);
+            }}
+          >
+            수정하기
+          </div>
+          <div
+            onClick={() => {
+              setModalBtn(true);
+            }}
+          >
+            삭제하기
+          </div>
+        </PostEditS>
+      )}
+    </PostEditBtnS>
   );
 };
 
 export default PostHeader;
 
-const PostHeaderS = styled.div`
+const PostHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
