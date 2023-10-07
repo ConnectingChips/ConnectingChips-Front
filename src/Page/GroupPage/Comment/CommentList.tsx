@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { PostProps } from '../PostPropsType';
 import { CommentToolbar } from './CommentToolbar';
 import { CommentInput } from './CommentInput';
-import CommentBoxMaker from './CommentBoxMaker';
+import Comment from './Comment';
 import Bind from '../../../Type/Bind';
 
 const CommentList = ({ postProps }: { postProps: PostProps }): JSX.Element => {
@@ -28,7 +28,7 @@ const CommentList = ({ postProps }: { postProps: PostProps }): JSX.Element => {
           <CommentToolbar postData={postData} commentFlipBind={commentFlipBind} />
           <CommentListS commentFlip={commentFlip}>
             {postData.commentList.map((commentData) => (
-              <CommentBoxMaker
+              <Comment
                 userInfo={userInfo}
                 setInputToggle={setInputToggle}
                 setIsComment={setIsComment}

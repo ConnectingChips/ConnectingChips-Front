@@ -6,7 +6,7 @@ import { deleteComment, deleteReply } from '../../../API/Comment';
 import DeleteModal from '../../../Component/DeleteModal';
 import { useRecoilState } from 'recoil';
 import { refreshState } from '../../../data/initialData';
-interface CommentBoxMakerProps {
+interface CommentProps {
   commentData: CommentType;
   userInfo: GetUser;
   setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,12 +14,7 @@ interface CommentBoxMakerProps {
 }
 
 /** 댓글 box */
-const CommentBoxMaker = ({
-  commentData,
-  userInfo,
-  setInputToggle,
-  setIsComment,
-}: CommentBoxMakerProps) => {
+const Comment = ({ commentData, userInfo, setInputToggle, setIsComment }: CommentProps) => {
   const { profileImage, commentId } = commentData;
   const [modalBtn, setModalBtn] = useState(false);
   const modalBind = { state: modalBtn, Setter: setModalBtn };
@@ -32,7 +27,7 @@ const CommentBoxMaker = ({
     });
   };
 
-  const CommentContent = () => {
+  const CommentBox = () => {
     const { nickname, createDate, content, userId } = commentData;
     const openModal = () => setModalBtn(true);
 
@@ -42,30 +37,30 @@ const CommentBoxMaker = ({
     };
 
     return (
-      <CommentContentS>
-        <CommentS>
+      <CommentBoxContainerS>
+        <CommentBoxS>
           <img src={profileImage} alt='댓글프로필' />
           <div className='profile'>
             <h2>{nickname}</h2>
             <p className='date'>{createDate}</p>
             <p className='text'>{content}</p>
           </div>
-        </CommentS>
-        <CommentOptionS>
+        </CommentBoxS>
+        <CommentBoxOptionS>
           <p onClick={addReplyHandler}>답글</p>
           {userInfo.userId === userId && (
             <p onClick={openModal} className={'delete'}>
               삭제
             </p>
           )}
-        </CommentOptionS>
-      </CommentContentS>
+        </CommentBoxOptionS>
+      </CommentBoxContainerS>
     );
   };
 
   return (
     <CommentContainerS>
-      <CommentContent />
+      <CommentBox />
       {commentData.replyList.map((replyData, i) => {
         return <ReplyBoxMaker replyData={replyData} userInfo={userInfo} key={i} />;
       })}
@@ -74,7 +69,7 @@ const CommentBoxMaker = ({
   );
 };
 
-export default CommentBoxMaker;
+export default Comment;
 
 interface ReplyBoxMakerProps {
   replyData: ReplyType;
@@ -113,11 +108,11 @@ const ReplyBoxMaker = ({ replyData, userInfo }: ReplyBoxMakerProps) => {
       <ReplyContentS>
         <WriterInfo />
         {userInfo.userId === userId ? (
-          <CommentOptionS>
+          <CommentBoxOptionS>
             <p onClick={openModal} className='delete'>
               삭제
             </p>
-          </CommentOptionS>
+          </CommentBoxOptionS>
         ) : (
           <></>
         )}
@@ -134,8 +129,27 @@ const ReplyBoxMaker = ({ replyData, userInfo }: ReplyBoxMakerProps) => {
   );
 };
 
-const CommentS = styled.div`
+const CommentBoxS = styled.div`
   display: flex;
+
+  .profile {
+    display: flex;
+    flex-de
+    align-items: center;
+    gap: var(--height-gap);
+    margin-bottom: 0.37rem;
+  }
+
+  .date {
+    font-size: 0.75rem;
+    color: var(--font-color3);
+  }
+
+  .text {
+    font-size: 0.875rem;
+    color: var(--font-color2);
+    margin-bottom: var(--height-gap);
+  }
 `;
 
 const CommentContainerS = styled.div`
@@ -154,49 +168,20 @@ const ReplyContainerS = styled(CommentContainerS)`
   padding: 1rem;
 `;
 
-const CommentContentS = styled.div`
+const CommentBoxContainerS = styled.div`
   margin-left: 0.5rem;
 
   width: 19.0625rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  .profile {
-    display: flex;
-    align-items: center;
-    gap: var(--height-gap);
-    margin-bottom: 0.37rem;
-
-    h2 {
-      font-size: 0.875rem;
-    }
-
-    .date {
-      font-size: 0.75rem;
-      color: var(--font-color3);
-    }
-  }
-
-  p.text {
-    font-size: 0.875rem;
-    color: var(--font-color2);
-
-    p.call {
-      font-size: 0.875rem;
-      color: #000;
-      font-weight: 500;
-      display: inline;
-    }
-    margin-bottom: var(--height-gap);
-  }
 `;
 
-const ReplyContentS = styled(CommentContentS)`
+const ReplyContentS = styled(CommentBoxContainerS)`
   width: 18.0625rem;
 `;
 
-const CommentOptionS = styled.div`
+const CommentBoxOptionS = styled.div`
   display: flex;
   gap: 1.5rem;
   font-size: 0.875rem;
