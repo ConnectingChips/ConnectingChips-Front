@@ -35,17 +35,6 @@ const CommentBoxMaker = ({
   const CommentContent = () => {
     const { nickname, createDate, content, userId } = commentData;
     const openModal = () => setModalBtn(true);
-    const WriterInfo = () => {
-      return (
-        <div>
-          <div className='profile'>
-            <h2>{nickname}</h2>
-            <p className='date'>{createDate}</p>
-          </div>
-          <p className='text'>{content}</p>
-        </div>
-      );
-    };
 
     const addReplyHandler = () => {
       setInputToggle(false);
@@ -54,7 +43,14 @@ const CommentBoxMaker = ({
 
     return (
       <CommentContentS>
-        <WriterInfo />
+        <CommentS>
+          <img src={profileImage} alt='댓글프로필' />
+          <div className='profile'>
+            <h2>{nickname}</h2>
+            <p className='date'>{createDate}</p>
+            <p className='text'>{content}</p>
+          </div>
+        </CommentS>
         <CommentOptionS>
           <p onClick={addReplyHandler}>답글</p>
           {userInfo.userId === userId && (
@@ -69,12 +65,11 @@ const CommentBoxMaker = ({
 
   return (
     <CommentContainerS>
-      <img src={profileImage} alt='댓글프로필' />
       <CommentContent />
-      <DeleteModal modalBind={modalBind} deleteAction={deleteCommentHandler} />
       {commentData.replyList.map((replyData, i) => {
         return <ReplyBoxMaker replyData={replyData} userInfo={userInfo} key={i} />;
       })}
+      <DeleteModal modalBind={modalBind} deleteAction={deleteCommentHandler} />
     </CommentContainerS>
   );
 };
@@ -117,7 +112,6 @@ const ReplyBoxMaker = ({ replyData, userInfo }: ReplyBoxMakerProps) => {
     return (
       <ReplyContentS>
         <WriterInfo />
-
         {userInfo.userId === userId ? (
           <CommentOptionS>
             <p onClick={openModal} className='delete'>
@@ -139,6 +133,10 @@ const ReplyBoxMaker = ({ replyData, userInfo }: ReplyBoxMakerProps) => {
     </ReplyContainerS>
   );
 };
+
+const CommentS = styled.div`
+  display: flex;
+`;
 
 const CommentContainerS = styled.div`
   display: flex;
