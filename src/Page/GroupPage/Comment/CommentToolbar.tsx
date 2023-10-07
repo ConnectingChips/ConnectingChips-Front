@@ -15,13 +15,11 @@ const CommentToolbar = ({ commentFlipBind, postData }: CommentHeaderProps) => {
   return (
     <CommentHeaderS>
       <h2 className='commentfont'>댓글 {postData.commentCount}</h2>
-      <div onClick={() => setCommentFlip(!commentFlip)}>
-        {commentFlip ? (
-          <img style={{ paddingTop: '5px' }} src={Arrow_icon_Down} alt='댓글열기' />
-        ) : (
-          <img src={Arrow_icon_Up} alt='댓글접기' />
-        )}
-      </div>
+      <img
+        src={commentFlip ? Arrow_icon_Down : Arrow_icon_Up}
+        alt='댓글열기'
+        onClick={() => setCommentFlip(!commentFlip)}
+      />
     </CommentHeaderS>
   );
 };
