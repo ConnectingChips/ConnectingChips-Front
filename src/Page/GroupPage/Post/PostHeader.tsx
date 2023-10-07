@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 import point3 from '../../image/Icon/3point_icon.svg';
-import { PostProps } from './PostPropsType';
-import DeleteModal from '../../Component/DeleteModal';
-import { deleteBoard } from '../../API/Boards';
-import Bind from '../../Type/Bind';
-import { refreshState } from '../../data/initialData';
+import { PostProps } from '../PostPropsType';
+import DeleteModal from '../../../Component/DeleteModal';
+import { deleteBoard } from '../../../API/Boards';
+import Bind from '../../../Type/Bind';
+import { refreshState } from '../../../data/initialData';
 import { useRecoilState } from 'recoil';
 interface PostHeaderProps {
   setToggleContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
