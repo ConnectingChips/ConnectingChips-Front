@@ -35,10 +35,10 @@ const GroupHeader = (): JSX.Element => {
   };
 
   return (
-    <GroupBGHeaderS>
+    <GroupHeaderContainerS>
       <BackIcon />
       <UploadIcon />
-    </GroupBGHeaderS>
+    </GroupHeaderContainerS>
   );
 };
 
@@ -66,10 +66,11 @@ const GroupHeaderS = styled.header`
 `;
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
-export const GroupBGHeaderS = styled(GroupHeaderS)`
+export const GroupHeaderContainerS = styled(GroupHeaderS)`
   width: 100vw;
   height: var(--height-header);
   justify-content: space-between;
   background-color: white;
   z-index: 20;
+  top: 0;
 `;

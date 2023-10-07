@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BackIcon, GroupBGHeaderS } from '../../Component/Mission/GroupHeader';
+import { BackIcon, GroupHeaderContainerS } from '../../Component/Mission/GroupHeader';
 
 const UploadPostHeader = () => {
   return (
@@ -12,7 +12,7 @@ const UploadPostHeader = () => {
 
 export default UploadPostHeader;
 
-const UploadPostHeaderS = styled(GroupBGHeaderS)`
+const UploadPostHeaderS = styled(GroupHeaderContainerS)`
   justify-content: center;
   left: 0;
 
