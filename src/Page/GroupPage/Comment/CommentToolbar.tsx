@@ -10,7 +10,7 @@ interface CommentHeaderProps {
   postData: BoardsType;
 }
 
-const CommentHeader = ({ commentFlipBind, postData }: CommentHeaderProps) => {
+const CommentToolbar = ({ commentFlipBind, postData }: CommentHeaderProps) => {
   const { state: commentFlip, Setter: setCommentFlip } = commentFlipBind;
   return (
     <CommentHeaderS>
@@ -27,7 +27,7 @@ const CommentHeader = ({ commentFlipBind, postData }: CommentHeaderProps) => {
 };
 
 // TOFIX: export defalut 왜 안돼
-export { CommentHeader };
+export { CommentToolbar };
 
 const CommentHeaderS = styled.div`
   display: flex;
