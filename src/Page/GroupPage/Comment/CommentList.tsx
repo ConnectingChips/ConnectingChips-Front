@@ -4,7 +4,8 @@ import { CommentType, ReplyType } from '../../../API/Boards';
 import { GetUser } from '../GroupPageBarrel';
 import { deleteComment, deleteReply } from '../../../API/Comment';
 import DeleteModal from '../../../Component/DeleteModal';
-
+import { useRecoilState } from 'recoil';
+import { refreshState } from '../../../data/initialData';
 interface CommentBoxMakerProps {
   commentData: CommentType;
   userInfo: GetUser;
@@ -22,7 +23,13 @@ const CommentBoxMaker = ({
   const { profileImage, commentId } = commentData;
   const [modalBtn, setModalBtn] = useState(false);
   const modalBind = { state: modalBtn, Setter: setModalBtn };
-  const deleteAction = () => deleteComment(commentId);
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
+
+  const deleteCommentHandler = async () => {
+    await deleteComment(commentId).then(() => {
+      setRefresh(refresh + 1);
+    });
+  };
 
   const CommentContent = () => {
     const { nickname, createDate, content, userId } = commentData;
@@ -47,7 +54,6 @@ const CommentBoxMaker = ({
     return (
       <CommentContentS>
         <WriterInfo />
-
         <CommentOptionS>
           <p onClick={addReplyHandler}>답글</p>
           {userInfo.userId === userId && (
@@ -64,7 +70,7 @@ const CommentBoxMaker = ({
     <CommentContainerS>
       <img src={profileImage} alt='댓글프로필' />
       <CommentContent />
-      <DeleteModal modalBind={modalBind} deleteAction={deleteAction} />
+      <DeleteModal modalBind={modalBind} deleteAction={deleteCommentHandler} />
       {commentData.replyList.map((replyData, i) => {
         return <ReplyBoxMaker replyData={replyData} userInfo={userInfo} key={i} />;
       })}

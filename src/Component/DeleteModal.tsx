@@ -1,6 +1,4 @@
 import ConfirmModal from './ConfirmModal';
-import { useRecoilState } from 'recoil';
-import { refreshState } from '../data/initialData';
 import Bind from '../Type/Bind';
 
 const DeleteModal = ({
@@ -11,7 +9,6 @@ const DeleteModal = ({
   deleteAction: () => Promise<void>;
 }) => {
   const { state: modalBtn, Setter: setModalBtn } = modalBind;
-  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
   return modalBtn ? (
     <ConfirmModal
