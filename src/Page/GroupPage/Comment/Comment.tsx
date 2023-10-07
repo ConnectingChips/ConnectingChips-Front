@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { PostProps } from '../PostPropsType';
-import { CommentHeader } from './CommentHeader';
+import { CommentToolbar } from './CommentToolbar';
 import { CommentInput } from './CommentInput';
 import CommentBoxMaker from './CommentList';
 import Bind from '../../../Type/Bind';
@@ -11,7 +11,7 @@ const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
 
   // 댓글접기
   const [commentFlip, setCommentFlip] = useState(true);
-  const commentFlipBind:Bind<boolean> = { state: commentFlip, Setter: setCommentFlip };
+  const commentFlipBind: Bind<boolean> = { state: commentFlip, Setter: setCommentFlip };
 
   // input 바텀에 붙거나 말거나
   const [inputToggle, setInputToggle] = useState<boolean>(true);
@@ -25,15 +25,15 @@ const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
     <CommentContainerS>
       {postData.commentCount > 0 && (
         <>
-          <CommentHeader postData={postData} commentFlipBind={commentFlipBind} />
+          <CommentToolbar postData={postData} commentFlipBind={commentFlipBind} />
           <CommentListS commentFlip={commentFlip}>
-            {postData.commentList.map((commentData, i) => (
+            {postData.commentList.map((commentData) => (
               <CommentBoxMaker
                 userInfo={userInfo}
                 setInputToggle={setInputToggle}
                 setIsComment={setIsComment}
                 commentData={commentData}
-                key={i}
+                key={commentData.commentId}
               />
             ))}
           </CommentListS>
