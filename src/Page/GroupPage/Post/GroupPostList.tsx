@@ -4,7 +4,14 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import { getBoards, initUser, getUser, Comment, refreshState, GroupPost } from './PostListBarrel';
+import {
+  getBoards,
+  initUser,
+  getUser,
+  CommentList,
+  refreshState,
+  GroupPost,
+} from './PostListBarrel';
 import type { BoardsType, GetUser } from './PostListBarrel';
 import { INVALID_TOKEN, EXPIRED_TOKEN } from './PostListBarrel';
 
@@ -56,7 +63,7 @@ const GroupPostList = () => {
             return (
               <PostContainerS key={postData.boardId}>
                 <GroupPost postProps={postProps} />
-                <Comment postProps={postProps} />
+                <CommentList postProps={postProps} />
               </PostContainerS>
             );
           })}

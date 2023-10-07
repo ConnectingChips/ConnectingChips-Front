@@ -22,7 +22,7 @@ const CommentList = ({ postProps }: { postProps: PostProps }): JSX.Element => {
   const isCommentBind: Bind<number> = { state: isComment, Setter: setIsComment };
 
   return (
-    <CommentContainerS>
+    <CommentListContainerS>
       {postData.commentCount > 0 && (
         <>
           <CommentToolbar postData={postData} commentFlipBind={commentFlipBind} />
@@ -46,13 +46,13 @@ const CommentList = ({ postProps }: { postProps: PostProps }): JSX.Element => {
         inputToggleBind={inputToggleBind}
         isCommentBind={isCommentBind}
       />
-    </CommentContainerS>
+    </CommentListContainerS>
   );
 };
 
 export default CommentList;
 
-const CommentContainerS = styled.div`
+const CommentListContainerS = styled.div`
   margin: 0 1rem;
   margin-top: 0.5rem;
 `;
