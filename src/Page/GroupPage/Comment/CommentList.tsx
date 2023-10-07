@@ -25,6 +25,7 @@ const CommentBoxMaker = ({
   const modalBind = { state: modalBtn, Setter: setModalBtn };
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
+  // 댓글 삭제 핸들러
   const deleteCommentHandler = async () => {
     await deleteComment(commentId).then(() => {
       setRefresh(refresh + 1);
@@ -90,7 +91,13 @@ const ReplyBoxMaker = ({ replyData, userInfo }: ReplyBoxMakerProps) => {
   const { profileImage, replyId } = replyData;
   const [modalBtn, setModalBtn] = useState(false);
   const modalBind = { state: modalBtn, Setter: setModalBtn };
-  const deleteAction = () => deleteReply(replyId);
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
+
+  const deleteReplyHandler = async () => {
+    await deleteReply(replyId).then(() => {
+      setRefresh(refresh + 1);
+    });
+  };
 
   const ReplyContent = (): JSX.Element => {
     const { nickname, createDate, content, userId } = replyData;
@@ -128,7 +135,7 @@ const ReplyBoxMaker = ({ replyData, userInfo }: ReplyBoxMakerProps) => {
     <ReplyContainerS>
       <img src={profileImage} alt='답글프로필' />
       <ReplyContent />
-      <DeleteModal modalBind={modalBind} deleteAction={deleteAction} />
+      <DeleteModal modalBind={modalBind} deleteAction={deleteReplyHandler} />
     </ReplyContainerS>
   );
 };
