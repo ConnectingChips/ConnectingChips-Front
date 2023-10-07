@@ -3,7 +3,7 @@ import { getBoards } from '../GroupPageBarrel';
 import { initUser, getUser } from '../GroupPageBarrel';
 import { BoardsType, GetUser } from '../GroupPageBarrel';
 import { INVALID_TOKEN, EXPIRED_TOKEN } from '../../../constant/error';
-import Comment from '../Comment/Comment';
+import Comment from '../Comment/CommentList';
 import { refreshState } from '../../../data/initialData';
 import GroupPost from './GroupPost';
 
