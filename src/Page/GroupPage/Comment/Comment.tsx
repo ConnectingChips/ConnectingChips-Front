@@ -17,7 +17,7 @@ const Comment = ({ postProps }: { postProps: PostProps }): JSX.Element => {
   const [inputToggle, setInputToggle] = useState<boolean>(true);
   const inputToggleBind: Bind<boolean> = { state: inputToggle, Setter: setInputToggle };
 
-  // 댓글과 답글 구분
+  // 0이면 댓글 아니면 댓글의 commentId로 답글만들기
   const [isComment, setIsComment] = useState<number>(0);
   const isCommentBind: Bind<number> = { state: isComment, Setter: setIsComment };
 
