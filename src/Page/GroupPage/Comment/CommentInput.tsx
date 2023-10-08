@@ -6,7 +6,6 @@ import { postAddReply } from '../../../API/Comment';
 import { refreshState } from '../../../data/initialData';
 import Bind from '../../../Type/Bind';
 
-
 interface commentInputProps {
   userInfo: GetUser;
   postData: BoardsType;
@@ -24,11 +23,11 @@ const CommentInput = ({
 }: commentInputProps) => {
   const { state: inputToggle, Setter: setInputToggle } = inputToggleBind;
   const { state: isComment, Setter: setIsComment } = isCommentBind;
-  const [commentInput, setCommentInput] = useState<string>('');
+  const [commentInputText, setCommentInputText] = useState<string>('');
 
   // input에 들어갈 내용 CommentInput에 넣는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCommentInput(e.target.value);
+    setCommentInputText(e.target.value);
   };
 
   // input 바깥쪽누르면 되돌아감
@@ -58,25 +57,25 @@ const CommentInput = ({
   const inputBtnHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setInputToggle(true);
-    if (commentInput.length === 0) return;
+    if (commentInputText.length === 0) return;
     try {
       if (isComment === 0) {
         const AddCommentData = {
           userId: userInfo.userId,
           boardId: postData.boardId,
-          content: commentInput,
+          content: commentInputText,
         };
         await postAddComment(AddCommentData);
       } else {
         const AddReplyData = {
           userId: userInfo.userId,
           commentId: isComment,
-          content: commentInput,
+          content: commentInputText,
         };
         await postAddReply(AddReplyData);
         setIsComment(0);
       }
-      setCommentInput('');
+      setCommentInputText('');
       setCommentFlip(false);
       setRefresh((prevRefresh) => prevRefresh + 1);
     } catch (error) {
@@ -85,7 +84,7 @@ const CommentInput = ({
   };
 
   // input에 글 적으면 화살표 노란색으로 변경
-  const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
+  const isTyping = commentInputText.trimStart().length === 0 ? 'off' : 'on';
 
   const CommentForm = (): JSX.Element => {
     return (
@@ -93,7 +92,7 @@ const CommentInput = ({
         <InputS inputToggle={inputToggle}>
           <input
             placeholder={placeholderText}
-            value={commentInput}
+            value={commentInputText}
             onChange={handleInputChange}
             type='text'
             maxLength={400}
