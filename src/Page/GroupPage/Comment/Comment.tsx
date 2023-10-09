@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { SetStateAction, useEffect, useState } from 'react';
 import { CommentType, ReplyType } from '../../../API/Boards';
 import { GetUser } from '../GroupPageBarrel';
-import { deleteComment } from '../../../API/Comment';
+import { deleteComment, deleteReply } from '../../../API/Comment';
 import DeleteModal from '../../../Component/DeleteModal';
 import { useRecoilState } from 'recoil';
 import { refreshState } from '../../../data/initialData';
@@ -16,18 +16,6 @@ interface CommentProps {
 
 /** 댓글 box */
 const Comment = ({ commentData, userInfo, setInputToggle, setIsComment }: CommentProps) => {
-  const { commentId } = commentData;
-  const [modalBtn, setModalBtn] = useState(false);
-  const modalBind = { state: modalBtn, Setter: setModalBtn };
-  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
-
-  // 댓글 삭제 핸들러
-  const deleteCommentHandler = async () => {
-    await deleteComment(commentId).then(() => {
-      setRefresh(refresh + 1);
-    });
-  };
-
   return (
     <CommentContainerS>
       <CommentBox
@@ -35,7 +23,6 @@ const Comment = ({ commentData, userInfo, setInputToggle, setIsComment }: Commen
         userInfo={userInfo}
         setInputToggle={setInputToggle}
         setIsComment={setIsComment}
-        setModalBtn={setModalBtn}
       />
       {commentData.replyList.map((replyData) => {
         return (
@@ -44,11 +31,9 @@ const Comment = ({ commentData, userInfo, setInputToggle, setIsComment }: Commen
             userInfo={userInfo}
             setInputToggle={setInputToggle}
             setIsComment={setIsComment}
-            setModalBtn={setModalBtn}
           />
         );
       })}
-      <DeleteModal modalBind={modalBind} deleteAction={deleteCommentHandler} />
     </CommentContainerS>
   );
 };
@@ -61,7 +46,6 @@ interface CommentBoxProps {
   userInfo: GetUser;
   setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
   setIsComment: React.Dispatch<React.SetStateAction<number>>;
-  setModalBtn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CommentBox = ({
@@ -70,7 +54,6 @@ const CommentBox = ({
   userInfo,
   setInputToggle,
   setIsComment,
-  setModalBtn,
 }: CommentBoxProps) => {
   const openModal = () => setModalBtn(true);
   const [isReply, setIsReply] = useState<boolean>(false);
@@ -80,11 +63,9 @@ const CommentBox = ({
   let content;
   let userId;
   let profileImage;
-  let commentId: SetStateAction<number>;
-  let replyId: SetStateAction<number>;
+  let commentId: number;
+  let replyId: number;
 
-  // const [commentId, setCommentId] = useState<number>();
-  // const [refresh, setRefresh] = useRecoilState<number>(refreshState);
   useEffect(() => {
     if (CommentData) {
       setIsReply(false);
@@ -110,10 +91,28 @@ const CommentBox = ({
     replyId = replyData.replyId;
   }
 
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
+
   const addReplyHandler = () => {
     setInputToggle(false);
     setIsComment(commentId);
   };
+
+  // 댓글 삭제 핸들러
+  const deleteCommentHandler = async () => {
+    if (!isReply) {
+      await deleteComment(commentId).then(() => {
+        setRefresh(refresh + 1);
+      });
+    } else if (isReply) {
+      await deleteReply(replyId).then(() => {
+        setRefresh(refresh + 1);
+      });
+    }
+  };
+
+  const [modalBtn, setModalBtn] = useState(false);
+  const modalBind = { state: modalBtn, Setter: setModalBtn };
 
   return (
     <CommentBoxContainerS isReply={isReply}>
@@ -135,6 +134,7 @@ const CommentBox = ({
           </CommentBoxOptionS>
         </div>
       </CommentBoxS>
+      <DeleteModal modalBind={modalBind} deleteAction={deleteCommentHandler} />
     </CommentBoxContainerS>
   );
 };
