@@ -67,8 +67,12 @@ const BackButton = (): JSX.Element => {
 };
 
 /** 2023-08-22 CTAContainer.tsx - 인증하기 버튼 */
-const SubmitButtonCTA = (): JSX.Element => {
-  return <CTAButtonS valid={'true'}>인증하기</CTAButtonS>;
+const SubmitButtonCTA = ({ hasImage }: { hasImage: boolean }): JSX.Element => {
+  return (
+    <CTAButtonS valid={String(hasImage)} disabled={!hasImage}>
+      인증하기
+    </CTAButtonS>
+  );
 };
 
 /** 2023-08-22 CTAContainer.tsx - CTA 참여하기 + GNB */
