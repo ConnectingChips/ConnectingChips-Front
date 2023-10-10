@@ -44,12 +44,12 @@ const CommentInput = ({
 
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
-  const getPlaceholderText = (isComment: number, commentCount: number) => {
+  const placeholderText = (): string => {
     if (isComment !== 0) return '답글을 적어주세요';
-    return commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
+    return postData.commentCount > 0
+      ? '응원의 댓글을 적어주세요!'
+      : '가장 먼저 응원의 댓글을 적어주세요!';
   };
-
-  const placeholderText = getPlaceholderText(isComment, postData.commentCount);
 
   // input 버튼 핸들러
   // 0이면 댓글추가
@@ -91,7 +91,7 @@ const CommentInput = ({
       <CommentInputS inputToggle={inputToggle} onClick={handleFormClickFalse}>
         <InputS inputToggle={inputToggle}>
           <input
-            placeholder={placeholderText}
+            placeholder={placeholderText()}
             value={commentInputText}
             onChange={handleInputChange}
             type='text'
