@@ -86,48 +86,47 @@ const CommentInput = ({
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInputText.trimStart().length === 0 ? 'off' : 'on';
 
-  const CommentInput = (): JSX.Element => {
-    return (
-      <CommentInputS inputToggle={inputToggle} onClick={handleFormClickFalse}>
-        <InputS inputToggle={inputToggle}>
-          <input
-            placeholder={placeholderText()}
-            value={commentInputText}
-            onChange={handleInputChange}
-            type='text'
-            maxLength={400}
-          />
-          <button onClick={inputBtnHandler}>
-            {
-              <img
-                src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
-                alt='sendIcon'
-              />
-            }
-          </button>
-        </InputS>
+  const CommentContent = (
+    <CommentInputContainerS inputToggle={inputToggle} onClick={handleFormClickFalse}>
+      <CommentInputS inputToggle={inputToggle}>
+        <input
+          placeholder={placeholderText()}
+          value={commentInputText}
+          onChange={handleInputChange}
+          type='text'
+          maxLength={400}
+        />
+        <button onClick={inputBtnHandler}>
+          {
+            <img
+              src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
+              alt='sendIcon'
+            />
+          }
+        </button>
       </CommentInputS>
-    );
-  };
+    </CommentInputContainerS>
+  );
+
   return inputToggle ? (
-    <CommentInput />
+    CommentContent
   ) : (
-    <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
-      <CommentInput />
-    </CommentFormBGS>
+    <CommentInputBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
+      {CommentContent}
+    </CommentInputBGS>
   );
 };
 
 export { CommentInput };
 
-const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
+const CommentInputBGS = styled.div<{ inputToggle: boolean }>`
   ${(props) =>
     props.inputToggle
       ? ''
       : 'position: fixed; display: flex; flex-direction: column-reverse; top: 0;left: 0;right: 0;bottom: 0;z-index: 100;overflow:auto;'}
 `;
 
-const CommentInputS = styled.div<{ inputToggle: boolean }>`
+const CommentInputContainerS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? '' : 'fixed')};
   display: flex;
   justify-content: center;
@@ -141,7 +140,7 @@ const CommentInputS = styled.div<{ inputToggle: boolean }>`
   padding: ${(props) => (props.inputToggle ? '0.5rem 0' : '')};
 `;
 
-const InputS = styled.div<{ inputToggle: boolean }>`
+const CommentInputS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? '' : 'fixed')};
   background-color: #fff;
   border: 1px solid #e3e3e3;
