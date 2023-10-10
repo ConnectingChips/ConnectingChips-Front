@@ -56,9 +56,11 @@ const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: Com
   let commentId: number;
   let replyId: number;
 
-  // console.log('commentId :', CommentData.commentId);
-  // console.log('replyId :', CommentData.replyId);
-  console.log(isReply);
+  if (CommentData.commentId) {
+    commentId = CommentData.commentId;
+  } else if (CommentData.replyId) {
+    replyId = CommentData.replyId;
+  }
 
   useEffect(() => {
     if (CommentData.commentId) {
@@ -68,12 +70,6 @@ const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: Com
       setIsReply(true);
     }
   }, [CommentData.commentId, CommentData.replyId]);
-
-  if (CommentData.commentId) {
-    commentId = CommentData.commentId;
-  } else if (CommentData.replyId) {
-    replyId = CommentData.replyId;
-  }
 
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
@@ -91,7 +87,7 @@ const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: Com
         setRefresh(refresh + 1);
       });
     } else if (isReply) {
-      await deleteReply(replyId).then(() => {
+      await deleteReply(commentId).then(() => {
         setRefresh(refresh + 1);
       });
     }
