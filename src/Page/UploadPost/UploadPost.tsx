@@ -122,6 +122,10 @@ const UploadPost = () => {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (image.file === null) {
+      return console.error('이미지는 필수입니다.');
+    }
+
     try {
       setIsLoading(true);
 
@@ -190,7 +194,7 @@ const UploadPost = () => {
         )}
 
         <SubmitButtonWrapperS>
-          <SubmitButtonCTA />
+          <SubmitButtonCTA hasImage={image.file !== null} />
         </SubmitButtonWrapperS>
       </CreateFormS>
     </CreatePostS>

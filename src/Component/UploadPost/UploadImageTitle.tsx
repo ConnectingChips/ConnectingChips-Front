@@ -12,7 +12,9 @@ const UploadImageTitle = () => {
 
   return (
     <UploadImageTitleS>
-      <h2>인증샷 올리기</h2>
+      <h2>
+        인증샷 올리기<span className='required'>&#40;필수&#41;</span>
+      </h2>
       <InfoIcon onClick={handleInfoIconClick} />
       {isOpen && <InfoMessage className='info_message_position' setIsOpen={setIsOpen} />}
     </UploadImageTitleS>
@@ -26,6 +28,10 @@ const UploadImageTitleS = styled.div`
   align-items: center;
   gap: 0.38rem;
   position: relative;
+
+  .required {
+    color: #04b014;
+  }
 
   svg {
     position: relative;
