@@ -51,16 +51,7 @@ interface CommentBoxProps {
 const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: CommentBoxProps) => {
   const openModal = () => setModalBtn(true);
   const [isReply, setIsReply] = useState<boolean>(false);
-
   const { nickname, createDate, content, userId, profileImage } = CommentData;
-  let commentId: number;
-  let replyId: number;
-
-  if (CommentData.commentId) {
-    commentId = CommentData.commentId;
-  } else if (CommentData.replyId) {
-    replyId = CommentData.replyId;
-  }
 
   useEffect(() => {
     if (CommentData.commentId) {
@@ -75,19 +66,20 @@ const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: Com
 
   // 댓글 추가 핸들러
   const addReplyHandler = () => {
-    setInputToggle(false);
-    setIsComment(commentId);
-    console.log(commentId);
+    if (CommentData.commentId) {
+      setInputToggle(false);
+      setIsComment(CommentData.commentId);
+    }
   };
 
   // 댓글 삭제 핸들러
   const deleteCommentHandler = async () => {
-    if (!isReply) {
-      await deleteComment(commentId).then(() => {
+    if (!isReply && CommentData.commentId) {
+      await deleteComment(CommentData.commentId).then(() => {
         setRefresh(refresh + 1);
       });
-    } else if (isReply) {
-      await deleteReply(commentId).then(() => {
+    } else if (isReply && CommentData.replyId) {
+      await deleteReply(CommentData.replyId).then(() => {
         setRefresh(refresh + 1);
       });
     }
