@@ -93,6 +93,7 @@ const GroupListItemS = styled.li<{ img: string }>`
   border-radius: 0.625rem;
 
   background-image: url(${(props) => props.img});
+  background-size: cover;
   color: white;
 
   button {

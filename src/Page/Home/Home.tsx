@@ -74,7 +74,7 @@ export default Home;
 
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */
 const HomeS = styled.section`
-  max-width: var(--width-mobile);
+  width: 100%;
   margin: 0 auto;
 
   .CTA {
