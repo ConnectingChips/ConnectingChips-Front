@@ -86,9 +86,9 @@ const CommentInput = ({
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInputText.trimStart().length === 0 ? 'off' : 'on';
 
-  const CommentForm = (): JSX.Element => {
+  const CommentInput = (): JSX.Element => {
     return (
-      <CommentFormS inputToggle={inputToggle} onClick={handleFormClickFalse}>
+      <CommentInputS inputToggle={inputToggle} onClick={handleFormClickFalse}>
         <InputS inputToggle={inputToggle}>
           <input
             placeholder={placeholderText}
@@ -106,14 +106,14 @@ const CommentInput = ({
             }
           </button>
         </InputS>
-      </CommentFormS>
+      </CommentInputS>
     );
   };
   return inputToggle ? (
-    <CommentForm />
+    <CommentInput />
   ) : (
     <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
-      <CommentForm />
+      <CommentInput />
     </CommentFormBGS>
   );
 };
@@ -127,15 +127,17 @@ const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
       : 'position: fixed; display: flex; flex-direction: column-reverse; top: 0;left: 0;right: 0;bottom: 0;z-index: 100;overflow:auto;'}
 `;
 
-const CommentFormS = styled.div<{ inputToggle: boolean }>`
+const CommentInputS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? '' : 'fixed')};
   display: flex;
   justify-content: center;
   align-items: center;
   position: static;
-  width: 100%;
   background-color: white;
   height: 4.5rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
   padding: ${(props) => (props.inputToggle ? '0.5rem 0' : '')};
 `;
 
