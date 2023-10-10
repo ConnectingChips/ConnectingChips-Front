@@ -15,13 +15,14 @@ export interface BoardsType {
 }
 
 export interface CommentType {
-  commentId: number;
+  commentId?: number;
+  replyId?: number;
   userId: number;
   nickname: string;
   content: string;
   profileImage: string;
   createDate: string;
-  replyList: ReplyType[];
+  replyList?: ReplyType[];
 }
 
 export interface ReplyType {

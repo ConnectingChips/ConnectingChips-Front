@@ -24,13 +24,14 @@ const Comment = ({ commentData, userInfo, setInputToggle, setIsComment }: Commen
         setInputToggle={setInputToggle}
         setIsComment={setIsComment}
       />
-      {commentData.replyList.map((replyData) => {
+      {commentData.replyList?.map((replyData) => {
         return (
           <CommentBox
-            replyData={replyData}
+            CommentData={replyData}
             userInfo={userInfo}
             setInputToggle={setInputToggle}
             setIsComment={setIsComment}
+            key={replyData.replyId}
           />
         );
       })}
@@ -41,61 +42,46 @@ const Comment = ({ commentData, userInfo, setInputToggle, setIsComment }: Commen
 export default Comment;
 
 interface CommentBoxProps {
-  CommentData?: CommentType;
-  replyData?: ReplyType;
+  CommentData: CommentType;
   userInfo: GetUser;
   setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
   setIsComment: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const CommentBox = ({
-  CommentData,
-  replyData,
-  userInfo,
-  setInputToggle,
-  setIsComment,
-}: CommentBoxProps) => {
+const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: CommentBoxProps) => {
   const openModal = () => setModalBtn(true);
   const [isReply, setIsReply] = useState<boolean>(false);
 
-  let nickname;
-  let createDate;
-  let content;
-  let userId;
-  let profileImage;
+  const { nickname, createDate, content, userId, profileImage } = CommentData;
   let commentId: number;
   let replyId: number;
 
+  // console.log('commentId :', CommentData.commentId);
+  // console.log('replyId :', CommentData.replyId);
+  console.log(isReply);
+
   useEffect(() => {
-    if (CommentData) {
+    if (CommentData.commentId) {
       setIsReply(false);
     }
-    if (replyData) {
+    if (CommentData.replyId) {
       setIsReply(true);
     }
-  }, [CommentData, replyData]);
+  }, [CommentData.commentId, CommentData.replyId]);
 
-  if (CommentData) {
-    nickname = CommentData.nickname;
-    createDate = CommentData.createDate;
-    content = CommentData.content;
-    userId = CommentData.userId;
-    profileImage = CommentData.profileImage;
+  if (CommentData.commentId) {
     commentId = CommentData.commentId;
-  } else if (replyData) {
-    nickname = replyData.nickname;
-    createDate = replyData.createDate;
-    content = replyData.content;
-    userId = replyData.userId;
-    profileImage = replyData.profileImage;
-    replyId = replyData.replyId;
+  } else if (CommentData.replyId) {
+    replyId = CommentData.replyId;
   }
 
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
+  // 댓글 추가 핸들러
   const addReplyHandler = () => {
     setInputToggle(false);
     setIsComment(commentId);
+    console.log(commentId);
   };
 
   // 댓글 삭제 핸들러
