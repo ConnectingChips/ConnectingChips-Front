@@ -51,6 +51,13 @@ const CommentInput = ({
       : '가장 먼저 응원의 댓글을 적어주세요!';
   };
 
+  // 엔터 키를 감지하는 함수
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      inputBtnHandler(e as any);
+    }
+  };
+
   // input 버튼 핸들러
   // 0이면 댓글추가
   // 0이아니면 답글추가인데 여기에 들어가는 숫자는 답글이 붙을 댓글의 id (commentid)
@@ -86,13 +93,14 @@ const CommentInput = ({
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInputText.trimStart().length === 0 ? 'off' : 'on';
 
-  const CommentContent = (
+  const CommentInputContent = (
     <CommentInputContainerS inputToggle={inputToggle} onClick={handleFormClickFalse}>
       <CommentInputS inputToggle={inputToggle}>
         <input
           placeholder={placeholderText()}
           value={commentInputText}
           onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
           type='text'
           maxLength={400}
         />
@@ -109,10 +117,10 @@ const CommentInput = ({
   );
 
   return inputToggle ? (
-    CommentContent
+    CommentInputContent
   ) : (
     <CommentInputBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
-      {CommentContent}
+      {CommentInputContent}
     </CommentInputBGS>
   );
 };
