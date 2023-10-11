@@ -27,6 +27,7 @@ import { getMindInfo_Intro } from '../../API/Mind';
 import { ReactComponent as LoadingSpinner } from '../../image/loading.svg';
 import { MindIntroInfo, MindsType } from '../../Type/Mind';
 import {
+  BAD_REQUEST,
   SERVER_ERROR,
   INVALID_TOKEN,
   EXPIRED_TOKEN,
@@ -143,11 +144,16 @@ const UploadPost = () => {
       navigate(`/groupPage/${mindId}`);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
 
       // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
       if (axios.isAxiosError(error)) {
         if (error.response?.status === SERVER_ERROR) {
           return notifyNetErr();
+        }
+
+        if (error.response?.status === BAD_REQUEST) {
+          return console.error('이미지는 필수입니다.');
         }
 
         if (error.response?.data.code === EXPIRED_TOKEN) {
