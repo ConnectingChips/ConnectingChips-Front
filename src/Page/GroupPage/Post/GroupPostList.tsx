@@ -17,14 +17,14 @@ import { INVALID_TOKEN, EXPIRED_TOKEN } from './PostListBarrel';
 
 const GroupPostList = () => {
   const { mindId } = useParams<string>();
-  const [postData, setPostData] = useState<BoardsType[]>([]);
+  const [mindData, setMindData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
   const navigate = useNavigate();
   const [refresh] = useRecoilState<number>(refreshState);
 
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
-      setPostData(res);
+      setMindData(res);
     });
   }, [refresh, mindId]);
 
@@ -55,11 +55,11 @@ const GroupPostList = () => {
     <GroupPostListContainerS>
       <GroupPostListS>
         <h2 className='headLine'>작심 인증글</h2>
-        {postData.length === 0 ? (
+        {mindData.length === 0 ? (
           <EmptyPost />
         ) : (
           <>
-            {postData.map((postData) => {
+            {mindData.map((postData) => {
               const postProps = { postData, userInfo };
               return (
                 <PostContainerS key={postData.boardId}>

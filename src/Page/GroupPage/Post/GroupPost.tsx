@@ -31,21 +31,14 @@ export default GroupPost;
 const CommentOptionsBar = ({ postProps }: { postProps: PostProps }) => {
   const navigate = useNavigate();
   const { mindId } = useParams();
-
-  const { postId } = useParams();
-  console.log(mindId);
-  console.log(postId);
-
+  const { boardId } = postProps.postData;
+  const navigateCommentsPage = () => {
+    navigate(`/grouppage/${mindId}/${boardId}`);
+  };
   return (
     <CommentOptionsBarS>
-      <img
-        src={comment_icon}
-        alt='comment-icon'
-        onClick={() => {
-          navigate('/grouppage/postId');
-        }}
-      ></img>
-      <div>댓글 {postProps.postData.commentCount}</div>
+      <img src={comment_icon} alt='comment-icon' onClick={navigateCommentsPage}></img>
+      <div onClick={navigateCommentsPage}>댓글 {postProps.postData.commentCount}</div>
     </CommentOptionsBarS>
   );
 };
@@ -88,7 +81,7 @@ const GroupPostS = styled.div`
   }
 `;
 
-const PostImageS = styled.img`
+export const PostImageS = styled.img`
   width: 100%;
   overflow: hidden;
   display: flex;
