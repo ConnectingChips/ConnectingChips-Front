@@ -52,24 +52,26 @@ const GroupPostList = () => {
   }, [navigate]);
 
   return (
-    <GroupPostListS>
-      <h2 className='headLine'>작심 인증글</h2>
-      {postData.length === 0 ? (
-        <EmptyPost />
-      ) : (
-        <>
-          {postData.map((postData) => {
-            const postProps = { postData, userInfo };
-            return (
-              <PostContainerS key={postData.boardId}>
-                <GroupPost postProps={postProps} />
-                <CommentList postProps={postProps} />
-              </PostContainerS>
-            );
-          })}
-        </>
-      )}
-    </GroupPostListS>
+    <GroupPostListContainerS>
+      <GroupPostListS>
+        <h2 className='headLine'>작심 인증글</h2>
+        {postData.length === 0 ? (
+          <EmptyPost />
+        ) : (
+          <>
+            {postData.map((postData) => {
+              const postProps = { postData, userInfo };
+              return (
+                <PostContainerS key={postData.boardId}>
+                  <GroupPost postProps={postProps} />
+                  <CommentList postProps={postProps} />
+                </PostContainerS>
+              );
+            })}
+          </>
+        )}
+      </GroupPostListS>
+    </GroupPostListContainerS>
   );
 };
 
@@ -85,8 +87,11 @@ const EmptyPost = () => {
 
 export default GroupPostList;
 
-const GroupPostListS = styled.div`
+const GroupPostListContainerS = styled.div`
   background-color: var(--color-bg);
+`;
+
+const GroupPostListS = styled.div`
   margin: 0 auto;
   max-width: var(--width-max);
   display: flex;

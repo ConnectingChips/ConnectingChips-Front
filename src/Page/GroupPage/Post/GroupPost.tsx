@@ -3,6 +3,7 @@ import { useState } from 'react';
 import PostHeader from './PostHeader';
 import PostContent from './PostContent';
 import { PostProps } from '../PostPropsType';
+import comment_icon from '../../../image/Icon/comment_icon.svg';
 
 const GroupPost = ({ postProps }: { postProps: PostProps }): JSX.Element => {
   const [toggleContentEdit, setToggleContentEdit] = useState<boolean>(false);
@@ -17,11 +18,33 @@ const GroupPost = ({ postProps }: { postProps: PostProps }): JSX.Element => {
       <PostHeader setToggleContentEdit={setToggleContentEdit} postProps={postProps} />
       <PostImageS src={postData.image} alt='업로드 사진' />
       <PostContent toggleContentEditbind={toggleContentEditbind} postProps={postProps} />
+      <CommentOptionsBar postProps={postProps} />
+      <CommentInputBar />
     </GroupPostS>
   );
 };
 
 export default GroupPost;
+
+const CommentOptionsBar = ({ postProps }: { postProps: PostProps }) => {
+  return (
+    <CommentOptionsBarS>
+      <img src={comment_icon} alt='comment-icon'></img>
+      <div>댓글 {postProps.postData.commentCount}</div>
+    </CommentOptionsBarS>
+  );
+};
+
+const CommentInputBar = () => {
+  return (
+    <CommentInputBarContainer>
+      <CommentInputBarS>
+        <div>응원의 댓글을 적어주세요!</div>
+        <img src={`${process.env.PUBLIC_URL}/commentInputButtonoff.svg`} alt='sendIcon' />
+      </CommentInputBarS>
+    </CommentInputBarContainer>
+  );
+};
 
 const GroupPostS = styled.div`
   margin: 0 1rem;
@@ -40,4 +63,58 @@ const PostImageS = styled.img`
   justify-content: center;
   align-items: center;
   background-size: cover;
+`;
+
+const CommentOptionsBarS = styled.div`
+  position: relative;
+  height: 2.5rem;
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--color-line);
+  }
+
+  &::before {
+    top: 0;
+  }
+
+  &::after {
+    bottom: 0;
+  }
+
+  img {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  div {
+    font-size: 0.75rem;
+    color: var(--font-color3);
+  }
+`;
+
+const CommentInputBarContainer = styled.div`
+  height: 4.5rem;
+`;
+
+const CommentInputBarS = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-bg);
+  padding: 1.06rem 1rem;
+  border: 1px solid #e3e3e3;
+  border-radius: 0.5rem;
+  margin: 0.5rem 0.91rem;
+  font-size: 1rem;
+  color: var(--font-color3);
 `;

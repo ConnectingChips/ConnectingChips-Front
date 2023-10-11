@@ -134,7 +134,7 @@ const CommentInputBGS = styled.div<{ inputToggle: boolean }>`
       : 'position: fixed; display: flex; flex-direction: column-reverse; top: 0;left: 0;right: 0;bottom: 0;z-index: 100;overflow:auto;'}
 `;
 
-const CommentInputContainerS = styled.div<{ inputToggle: boolean }>`
+export const CommentInputContainerS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? '' : 'fixed')};
   display: flex;
   justify-content: center;
