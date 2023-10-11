@@ -74,7 +74,7 @@ const UploadPost = () => {
     })();
   }, []);
 
-  const handleAxiosError = (error: Error) => {
+  const handleAxiosError = (error: unknown) => {
     // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
     if (axios.isAxiosError(error)) {
       if (error.response?.status === SERVER_ERROR) {
@@ -162,8 +162,8 @@ const UploadPost = () => {
       setIsLoading(false);
 
       // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
+      handleAxiosError(error);
       if (axios.isAxiosError(error)) {
-        handleAxiosError(error);
         if (error.response?.status === BAD_REQUEST) {
           return console.error('이미지는 필수입니다.');
         }
