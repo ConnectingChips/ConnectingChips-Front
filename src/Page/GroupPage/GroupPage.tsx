@@ -26,8 +26,6 @@ const GroupPage = (): JSX.Element => {
       <GroupHeader />
       <GroupImageS url={groupPageImg} />
       <GroupInfo mindData={getMindInfoData} />
-      <DivideBaS />
-
       <GroupPostList />
     </GroupPageS>
   );
