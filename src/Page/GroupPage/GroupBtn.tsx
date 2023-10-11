@@ -79,6 +79,7 @@ const GroupBtnContainerS = styled.button<{ btntext: string }>`
   background: var(--color-white);
   font-size: var(--button-mid);
   color: #000;
+  margin-bottom: 1.19rem;
   ${(props) =>
     props.btntext === '성공' &&
     `

@@ -25,8 +25,9 @@ export default GroupPost;
 
 const GroupPostS = styled.div`
   margin: 0 1rem;
-  background-color: var(--color-bg);
+  background-color: var(--color-white);
   border-radius: 0.625rem;
+  border: 1px solid var(--color-line);
   h2 {
     margin-bottom: var(--height-gap);
   }

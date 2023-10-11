@@ -86,11 +86,12 @@ const EmptyPost = () => {
 export default GroupPostList;
 
 const GroupPostListS = styled.div`
+  background-color: var(--color-bg);
   margin: 0 auto;
   max-width: var(--width-max);
   display: flex;
   flex-direction: column;
-
+  padding: 1.25rem 0;
   h2.headLine {
     font-size: 1.125rem;
     margin: 0 1rem 0.5rem 1rem;
