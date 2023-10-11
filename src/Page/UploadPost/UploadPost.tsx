@@ -25,7 +25,7 @@ import { postCreateBoard } from '../../API/Boards';
 import { getMindInfo_Intro } from '../../API/Mind';
 
 import { ReactComponent as LoadingSpinner } from '../../image/loading.svg';
-import { MindIntroInfo, MindsType } from '../../Type/Mind';
+import { MindsType } from '../../Type/Mind';
 import {
   BAD_REQUEST,
   SERVER_ERROR,
@@ -46,7 +46,7 @@ const UploadPost = () => {
   const navigate = useNavigate();
   const { mindId } = useParams();
 
-  const [userId, setUserId] = useState<number>(0);
+  const [userId, setUserId] = useState<number | null>(null); // null로 바꾸기 (혹시 0번 유저가 있을수도 있으니)
   const [imageUrl, setImageUrl] = useState<string>('');
   const [text, setText] = useState<string>(INITIAL_TEXT);
   const [image, setImage] = useState<Image>({ name: '', file: null });
@@ -55,36 +55,47 @@ const UploadPost = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const res = await getUser();
-        setUserId(res.userId);
-        getMindInfo_Intro(Number(mindId)).then((data: MindIntroInfo) => setGetMindInfoData(data));
-      } catch (error) {
-        console.error(error);
+      const [getUserData, getMindInfoIntroData] = await Promise.allSettled([
+        getUser(),
+        getMindInfo_Intro(Number(mindId)),
+      ]);
 
-        // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
-        if (axios.isAxiosError(error)) {
-          if (error.response?.status === SERVER_ERROR) {
-            return notifyNetErr();
-          }
+      if (getUserData.status === 'fulfilled') {
+        setUserId(getUserData.value.userId);
+      } else {
+        handleAxiosError(getUserData.reason);
+      }
 
-          if (error.response?.data.code === EXPIRED_TOKEN) {
-            localStorage.removeItem('access_token');
-            return navigate('/');
-          }
-
-          if (error.response?.data.code === INVALID_TOKEN) {
-            localStorage.removeItem('access_token');
-            return navigate('/');
-          }
-
-          if (error.code === AXIOS_NETWORK_ERROR) {
-            return notifyNetErr();
-          }
-        }
+      if (getMindInfoIntroData.status === 'fulfilled') {
+        setGetMindInfoData(getMindInfoIntroData.value);
+      } else {
+        handleAxiosError(getMindInfoIntroData.reason);
       }
     })();
   }, []);
+
+  const handleAxiosError = (error: Error) => {
+    // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === SERVER_ERROR) {
+        return notifyNetErr();
+      }
+
+      if (error.response?.data.code === EXPIRED_TOKEN) {
+        localStorage.removeItem('access_token');
+        return navigate('/');
+      }
+
+      if (error.response?.data.code === INVALID_TOKEN) {
+        localStorage.removeItem('access_token');
+        return navigate('/');
+      }
+
+      if (error.code === AXIOS_NETWORK_ERROR) {
+        return notifyNetErr();
+      }
+    }
+  };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
@@ -127,6 +138,10 @@ const UploadPost = () => {
       return console.error('이미지는 필수입니다.');
     }
 
+    if (userId === null) {
+      return console.error('userId가 없습니다.');
+    }
+
     try {
       setIsLoading(true);
 
@@ -148,26 +163,9 @@ const UploadPost = () => {
 
       // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === SERVER_ERROR) {
-          return notifyNetErr();
-        }
-
+        handleAxiosError(error);
         if (error.response?.status === BAD_REQUEST) {
           return console.error('이미지는 필수입니다.');
-        }
-
-        if (error.response?.data.code === EXPIRED_TOKEN) {
-          localStorage.removeItem('access_token');
-          return navigate('/');
-        }
-
-        if (error.response?.data.code === INVALID_TOKEN) {
-          localStorage.removeItem('access_token');
-          return navigate('/');
-        }
-
-        if (error.code === AXIOS_NETWORK_ERROR) {
-          return notifyNetErr();
         }
       }
     }
