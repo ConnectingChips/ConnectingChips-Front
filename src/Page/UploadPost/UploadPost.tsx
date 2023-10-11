@@ -46,7 +46,7 @@ const UploadPost = () => {
   const navigate = useNavigate();
   const { mindId } = useParams();
 
-  const [userId, setUserId] = useState<number | null>(null); // null로 바꾸기 (혹시 0번 유저가 있을수도 있으니)
+  const [userId, setUserId] = useState<number | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [text, setText] = useState<string>(INITIAL_TEXT);
   const [image, setImage] = useState<Image>({ name: '', file: null });
