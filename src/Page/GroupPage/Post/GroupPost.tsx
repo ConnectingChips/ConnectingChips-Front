@@ -4,6 +4,7 @@ import PostHeader from './PostHeader';
 import PostContent from './PostContent';
 import { PostProps } from '../PostPropsType';
 import comment_icon from '../../../image/Icon/comment_icon.svg';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const GroupPost = ({ postProps }: { postProps: PostProps }): JSX.Element => {
   const [toggleContentEdit, setToggleContentEdit] = useState<boolean>(false);
@@ -28,9 +29,22 @@ const GroupPost = ({ postProps }: { postProps: PostProps }): JSX.Element => {
 export default GroupPost;
 
 const CommentOptionsBar = ({ postProps }: { postProps: PostProps }) => {
+  const navigate = useNavigate();
+  const { mindId } = useParams();
+
+  const { postId } = useParams();
+  console.log(mindId);
+  console.log(postId);
+
   return (
     <CommentOptionsBarS>
-      <img src={comment_icon} alt='comment-icon'></img>
+      <img
+        src={comment_icon}
+        alt='comment-icon'
+        onClick={() => {
+          navigate('/grouppage/postId');
+        }}
+      ></img>
       <div>댓글 {postProps.postData.commentCount}</div>
     </CommentOptionsBarS>
   );
