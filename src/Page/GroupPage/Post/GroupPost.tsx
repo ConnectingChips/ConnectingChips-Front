@@ -19,6 +19,7 @@ const GroupPost = ({ postProps }: { postProps: PostProps }): JSX.Element => {
       <PostImageS src={postData.image} alt='업로드 사진' />
       <PostContent toggleContentEditbind={toggleContentEditbind} postProps={postProps} />
       <CommentOptionsBar postProps={postProps} />
+      <CommentPreview postProps={postProps} />
       <CommentInputBar />
     </GroupPostS>
   );
@@ -32,6 +33,23 @@ const CommentOptionsBar = ({ postProps }: { postProps: PostProps }) => {
       <img src={comment_icon} alt='comment-icon'></img>
       <div>댓글 {postProps.postData.commentCount}</div>
     </CommentOptionsBarS>
+  );
+};
+
+const CommentPreview = ({ postProps }: { postProps: PostProps }) => {
+  const { commentList } = postProps.postData;
+  return (
+    <>
+      {commentList.length === 0 ? (
+        <></>
+      ) : (
+        <CommentPreviewS>
+          <img src={commentList[0].profileImage} alt='profileImage' />
+          <div className='nickname'>{commentList[0].nickname}</div>
+          <div className='content'>{commentList[0].content}</div>
+        </CommentPreviewS>
+      )}
+    </>
   );
 };
 
@@ -99,6 +117,30 @@ const CommentOptionsBarS = styled.div`
   div {
     font-size: 0.75rem;
     color: var(--font-color3);
+  }
+`;
+
+const CommentPreviewS = styled.div`
+  display: flex;
+  align-items: center;
+  height: 1.5rem;
+  margin: 0.62rem 1rem 0 1rem;
+  font-size: 0.875rem;
+
+  img {
+    height: 1.5rem;
+    margin-right: 0.56rem;
+  }
+  .nickname {
+    margin-right: 0.25rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .content {
+    color: var(--font-color3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
