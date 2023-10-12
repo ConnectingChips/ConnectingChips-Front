@@ -13,6 +13,7 @@ import { type handlerBind, useSignup } from './SignUpBarrel';
 import { postSignup, idDuplicateCheck } from '../../API/signup';
 import scrollTopSmooth from '../../Hooks/scrollTopSmooth';
 import { notifySignUp } from '../../Component/Toast/SignUpMsg';
+import { SquareButton } from '../../Component/SignUp/SquareButton';
 
 const SignUp = (): JSX.Element => {
   const [isValid, setIsValid] = useState(true);
@@ -239,13 +240,28 @@ const SignUpInput = ({
   const { type, placeholder } = generateInputType(sort);
 
   return (
-    <LoginInputS
-      placeholder={placeholder}
-      type={type}
-      className={`${isFailed ? 'failed' : ''} ${isError ? 'error' : ''}`}
-      value={value}
-      onChange={handlerOnChange}
-    />
+    <>
+      {sort === 'ID' ? (
+        <IDInputWrapperS>
+          <LoginInputS
+            placeholder={placeholder}
+            type={type}
+            className={`${isFailed ? 'failed' : ''} ${isError ? 'error' : ''}`}
+            value={value}
+            onChange={handlerOnChange}
+          />
+          <SquareButton />
+        </IDInputWrapperS>
+      ) : (
+        <LoginInputS
+          placeholder={placeholder}
+          type={type}
+          className={`${isFailed ? 'failed' : ''} ${isError ? 'error' : ''}`}
+          value={value}
+          onChange={handlerOnChange}
+        />
+      )}
+    </>
   );
 };
 
@@ -292,5 +308,18 @@ const BtnWrapperS = styled.div`
 
   button.btn_width {
     width: 21.4375rem;
+  }
+`;
+
+const IDInputWrapperS = styled.div`
+  display: flex;
+  gap: 8px;
+
+  input {
+    flex-grow: 1;
+  }
+
+  button {
+    flex-shrink: 0;
   }
 `;
