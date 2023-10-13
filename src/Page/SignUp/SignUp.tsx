@@ -11,7 +11,6 @@ import {
 } from './SignUpBarrel';
 import { type handlerBind, useSignup } from './SignUpBarrel';
 import { postSignup, idDuplicateCheck } from '../../API/signup';
-import scrollTopSmooth from '../../Hooks/scrollTopSmooth';
 import { notifySignUp } from '../../Component/Toast/SignUpMsg';
 import { SquareButton } from '../../Component/SignUp/SquareButton';
 import { ReactComponent as CheckIcon } from '../../image/Icon/check-icon.svg';
