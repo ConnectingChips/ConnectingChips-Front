@@ -4,7 +4,14 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import { getBoards, initUser, getUser, Comment, refreshState, GroupPost } from './PostListBarrel';
+import {
+  getBoards,
+  initUser,
+  getUser,
+  CommentList,
+  refreshState,
+  GroupPost,
+} from './PostListBarrel';
 import type { BoardsType, GetUser } from './PostListBarrel';
 import { INVALID_TOKEN, EXPIRED_TOKEN } from './PostListBarrel';
 
@@ -19,7 +26,7 @@ const GroupPostList = () => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
       setPostData(res);
     });
-  }, [refresh]);
+  }, [refresh, mindId]);
 
   useEffect(() => {
     (async () => {
@@ -28,7 +35,6 @@ const GroupPostList = () => {
         setUserInfo(userData);
       } catch (error) {
         console.error(error);
-
         // TODO: 코드 중복 수정 필요 / 공통으로 처리할 에러 정리 필요
         if (axios.isAxiosError(error)) {
           if (error.response?.data.code === EXPIRED_TOKEN) {
@@ -43,36 +49,59 @@ const GroupPostList = () => {
         }
       }
     })();
-  }, []);
+  }, [navigate]);
 
-  return postData.length === 0 ? (
-    <GroupNoPostS>
+  return (
+    <GroupPostListS>
+      <h2 className='headLine'>작심 인증글</h2>
+      {postData.length === 0 ? (
+        <EmptyPost />
+      ) : (
+        <>
+          {postData.map((postData) => {
+            const postProps = { postData, userInfo };
+            return (
+              <PostContainerS key={postData.boardId}>
+                <GroupPost postProps={postProps} />
+                <CommentList postProps={postProps} />
+              </PostContainerS>
+            );
+          })}
+        </>
+      )}
+    </GroupPostListS>
+  );
+};
+
+const EmptyPost = () => {
+  return (
+    <EmptyPostS>
       <img src={`${process.env.PUBLIC_URL}/noMind.png`} alt='noMind'></img>
       <h2>등록된 인증글이 없습니다.</h2>
       <p>가장 먼저 작심을 인증해 보세요!</p>
-    </GroupNoPostS>
-  ) : (
-    <>
-      {postData.map((postData, i) => {
-        const postProps = { postData, userInfo };
-        return (
-          <PostContainerS key={i}>
-            <GroupPost postProps={postProps} />
-            <Comment postProps={postProps} />
-          </PostContainerS>
-        );
-      })}
-    </>
+    </EmptyPostS>
   );
 };
 
 export default GroupPostList;
 
+const GroupPostListS = styled.div`
+  margin: 0 auto;
+  max-width: var(--width-max);
+  display: flex;
+  flex-direction: column;
+
+  h2.headLine {
+    font-size: 1.125rem;
+    margin: 0 1rem 0.5rem 1rem;
+  }
+`;
+
 const PostContainerS = styled.article`
   margin-bottom: 2.5rem;
 `;
 
-const GroupNoPostS = styled.div`
+const EmptyPostS = styled.div`
   height: 466px;
   display: flex;
   flex-direction: column;

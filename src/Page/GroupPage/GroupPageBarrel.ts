@@ -15,17 +15,14 @@ import {
 } from '../../Component/Mission/GroupArticle';
 import { MindPageInfo, MindsType } from '../../Type/Mind';
 
-import Comment from './Comment/Comment';
+import Comment from './Comment/CommentList';
 import GroupPost from './Post/GroupPost';
 
 import { getBoards, BoardsType } from '../../API/Boards';
 import { getUser } from '../../API/Users';
 import { GetUser } from '../../Type/User';
 import { initUser } from '../../data/initialData';
-import {
-  INVALID_TOKEN,
-  EXPIRED_TOKEN,
-} from '../../constant/error';
+import { INVALID_TOKEN, EXPIRED_TOKEN } from '../../constant/error';
 import post_Icon from '../../image/Icon/post_Icon.svg';
 import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
 import { getkeepJoin } from '../../API/Mind';

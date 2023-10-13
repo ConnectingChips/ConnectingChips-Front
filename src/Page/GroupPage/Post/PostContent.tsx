@@ -1,30 +1,26 @@
 import { styled } from 'styled-components';
-import { useCallback, useRef, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useCallback, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { putEditBoard } from '../../../API/Boards';
 import { PostProps } from '../PostPropsType';
 import { refreshState } from '../../../data/initialData';
 
 interface PostContentProps {
-  editbind: { edit: boolean; setEdit: React.Dispatch<React.SetStateAction<boolean>> };
+  toggleContentEditbind: {
+    toggleContentEdit: boolean;
+    setToggleContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  };
   postProps: PostProps;
 }
 
 /** 2023-08-22 GroupActive.tsx - 작심 인증 글 내용 */
-const PostContent = ({ editbind, postProps }: PostContentProps): JSX.Element => {
-  const { mindId } = useParams();
+const PostContent = ({ toggleContentEditbind, postProps }: PostContentProps): JSX.Element => {
   const { postData } = postProps;
   const { content, boardId } = postData;
-  const { edit, setEdit } = editbind;
-  const [editContent, setEditContent] = useState(content);
-  const [imgCheck, setImgCheck] = useState(true);
+  const { toggleContentEdit, setToggleContentEdit } = toggleContentEditbind;
+  const [contentText, setContentText] = useState(content);
   const textarea = useRef<HTMLTextAreaElement | null>(null);
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
-
-  useEffect(() => {
-    if (postData.image !== '') setImgCheck(false);
-  }, [refresh]);
 
   // textarea에 글자적으면 자동 height변경
   const handleResizeHeight = useCallback(() => {
@@ -34,48 +30,45 @@ const PostContent = ({ editbind, postProps }: PostContentProps): JSX.Element => 
     }
   }, []);
 
-  if (typeof mindId === 'undefined') return <></>;
-
-  const postEditData: {
-    content: string;
-  } = {
-    content: editContent,
+  const postEditData = {
+    content: contentText,
   };
 
   // 게시글 수정
-  const EditReq = async () => {
+  const ContentEditHandler = async () => {
     await putEditBoard(boardId, postEditData).then((res) => {
-      setEditContent(res.content);
+      setContentText(res.content);
     });
     setRefresh(refresh + 1);
-    setEdit(false);
+    setToggleContentEdit(false);
   };
+
   return (
-    <PostContentS imgCheck={imgCheck}>
-      {edit ? (
+    <PostContentS>
+      {toggleContentEdit ? (
         <>
           <TextareaS
             ref={textarea}
             onChange={(e) => {
               handleResizeHeight();
-              setEditContent(e.target.value);
+              setContentText(e.target.value);
             }}
             rows={2}
             placeholder='인증글을 입력해주세요.'
             maxLength={800}
-            value={editContent}
+            value={contentText}
           >
             {content}
           </TextareaS>
           <BtnContainerS>
             <button
               onClick={() => {
-                setEdit(false);
+                setToggleContentEdit(false);
               }}
             >
               취소
             </button>
-            <button onClick={EditReq}>확인</button>
+            <button onClick={ContentEditHandler}>확인</button>
           </BtnContainerS>
         </>
       ) : (
@@ -112,8 +105,8 @@ const BtnContainerS = styled.div`
   }
 `;
 
-const PostContentS = styled.div<{ imgCheck: boolean }>`
-  padding: ${(props) => (props.imgCheck === true ? '0 1rem 1rem 1rem' : '1rem')};
+const PostContentS = styled.div`
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

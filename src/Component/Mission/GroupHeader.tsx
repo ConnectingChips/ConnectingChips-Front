@@ -14,20 +14,18 @@ const GroupHeader = (): JSX.Element => {
   const isUpload = path.indexOf('/upload') !== -1;
   const { mindId } = useParams();
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
-  const [keepJoin, setKeepJoin] = useState<boolean>(false);
   const [refresh] = useRecoilState<number>(refreshState);
 
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
       setIsDoneToday(data.isDoneToday);
-      setKeepJoin(data.keepJoin);
     });
-  }, [refresh]);
+  }, [refresh, mindId]);
 
   const UploadIcon = (): JSX.Element => {
     return isUpload ? (
       <></>
-    ) : !(isDoneToday || keepJoin) ? (
+    ) : !isDoneToday ? (
       <Link to={`/uploadPost/${mindId}`}>
         <img src={post_Icon} alt='post icon' />
       </Link>
@@ -37,10 +35,10 @@ const GroupHeader = (): JSX.Element => {
   };
 
   return (
-    <GroupBGHeaderS>
+    <GroupHeaderContainerS>
       <BackIcon />
       <UploadIcon />
-    </GroupBGHeaderS>
+    </GroupHeaderContainerS>
   );
 };
 
@@ -68,9 +66,11 @@ const GroupHeaderS = styled.header`
 `;
 
 /** 2023-08-22 GroupHeader.tsx - 그룹페이지 상단 고정 */
-export const GroupBGHeaderS = styled(GroupHeaderS)`
+export const GroupHeaderContainerS = styled(GroupHeaderS)`
+  width: 100vw;
+  height: var(--height-header);
   justify-content: space-between;
   background-color: white;
-  width: 100vw;
   z-index: 20;
+  top: 0;
 `;

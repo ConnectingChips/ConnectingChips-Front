@@ -6,7 +6,6 @@ import { postAddReply } from '../../../API/Comment';
 import { refreshState } from '../../../data/initialData';
 import Bind from '../../../Type/Bind';
 
-
 interface commentInputProps {
   userInfo: GetUser;
   postData: BoardsType;
@@ -24,11 +23,11 @@ const CommentInput = ({
 }: commentInputProps) => {
   const { state: inputToggle, Setter: setInputToggle } = inputToggleBind;
   const { state: isComment, Setter: setIsComment } = isCommentBind;
-  const [commentInput, setCommentInput] = useState<string>('');
+  const [commentInputText, setCommentInputText] = useState<string>('');
 
   // input에 들어갈 내용 CommentInput에 넣는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCommentInput(e.target.value);
+    setCommentInputText(e.target.value);
   };
 
   // input 바깥쪽누르면 되돌아감
@@ -45,12 +44,19 @@ const CommentInput = ({
 
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
-  const getPlaceholderText = (isComment: number, commentCount: number) => {
+  const placeholderText = (): string => {
     if (isComment !== 0) return '답글을 적어주세요';
-    return commentCount > 0 ? '응원의 댓글을 적어주세요!' : '가장 먼저 응원의 댓글을 적어주세요!';
+    return postData.commentCount > 0
+      ? '응원의 댓글을 적어주세요!'
+      : '가장 먼저 응원의 댓글을 적어주세요!';
   };
 
-  const placeholderText = getPlaceholderText(isComment, postData.commentCount);
+  // 엔터 키를 감지하는 함수
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      inputBtnHandler(e as any);
+    }
+  };
 
   // input 버튼 핸들러
   // 0이면 댓글추가
@@ -58,25 +64,25 @@ const CommentInput = ({
   const inputBtnHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setInputToggle(true);
-    if (commentInput.length === 0) return;
+    if (commentInputText.length === 0) return;
     try {
       if (isComment === 0) {
         const AddCommentData = {
           userId: userInfo.userId,
           boardId: postData.boardId,
-          content: commentInput,
+          content: commentInputText,
         };
         await postAddComment(AddCommentData);
       } else {
         const AddReplyData = {
           userId: userInfo.userId,
           commentId: isComment,
-          content: commentInput,
+          content: commentInputText,
         };
         await postAddReply(AddReplyData);
         setIsComment(0);
       }
-      setCommentInput('');
+      setCommentInputText('');
       setCommentFlip(false);
       setRefresh((prevRefresh) => prevRefresh + 1);
     } catch (error) {
@@ -85,62 +91,64 @@ const CommentInput = ({
   };
 
   // input에 글 적으면 화살표 노란색으로 변경
-  const isTyping = commentInput.trimStart().length === 0 ? 'off' : 'on';
+  const isTyping = commentInputText.trimStart().length === 0 ? 'off' : 'on';
 
-  const CommentForm = (): JSX.Element => {
-    return (
-      <CommentFormS inputToggle={inputToggle} onClick={handleFormClickFalse}>
-        <InputS inputToggle={inputToggle}>
-          <input
-            placeholder={placeholderText}
-            value={commentInput}
-            onChange={handleInputChange}
-            type='text'
-            maxLength={400}
-          />
-          <button onClick={inputBtnHandler}>
-            {
-              <img
-                src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
-                alt='sendIcon'
-              />
-            }
-          </button>
-        </InputS>
-      </CommentFormS>
-    );
-  };
+  const CommentInputContent = (
+    <CommentInputContainerS inputToggle={inputToggle} onClick={handleFormClickFalse}>
+      <CommentInputS inputToggle={inputToggle}>
+        <input
+          placeholder={placeholderText()}
+          value={commentInputText}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+          type='text'
+          maxLength={400}
+        />
+        <button onClick={inputBtnHandler}>
+          {
+            <img
+              src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
+              alt='sendIcon'
+            />
+          }
+        </button>
+      </CommentInputS>
+    </CommentInputContainerS>
+  );
+
   return inputToggle ? (
-    <CommentForm />
+    CommentInputContent
   ) : (
-    <CommentFormBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
-      <CommentForm />
-    </CommentFormBGS>
+    <CommentInputBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
+      {CommentInputContent}
+    </CommentInputBGS>
   );
 };
 
 export { CommentInput };
 
-const CommentFormBGS = styled.div<{ inputToggle: boolean }>`
+const CommentInputBGS = styled.div<{ inputToggle: boolean }>`
   ${(props) =>
     props.inputToggle
       ? ''
       : 'position: fixed; display: flex; flex-direction: column-reverse; top: 0;left: 0;right: 0;bottom: 0;z-index: 100;overflow:auto;'}
 `;
 
-const CommentFormS = styled.div<{ inputToggle: boolean }>`
+const CommentInputContainerS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? '' : 'fixed')};
   display: flex;
   justify-content: center;
   align-items: center;
   position: static;
-  width: 100%;
   background-color: white;
   height: 4.5rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
   padding: ${(props) => (props.inputToggle ? '0.5rem 0' : '')};
 `;
 
-const InputS = styled.div<{ inputToggle: boolean }>`
+const CommentInputS = styled.div<{ inputToggle: boolean }>`
   position: ${(props) => (props.inputToggle ? '' : 'fixed')};
   background-color: #fff;
   border: 1px solid #e3e3e3;
