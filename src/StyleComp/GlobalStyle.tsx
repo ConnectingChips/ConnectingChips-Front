@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
     --width-mobile: 375px;
     --width-my-mission: 11.25rem;
     --width-max: 500px;
+    --width-min: 20rem;
 
     /* 세로 폭 */
     --height-header: 3.5rem;

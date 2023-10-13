@@ -150,7 +150,8 @@ const CurrentMindListS = styled.ul`
   flex-direction: column;
   gap: 0.5rem;
 
-  margin: 1.25rem 1rem;
+  width: 100%;
+  max-width: var(--width-max);
 `;
 
 const MindS = styled.li`
@@ -199,13 +200,13 @@ const myPageButton = styled.button`
 const ExitButtonS = styled(myPageButton)`
   background-color: #fff;
   border: 1px solid var(--font-color3);
-  width: 5.5rem;
+  padding: 0 0.56rem;
   color: #000;
 `;
 
 const ReMindButtonS = styled(myPageButton)`
   background-color: var(--color-main);
-  width: 6.9375rem;
+  padding: 0 0.94rem;
 `;
 
 const FullJoinButtonS = styled(myPageButton)`

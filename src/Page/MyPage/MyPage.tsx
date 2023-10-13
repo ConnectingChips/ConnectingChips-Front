@@ -1,4 +1,6 @@
 import { goBack } from '../../Component/Mission/GroupHeader';
+import TermsValue from '../../Type/TermsValue';
+import { DivideBaS } from '../GroupPage/GroupPageBarrel';
 import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal, TermsModal } from './MypageBarrel';
@@ -51,6 +53,7 @@ const MyPage = (): JSX.Element => {
       )}
 
       <ArticleTab compArr={compArr} tabText={tabText} />
+      <DivideBaS />
       <MyPageSetting />
     </MyPageS>
   );
@@ -69,19 +72,26 @@ const MyPageHeader = (): JSX.Element => {
 
 const MyPageSetting = (): JSX.Element => {
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
-  const [showTerms, setshowTerms] = useState<boolean>(false);
+  const [showTerms, setshowTerms] = useState<TermsValue>('');
+  const termsBind = { state: showTerms, Setter: setshowTerms };
 
   return (
     <>
       <MyPageSetS>
         <h2>설정</h2>
         <ul>
-          <li onClick={() => setshowTerms(true)}>이용약관</li>
+          <li onClick={() => setshowTerms('이용약관')}>이용약관</li>
+          <li onClick={() => setshowTerms('개인정보 처리 방침')}>개인정보 처리 방침</li>
+          <li onClick={() => setshowTerms('개인정보 수집 및 이용 동의')}>
+            개인정보 수집 및 이용 동의
+          </li>
           <li onClick={() => setConfirmLogout(true)}>로그아웃</li>
         </ul>
       </MyPageSetS>
 
-      {showTerms && <TermsModal setshowTerms={setshowTerms} />}
+      {showTerms === '이용약관' && <TermsModal termsBind={termsBind} />}
+      {showTerms === '개인정보 처리 방침' && <TermsModal termsBind={termsBind} />}
+      {showTerms === '개인정보 수집 및 이용 동의' && <TermsModal termsBind={termsBind} />}
       {confirmLogout && (
         <ConfirmModal
           setConfirm={setConfirmLogout}
@@ -97,12 +107,16 @@ const MyPageSetting = (): JSX.Element => {
 
 const MyPageS = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const MyPageHeaderS = styled.header`
   position: sticky;
   top: 0;
 
+  width: 100%;
   height: 1.5rem;
   display: flex;
   justify-content: space-between;
@@ -114,6 +128,7 @@ const GroupBGHeaderS = styled(MyPageHeaderS)`
   z-index: 10;
   justify-content: center;
   background-color: white;
+  min-width: var(--width-min);
 
   img {
     position: absolute;
@@ -126,6 +141,9 @@ const GroupBGHeaderS = styled(MyPageHeaderS)`
 `;
 
 const ProfileHeaderS = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  min-width: var(--width-min);
   height: 6.3125rem;
 
   display: flex;
@@ -163,7 +181,11 @@ const LimitInfoS = styled.div`
 `;
 
 const MyPageSetS = styled.div`
-  margin: 1.75rem 1rem;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: var(--width-max);
+  min-width: var(--width-min);
 
   ul {
     margin-top: 1.06rem;
