@@ -1,12 +1,11 @@
-import { styled } from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { PageSort } from '../../Type/Mind';
-import defaultImage from '../../image/ex_image_err.png';
-import { Arrow_Down, Arrow_Up } from '../ArrowBarrel';
+import { styled } from 'styled-components';
 import { getExampleImage } from '../../API/Mind';
+import { PageSort } from '../../Type/Mind';
+import { Arrow_Down, Arrow_Up } from '../ArrowBarrel';
+import defaultImage from '../../image/ex_image_err.png';
 
-/** 2023-08-22 ActiveExample.tsx - 작심 인증 글 */
 const CreateExample = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [exampleImage, setExampleImage] = useState(defaultImage);
@@ -46,7 +45,6 @@ const CreateExample = (): JSX.Element => {
 
 export { CreateExample };
 
-/** 2023-08-22 ActiveExample.tsx - 그룹페이지 아티클 */
 const PostS = styled.article<{ passsort: PageSort }>`
   background-color: ${(props) =>
     props.passsort === 'Intro' ? 'rgba(255, 255, 255, 0.7)' : 'var(--color-bg)'};
@@ -68,7 +66,6 @@ const CreateHeaderS = styled.div`
   }
 `;
 
-/** 2023-08-22 ActiveExample.tsx - 그룹페이지 아티클 인증 이미지(임시) */
 const PostImageS = styled.div`
   overflow: hidden;
   display: flex;
