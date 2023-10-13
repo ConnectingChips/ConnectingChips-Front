@@ -306,6 +306,13 @@ const LoginInputWrapperS = styled.div`
   svg.success {
     display: block;
   }
+
+  flex-grow: 1;
+
+  input {
+    box-sizing: border-box;
+    width: 100%;
+  }
 `;
 
 const LoginFormS = styled.form`
@@ -365,10 +372,6 @@ const BtnWrapperS = styled.div`
 const IDInputWrapperS = styled.div`
   display: flex;
   gap: 8px;
-
-  input {
-    flex-grow: 1;
-  }
 
   button {
     flex-shrink: 0;
