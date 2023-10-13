@@ -14,11 +14,13 @@ import { postSignup, idDuplicateCheck } from '../../API/signup';
 import scrollTopSmooth from '../../Hooks/scrollTopSmooth';
 import { notifySignUp } from '../../Component/Toast/SignUpMsg';
 import { SquareButton } from '../../Component/SignUp/SquareButton';
+import { ReactComponent as CheckIcon } from '../../image/Icon/check-icon.svg';
 
 const SignUp = (): JSX.Element => {
   const [isValid, setIsValid] = useState(true);
   const [inputState, setInputState] = useState('default');
   const [isAllAgreed, setIsAllAgreed] = useState(false);
+  const [isDuplicateId, setIsDuplicateId] = useState<boolean | null>(null);
   const [validation, setValidation] = useState({
     id: false,
     email: false,
@@ -54,6 +56,7 @@ const SignUp = (): JSX.Element => {
     setValidation((prev) => ({ ...prev, id: isValidId }));
 
     setInputState('default');
+    setIsDuplicateId(true);
   };
 
   const emailValidationCheck = () => {
@@ -80,18 +83,25 @@ const SignUp = (): JSX.Element => {
     setValidation((prev) => ({ ...prev, confirmPassword: isSamePassword }));
   };
 
+  const handleIdDuplicateCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!id || (id && validation.id === false)) return;
+    const isUsable = await idDuplicateCheck(id);
+    if (isUsable) {
+      setInputState('default');
+      setIsDuplicateId(false);
+    } else {
+      setInputState('failed');
+      setIsDuplicateId(true);
+    }
+  };
+
   const handleSubmitButtonClick = async () => {
     const signupData = { id, email, nickname, password };
     try {
-      const isUsable = await idDuplicateCheck(id);
-      if (isUsable) {
-        await postSignup(signupData);
-        notifySignUp();
-        return navigate('/LogIn');
-      } else {
-        setInputState('failed');
-        return scrollTopSmooth();
-      }
+      await postSignup(signupData);
+      notifySignUp();
+      return navigate('/LogIn');
     } catch (error) {
       console.error(error);
     }
@@ -110,8 +120,14 @@ const SignUp = (): JSX.Element => {
             isFailed={isFailed}
             validationCheck={idValidationCheck}
             isError={id !== '' && validation.id === false}
+            handleIdDuplicateCheck={handleIdDuplicateCheck}
+            isDuplicateId={isDuplicateId}
           />
-          <p className={(id && validation.id === false) || isFailed ? 'hidden' : ''}>
+          <p
+            className={
+              (id && validation.id === false) || isFailed || !isDuplicateId ? 'hidden' : ''
+            }
+          >
             <img src={infoIcon} alt='infoIcon' />
             영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가
           </p>
@@ -119,6 +135,7 @@ const SignUp = (): JSX.Element => {
             <p className='error'>영문, 영문+숫자 중 1가지 2~10자 조합, 공백 불가</p>
           )}
           {isFailed && <p className='error'>이미 존재하는 아이디입니다</p>}
+          {!isDuplicateId && <p className='success'>사용할 수 있는 아이디입니다.</p>}
         </LoginInputContainerS>
         <LoginInputContainerS>
           <h2>이메일</h2>
@@ -177,12 +194,16 @@ const SignUp = (): JSX.Element => {
       </LoginFormS>
       <Terms isAllAgreed={isAllAgreed} setIsAllAgreed={setIsAllAgreed} />
       <BtnWrapperS>
-        {isValid && isAllAgreed ? (
+        {isValid && isAllAgreed && !isDuplicateId ? (
           <SignClearBtnS type='submit' className='btn_width' onClick={handleSubmitButtonClick}>
             회원가입
           </SignClearBtnS>
         ) : (
-          <SignNotClearBtnS type='submit' className='btn_width' disabled={isValid && isAllAgreed}>
+          <SignNotClearBtnS
+            type='submit'
+            className='btn_width'
+            disabled={isValid && isAllAgreed && !isDuplicateId}
+          >
             회원가입
           </SignNotClearBtnS>
         )}
@@ -200,6 +221,8 @@ interface SignUpInputProps {
   isFailed?: boolean;
   validationCheck: () => void;
   isError: boolean;
+  handleIdDuplicateCheck?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  isDuplicateId?: boolean | null;
 }
 
 const SignUpInput = ({
@@ -208,6 +231,8 @@ const SignUpInput = ({
   isFailed,
   validationCheck,
   isError,
+  handleIdDuplicateCheck,
+  isDuplicateId,
 }: SignUpInputProps): JSX.Element => {
   const { value, setValue } = handlerBind;
 
@@ -243,14 +268,19 @@ const SignUpInput = ({
     <>
       {sort === 'ID' ? (
         <IDInputWrapperS>
-          <LoginInputS
-            placeholder={placeholder}
-            type={type}
-            className={`${isFailed ? 'failed' : ''} ${isError ? 'error' : ''}`}
-            value={value}
-            onChange={handlerOnChange}
-          />
-          <SquareButton />
+          <LoginInputWrapperS>
+            <LoginInputS
+              placeholder={placeholder}
+              type={type}
+              className={`${isFailed ? 'failed' : ''} ${isError ? 'error' : ''} ${
+                isDuplicateId ? '' : 'success'
+              }`}
+              value={value}
+              onChange={handlerOnChange}
+            />
+            <CheckIcon className={isDuplicateId ? '' : 'success'} />
+          </LoginInputWrapperS>
+          <SquareButton onClick={handleIdDuplicateCheck}>중복 확인</SquareButton>
         </IDInputWrapperS>
       ) : (
         <LoginInputS
@@ -264,6 +294,20 @@ const SignUpInput = ({
     </>
   );
 };
+
+const LoginInputWrapperS = styled.div`
+  position: relative;
+  svg {
+    display: none;
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+  }
+
+  svg.success {
+    display: block;
+  }
+`;
 
 const LoginFormS = styled.form`
   display: flex;
@@ -282,6 +326,10 @@ const LoginInputContainerS = styled.div`
     border-color: var(--system-red);
   }
 
+  input.success {
+    border-color: var(--system-green);
+  }
+
   p {
     color: var(--font-color2);
 
@@ -294,6 +342,10 @@ const LoginInputContainerS = styled.div`
 
     &.error {
       color: var(--system-red);
+    }
+
+    &.success {
+      color: var(--system-green);
     }
 
     &.hidden {
