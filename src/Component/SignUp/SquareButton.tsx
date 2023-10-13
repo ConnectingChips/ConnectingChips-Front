@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 export const SquareButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  return <Button {...props}>중복 확인</Button>;
+  return <Button {...props} />;
 };
 
 const Button = styled.button`
