@@ -181,6 +181,7 @@ const MindS = styled.li`
     font-weight: 500;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
   }
   p.sub {
     color: var(--font-color2);
@@ -202,6 +203,8 @@ const ExitButtonS = styled(myPageButton)`
   border: 1px solid var(--font-color3);
   padding: 0 0.56rem;
   color: #000;
+  min-width: 5.51rem;
+  white-space: nowrap;
 `;
 
 const ReMindButtonS = styled(myPageButton)`
