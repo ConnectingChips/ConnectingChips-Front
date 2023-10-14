@@ -164,6 +164,7 @@ const ProfileHeaderS = styled.div`
 
 const LimitInfoS = styled.div`
   background: #ffd32c;
+  width: 100%;
   height: 3.25rem;
 
   display: flex;

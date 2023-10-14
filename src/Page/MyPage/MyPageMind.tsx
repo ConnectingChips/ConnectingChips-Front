@@ -199,21 +199,31 @@ const myPageButton = styled.button`
 `;
 
 const ExitButtonS = styled(myPageButton)`
+  box-sizing: content-box;
   background-color: #fff;
   border: 1px solid var(--font-color3);
   padding: 0 0.56rem;
   color: #000;
-  min-width: 5.51rem;
+
+  min-width: 4.25rem;
   white-space: nowrap;
 `;
 
 const ReMindButtonS = styled(myPageButton)`
+  box-sizing: content-box;
   background-color: var(--color-main);
   padding: 0 0.94rem;
+
+  min-width: 5.06rem;
+  white-space: nowrap;
 `;
 
 const FullJoinButtonS = styled(myPageButton)`
   background-color: var(--color-disabled2);
   color: var(--color-disabled1);
-  width: 6.9375rem;
+  padding: 0 0.94rem;
+
+  min-width: 5.06rem;
+  white-space: nowrap;
+  box-sizing: content-box;
 `;
