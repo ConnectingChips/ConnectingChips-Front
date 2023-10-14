@@ -12,6 +12,7 @@ import {
 } from './HomeBarrel';
 import { Banner as BannerImage, Logo_002, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
+import React from 'react';
 
 const { Kakao } = window;
 
@@ -112,7 +113,7 @@ const setHome = async (
           if (list.count > 3) list.count = 3;
           if (list.count < 0) list.count = 0;
         });
-        setMylist(list);
+        setMyList(list);
       })
       .catch(() => {});
     await getisDoneAll()
