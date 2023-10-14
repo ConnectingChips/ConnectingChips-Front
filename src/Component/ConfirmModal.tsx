@@ -54,11 +54,11 @@ const ConfirmBGS = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   width: 100vw;
   height: 100vh;
   top: 0;
   left: 0;
+  z-index: 999;
 `;
 
 const ConfirmModalS = styled.div`
@@ -66,11 +66,9 @@ const ConfirmModalS = styled.div`
   width: 18.5rem;
   height: 8.875rem;
   border-radius: 0.625rem;
-
   display: flex;
   flex-direction: column;
   overflow: hidden;
-
   div {
     display: flex;
 

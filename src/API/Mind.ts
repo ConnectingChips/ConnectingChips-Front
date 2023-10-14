@@ -1,19 +1,19 @@
 import { getData } from './axiosConfig';
-import { MindIntroInfo, isDoneSingle, isDone, Mylist, TotalMind, EndMindType } from '../Type/Mind';
+import { MindIntroInfo, isDoneSingle, isDone, Mylist, TotalMind } from '../Type/Mind';
+import { EndMindType } from '../Page/MyPage/MyPageMind';
 import logText from './logText';
 import { MindPageInfo } from '../Type/Mind';
-import { getToken } from '../data/tocken';
+import getToken from '../data/tocken';
 import { getIsLogined } from './Users';
 
 // 작심 정보 반환 (그룹 인트로 / 인증하기)
 export const getMindInfo_Intro = async (mind_id: number): Promise<MindIntroInfo> => {
   try {
     const response = await getData<MindIntroInfo>(`/minds/intro/${mind_id}`);
-    // logText(response.data)
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error("Failed to get Minds' Info Intro, Upload");
+    return Promise.reject(error);
   }
 };
 
@@ -21,8 +21,6 @@ export const getMindInfo_Intro = async (mind_id: number): Promise<MindIntroInfo>
 export const getMind_IntroImage = async (mind_id: number): Promise<{ introImage: string }> => {
   try {
     const response = await getData<{ introImage: string }>(`/minds/intro/${mind_id}/image`);
-
-    // logText(response.data)
     return response.data;
   } catch (error) {
     console.error(error);
@@ -34,8 +32,6 @@ export const getMind_IntroImage = async (mind_id: number): Promise<{ introImage:
 export const getMind_PageImage = async (mind_id: number): Promise<{ pageImage: string }> => {
   try {
     const response = await getData<{ pageImage: string }>(`/minds/page/${mind_id}/image`);
-
-    // logText(response.data)
     return response.data;
   } catch (error) {
     console.error(error);
@@ -43,23 +39,11 @@ export const getMind_PageImage = async (mind_id: number): Promise<{ pageImage: s
   }
 };
 
-export interface getMindInfoType {
-  mindId: number;
-  mindTypeName: string;
-  name: string;
-  userCount: number;
-  introduce: string;
-  writeFormat: string;
-  pageImage: string;
-  isDoneToday: boolean;
-  count: number;
-}
-
 // 그룹페이지 Minds 정보
-export const getMindInfo = async (mindId: number): Promise<getMindInfoType> => {
+export const getMindInfo_Page = async (mindId: number): Promise<MindPageInfo> => {
   try {
     const { tockenHeader } = getToken();
-    const response = await getData<getMindInfoType>(`/minds/page/${mindId}`, tockenHeader);
+    const response = await getData<MindPageInfo>(`/minds/page/${mindId}`, tockenHeader);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -103,7 +87,6 @@ export const getMindAll = async (
     }
 
     const response = await getData<TotalMind[]>('/minds/except-me');
-    // response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
     throw new Error('모든 작심 정보를 반환하는데 실패했습니다.');
@@ -137,8 +120,6 @@ export const getMindAFinished = async (): Promise<EndMindType[]> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<EndMindType[]>('/minds/my-joined-mind-list', tockenHeader);
-
-    // response.data.forEach((mind) => logText(mind));
     return response.data;
   } catch (error) {
     console.error(error);
@@ -151,8 +132,6 @@ export const getMindSingle = async (mindId: number): Promise<boolean> => {
   try {
     const { tockenHeader } = getToken();
     const response = await getData<isDoneSingle>(`/minds/keep-join/${mindId}`, tockenHeader);
-
-    logText(response.data);
     return response.data.isDoneToday;
   } catch (error) {
     console.error(error);

@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { Arrow_Left_B } from '../../Component/ArrowBarrel';
+import { goBack } from '../Mission/GroupHeader';
 
 /** 2023-08-27 Loginheader.tsx - 로그인/회원가입 헤더 */
 const Loginheader = ({ type }: { type: '로그인' | '회원가입' }) => {
@@ -21,8 +22,6 @@ const LoginheaderS = styled.header`
   padding-left: 1rem;
 
   .back {
-    cursor: pointer;
-
     width: 1.75rem;
     margin-right: 5.95rem;
     display: flex;
@@ -34,8 +33,3 @@ const LoginheaderS = styled.header`
     justify-content: center;
   }
 `;
-
-/** 2023-08-25 Loginheader.tsx - 뒤로가기 핸들러 */
-const goBack = (): void => {
-  window.history.back();
-};

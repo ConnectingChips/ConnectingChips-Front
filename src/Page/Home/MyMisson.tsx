@@ -34,12 +34,9 @@ const CarreselContainerS = styled.section`
   &::-webkit-scrollbar {
     display: none;
   }
-  div.myMission {
-    position: relative;
 
-    ul {
-      display: flex;
-      gap: 0.75rem;
-    }
+  ul {
+    display: flex;
+    gap: 0.75rem;
   }
 `;

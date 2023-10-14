@@ -1,8 +1,6 @@
-import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { styled, useEffect, useState, Link } from './HomeBarrel';
 import { MissonTab } from '../../Component/Mission/MissionTab';
-import missionTab from '../../data/missionTab';
+import { missionTab } from '../../data/missionTab';
 import { getMindAll, getMindFilter } from '../../API/Mind';
 import { TotalMind } from '../../Type/Mind';
 
@@ -25,15 +23,15 @@ const GroupList = (): JSX.Element => {
   }, [curFocused, isLogin]);
 
   return (
-    <article style={{ margin: '0 1rem' }}>
+    <GroupListS>
       <h2>작심 그룹 리스트</h2>
       <MissonTab missionTab={missionTab} focusbind={curFocusBind} />
-      <GroupListListS>
-        {showList.map((mind, idx) => (
-          <GroupListItem mind={mind} key={idx} />
-        ))}
-      </GroupListListS>
-    </article>
+        <GroupItemListS>
+          {showList.map((mind, idx) => (
+            <GroupListItem mind={mind} key={idx} />
+          ))}
+        </GroupItemListS>
+    </GroupListS>
   );
 };
 
@@ -79,9 +77,16 @@ const ItemContent = ({ mind }: { mind: TotalMind }): JSX.Element => {
   );
 };
 
-const GroupListListS = styled.ul`
+const GroupListS = styled.article`
+  > h2 {
+    margin: 0 1rem;
+  }
+`;
+
+const GroupItemListS = styled.ul`
   display: flex;
   flex-direction: column;
+  margin: 0 1rem;
   margin-top: 0.5rem;
   gap: var(--height-gap);
 `;
@@ -95,22 +100,18 @@ const GroupListItemS = styled.li<{ img: string }>`
   border-radius: 0.625rem;
 
   background-image: url(${(props) => props.img});
-
+  background-size: cover;
   color: white;
 
   button {
     outline: 1px solid;
     border-radius: 1rem;
+    padding: 0 0.5rem;
 
     font-size: var(--button-mid);
-    /* font-size: 14px; */
-    width: 4.3125rem;
     height: 1.625rem;
     color: white;
-
-    a {
-      color: white;
-    }
+    min-width: 4.25rem;
   }
 `;
 
@@ -127,6 +128,9 @@ const ItemContentS = styled.div`
   h2 {
     font-size: 1rem;
     margin-top: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .people {

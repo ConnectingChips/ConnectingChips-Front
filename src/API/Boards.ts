@@ -1,7 +1,6 @@
 import { getData, postData, putData, deleteData } from './axiosConfig';
-import { getToken, tockenHeader } from '../data/tocken';
+import getToken from '../data/tocken';
 import { getUser } from './Users';
-import axios from 'axios';
 
 export interface BoardsType {
   boardId: number;
@@ -16,13 +15,14 @@ export interface BoardsType {
 }
 
 export interface CommentType {
-  commentId: number;
+  commentId?: number;
+  replyId?: number;
   userId: number;
   nickname: string;
   content: string;
   profileImage: string;
   createDate: string;
-  replyList: ReplyType[];
+  replyList?: ReplyType[];
 }
 
 export interface ReplyType {
@@ -86,14 +86,16 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<PostCreat
   const boardRequestDto = { mindId, userId, content };
   const { tockenHeader } = getToken();
 
+  if (image.file === null) {
+    throw new Error('이미지는 필수입니다.');
+  }
+
   formData.append(
     'boardRequestDto',
     new Blob([JSON.stringify(boardRequestDto)], { type: 'application/json' }),
   );
 
-  if (image.file !== null) {
-    formData.append('file', image.file);
-  }
+  formData.append('file', image.file);
 
   try {
     const response = await postData<PostCreateBoardType>(`/boards`, formData, tockenHeader);
@@ -114,17 +116,6 @@ export interface RsEditBoard {
   // boardId: number;
   content: string;
 }
-
-// //게시글 수정 -> put요청
-// export const putEditBoard = async (boardId: number, BoardData: EditBoard): Promise<RsEditBoard> => {
-//   try {
-//     const response = await putData<RsEditBoard>(`/boards/${boardId}`, BoardData, tockenHeader);
-//     return response.data;
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error('게시글 수정 에러');
-//   }
-// };
 
 //게시글 수정 -> put요청
 export const putEditBoard = async (boardId: number, content: RsEditBoard): Promise<RsEditBoard> => {

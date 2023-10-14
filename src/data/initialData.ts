@@ -1,5 +1,6 @@
 import { GetUser } from '../Type/User';
-import { MindsType, Mylist } from '../Type/Mind';
+import { Mylist } from '../Type/Mind';
+import { atom } from 'recoil';
 
 export const initMyList: Mylist[] = [];
 
@@ -10,14 +11,7 @@ export const initUser: GetUser = {
   roles: '',
 };
 
-export const initMind: MindsType = {
-  mindId: 0,
-  mindTypeName: '',
-  name: '',
-  introduce: '',
-  userCount: 0,
-  writeFormat: '',
-  isDoneToday: false,
-  count: 0,
-  canJoin: 0,
-};
+export const refreshState = atom({
+  key: 'refreshPage',
+  default: 0,
+});

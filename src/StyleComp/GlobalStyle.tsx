@@ -18,47 +18,49 @@ const GlobalStyle = createGlobalStyle`
     /* 가로 폭 */
     --width-mobile: 375px;
     --width-my-mission: 11.25rem;
+    --width-max: 500px;
+    --width-min: 20rem;
 
     /* 세로 폭 */
     --height-header: 3.5rem;
     --height-gap: 0.5rem;
 
     /* 폰트 크기 */
-    --welcome: 28px;
-    --header: 20px;
-    --head-a: 24px;
-    --head-b: 18px;
-    --head-c: 16px;
-    --body-a: 16px;
-    --body-b: 14px;
-    --body-c: 12px;
+    --welcome: 1.75rem;
+    --header: 1.25rem;
+    --head-a: 1.5rem;
+    --head-b: 1.125rem;
+    --head-c: 1rem;
+    --body-a: 1rem;
+    --body-b: 0.875rem;
+    --body-c: 0.75rem;
     --button-big: 1rem;
     --button-mid: 0.875rem;
-    --button-mid-bold: 14px;  // 볼드 속성 
-    --button-small: 11px;
-    
-    /* 가로 폭 */
-    /* --width-mobile: 23.4375rem; */
-    --width-mobile: 22.5rem;
+    --button-mid-bold: 0.875rem;  // 볼드 속성 
+    --button-small: 0.6875rem;
 
-    
     &::-webkit-scrollbar {
       display: none;
     }
   }
+  
+  *{
+    margin: 0;
+    cursor: default;
+  }
 
-  /* ::-webkit-scrollbar {
-    display: none;
-  } */
+  h1, h2, p, li, div{
+    white-space: pre-line;
+  }
   
   body {
-    /* overflow-x: hidden; */
     color: var(--font-color1);
     font-family: 'Noto Sans KR', sans-serif;
     font-style: normal;
     line-height: normal;    
     margin:0;
   }
+
   ul {
     margin: 0;
     padding: 0;
@@ -75,7 +77,6 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  
   h1 {
     font-size: 1.75rem;
     font-weight: 400;
@@ -91,23 +92,18 @@ const GlobalStyle = createGlobalStyle`
     font-size: 0.75rem;
     font-weight: 400;
   }
-  
-  h1, h2, p, li, div{
-    margin: 0;
-    cursor: default;
-    white-space: pre-line;
-  }
 
   a{
     text-decoration: none;
     color: var(--font-color1);
-    cursor: pointer;
   }
 
   button {
+    color: black;
     background-color: transparent;
     border: 0;
     font-family: 'Noto Sans KR', sans-serif;
+    cursor: default;
   }
 
   textarea{

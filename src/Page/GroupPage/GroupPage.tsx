@@ -1,50 +1,65 @@
-import { styled } from './GroupPageBarrel';
-import { GroupHeader, DivideBaS, GroupArticle } from './GroupPageBarrel';
-import { GroupPostList } from './GroupPostList';
-import { getMind_PageImage } from '../../API/Mind';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import GroupBtn from './GroupBtn';
+import { styled, useState, useEffect, useParams } from './GroupPageBarrel';
+import { GroupHeader, DivideBaS } from './GroupPageBarrel';
+import {
+  getMindInfo_Page,
+  getMind_PageImage,
+  GroupBtn,
+  GroupArticleS,
+  HeadLine,
+  IntroduceS,
+  initMind,
+} from './GroupPageBarrel';
+import type { MindPageInfo, MindsType } from './GroupPageBarrel';
+import GroupPostList from './Post/GroupPostList';
 
 const GroupPage = (): JSX.Element => {
   const { mindId } = useParams<string>();
-  const [pageImage, setPageImage] = useState<string>('');
-  const [refresh, setRefresh] = useState(1);
-  const refreshBind = { refresh, setRefresh };
+  const [groupPageImg, setGroupPageImg] = useState<string>('');
+  const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);
   useEffect(() => {
-    getMind_PageImage(Number(mindId)).then((data) => {
-      setPageImage(data.pageImage);
-    });
-  }, []);
+    getMind_PageImage(Number(mindId)).then((data) => setGroupPageImg(data.pageImage));
+    getMindInfo_Page(Number(mindId)).then((data: MindPageInfo) => setGetMindInfoData(data));
+  }, [mindId]);
 
   return (
     <GroupPageS>
-      <GroupHeader refresh={refresh} />
-      <GroupImageS url={pageImage} />
-      <div style={{ margin: '0 auto', width: '375px' }}>
-        <GroupArticle selected={[0, 1]} passsort='Page' />
-        <GroupBtn refresh={refresh} />
-      </div>
+      <GroupHeader />
+      <GroupImageS url={groupPageImg} />
+      <GroupInfo mindData={getMindInfoData} />
       <DivideBaS />
-      <GroupPostList refreshBind={refreshBind} />
+
+      <GroupPostList />
     </GroupPageS>
   );
 };
 
 export default GroupPage;
 
+const GroupInfo = ({ mindData }: { mindData: MindsType }) => {
+  return (
+    <GroupInfoS>
+      <GroupArticleS passsort={'Page'}>
+        <HeadLine getMindInfoData={mindData} passsort={'Page'} />
+        <IntroduceS passsort={'Page'}>{mindData.introduce}</IntroduceS>
+      </GroupArticleS>
+      <GroupBtn />
+    </GroupInfoS>
+  );
+};
+
 const GroupPageS = styled.div`
   height: 100dvh;
   width: 100vw;
-  margin: 0 auto;
-  position: relative;
 `;
 
 const GroupImageS = styled.div<{ url: string }>`
-  margin-top: 3.5rem;
+  margin-top: var(--height-header);
   background-image: url(${(props) => props.url});
   height: 10rem;
-  height: 10rem;
-  background-repeat: no-repeat;
   background-size: cover;
+`;
+
+const GroupInfoS = styled.div`
+  margin: 0 auto;
+  max-width: var(--width-max);
 `;

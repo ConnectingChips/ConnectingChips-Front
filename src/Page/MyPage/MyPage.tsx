@@ -1,27 +1,32 @@
-import { initMyList } from '../../data/initialData';
+import { goBack } from '../../Component/Mission/GroupHeader';
+import TermsValue from '../../Type/TermsValue';
+import { DivideBaS } from '../GroupPage/GroupPageBarrel';
 import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
-import { ArticleTab, ConfirmModal } from './MypageBarrel';
+import { ArticleTab, ConfirmModal, TermsModal } from './MypageBarrel';
 import { scrollTop, getUser } from './MypageBarrel';
-import { initUser } from './MypageBarrel';
 import type { GetUser, Mylist } from './MypageBarrel';
-import TermsModal from './TermsModal';
+import { initUser, initMyList } from './MypageBarrel';
+import { CurrentMind, EndMindList } from './MypageBarrel';
 
 const MyPage = (): JSX.Element => {
-  const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-  const [curList, setCurList] = useState<Mylist[]>(initMyList);
-  const ListBind = { curList, setCurList };
-  const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
-  const [showTerms, setshowTerms] = useState<boolean>(false);
+  const [myInfo, setMyInfo] = useState<GetUser>(initUser);
+  const [myList, setMyList] = useState<Mylist[]>(initMyList);
+  const ListBind = { myList, setMyList };
+  const compArr: JSX.Element[] = [
+    <CurrentMind ListBind={ListBind} />,
+    <EndMindList myListLen={myList.length} />,
+  ];
+  const tabText: string[] = [`참여중인 작심(${myList.length}/3)`, '참여했던 작심'];
 
   useEffect(() => {
     scrollTop();
 
     getUser()
-      .then((userInfo: GetUser) => setUserInfo(userInfo))
+      .then((myInfo: GetUser) => setMyInfo(myInfo))
       .catch(() => {});
     getMyList()
-      .then((res: Mylist[]) => setCurList(res))
+      .then((res: Mylist[]) => setMyList(res))
       .catch(() => {});
   }, []);
 
@@ -30,47 +35,31 @@ const MyPage = (): JSX.Element => {
       <MyPageHeader />
       <ProfileHeaderS>
         <h2>
-          {userInfo.nickname}칩스’s
+          {myInfo.nickname}칩스’s
           <br />
           작심서랍
         </h2>
-        <img src={userInfo.profileImage} alt='기본프로필' />
+        <img src={myInfo.profileImage} alt='기본프로필' />
       </ProfileHeaderS>
-      {curList.length === 3 && (
+      {myList.length === 3 && (
         <LimitInfoS>
           <img src={Info_icon_B} alt='인포프로필' />
-          <p>다른 그룹에 참여하시려면 그룹 나가기를 해주세요.(최대 참여 그룹 3개)</p>
+          <p>
+            다른 그룹에 참여하시려면 그룹 나가기를 해주세요.
+            <br />
+            (최대 참여 그룹 3개)
+          </p>
         </LimitInfoS>
       )}
 
-      <ArticleTab ListBind={ListBind} />
-      <MyPageSetS>
-        <h2>설정</h2>
-        <ul>
-          <li onClick={() => setshowTerms(true)}>이용약관</li>
-          <li onClick={() => setConfirmLogout(true)}>로그아웃</li>
-        </ul>
-      </MyPageSetS>
-
-      {showTerms && <TermsModal setshowTerms={setshowTerms} />}
-      {confirmLogout && (
-        <ConfirmModal
-          setConfirm={setConfirmLogout}
-          confirmText='로그아웃 하시겠어요?'
-          action='로그아웃'
-          method={() => logoutUser()}
-          routeUrl='/'
-        />
-      )}
+      <ArticleTab compArr={compArr} tabText={tabText} />
+      <DivideBaS />
+      <MyPageSetting />
     </MyPageS>
   );
 };
 
 export default MyPage;
-
-const goBack = (): void => {
-  window.history.back();
-};
 
 const MyPageHeader = (): JSX.Element => {
   return (
@@ -81,15 +70,53 @@ const MyPageHeader = (): JSX.Element => {
   );
 };
 
+const MyPageSetting = (): JSX.Element => {
+  const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
+  const [showTerms, setshowTerms] = useState<TermsValue>('');
+  const termsBind = { state: showTerms, Setter: setshowTerms };
+
+  return (
+    <>
+      <MyPageSetS>
+        <h2>설정</h2>
+        <ul>
+          <li onClick={() => setshowTerms('이용약관')}>이용약관</li>
+          <li onClick={() => setshowTerms('개인정보 처리 방침')}>개인정보 처리 방침</li>
+          <li onClick={() => setshowTerms('개인정보 수집 및 이용 동의')}>
+            개인정보 수집 및 이용 동의
+          </li>
+          <li onClick={() => setConfirmLogout(true)}>로그아웃</li>
+        </ul>
+      </MyPageSetS>
+
+      {showTerms === '이용약관' && <TermsModal termsBind={termsBind} />}
+      {showTerms === '개인정보 처리 방침' && <TermsModal termsBind={termsBind} />}
+      {showTerms === '개인정보 수집 및 이용 동의' && <TermsModal termsBind={termsBind} />}
+      {confirmLogout && (
+        <ConfirmModal
+          setConfirm={setConfirmLogout}
+          confirmText='로그아웃 하시겠어요?'
+          action='로그아웃'
+          method={() => logoutUser()}
+          routeUrl='/'
+        />
+      )}
+    </>
+  );
+};
+
 const MyPageS = styled.div`
-  width: var(--width-mobile);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const MyPageHeaderS = styled.header`
-  cursor: pointer;
   position: sticky;
   top: 0;
 
+  width: 100%;
   height: 1.5rem;
   display: flex;
   justify-content: space-between;
@@ -99,14 +126,11 @@ const MyPageHeaderS = styled.header`
 
 const GroupBGHeaderS = styled(MyPageHeaderS)`
   z-index: 10;
-
-  display: flex;
   justify-content: center;
-  position: fixed;
-  width: 100vw;
-  top: 0;
-  left: 0;
   background-color: white;
+  min-width: var(--width-min);
+
+  padding: 1rem 0;
 
   img {
     position: absolute;
@@ -119,12 +143,14 @@ const GroupBGHeaderS = styled(MyPageHeaderS)`
 `;
 
 const ProfileHeaderS = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  min-width: var(--width-min);
   height: 6.3125rem;
 
   display: flex;
   align-items: center;
   padding: 0 1rem;
-  margin-top: 3.125rem;
 
   justify-content: space-between;
 
@@ -138,6 +164,7 @@ const ProfileHeaderS = styled.div`
 
 const LimitInfoS = styled.div`
   background: #ffd32c;
+  width: 100%;
   height: 3.25rem;
 
   display: flex;
@@ -151,14 +178,17 @@ const LimitInfoS = styled.div`
     margin-top: 0.155rem;
   }
   p {
-    width: 16rem;
     font-size: 0.75rem;
     font-weight: 500;
   }
 `;
 
 const MyPageSetS = styled.div`
-  margin: 1.75rem 1rem;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: var(--width-max);
+  min-width: var(--width-min);
 
   ul {
     margin-top: 1.06rem;

@@ -1,27 +1,56 @@
-import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { styled } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-
-import useLoginCheck from '../../Hooks/useLoginCheck';
+import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
-import LikeBind from '../../Type/LikeBind';
-import Comment from './Comment';
-import DivideBaS from '../../Component/Mission/DivideBa';
-import GroupPost from './GroupPost';
-// import Mind from './Mind';
-import GroupArticle from '../../Component/Mission/GroupArticle';
+import { DivideBaS } from '../../Component/Mission/GroupArticle';
+
+import { getMindInfo_Page, getMind_PageImage } from '../../API/Mind';
+import GroupBtn from './GroupBtn';
+import {
+  GroupArticleS,
+  HeadLine,
+  IntroduceS,
+  initMind,
+} from '../../Component/Mission/GroupArticle';
+import { MindPageInfo, MindsType } from '../../Type/Mind';
+
+import Comment from './Comment/CommentList';
+import GroupPost from './Post/GroupPost';
+
+import { getBoards, BoardsType } from '../../API/Boards';
+import { getUser } from '../../API/Users';
+import { GetUser } from '../../Type/User';
+import { initUser } from '../../data/initialData';
+import { INVALID_TOKEN, EXPIRED_TOKEN } from '../../constant/error';
+import post_Icon from '../../image/Icon/post_Icon.svg';
+import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
+import { getkeepJoin } from '../../API/Mind';
+
+import { PostProps } from './PostPropsType';
 
 export {
-  // Mind
+  axios,
+  styled,
   useState,
   useEffect,
-  styled,
+  Link,
+  useLocation,
   useNavigate,
-  useLoginCheck,
+  useParams,
   GroupHeader,
-  type LikeBind,
-  Comment,
   DivideBaS,
-  GroupPost,
-  GroupArticle,
 };
+export {
+  getMindInfo_Page,
+  getMind_PageImage,
+  GroupBtn,
+  GroupArticleS,
+  HeadLine,
+  IntroduceS,
+  initMind,
+};
+export { Comment, GroupPost, getBoards, getUser, initUser };
+export type { MindPageInfo, MindsType, GetUser, BoardsType, PostProps };
+export { INVALID_TOKEN, EXPIRED_TOKEN };
+export { post_Icon, post_Icon_locked, getkeepJoin };

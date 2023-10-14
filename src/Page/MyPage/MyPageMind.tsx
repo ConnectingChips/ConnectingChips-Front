@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EndMindType } from '../../Type/Mind';
 import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
 import { ConfirmModal, Mylist } from './MypageBarrel';
-import { getEndList, getMindAFinished, getMyListSingle } from '../../API/Mind';
-import { postJoin, putMindExit } from '../../API/joinedMinds';
+import { getEndList, getMindAFinished } from '../../API/Mind';
+import { putMindExit } from '../../API/joinedMinds';
 
 type ListBind = {
-  curList: Mylist[];
-  setCurList: React.Dispatch<React.SetStateAction<Mylist[]>>;
+  myList: Mylist[];
+  setMyList: React.Dispatch<React.SetStateAction<Mylist[]>>;
 };
 
 /** 참여중인 작심 */
@@ -17,15 +16,15 @@ export const CurrentMind = ({ ListBind }: { ListBind: ListBind }): JSX.Element =
   const [confirmExitMind, setConfirmExitMind] = useState<boolean>(false);
   const [mindId, setMindId] = useState<number>(0);
 
-  const { curList, setCurList } = ListBind;
-  const isExist = curList.length > 0;
+  const { myList, setMyList } = ListBind;
+  const isExist = myList.length > 0;
 
   return (
     <CurrentMindListS>
       {isExist ? (
         <>
           <ExistComp
-            myList={curList}
+            myList={myList}
             setConfirmExitMind={setConfirmExitMind}
             setMindId={setMindId}
           />
@@ -34,7 +33,7 @@ export const CurrentMind = ({ ListBind }: { ListBind: ListBind }): JSX.Element =
               setConfirm={setConfirmExitMind}
               confirmText='작심그룹에서 나가시겠어요?'
               action='나가기'
-              method={() => putMindExit(mindId, curList, setCurList)}
+              method={() => putMindExit(mindId, myList, setMyList)}
             />
           )}
         </>
@@ -89,8 +88,14 @@ const NoneExistComp = (): JSX.Element => {
   );
 };
 
-/** 참여했던 작심 */
-export const EndMindList = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
+export interface EndMindType {
+  mindId: number;
+  name: string;
+  canJoin: number;
+  boardCount: number;
+}
+
+export const EndMindList = ({ myListLen }: { myListLen: number }): JSX.Element => {
   const [endList, setEndList] = useState<EndMindType[]>();
 
   useEffect(() => {
@@ -101,16 +106,15 @@ export const EndMindList = ({ ListBind }: { ListBind: ListBind }): JSX.Element =
 
   return (
     <CurrentMindListS>
-      {isExist ? <EndMind ListBind={ListBind} /> : <NoneExistComp />}
+      {isExist ? <EndMind myListLen={myListLen} /> : <NoneExistComp />}
     </CurrentMindListS>
   );
 };
 
 const initEndList: EndMindType[] = [];
 
-const EndMind = ({ ListBind }: { ListBind: ListBind }) => {
+const EndMind = ({ myListLen }: { myListLen: number }) => {
   const [endList, setEndList] = useState<EndMindType[]>(initEndList);
-  const { curList } = ListBind;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -118,7 +122,7 @@ const EndMind = ({ ListBind }: { ListBind: ListBind }) => {
   }, []);
 
   const ReMindButton = ({ list }: { list: EndMindType }) => {
-    return curList.length < 3 && curList.length >= 0 && list.canJoin === 1 ? (
+    return myListLen < 3 && myListLen >= 0 && list.canJoin === 1 ? (
       <ReMindButtonS onClick={() => navigate(`/groupIntro/${list.mindId}`)}>
         다시 참여하기
       </ReMindButtonS>
@@ -146,7 +150,8 @@ const CurrentMindListS = styled.ul`
   flex-direction: column;
   gap: 0.5rem;
 
-  margin: 1.25rem 1rem;
+  width: 100%;
+  max-width: var(--width-max);
 `;
 
 const MindS = styled.li`
@@ -174,9 +179,9 @@ const MindS = styled.li`
   p.main {
     font-size: 1rem;
     font-weight: 500;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
   }
   p.sub {
     color: var(--font-color2);
@@ -194,19 +199,31 @@ const myPageButton = styled.button`
 `;
 
 const ExitButtonS = styled(myPageButton)`
+  box-sizing: content-box;
   background-color: #fff;
   border: 1px solid var(--font-color3);
-  width: 5.5rem;
+  padding: 0 0.56rem;
   color: #000;
+
+  min-width: 4.25rem;
+  white-space: nowrap;
 `;
 
 const ReMindButtonS = styled(myPageButton)`
+  box-sizing: content-box;
   background-color: var(--color-main);
-  width: 6.9375rem;
+  padding: 0 0.94rem;
+
+  min-width: 5.06rem;
+  white-space: nowrap;
 `;
 
 const FullJoinButtonS = styled(myPageButton)`
   background-color: var(--color-disabled2);
   color: var(--color-disabled1);
-  width: 6.9375rem;
+  padding: 0 0.94rem;
+
+  min-width: 5.06rem;
+  white-space: nowrap;
+  box-sizing: content-box;
 `;

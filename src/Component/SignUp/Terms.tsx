@@ -160,7 +160,6 @@ const TermsTitleS = styled.div`
     height: 1.4375rem;
     border: 0.0625rem solid var(--color-disabled2);
     border-radius: 50%;
-    cursor: pointer;
   }
 
   input:checked {

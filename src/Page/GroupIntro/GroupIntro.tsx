@@ -1,54 +1,51 @@
-import { styled } from 'styled-components';
-import { GNB } from '../../AppBarral';
-import { CTAContainer } from '../../Component/CTA/CTAContainer';
-import { GroupIntroHeader } from '../../Component/Mission/GroupHeader';
-import GroupContent from '../../Component/Mission/GroupContent';
-import { useEffect, useState } from 'react';
-import scrollTop from '../../Hooks/scrollTop';
-import { useLocation, useParams } from 'react-router-dom';
-import { getMind_IntroImage } from '../../API/Mind';
+import { styled, useEffect, useState, useParams } from './IntroBarrel';
+import { CTAContainer, GroupIntroHeader, scrollTop, getMind_IntroImage } from './IntroBarrel';
+import {
+  HeadLine,
+  MissionRule,
+  GroupArticleS,
+  IntroduceS,
+  initMind,
+  getMindInfo_Intro,
+} from './IntroBarrel';
+import type { MindIntroInfo, MindsType } from './IntroBarrel';
+
 /** 2023-08-21 GroupIntro.tsx - 메인 컴프 */
 const GroupIntro = (): JSX.Element => {
   const { mindId } = useParams<string>();
-  const [pageImage, setPageImage] = useState<string>('');
-  const location = useLocation();
+  const [groupIntroImg, setGroupIntroImg] = useState<string>('');
+  const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);
+
   useEffect(() => {
     scrollTop();
-
-    getMind_IntroImage(Number(mindId)).then((data) => {
-      setPageImage(data.introImage);
-    });
-
-    setPageImage(pageImage);
-  }, []);
+    getMind_IntroImage(Number(mindId)).then((data) => setGroupIntroImg(data.introImage));
+    getMindInfo_Intro(Number(mindId)).then((data: MindIntroInfo) => setGetMindInfoData(data));
+  }, [mindId]);
 
   return (
-    <GroupIntroS img={pageImage}>
+    <GroupIntroImgS img={groupIntroImg}>
+      <GroupIntroHeader />
       <BGDarkS>
         <GroupContainerS>
-          <GroupIntroHeader />
-          <GroupIntroArticleS>
-            <GroupContent selected={[0, 1, 2]} passsort='Intro' />
-            <CTAContainer />
-          </GroupIntroArticleS>
+          <CTAContainer />
+          <GroupArticleS passsort={'Intro'}>
+            <HeadLine getMindInfoData={getMindInfoData} passsort={'Intro'} />
+            <IntroduceS passsort={'Intro'}>{getMindInfoData.introduce}</IntroduceS>
+            <MissionRule getMindInfoData={getMindInfoData} passsort={'Intro'} />
+          </GroupArticleS>
         </GroupContainerS>
       </BGDarkS>
-    </GroupIntroS>
+    </GroupIntroImgS>
   );
 };
 
 export default GroupIntro;
 
-const GroupIntroS = styled.div<{ img: string }>`
+const GroupIntroImgS = styled.div<{ img: string }>`
   width: 100vw;
   height: 100dvh;
-  position: relative;
   color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   background-image: url(${(props) => props.img});
-  background-repeat: no-repeat;
   background-size: cover;
 `;
 
@@ -56,21 +53,15 @@ const BGDarkS = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
+
+  display: flex;
+  justify-content: center;
 `;
 
 const GroupContainerS = styled.div`
   height: 100%;
-  margin: 0 auto;
-  width: var(--width-mobile);
+  max-width: var(--width-max);
   display: flex;
   flex-direction: column-reverse;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const GroupIntroArticleS = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  width: 100%;
 `;

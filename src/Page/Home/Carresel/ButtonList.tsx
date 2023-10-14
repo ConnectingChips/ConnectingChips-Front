@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-import { Mylist } from '../HomeBarrel';
-import { getCheckedJoined, postJoin } from '../../../API/joinedMinds';
+import { Mylist, useState } from '../HomeBarrel';
+import { getCheckedJoined } from '../../../API/joinedMinds';
+import { getkeepJoin } from '../../../API/Mind';
 
 const ButtonList = ({ myList }: { myList: Mylist[] }): JSX.Element => {
   return (
@@ -18,12 +19,18 @@ export default ButtonList;
 /** 2023-08-22 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
 const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
   const navigate = useNavigate();
+  const [keepJoinReg, setKeepJoinReg] = useState<boolean>(false);
 
-  const { isDoneToday, mindId, keepJoin } = mind;
+
+  const { count, isDoneToday, mindId, boardCount } = mind;
+  (async () => {
+    return await getkeepJoin(mindId).then((res) => setKeepJoinReg(res.keepJoin));
+  })();
+
   return (
     <>
-      {keepJoin ? (
-        <ClearBtnS onClick={() => navigate(`/groupPage/${mind.mindId}`)}>재작심 하기</ClearBtnS>
+      {keepJoinReg ? (
+        <ClearBtnS onClick={() => navigate(`/uploadPost/${mind.mindId}`)}>재작심 하기</ClearBtnS>
       ) : isDoneToday ? (
         <TodayClearBtnS>
           <p>오늘 작심 성공!</p>
