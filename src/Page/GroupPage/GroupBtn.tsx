@@ -4,22 +4,20 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { putRemind } from '../../API/joinedMinds';
 import { getkeepJoin } from '../../API/Mind';
 import React from 'react';
-
+import { useRecoilState } from 'recoil';
+import { refreshState } from '../../data/initialData';
 const buttonLabels = {
   인증: '작심 인증하기',
   성공: '오늘 작심 성공!',
   재작심: '재작심 하기',
 };
 
-interface GroupBtnProps {
-  refresh: number;
-}
-
-const GroupBtn: React.FC<GroupBtnProps> = ({ refresh }) => {
+const GroupBtn = () => {
   const navigate = useNavigate();
   const { mindId } = useParams();
   const [keepJoin, setKeepJoin] = useState<boolean>(false);
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
