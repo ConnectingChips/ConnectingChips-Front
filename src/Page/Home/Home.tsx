@@ -107,7 +107,13 @@ const setHome = async (
       .then((userInfo: GetUser) => setMyInfo(userInfo))
       .catch(() => {});
     await getMyList()
-      .then((list: Mylist[]) => setMyList(list))
+      .then((list: Mylist[]) => {
+        list.map((list) => {
+          if (list.count > 3) list.count = 3;
+          if (list.count < 0) list.count = 0;
+        });
+        setMylist(list);
+      })
       .catch(() => {});
     await getisDoneAll()
       .then((isDone: isDone[]) => {

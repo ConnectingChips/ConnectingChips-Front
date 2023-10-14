@@ -21,8 +21,8 @@ const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
   const navigate = useNavigate();
   const [keepJoinReg, setKeepJoinReg] = useState<boolean>(false);
 
+
   const { count, isDoneToday, mindId, boardCount } = mind;
-  // const keepJoinReg = boardCount !== 0 && boardCount % 3 === 0 && count === 0;
   (async () => {
     return await getkeepJoin(mindId).then((res) => setKeepJoinReg(res.keepJoin));
   })();
