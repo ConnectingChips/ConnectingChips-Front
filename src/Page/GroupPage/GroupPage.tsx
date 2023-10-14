@@ -11,6 +11,7 @@ import {
 } from './GroupPageBarrel';
 import type { MindPageInfo, MindsType } from './GroupPageBarrel';
 import GroupPostList from './Post/GroupPostList';
+import React from 'react';
 
 const GroupPage = (): JSX.Element => {
   const { mindId } = useParams<string>();
