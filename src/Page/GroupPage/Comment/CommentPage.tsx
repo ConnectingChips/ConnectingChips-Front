@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { CommentType } from '../../../API/Boards';
+import { Arrow_Left_B, Arrow_Left_W } from '../../../Component/ArrowBarrel';
 import {
   axios,
   BoardsType,
@@ -10,10 +10,11 @@ import {
   getUser,
   initUser,
   INVALID_TOKEN,
+  styled,
   useNavigate,
   useParams,
 } from '../GroupPageBarrel';
-import { PostImageS } from '../Post/GroupPost';
+import GroupPost, { PostImageS } from '../Post/GroupPost';
 import PostContent from '../Post/PostContent';
 import PostHeader from '../Post/PostHeader';
 import { refreshState } from '../Post/PostListBarrel';
@@ -73,12 +74,42 @@ const CommentPage = () => {
   const postProps = { postData, userInfo };
 
   return (
-    <>
-      <PostHeader setToggleContentEdit={setToggleContentEdit} postProps={postProps} />
-      <PostImageS src={postData.image} alt='업로드 사진' />
-      <PostContent toggleContentEditbind={toggleContentEditbind} postProps={postProps} />
-    </>
+    <CommentPageContainer>
+      <CommentHeader />
+      <PostContainerS>
+        <GroupPost postProps={postProps} sort='commentPage' />
+      </PostContainerS>
+    </CommentPageContainer>
   );
 };
 
 export default CommentPage;
+
+const CommentHeader = () => {
+  return (
+    <CommentHeaderS>
+      <img src={Arrow_Left_B} alt='Arrow_Left_B' />
+    </CommentHeaderS>
+  );
+};
+
+const CommentPageContainer = styled.div`
+  height: 100dvh;
+  width: 100vw;
+`;
+
+const CommentHeaderS = styled.header`
+  width: 100%;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  top: 0;
+  box-sizing: border-box;
+  height: var(--height-header);
+`;
+
+const PostContainerS = styled.div`
+  max-width: 500px;
+  margin: 3.5rem auto 0 auto;
+`;

@@ -63,7 +63,7 @@ const GroupPostList = () => {
               const postProps = { postData, userInfo };
               return (
                 <PostContainerS key={postData.boardId}>
-                  <GroupPost postProps={postProps} />
+                  <GroupPost postProps={postProps} sort='groupPage' />
                   <CommentList postProps={postProps} />
                 </PostContainerS>
               );

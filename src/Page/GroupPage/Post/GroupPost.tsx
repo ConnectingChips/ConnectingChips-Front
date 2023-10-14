@@ -6,7 +6,13 @@ import { PostProps } from '../PostPropsType';
 import comment_icon from '../../../image/Icon/comment_icon.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const GroupPost = ({ postProps }: { postProps: PostProps }): JSX.Element => {
+const GroupPost = ({
+  postProps,
+  sort,
+}: {
+  postProps: PostProps;
+  sort: 'groupPage' | 'commentPage';
+}): JSX.Element => {
   const [toggleContentEdit, setToggleContentEdit] = useState<boolean>(false);
   const toggleContentEditbind = {
     toggleContentEdit,
@@ -19,9 +25,15 @@ const GroupPost = ({ postProps }: { postProps: PostProps }): JSX.Element => {
       <PostHeader setToggleContentEdit={setToggleContentEdit} postProps={postProps} />
       <PostImageS src={postData.image} alt='업로드 사진' />
       <PostContent toggleContentEditbind={toggleContentEditbind} postProps={postProps} />
-      <CommentOptionsBar postProps={postProps} />
-      <CommentPreview postProps={postProps} />
-      <CommentInputBar />
+      {sort === 'groupPage' ? (
+        <>
+          <CommentOptionsBar postProps={postProps} />
+          <CommentPreview postProps={postProps} />
+          <CommentInputBar />
+        </>
+      ) : (
+        <></>
+      )}
     </GroupPostS>
   );
 };
