@@ -60,15 +60,16 @@ const MissionSingle = ({ text, focusBind, index }: MissionSingleProps) => {
 
 export { MissonTab, MissionSingle };
 
-const MissonTabContainerS = styled.div`  
+const MissonTabContainerS = styled.div`
   margin: 0 1rem;
   margin-top: 1rem;
   overflow-x: scroll;
-  
+  padding: 0.5px 0;
+
   &::-webkit-scrollbar {
     display: none;
   }
-`
+`;
 
 /** 2023-08-20 MyMisson.tsx - 작심 중인 리스트 탭 */
 const MissonTabS = styled.ul`

@@ -130,6 +130,8 @@ const GroupBGHeaderS = styled(MyPageHeaderS)`
   background-color: white;
   min-width: var(--width-min);
 
+  padding: 1rem 0;
+
   img {
     position: absolute;
     left: 1.67rem;
@@ -162,6 +164,7 @@ const ProfileHeaderS = styled.div`
 
 const LimitInfoS = styled.div`
   background: #ffd32c;
+  width: 100%;
   height: 3.25rem;
 
   display: flex;
