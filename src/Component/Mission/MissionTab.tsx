@@ -84,16 +84,17 @@ const MissionSingleS = styled.li`
   justify-content: center;
   align-items: center;
 
-  outline: 1px solid var(--color-disabled2);
+  border: 1px solid var(--color-disabled2);
   border-radius: 1.5rem;
 
   font-size: var(--button-mid);
-  padding: 0.4rem 0.75rem;
+  padding: 0.3125rem 0.75rem;
   white-space: nowrap;
 
   &.focused {
     outline: none;
     background-color: black;
+    border: 1px solid black;
     color: white;
   }
 `;
