@@ -86,7 +86,7 @@ const CommentPage = () => {
       <CommentHeader />
       <PostContainerS>
         <GroupPost postProps={postProps} sort='commentPage' />
-        <CommentEmpty></CommentEmpty>
+        <CommentEmpty />
       </PostContainerS>
     </CommentPageContainer>
   );
