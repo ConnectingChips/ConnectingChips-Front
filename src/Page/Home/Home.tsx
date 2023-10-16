@@ -83,10 +83,6 @@ const HomeS = styled.section`
     position: sticky;
     bottom: 0;
   }
-
-  &::-webkit-scrollbar {
-    display: block;
-  }
 `;
 
 type WelcomeProps = {
