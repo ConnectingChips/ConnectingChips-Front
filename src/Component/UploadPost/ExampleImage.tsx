@@ -6,9 +6,9 @@ import { Arrow_Down } from '../ArrowBarrel';
 import defaultImage from '../../image/error-example-image.png';
 
 const ExampleImage = (): JSX.Element => {
+  const { mindId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [exampleImage, setExampleImage] = useState(defaultImage);
-  const { mindId } = useParams();
 
   useEffect(() => {
     (async () => {
@@ -41,36 +41,36 @@ const ExampleImage = (): JSX.Element => {
 export default ExampleImage;
 
 const PostS = styled.article`
-  background-color: var(--color-bg);
-  margin: 0 1rem;
-  color: var(--font-color1);
-  padding: 1rem;
-  border-radius: 1rem;
   display: flex;
   flex-direction: column;
   gap: var(--height-gap);
-`;
-
-const ArrowButtonS = styled.button`
-  img.open {
-    transform: rotate(180deg);
-  }
+  padding: 1rem;
+  border-radius: 1rem;
+  margin: 0 1rem;
+  color: var(--font-color1);
+  background-color: var(--color-bg);
 `;
 
 const CreateHeaderS = styled.div`
   display: flex;
   justify-content: space-between;
-  button {
-    display: flex;
-    align-items: center;
+`;
+
+const ArrowButtonS = styled.button`
+  display: flex;
+  align-items: center;
+
+  img.open {
+    transform: rotate(180deg);
   }
 `;
 
 const PostImageS = styled.div`
-  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+
   img {
     width: 100%;
   }
