@@ -31,7 +31,7 @@ const ExampleImage = (): JSX.Element => {
       </CreateHeaderS>
       {isOpen && (
         <PostImageS>
-          <img src={exampleImage} alt='업로드 사진' />
+          <img src={exampleImage} alt='인증 사진 예시' />
         </PostImageS>
       )}
     </PostS>
