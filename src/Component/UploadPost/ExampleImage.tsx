@@ -23,7 +23,7 @@ const ExampleImage = (): JSX.Element => {
   }, []);
 
   return (
-    <PostS passsort={'Create'}>
+    <PostS>
       <CreateHeaderS>
         <h2>인증 사진 예시</h2>
         <button onClick={() => setIsOpen((prev) => !prev)}>
@@ -45,9 +45,8 @@ const ExampleImage = (): JSX.Element => {
 
 export default ExampleImage;
 
-const PostS = styled.article<{ passsort: PageSort }>`
-  background-color: ${(props) =>
-    props.passsort === 'Intro' ? 'rgba(255, 255, 255, 0.7)' : 'var(--color-bg)'};
+const PostS = styled.article`
+  background-color: var(--color-bg);
   margin: 0 1rem;
   color: var(--font-color1);
   padding: 1rem;
