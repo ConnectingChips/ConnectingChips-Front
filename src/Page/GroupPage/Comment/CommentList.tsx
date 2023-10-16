@@ -19,22 +19,6 @@ const CommentList = ({ postProps }: { postProps: PostProps }): JSX.Element => {
 
   return (
     <CommentListContainerS>
-      {postData.commentCount > 0 && (
-        <>
-          <CommentToolbar postData={postData} />
-          <CommentListS>
-            {postData.commentList.map((commentData) => (
-              <Comment
-                userInfo={userInfo}
-                setInputToggle={setInputToggle}
-                setIsComment={setIsComment}
-                commentData={commentData}
-                key={commentData.commentId}
-              />
-            ))}
-          </CommentListS>
-        </>
-      )}
       <CommentInput
         postData={postData}
         userInfo={userInfo}

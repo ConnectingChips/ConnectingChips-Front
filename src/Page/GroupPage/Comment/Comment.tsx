@@ -10,26 +10,19 @@ import { refreshState } from '../../../data/initialData';
 interface CommentProps {
   commentData: CommentType;
   userInfo: GetUser;
-  setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
   setIsComment: React.Dispatch<React.SetStateAction<number>>;
 }
 
 /** 댓글 box */
-const Comment = ({ commentData, userInfo, setInputToggle, setIsComment }: CommentProps) => {
+const Comment = ({ commentData, userInfo, setIsComment }: CommentProps) => {
   return (
     <CommentContainerS>
-      <CommentBox
-        CommentData={commentData}
-        userInfo={userInfo}
-        setInputToggle={setInputToggle}
-        setIsComment={setIsComment}
-      />
+      <CommentBox CommentData={commentData} userInfo={userInfo} setIsComment={setIsComment} />
       {commentData.replyList?.map((replyData) => {
         return (
           <CommentBox
             CommentData={replyData}
             userInfo={userInfo}
-            setInputToggle={setInputToggle}
             setIsComment={setIsComment}
             key={replyData.replyId}
           />
@@ -44,11 +37,10 @@ export default Comment;
 interface CommentBoxProps {
   CommentData: CommentType;
   userInfo: GetUser;
-  setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
   setIsComment: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: CommentBoxProps) => {
+const CommentBox = ({ CommentData, userInfo, setIsComment }: CommentBoxProps) => {
   const openModal = () => setModalBtn(true);
   const [isReply, setIsReply] = useState<boolean>(false);
   const { nickname, createDate, content, userId, profileImage } = CommentData;
@@ -67,7 +59,6 @@ const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: Com
   // 댓글 추가 핸들러
   const addReplyHandler = () => {
     if (CommentData.commentId) {
-      setInputToggle(false);
       setIsComment(CommentData.commentId);
     }
   };

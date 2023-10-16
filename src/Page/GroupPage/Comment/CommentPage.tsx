@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { Arrow_Left_B } from '../../../Component/ArrowBarrel';
+import Bind from '../../../Type/Bind';
 import {
   axios,
   BoardsType,
@@ -17,6 +18,9 @@ import {
 } from '../GroupPageBarrel';
 import GroupPost from '../Post/GroupPost';
 import { refreshState } from '../Post/PostListBarrel';
+import Comment from './Comment';
+import { CommentInput } from './CommentInput';
+import { CommentToolbar } from './CommentToolbar';
 
 const CommentPage = () => {
   const { mindId } = useParams<string>();
@@ -30,6 +34,10 @@ const CommentPage = () => {
     setToggleContentEdit,
   };
   const navigate = useNavigate();
+
+  // 0이면 댓글 아니면 댓글의 commentId로 답글만들기
+  const [isComment, setIsComment] = useState<number>(0);
+  const isCommentBind: Bind<number> = { state: isComment, Setter: setIsComment };
 
   // 데이터 받아오는 코드
   useEffect(() => {
@@ -72,7 +80,7 @@ const CommentPage = () => {
     })();
   }, [navigate]);
 
-  console.log(postData);
+  console.log(postData.commentList);
 
   if (!postData) {
     navigate(`/groupPage/${mindId}`); // groupPage로의 경로를 정확하게 입력해주세요.
@@ -86,6 +94,17 @@ const CommentPage = () => {
       <CommentHeader />
       <PostContainerS>
         <GroupPost postProps={postProps} sort='commentPage' />
+        <CommentToolbar postData={postData} />
+        {postData.commentList.map((commentData) => {
+          return (
+            <Comment
+              userInfo={userInfo}
+              setIsComment={setIsComment}
+              commentData={commentData}
+              key={commentData.commentId}
+            />
+          );
+        })}
         <CommentEmpty />
       </PostContainerS>
     </CommentPageContainer>
