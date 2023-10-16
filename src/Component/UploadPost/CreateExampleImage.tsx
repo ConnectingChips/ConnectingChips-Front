@@ -5,7 +5,7 @@ import { getExampleImage } from '../../API/Mind';
 import { Arrow_Down } from '../ArrowBarrel';
 import defaultImage from '../../image/error-example-image.png';
 
-const ExampleImage = (): JSX.Element => {
+const CreateExampleImage = (): JSX.Element => {
   const { mindId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [exampleImage, setExampleImage] = useState(defaultImage);
@@ -38,7 +38,7 @@ const ExampleImage = (): JSX.Element => {
   );
 };
 
-export default ExampleImage;
+export default CreateExampleImage;
 
 const PostS = styled.article`
   display: flex;
