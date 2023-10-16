@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { Arrow_Left_B, Arrow_Left_W } from '../../../Component/ArrowBarrel';
+import { Arrow_Left_B } from '../../../Component/ArrowBarrel';
 import {
   axios,
   BoardsType,
@@ -13,19 +13,17 @@ import {
   styled,
   useNavigate,
   useParams,
+  boardsEmptyValue,
 } from '../GroupPageBarrel';
-import GroupPost, { PostImageS } from '../Post/GroupPost';
-import PostContent from '../Post/PostContent';
-import PostHeader from '../Post/PostHeader';
+import GroupPost from '../Post/GroupPost';
 import { refreshState } from '../Post/PostListBarrel';
 
 const CommentPage = () => {
   const { mindId } = useParams<string>();
   const { postId } = useParams<string>();
-  const [mindData, setMindData] = useState<BoardsType[]>([]);
-  const [postData, setPostData] = useState<BoardsType>();
+  const [postData, setPostData] = useState<BoardsType>(boardsEmptyValue);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-  const [refresh] = useRecoilState<number>(refreshState);
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
   const [toggleContentEdit, setToggleContentEdit] = useState<boolean>(false);
   const toggleContentEditbind = {
     toggleContentEdit,
@@ -33,17 +31,24 @@ const CommentPage = () => {
   };
   const navigate = useNavigate();
 
+  // 데이터 받아오는 코드
   useEffect(() => {
-    getBoards(Number(mindId)).then((res: BoardsType[]) => {
-      setMindData(res);
-    });
-    const filterMindData = mindData.filter((data) => {
-      return data.boardId === Number(postId);
-    });
-    setPostData(filterMindData[0]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refresh, postId]);
+    (async () => {
+      try {
+        const res = await getBoards(Number(mindId));
+        const filterMindData = res.filter((data) => {
+          return data.boardId === Number(postId);
+        });
+        setPostData(filterMindData[0]);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    })();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mindId, postId, refresh]);
+
+  // 토큰 만료시 홈으로 보내주는 코드
   useEffect(() => {
     (async () => {
       try {
@@ -67,7 +72,10 @@ const CommentPage = () => {
     })();
   }, [navigate]);
 
+  console.log(postData);
+
   if (!postData) {
+    navigate(`/groupPage/${mindId}`); // groupPage로의 경로를 정확하게 입력해주세요.
     return null;
   }
 
@@ -88,10 +96,12 @@ export default CommentPage;
 const CommentHeader = () => {
   return (
     <CommentHeaderS>
-      <img src={Arrow_Left_B} alt='Arrow_Left_B' />
+      <img src={Arrow_Left_B} alt='Arrow_Left_B' onClick={goBack} />
     </CommentHeaderS>
   );
 };
+
+const goBack = (): void => window.history.back();
 
 const CommentPageContainer = styled.div`
   height: 100dvh;
