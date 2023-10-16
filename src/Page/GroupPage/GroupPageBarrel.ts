@@ -15,7 +15,6 @@ import {
 } from '../../Component/Mission/GroupArticle';
 import { MindPageInfo, MindsType } from '../../Type/Mind';
 
-import Comment from './Comment/CommentList';
 import GroupPost from './Post/GroupPost';
 
 import { getBoards, BoardsType } from '../../API/Boards';
@@ -62,7 +61,7 @@ export {
   IntroduceS,
   initMind,
 };
-export { Comment, GroupPost, getBoards, getUser, initUser };
+export { GroupPost, getBoards, getUser, initUser };
 export type { MindPageInfo, MindsType, GetUser, BoardsType, PostProps };
 export { INVALID_TOKEN, EXPIRED_TOKEN };
 export { post_Icon, post_Icon_locked, getkeepJoin };

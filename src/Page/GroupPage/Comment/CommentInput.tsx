@@ -9,19 +9,13 @@ import Bind from '../../../Type/Bind';
 interface commentInputProps {
   userInfo: GetUser;
   postData: BoardsType;
-  inputToggleBind: Bind<boolean>;
   isCommentBind: Bind<number>;
 }
 
-const CommentInput = ({
-  userInfo,
-  postData,
-  inputToggleBind,
-  isCommentBind,
-}: commentInputProps) => {
-  const { state: inputToggle, Setter: setInputToggle } = inputToggleBind;
+const CommentInput = ({ userInfo, postData, isCommentBind }: commentInputProps) => {
   const { state: isComment, Setter: setIsComment } = isCommentBind;
   const [commentInputText, setCommentInputText] = useState<string>('');
+  const [inputToggle, setInputToggle] = useState<boolean>(true);
 
   // input에 들어갈 내용 CommentInput에 넣는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,34 +84,28 @@ const CommentInput = ({
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInputText.trimStart().length === 0 ? 'off' : 'on';
 
-  const CommentInputContent = (
-    <CommentInputContainerS inputToggle={inputToggle} onClick={handleFormClickFalse}>
-      <CommentInputS inputToggle={inputToggle}>
-        <input
-          placeholder={placeholderText()}
-          value={commentInputText}
-          onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
-          type='text'
-          maxLength={400}
-        />
-        <button onClick={inputBtnHandler}>
-          {
-            <img
-              src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
-              alt='sendIcon'
-            />
-          }
-        </button>
-      </CommentInputS>
-    </CommentInputContainerS>
-  );
-
-  return inputToggle ? (
-    CommentInputContent
-  ) : (
+  return (
     <CommentInputBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
-      {CommentInputContent}
+      <CommentInputContainerS inputToggle={inputToggle} onClick={handleFormClickFalse}>
+        <CommentInputS inputToggle={inputToggle}>
+          <input
+            placeholder={placeholderText()}
+            value={commentInputText}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
+            type='text'
+            maxLength={400}
+          />
+          <button onClick={inputBtnHandler}>
+            {
+              <img
+                src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
+                alt='sendIcon'
+              />
+            }
+          </button>
+        </CommentInputS>
+      </CommentInputContainerS>
     </CommentInputBGS>
   );
 };
@@ -128,27 +116,17 @@ const CommentInputBGS = styled.div<{ inputToggle: boolean }>`
   ${(props) =>
     props.inputToggle
       ? ''
-      : 'position: fixed; display: flex; flex-direction: column-reverse; top: 0;left: 0;right: 0;bottom: 0;z-index: 100;overflow:auto;'}
+      : 'position: fixed; display: flex; flex-direction: column-reverse; top: 0;left: 0;right: 0;bottom: 0; z-index: 100;'}
 `;
 
 export const CommentInputContainerS = styled.div<{ inputToggle: boolean }>`
-  position: ${(props) => (props.inputToggle ? '' : 'fixed')};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: static;
   background-color: white;
-  height: 4.5rem;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: ${(props) => (props.inputToggle ? '0.5rem 0' : '')};
+  padding: 0.5rem 1rem;
 `;
 
 const CommentInputS = styled.div<{ inputToggle: boolean }>`
-  position: ${(props) => (props.inputToggle ? '' : 'fixed')};
-  background-color: #fff;
-  border: 1px solid #e3e3e3;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-line);
   border-radius: 0.5rem;
   width: 100%;
   box-sizing: border-box;
@@ -164,6 +142,9 @@ const CommentInputS = styled.div<{ inputToggle: boolean }>`
     border: none;
     background-color: transparent;
     color: var(--font-color3);
+    &:focus {
+      outline: none;
+    }
   }
   button {
     padding: 0;
