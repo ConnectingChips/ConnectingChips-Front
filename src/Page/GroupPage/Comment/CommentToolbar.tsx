@@ -6,20 +6,13 @@ import {
 import { BoardsType } from '../GroupPageBarrel';
 import Bind from '../../../Type/Bind';
 interface CommentToolbarProps {
-  commentFlipBind: Bind<boolean>;
   postData: BoardsType;
 }
 
-const CommentToolbar = ({ commentFlipBind, postData }: CommentToolbarProps) => {
-  const { state: commentFlip, Setter: setCommentFlip } = commentFlipBind;
+const CommentToolbar = ({ postData }: CommentToolbarProps) => {
   return (
     <CommentToolbarS>
       <h2 className='commentfont'>댓글 {postData.commentCount}</h2>
-      <img
-        src={commentFlip ? Arrow_icon_Down : Arrow_icon_Up}
-        alt='댓글열기'
-        onClick={() => setCommentFlip(!commentFlip)}
-      />
     </CommentToolbarS>
   );
 };

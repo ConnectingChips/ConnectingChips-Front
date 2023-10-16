@@ -9,7 +9,6 @@ import Bind from '../../../Type/Bind';
 interface commentInputProps {
   userInfo: GetUser;
   postData: BoardsType;
-  setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
   inputToggleBind: Bind<boolean>;
   isCommentBind: Bind<number>;
 }
@@ -17,7 +16,6 @@ interface commentInputProps {
 const CommentInput = ({
   userInfo,
   postData,
-  setCommentFlip,
   inputToggleBind,
   isCommentBind,
 }: commentInputProps) => {
@@ -83,7 +81,6 @@ const CommentInput = ({
         setIsComment(0);
       }
       setCommentInputText('');
-      setCommentFlip(false);
       setRefresh((prevRefresh) => prevRefresh + 1);
     } catch (error) {
       console.error('오류 발생:', error);

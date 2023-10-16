@@ -9,10 +9,6 @@ import Bind from '../../../Type/Bind';
 const CommentList = ({ postProps }: { postProps: PostProps }): JSX.Element => {
   const { postData, userInfo } = postProps;
 
-  // 댓글접기
-  const [commentFlip, setCommentFlip] = useState(true);
-  const commentFlipBind: Bind<boolean> = { state: commentFlip, Setter: setCommentFlip };
-
   // input 바텀에 붙거나 말거나
   const [inputToggle, setInputToggle] = useState<boolean>(true);
   const inputToggleBind: Bind<boolean> = { state: inputToggle, Setter: setInputToggle };
@@ -25,8 +21,8 @@ const CommentList = ({ postProps }: { postProps: PostProps }): JSX.Element => {
     <CommentListContainerS>
       {postData.commentCount > 0 && (
         <>
-          <CommentToolbar postData={postData} commentFlipBind={commentFlipBind} />
-          <CommentListS commentFlip={commentFlip}>
+          <CommentToolbar postData={postData} />
+          <CommentListS>
             {postData.commentList.map((commentData) => (
               <Comment
                 userInfo={userInfo}
@@ -42,7 +38,6 @@ const CommentList = ({ postProps }: { postProps: PostProps }): JSX.Element => {
       <CommentInput
         postData={postData}
         userInfo={userInfo}
-        setCommentFlip={setCommentFlip}
         inputToggleBind={inputToggleBind}
         isCommentBind={isCommentBind}
       />
@@ -57,9 +52,7 @@ const CommentListContainerS = styled.div`
   margin-top: 0.5rem;
 `;
 
-const CommentListS = styled.div<{ commentFlip: boolean }>`
-  height: ${(props) => (props.commentFlip ? '0px' : 'auto')};
-  margin: ${(props) => (props.commentFlip ? 'none' : '1rem 0')};
+const CommentListS = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
