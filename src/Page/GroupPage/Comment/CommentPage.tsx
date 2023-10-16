@@ -19,6 +19,7 @@ import {
 import GroupPost from '../Post/GroupPost';
 import { refreshState } from '../Post/PostListBarrel';
 import Comment from './Comment';
+import { CommentInput } from './CommentInput';
 import { CommentToolbar } from './CommentToolbar';
 
 const CommentPage = () => {
@@ -104,6 +105,7 @@ const CommentPage = () => {
             <CommentEmpty />
           )}
         </CommentContainerS>
+        <CommentInput postData={postData} userInfo={userInfo} isCommentBind={isCommentBind} />
       </PostContainerS>
     </CommentPageContainer>
   );
@@ -144,6 +146,7 @@ const CommentHeaderS = styled.header`
   top: 0;
   box-sizing: border-box;
   height: var(--height-header);
+  background-color: var(--color-white);
 `;
 
 const PostContainerS = styled.div`
