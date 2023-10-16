@@ -28,19 +28,21 @@ const ArticleTab = ({
 export default ArticleTab;
 
 const ArticleTabS = styled.article`
-  &::after {
-    content: '';
-    display: block;
-    height: 0.5rem;
-    background-color: var(--color-line);
-  }
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--width-max);
+  min-width: var(--width-min);
+  padding: 0 1rem;
+  box-sizing: border-box;
+  gap: 1.25rem;
 `;
 
 const TabHeadS = styled.ul`
   display: flex;
   height: 3rem;
-  margin: 0 1rem;
   font-weight: 500;
+  width: 100%;
 
   li {
     width: 50%;

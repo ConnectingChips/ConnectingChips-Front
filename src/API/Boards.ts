@@ -86,14 +86,16 @@ export const postCreateBoard = async (BoardData: CreateBoard): Promise<PostCreat
   const boardRequestDto = { mindId, userId, content };
   const { tockenHeader } = getToken();
 
+  if (image.file === null) {
+    throw new Error('이미지는 필수입니다.');
+  }
+
   formData.append(
     'boardRequestDto',
     new Blob([JSON.stringify(boardRequestDto)], { type: 'application/json' }),
   );
 
-  if (image.file !== null) {
-    formData.append('file', image.file);
-  }
+  formData.append('file', image.file);
 
   try {
     const response = await postData<PostCreateBoardType>(`/boards`, formData, tockenHeader);

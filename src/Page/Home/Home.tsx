@@ -12,6 +12,7 @@ import {
 } from './HomeBarrel';
 import { Banner as BannerImage, Logo_002, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
+import React from 'react';
 
 const { Kakao } = window;
 
@@ -74,12 +75,18 @@ export default Home;
 
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */
 const HomeS = styled.section`
-  max-width: var(--width-mobile);
+  width: 100%;
+  max-width: var(--width-max);
+  min-width: 20rem;
   margin: 0 auto;
 
   .CTA {
     position: sticky;
     bottom: 0;
+  }
+
+  &::-webkit-scrollbar {
+    display: block;
   }
 `;
 
@@ -101,7 +108,13 @@ const setHome = async (
       .then((userInfo: GetUser) => setMyInfo(userInfo))
       .catch(() => {});
     await getMyList()
-      .then((list: Mylist[]) => setMyList(list))
+      .then((list: Mylist[]) => {
+        list.map((list) => {
+          if (list.count > 3) list.count = 3;
+          if (list.count < 0) list.count = 0;
+        });
+        setMyList(list);
+      })
       .catch(() => {});
     await getisDoneAll()
       .then((isDone: isDone[]) => {

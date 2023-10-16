@@ -150,7 +150,8 @@ const CurrentMindListS = styled.ul`
   flex-direction: column;
   gap: 0.5rem;
 
-  margin: 1.25rem 1rem;
+  width: 100%;
+  max-width: var(--width-max);
 `;
 
 const MindS = styled.li`
@@ -180,6 +181,7 @@ const MindS = styled.li`
     font-weight: 500;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
   }
   p.sub {
     color: var(--font-color2);
@@ -197,19 +199,31 @@ const myPageButton = styled.button`
 `;
 
 const ExitButtonS = styled(myPageButton)`
+  box-sizing: content-box;
   background-color: #fff;
   border: 1px solid var(--font-color3);
-  width: 5.5rem;
+  padding: 0 0.56rem;
   color: #000;
+
+  min-width: 4.25rem;
+  white-space: nowrap;
 `;
 
 const ReMindButtonS = styled(myPageButton)`
+  box-sizing: content-box;
   background-color: var(--color-main);
-  width: 6.9375rem;
+  padding: 0 0.94rem;
+
+  min-width: 5.06rem;
+  white-space: nowrap;
 `;
 
 const FullJoinButtonS = styled(myPageButton)`
   background-color: var(--color-disabled2);
   color: var(--color-disabled1);
-  width: 6.9375rem;
+  padding: 0 0.94rem;
+
+  min-width: 5.06rem;
+  white-space: nowrap;
+  box-sizing: content-box;
 `;

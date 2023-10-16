@@ -23,18 +23,20 @@ type MissionSingleProps = {
 /** 2023-08-20 MissonTab.tsx - 공통되는 탭 리스트 */
 const MissonTab = ({ missionTab, focusbind }: MissonTabProps): JSX.Element => {
   return (
-    <MyMissonTabS>
-      {missionTab.map((mission, index) => {
-        return (
-          <MissionSingle
-            text={mission.title}
-            focusBind={focusbind}
-            index={index}
-            key={mission.tab_id}
-          />
-        );
-      })}
-    </MyMissonTabS>
+    <MissonTabContainerS>
+      <MissonTabS>
+        {missionTab.map((mission, index) => {
+          return (
+            <MissionSingle
+              text={mission.title}
+              focusBind={focusbind}
+              index={index}
+              key={mission.tab_id}
+            />
+          );
+        })}
+      </MissonTabS>
+    </MissonTabContainerS>
   );
 };
 
@@ -58,10 +60,22 @@ const MissionSingle = ({ text, focusBind, index }: MissionSingleProps) => {
 
 export { MissonTab, MissionSingle };
 
-/** 2023-08-20 MyMisson.tsx - 작심 중인 리스트 탭 */
-const MyMissonTabS = styled.ul`
-  display: flex;
+const MissonTabContainerS = styled.div`
+  margin: 0 1rem;
   margin-top: 1rem;
+  overflow-x: scroll;
+  padding: 0.5px 0;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+/** 2023-08-20 MyMisson.tsx - 작심 중인 리스트 탭 */
+const MissonTabS = styled.ul`
+  display: flex;
+  gap: var(--height-gap);
+  width: fit-content;
 `;
 
 /** 2023-08-21 MyMisson.tsx - 작심 중인 리스트 항목 */
@@ -70,19 +84,17 @@ const MissionSingleS = styled.li`
   justify-content: center;
   align-items: center;
 
-  outline: 1px solid var(--color-disabled2);
+  border: 1px solid var(--color-disabled2);
   border-radius: 1.5rem;
 
   font-size: var(--button-mid);
-  padding: 0.4rem 0.8rem;
-
-  &:not(:first-child) {
-    margin-left: var(--height-gap);
-  }
+  padding: 0.3125rem 0.75rem;
+  white-space: nowrap;
 
   &.focused {
     outline: none;
     background-color: black;
+    border: 1px solid black;
     color: white;
   }
 `;

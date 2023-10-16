@@ -13,7 +13,7 @@ export const getMindInfo_Intro = async (mind_id: number): Promise<MindIntroInfo>
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error("Failed to get Minds' Info Intro, Upload");
+    return Promise.reject(error);
   }
 };
 
