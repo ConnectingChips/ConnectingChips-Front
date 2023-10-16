@@ -86,6 +86,7 @@ const CommentPage = () => {
       <CommentHeader />
       <PostContainerS>
         <GroupPost postProps={postProps} sort='commentPage' />
+        <CommentEmpty></CommentEmpty>
       </PostContainerS>
     </CommentPageContainer>
   );
@@ -98,6 +99,15 @@ const CommentHeader = () => {
     <CommentHeaderS>
       <img src={Arrow_Left_B} alt='Arrow_Left_B' onClick={goBack} />
     </CommentHeaderS>
+  );
+};
+
+const CommentEmpty = () => {
+  return (
+    <CommentEmptyS>
+      <p className='title'>등록된 댓글이 없습니다.</p>
+      <p className='content'>응원 댓글을 통해 따듯한 작심월드를 만들어 주세요</p>
+    </CommentEmptyS>
   );
 };
 
@@ -122,4 +132,20 @@ const CommentHeaderS = styled.header`
 const PostContainerS = styled.div`
   max-width: 500px;
   margin: 3.5rem auto 0 auto;
+`;
+
+const CommentEmptyS = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin: 2.5rem 0;
+  .title {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  .content {
+    font-size: 0.875rem;
+    color: var(--font-color3);
+  }
 `;
