@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { getExampleImage } from '../../API/Mind';
-import { PageSort } from '../../Type/Mind';
-import { Arrow_Down, Arrow_Up } from '../ArrowBarrel';
+import { Arrow_Down } from '../ArrowBarrel';
 import defaultImage from '../../image/error-example-image.png';
 
 const ExampleImage = (): JSX.Element => {
@@ -26,13 +25,9 @@ const ExampleImage = (): JSX.Element => {
     <PostS>
       <CreateHeaderS>
         <h2>인증 사진 예시</h2>
-        <button onClick={() => setIsOpen((prev) => !prev)}>
-          {isOpen ? (
-            <img src={Arrow_Up} alt='Arrow_Up' />
-          ) : (
-            <img src={Arrow_Down} alt='Arrow_Down' />
-          )}
-        </button>
+        <ArrowButtonS onClick={() => setIsOpen((prev) => !prev)}>
+          <img src={Arrow_Down} alt={isOpen ? '접기' : '펼치기'} className={isOpen ? 'open' : ''} />
+        </ArrowButtonS>
       </CreateHeaderS>
       {isOpen && (
         <PostImageS>
@@ -54,6 +49,12 @@ const PostS = styled.article`
   display: flex;
   flex-direction: column;
   gap: var(--height-gap);
+`;
+
+const ArrowButtonS = styled.button`
+  img.open {
+    transform: rotate(180deg);
+  }
 `;
 
 const CreateHeaderS = styled.div`
