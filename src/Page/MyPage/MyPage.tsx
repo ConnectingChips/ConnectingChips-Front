@@ -187,7 +187,7 @@ const MyPageSetS = styled.div`
   min-width: var(--width-min);
 
   ul {
-    margin-top: 1.06rem;
+    margin: 1.06rem 0;
     display: flex;
     flex-direction: column;
     gap: 2.125rem;
