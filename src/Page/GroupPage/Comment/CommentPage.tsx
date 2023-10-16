@@ -19,7 +19,6 @@ import {
 import GroupPost from '../Post/GroupPost';
 import { refreshState } from '../Post/PostListBarrel';
 import Comment from './Comment';
-import { CommentInput } from './CommentInput';
 import { CommentToolbar } from './CommentToolbar';
 
 const CommentPage = () => {
@@ -27,12 +26,9 @@ const CommentPage = () => {
   const { postId } = useParams<string>();
   const [postData, setPostData] = useState<BoardsType>(boardsEmptyValue);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
-  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
+  const [refresh] = useRecoilState<number>(refreshState);
   const [toggleContentEdit, setToggleContentEdit] = useState<boolean>(false);
-  const toggleContentEditbind = {
-    toggleContentEdit,
-    setToggleContentEdit,
-  };
+
   const navigate = useNavigate();
 
   // 0이면 댓글 아니면 댓글의 commentId로 답글만들기
@@ -80,8 +76,6 @@ const CommentPage = () => {
     })();
   }, [navigate]);
 
-  console.log(postData.commentList);
-
   if (!postData) {
     navigate(`/groupPage/${mindId}`); // groupPage로의 경로를 정확하게 입력해주세요.
     return null;
@@ -94,18 +88,22 @@ const CommentPage = () => {
       <CommentHeader />
       <PostContainerS>
         <GroupPost postProps={postProps} sort='commentPage' />
+
         <CommentToolbar postData={postData} />
-        {postData.commentList.map((commentData) => {
-          return (
-            <Comment
-              userInfo={userInfo}
-              setIsComment={setIsComment}
-              commentData={commentData}
-              key={commentData.commentId}
-            />
-          );
-        })}
-        <CommentEmpty />
+        <CommentContainerS>
+          {postData.commentList.length !== 0 ? (
+            postData.commentList.map((commentData) => (
+              <Comment
+                userInfo={userInfo}
+                setIsComment={setIsComment}
+                commentData={commentData}
+                key={commentData.commentId}
+              />
+            ))
+          ) : (
+            <CommentEmpty />
+          )}
+        </CommentContainerS>
       </PostContainerS>
     </CommentPageContainer>
   );
@@ -167,4 +165,10 @@ const CommentEmptyS = styled.div`
     font-size: 0.875rem;
     color: var(--font-color3);
   }
+`;
+
+const CommentContainerS = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
 `;

@@ -13,6 +13,6 @@ const CommentToolbar = ({ postData }: CommentToolbarProps) => {
 export { CommentToolbar };
 
 const CommentToolbarS = styled.h2`
-  margin-bottom: 0.75rem;
+  margin: 0.37rem 1rem 0.75rem 1rem;
   font-size: 1rem;
 `;

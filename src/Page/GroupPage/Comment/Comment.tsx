@@ -104,6 +104,26 @@ const CommentBox = ({ CommentData, userInfo, setIsComment }: CommentBoxProps) =>
   );
 };
 
+const CommentContainerS = styled.div`
+  display: flex;
+  align-items: start;
+  min-height: 2rem;
+  border-radius: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 1rem;
+  img {
+    width: 1.875rem;
+  }
+`;
+
+const CommentBoxContainerS = styled.div<{ isReply: boolean }>`
+  ${(props) =>
+    props.isReply
+      ? 'background-color : var(--color-bg);padding: 1rem; margin-left: 2.375rem;border-radius: 1rem; width: calc(100% - 4.375rem);'
+      : null};
+`;
+
 const CommentBoxS = styled.div`
   display: flex;
   gap: 0.5rem;
@@ -128,34 +148,10 @@ const CommentBoxProfile = styled.div`
   }
 `;
 
-const CommentContainerS = styled.div`
-  display: flex;
-  align-items: start;
-  min-height: 2rem;
-  border-radius: 1rem;
-  flex-direction: column;
-  gap: 0.5rem;
-  img {
-    width: 1.875rem;
-  }
-`;
-
 const CommentBoxContent = styled.p`
   font-size: 0.875rem;
   color: var(--font-color2);
   margin-bottom: var(--height-gap);
-`;
-
-const CommentBoxContainerS = styled.div<{ isReply: boolean }>`
-  ${(props) =>
-    props.isReply
-      ? 'background-color : var(--color-bg);padding: 1rem;margin-left: 2.375rem;border-radius: 1rem;'
-      : null};
-
-  width: 19.0625rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 `;
 
 const CommentBoxOptionS = styled.div`
