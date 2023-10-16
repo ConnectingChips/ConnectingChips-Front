@@ -23,9 +23,9 @@ const ExampleImage = (): JSX.Element => {
 
   return (
     <PostS>
-      <CreateHeaderS>
+      <CreateHeaderS onClick={() => setIsOpen((prev) => !prev)}>
         <h2>인증 사진 예시</h2>
-        <ArrowButtonS onClick={() => setIsOpen((prev) => !prev)}>
+        <ArrowButtonS>
           <img src={Arrow_Down} alt={isOpen ? '접기' : '펼치기'} className={isOpen ? 'open' : ''} />
         </ArrowButtonS>
       </CreateHeaderS>
