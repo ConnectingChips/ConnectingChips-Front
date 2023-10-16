@@ -4,9 +4,9 @@ import { styled } from 'styled-components';
 import { getExampleImage } from '../../API/Mind';
 import { PageSort } from '../../Type/Mind';
 import { Arrow_Down, Arrow_Up } from '../ArrowBarrel';
-import defaultImage from '../../image/ex_image_err.png';
+import defaultImage from '../../image/error-example-image.png';
 
-const CreateExample = (): JSX.Element => {
+const ExampleImage = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [exampleImage, setExampleImage] = useState(defaultImage);
   const { mindId } = useParams();
@@ -43,7 +43,7 @@ const CreateExample = (): JSX.Element => {
   );
 };
 
-export { CreateExample };
+export default ExampleImage;
 
 const PostS = styled.article<{ passsort: PageSort }>`
   background-color: ${(props) =>
