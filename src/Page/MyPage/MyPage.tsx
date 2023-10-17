@@ -63,10 +63,10 @@ export default MyPage;
 
 const MyPageHeader = (): JSX.Element => {
   return (
-    <GroupBGHeaderS>
+    <MyPageHeaderS>
       <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
       <h2>MY</h2>
-    </GroupBGHeaderS>
+    </MyPageHeaderS>
   );
 };
 
@@ -113,24 +113,20 @@ const MyPageS = styled.div`
 `;
 
 const MyPageHeaderS = styled.header`
+  z-index: 10;
   position: sticky;
   top: 0;
 
   width: 100%;
-  height: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-`;
-
-const GroupBGHeaderS = styled(MyPageHeaderS)`
-  z-index: 10;
-  justify-content: center;
-  background-color: white;
   min-width: var(--width-min);
 
+  height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 1rem 0;
+
+  background-color: white;
 
   img {
     position: absolute;
@@ -191,7 +187,7 @@ const MyPageSetS = styled.div`
   min-width: var(--width-min);
 
   ul {
-    margin-top: 1.06rem;
+    margin: 1.06rem 0;
     display: flex;
     flex-direction: column;
     gap: 2.125rem;
