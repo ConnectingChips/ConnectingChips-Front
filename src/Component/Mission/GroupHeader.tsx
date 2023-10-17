@@ -72,6 +72,6 @@ export const GroupHeaderContainerS = styled(GroupHeaderS)`
   height: var(--height-header);
   justify-content: space-between;
   background-color: white;
-  z-index: 20;
+  z-index: 100;
   top: 0;
 `;
