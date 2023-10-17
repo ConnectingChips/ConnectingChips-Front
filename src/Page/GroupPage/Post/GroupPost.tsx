@@ -58,11 +58,18 @@ const CommentOptionsBar = ({ postProps }: { postProps: PostProps }) => {
 };
 
 const CommentPreview = ({ postProps }: { postProps: PostProps }) => {
+  const navigate = useNavigate();
+  const { mindId } = useParams();
+  const { boardId } = postProps.postData;
   const { commentList } = postProps.postData;
   const lastComment = commentList[commentList.length - 1];
   if (!commentList.length) return null;
+
+  const navigateCommentsPage = () => {
+    navigate(`/grouppage/${mindId}/${boardId}`);
+  };
   return (
-    <CommentPreviewS>
+    <CommentPreviewS onClick={navigateCommentsPage}>
       <img src={lastComment.profileImage} alt='profileImage' />
       <div className='nickname'>{lastComment.nickname}</div>
       <div className='content'>{lastComment.content}</div>
@@ -179,7 +186,7 @@ const CommentPreviewS = styled.div`
 `;
 
 const CommentInputBarContainer = styled.div`
-  height: 4.5rem;
+  margin: 0.5rem 0.91rem;
 `;
 
 const CommentInputBarS = styled.div`
@@ -190,7 +197,6 @@ const CommentInputBarS = styled.div`
   padding: 1.06rem 1rem;
   border: 1px solid #e3e3e3;
   border-radius: 0.5rem;
-  margin: 0.5rem 0.91rem;
   font-size: 1rem;
   color: var(--font-color3);
 `;
