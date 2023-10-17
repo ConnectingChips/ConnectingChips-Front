@@ -93,7 +93,6 @@ const CommentPage = () => {
         {postData.commentList.length !== 0 ? (
           <CommentContainerS isInputFocused={isInputFocused}>
             <CommentToolbar postData={postData} />
-
             {postData.commentList.map((commentData) => (
               <Comment
                 userInfo={userInfo}
@@ -160,7 +159,7 @@ const CommentEmptyS = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.2rem;
-  margin: 2.5rem 0;
+  margin: 2.5rem 0 3.56rem 0;
   .title {
     font-size: 1.25rem;
     font-weight: 500;

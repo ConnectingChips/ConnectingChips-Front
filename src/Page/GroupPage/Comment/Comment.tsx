@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { SetStateAction, useEffect, useState } from 'react';
-import { CommentType, ReplyType } from '../../../API/Boards';
+import { useEffect, useState } from 'react';
+import { CommentType } from '../../../API/Boards';
 import { GetUser } from '../GroupPageBarrel';
 import { deleteComment, deleteReply } from '../../../API/Comment';
 import DeleteModal from '../../../Component/DeleteModal';
@@ -153,12 +153,14 @@ const CommentBoxProfile = styled.div`
 const CommentBoxContent = styled.p`
   font-size: 0.875rem;
   color: var(--font-color2);
-  margin-bottom: var(--height-gap);
+  margin: var(--height-gap) 0;
 `;
 
 const CommentBoxOptionS = styled.div`
   display: flex;
   gap: 1.5rem;
-  font-size: 0.875rem;
-  color: var(--font-color3);
+  p {
+    font-size: 0.875rem;
+    color: var(--font-color3);
+  }
 `;

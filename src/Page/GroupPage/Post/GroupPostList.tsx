@@ -91,7 +91,7 @@ const GroupPostListS = styled.div`
   padding: 1.25rem 0;
   h2.headLine {
     font-size: 1.125rem;
-    margin: 0 1rem 0.5rem 1rem;
+    margin: 0 1rem 1.25rem 1rem;
   }
 `;
 
