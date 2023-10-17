@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { putEditBoard } from '../../../API/Boards';
 import { PostProps } from '../PostPropsType';
@@ -22,6 +22,10 @@ const PostContent = ({ toggleContentEditbind, postProps }: PostContentProps): JS
   const textarea = useRef<HTMLTextAreaElement | null>(null);
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
+  useEffect(() => {
+    setContentText(content);
+  }, [content]);
+
   // textarea에 글자적으면 자동 height변경
   const handleResizeHeight = useCallback(() => {
     if (textarea.current) {
@@ -34,7 +38,7 @@ const PostContent = ({ toggleContentEditbind, postProps }: PostContentProps): JS
     content: contentText,
   };
 
-  // 게시글 수정
+  // 게시글 수정 핸들러
   const ContentEditHandler = async () => {
     await putEditBoard(boardId, postEditData).then((res) => {
       setContentText(res.content);

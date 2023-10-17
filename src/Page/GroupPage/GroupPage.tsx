@@ -1,5 +1,5 @@
 import { styled, useState, useEffect, useParams } from './GroupPageBarrel';
-import { GroupHeader, DivideBaS } from './GroupPageBarrel';
+import { GroupHeader } from './GroupPageBarrel';
 import {
   getMindInfo_Page,
   getMind_PageImage,
@@ -27,8 +27,6 @@ const GroupPage = (): JSX.Element => {
       <GroupHeader />
       <GroupImageS url={groupPageImg} />
       <GroupInfo mindData={getMindInfoData} />
-      <DivideBaS />
-
       <GroupPostList />
     </GroupPageS>
   );

@@ -1,35 +1,28 @@
 import styled from 'styled-components';
-import { SetStateAction, useEffect, useState } from 'react';
-import { CommentType, ReplyType } from '../../../API/Boards';
+import { useEffect, useState } from 'react';
+import { CommentType } from '../../../API/Boards';
 import { GetUser } from '../GroupPageBarrel';
 import { deleteComment, deleteReply } from '../../../API/Comment';
 import DeleteModal from '../../../Component/DeleteModal';
 import { useRecoilState } from 'recoil';
-import { refreshState } from '../../../data/initialData';
+import { isCommentInputFocused, refreshState } from '../../../data/initialData';
 
 interface CommentProps {
   commentData: CommentType;
   userInfo: GetUser;
-  setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
   setIsComment: React.Dispatch<React.SetStateAction<number>>;
 }
 
 /** 댓글 box */
-const Comment = ({ commentData, userInfo, setInputToggle, setIsComment }: CommentProps) => {
+const Comment = ({ commentData, userInfo, setIsComment }: CommentProps) => {
   return (
     <CommentContainerS>
-      <CommentBox
-        CommentData={commentData}
-        userInfo={userInfo}
-        setInputToggle={setInputToggle}
-        setIsComment={setIsComment}
-      />
+      <CommentBox CommentData={commentData} userInfo={userInfo} setIsComment={setIsComment} />
       {commentData.replyList?.map((replyData) => {
         return (
           <CommentBox
             CommentData={replyData}
             userInfo={userInfo}
-            setInputToggle={setInputToggle}
             setIsComment={setIsComment}
             key={replyData.replyId}
           />
@@ -44,14 +37,14 @@ export default Comment;
 interface CommentBoxProps {
   CommentData: CommentType;
   userInfo: GetUser;
-  setInputToggle: React.Dispatch<React.SetStateAction<boolean>>;
   setIsComment: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: CommentBoxProps) => {
+const CommentBox = ({ CommentData, userInfo, setIsComment }: CommentBoxProps) => {
   const openModal = () => setModalBtn(true);
   const [isReply, setIsReply] = useState<boolean>(false);
   const { nickname, createDate, content, userId, profileImage } = CommentData;
+  const [isInputFocused, setIsInputFocused] = useRecoilState(isCommentInputFocused);
 
   useEffect(() => {
     if (CommentData.commentId) {
@@ -64,11 +57,11 @@ const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: Com
 
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
-  // 댓글 추가 핸들러
+  // 답글 추가 핸들러
   const addReplyHandler = () => {
     if (CommentData.commentId) {
-      setInputToggle(false);
       setIsComment(CommentData.commentId);
+      setIsInputFocused(true);
     }
   };
 
@@ -113,6 +106,26 @@ const CommentBox = ({ CommentData, userInfo, setInputToggle, setIsComment }: Com
   );
 };
 
+const CommentContainerS = styled.div`
+  display: flex;
+  align-items: start;
+  min-height: 2rem;
+  border-radius: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 1rem;
+  img {
+    width: 1.875rem;
+  }
+`;
+
+const CommentBoxContainerS = styled.div<{ isReply: boolean }>`
+  ${(props) =>
+    props.isReply
+      ? 'background-color : var(--color-bg);padding: 1rem; margin-left: 2.375rem;border-radius: 1rem; width: calc(100% - 4.375rem);'
+      : null};
+`;
+
 const CommentBoxS = styled.div`
   display: flex;
   gap: 0.5rem;
@@ -137,41 +150,17 @@ const CommentBoxProfile = styled.div`
   }
 `;
 
-const CommentContainerS = styled.div`
-  display: flex;
-  align-items: start;
-  min-height: 2rem;
-  border-radius: 1rem;
-  flex-direction: column;
-  gap: 0.5rem;
-  img {
-    width: 1.875rem;
-  }
-`;
-
 const CommentBoxContent = styled.p`
   font-size: 0.875rem;
   color: var(--font-color2);
-  margin-bottom: var(--height-gap);
-`;
-
-const CommentBoxContainerS = styled.div<{ isReply: boolean }>`
-  ${(props) =>
-    props.isReply
-      ? 'background-color : var(--color-bg);padding: 1rem;margin-left: 2.375rem;border-radius: 1rem;'
-      : null};
-
-  width: 19.0625rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  margin: var(--height-gap) 0;
 `;
 
 const CommentBoxOptionS = styled.div`
   display: flex;
   gap: 1.5rem;
-  font-size: 0.875rem;
-  .delete {
+  p {
+    font-size: 0.875rem;
     color: var(--font-color3);
   }
 `;

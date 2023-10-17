@@ -15,3 +15,8 @@ export const refreshState = atom({
   key: 'refreshPage',
   default: 0,
 });
+
+export const isCommentInputFocused = atom({
+  key: 'isCommentInputFocused',
+  default: false,
+});

@@ -4,27 +4,20 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import {
-  getBoards,
-  initUser,
-  getUser,
-  CommentList,
-  refreshState,
-  GroupPost,
-} from './PostListBarrel';
+import { getBoards, initUser, getUser, refreshState, GroupPost } from './PostListBarrel';
 import type { BoardsType, GetUser } from './PostListBarrel';
 import { INVALID_TOKEN, EXPIRED_TOKEN } from './PostListBarrel';
 
 const GroupPostList = () => {
   const { mindId } = useParams<string>();
-  const [postData, setPostData] = useState<BoardsType[]>([]);
+  const [mindData, setMindData] = useState<BoardsType[]>([]);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
   const navigate = useNavigate();
   const [refresh] = useRecoilState<number>(refreshState);
 
   useEffect(() => {
     getBoards(Number(mindId)).then((res: BoardsType[]) => {
-      setPostData(res);
+      setMindData(res);
     });
   }, [refresh, mindId]);
 
@@ -52,24 +45,25 @@ const GroupPostList = () => {
   }, [navigate]);
 
   return (
-    <GroupPostListS>
-      <h2 className='headLine'>작심 인증글</h2>
-      {postData.length === 0 ? (
-        <EmptyPost />
-      ) : (
-        <>
-          {postData.map((postData) => {
-            const postProps = { postData, userInfo };
-            return (
-              <PostContainerS key={postData.boardId}>
-                <GroupPost postProps={postProps} />
-                <CommentList postProps={postProps} />
-              </PostContainerS>
-            );
-          })}
-        </>
-      )}
-    </GroupPostListS>
+    <GroupPostListContainerS>
+      <GroupPostListS>
+        <h2 className='headLine'>작심 인증글</h2>
+        {mindData.length === 0 ? (
+          <EmptyPost />
+        ) : (
+          <>
+            {mindData.map((postData) => {
+              const postProps = { postData, userInfo };
+              return (
+                <PostContainerS key={postData.boardId}>
+                  <GroupPost postProps={postProps} sort='groupPage' />
+                </PostContainerS>
+              );
+            })}
+          </>
+        )}
+      </GroupPostListS>
+    </GroupPostListContainerS>
   );
 };
 
@@ -85,15 +79,19 @@ const EmptyPost = () => {
 
 export default GroupPostList;
 
+const GroupPostListContainerS = styled.div`
+  background-color: var(--color-bg);
+`;
+
 const GroupPostListS = styled.div`
   margin: 0 auto;
   max-width: var(--width-max);
   display: flex;
   flex-direction: column;
-
+  padding: 1.25rem 0;
   h2.headLine {
     font-size: 1.125rem;
-    margin: 0 1rem 0.5rem 1rem;
+    margin: 0 1rem 1.25rem 1rem;
   }
 `;
 
