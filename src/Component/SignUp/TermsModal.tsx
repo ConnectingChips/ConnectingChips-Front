@@ -55,7 +55,7 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
   };
 
   return (
-    <Container>
+    <ContainerS>
       <ModalHeaderS>
         <CloseIcon onClick={handleCloseButtonClick} />
         <h2>{termsData.title}</h2>
@@ -64,13 +64,13 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
       <ButtonWrapperS>
         <button onClick={handleAgreeButtonClick}>동의</button>
       </ButtonWrapperS>
-    </Container>
+    </ContainerS>
   );
 };
 
 export default TermsModal;
 
-const Container = styled.div`
+const ContainerS = styled.div`
   width: 100%;
   height: 100dvh;
   position: sticky;
