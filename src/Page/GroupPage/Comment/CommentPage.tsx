@@ -28,13 +28,13 @@ const CommentPage = () => {
   const [postData, setPostData] = useState<BoardsType>(boardsEmptyValue);
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
   const [refresh] = useRecoilState<number>(refreshState);
-  const [toggleContentEdit, setToggleContentEdit] = useState<boolean>(false);
-
   const navigate = useNavigate();
 
   // 0이면 댓글 아니면 댓글의 commentId로 답글만들기
   const [isComment, setIsComment] = useState<number>(0);
   const isCommentBind: Bind<number> = { state: isComment, Setter: setIsComment };
+
+  window.scrollTo(0, document.body.scrollHeight);
 
   // 데이터 받아오는 코드
   useEffect(() => {
@@ -75,7 +75,7 @@ const CommentPage = () => {
         }
       }
     })();
-  }, [navigate]);
+  }, []);
 
   if (!postData) {
     navigate(`/groupPage/${mindId}`); // groupPage로의 경로를 정확하게 입력해주세요.
