@@ -29,7 +29,7 @@ const GroupPost = ({
         <>
           <CommentOptionsBar postProps={postProps} />
           <CommentPreview postProps={postProps} />
-          <CommentInputBar />
+          <CommentInputBar postProps={postProps} />
         </>
       ) : (
         <></>
@@ -68,11 +68,19 @@ const CommentPreview = ({ postProps }: { postProps: PostProps }) => {
   );
 };
 
-const CommentInputBar = () => {
+const CommentInputBar = ({ postProps }: { postProps: PostProps }) => {
+  const commentInputText = () => {
+    if (postProps.postData.commentCount === 0) {
+      return '가장 먼저 응원의 댓글을 적어주세요!';
+    } else {
+      return '응원의 댓글을 적어주세요!';
+    }
+  };
+
   return (
     <CommentInputBarContainer>
       <CommentInputBarS>
-        <div>응원의 댓글을 적어주세요!</div>
+        <div>{commentInputText()}</div>
         <img src={`${process.env.PUBLIC_URL}/commentInputButtonoff.svg`} alt='sendIcon' />
       </CommentInputBarS>
     </CommentInputBarContainer>
