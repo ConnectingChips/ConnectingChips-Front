@@ -175,5 +175,6 @@ const CommentContainerS = styled.div<{ isInputFocused: boolean }>`
   display: flex;
   gap: 0.5rem;
   flex-direction: column;
-  margin-bottom: ${(props) => (props.isInputFocused ? '10rem' : '0.69rem')};
+  margin-bottom: 0.69rem;
+  padding-bottom: ${(props) => (props.isInputFocused ? '5rem' : '')};
 `;
