@@ -5,7 +5,7 @@ import { GetUser } from '../GroupPageBarrel';
 import { deleteComment, deleteReply } from '../../../API/Comment';
 import DeleteModal from '../../../Component/DeleteModal';
 import { useRecoilState } from 'recoil';
-import { refreshState } from '../../../data/initialData';
+import { isCommentInputFocused, refreshState } from '../../../data/initialData';
 
 interface CommentProps {
   commentData: CommentType;
@@ -44,6 +44,7 @@ const CommentBox = ({ CommentData, userInfo, setIsComment }: CommentBoxProps) =>
   const openModal = () => setModalBtn(true);
   const [isReply, setIsReply] = useState<boolean>(false);
   const { nickname, createDate, content, userId, profileImage } = CommentData;
+  const [isInputFocused, setIsInputFocused] = useRecoilState(isCommentInputFocused);
 
   useEffect(() => {
     if (CommentData.commentId) {
@@ -56,10 +57,11 @@ const CommentBox = ({ CommentData, userInfo, setIsComment }: CommentBoxProps) =>
 
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
-  // 댓글 추가 핸들러
+  // 답글 추가 핸들러
   const addReplyHandler = () => {
     if (CommentData.commentId) {
       setIsComment(CommentData.commentId);
+      setIsInputFocused(true);
     }
   };
 

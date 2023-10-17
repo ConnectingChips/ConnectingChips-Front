@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { Arrow_Left_B } from '../../../Component/ArrowBarrel';
+import { isCommentInputFocused } from '../../../data/initialData';
 import Bind from '../../../Type/Bind';
 import {
   axios,
@@ -29,7 +30,7 @@ const CommentPage = () => {
   const [userInfo, setUserInfo] = useState<GetUser>(initUser);
   const [refresh] = useRecoilState<number>(refreshState);
   const navigate = useNavigate();
-
+  const [isInputFocused, setIsInputFocused] = useRecoilState(isCommentInputFocused);
   // 0이면 댓글 아니면 댓글의 commentId로 답글만들기
   const [isComment, setIsComment] = useState<number>(0);
   const isCommentBind: Bind<number> = { state: isComment, Setter: setIsComment };
@@ -89,22 +90,22 @@ const CommentPage = () => {
       <CommentHeader />
       <PostContainerS>
         <GroupPost postProps={postProps} sort='commentPage' />
+        {postData.commentList.length !== 0 ? (
+          <CommentContainerS isInputFocused={isInputFocused}>
+            <CommentToolbar postData={postData} />
 
-        <CommentToolbar postData={postData} />
-        <CommentContainerS>
-          {postData.commentList.length !== 0 ? (
-            postData.commentList.map((commentData) => (
+            {postData.commentList.map((commentData) => (
               <Comment
                 userInfo={userInfo}
                 setIsComment={setIsComment}
                 commentData={commentData}
                 key={commentData.commentId}
               />
-            ))
-          ) : (
-            <CommentEmpty />
-          )}
-        </CommentContainerS>
+            ))}
+          </CommentContainerS>
+        ) : (
+          <CommentEmpty />
+        )}
         <CommentInput postData={postData} userInfo={userInfo} isCommentBind={isCommentBind} />
       </PostContainerS>
     </CommentPageContainer>
@@ -170,9 +171,9 @@ const CommentEmptyS = styled.div`
   }
 `;
 
-const CommentContainerS = styled.div`
+const CommentContainerS = styled.div<{ isInputFocused: boolean }>`
   display: flex;
   gap: 0.5rem;
   flex-direction: column;
-  margin-bottom: 0.69rem;
+  margin-bottom: ${(props) => (props.isInputFocused ? '10rem' : '0.69rem')};
 `;

@@ -5,6 +5,8 @@ import PostContent from './PostContent';
 import { PostProps } from '../PostPropsType';
 import comment_icon from '../../../image/Icon/comment_icon.svg';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { isCommentInputFocused } from '../../../data/initialData';
 
 const GroupPost = ({
   postProps,
@@ -69,6 +71,15 @@ const CommentPreview = ({ postProps }: { postProps: PostProps }) => {
 };
 
 const CommentInputBar = ({ postProps }: { postProps: PostProps }) => {
+  const navigate = useNavigate();
+  const { mindId } = useParams();
+  const { boardId } = postProps.postData;
+  const [isInputFocused, setIsInputFocused] = useRecoilState(isCommentInputFocused);
+  const navigateCommentsPage = () => {
+    navigate(`/grouppage/${mindId}/${boardId}`);
+    setIsInputFocused(true);
+  };
+
   const commentInputText = () => {
     if (postProps.postData.commentCount === 0) {
       return '가장 먼저 응원의 댓글을 적어주세요!';
@@ -79,7 +90,7 @@ const CommentInputBar = ({ postProps }: { postProps: PostProps }) => {
 
   return (
     <CommentInputBarContainer>
-      <CommentInputBarS>
+      <CommentInputBarS onClick={navigateCommentsPage}>
         <div>{commentInputText()}</div>
         <img src={`${process.env.PUBLIC_URL}/commentInputButtonoff.svg`} alt='sendIcon' />
       </CommentInputBarS>
