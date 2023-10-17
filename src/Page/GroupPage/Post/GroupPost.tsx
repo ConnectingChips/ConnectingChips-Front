@@ -57,18 +57,14 @@ const CommentOptionsBar = ({ postProps }: { postProps: PostProps }) => {
 
 const CommentPreview = ({ postProps }: { postProps: PostProps }) => {
   const { commentList } = postProps.postData;
+  const lastComment = commentList[commentList.length - 1];
+  if (!commentList.length) return null;
   return (
-    <>
-      {commentList.length === 0 ? (
-        <></>
-      ) : (
-        <CommentPreviewS>
-          <img src={commentList[0].profileImage} alt='profileImage' />
-          <div className='nickname'>{commentList[0].nickname}</div>
-          <div className='content'>{commentList[0].content}</div>
-        </CommentPreviewS>
-      )}
-    </>
+    <CommentPreviewS>
+      <img src={lastComment.profileImage} alt='profileImage' />
+      <div className='nickname'>{lastComment.nickname}</div>
+      <div className='content'>{lastComment.content}</div>
+    </CommentPreviewS>
   );
 };
 
