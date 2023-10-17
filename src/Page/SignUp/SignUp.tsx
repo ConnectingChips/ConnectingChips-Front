@@ -195,7 +195,7 @@ const SignUp = (): JSX.Element => {
       <BtnWrapperS>
         {isValid && isAllAgreed && !isDuplicateId ? (
           <SignClearBtnS type='submit' className='btn_width' onClick={handleSubmitButtonClick}>
-            회원가입
+            메일 인증하고 회원가입
           </SignClearBtnS>
         ) : (
           <SignNotClearBtnS
@@ -203,7 +203,7 @@ const SignUp = (): JSX.Element => {
             className='btn_width'
             disabled={isValid && isAllAgreed && !isDuplicateId}
           >
-            회원가입
+            메일 인증하고 회원가입
           </SignNotClearBtnS>
         )}
       </BtnWrapperS>
