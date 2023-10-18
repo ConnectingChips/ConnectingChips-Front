@@ -52,7 +52,7 @@ const GroupHeader = ({ BGcolor, upload, backBtnColor, text }: GroupHeaderType): 
     />
   );
   return (
-    <GroupHeaderContainerS BGcolor={BGcolor}>
+    <GroupHeaderContainerS bgcolor={BGcolor}>
       <BackIcon />
       <p className='title'>{text}</p>
       {upload ? <UploadIcon /> : <div></div>}
@@ -64,7 +64,8 @@ const goBack = (): void => window.history.back();
 
 export { GroupHeader, goBack };
 
-export const GroupHeaderContainerS = styled.header<{ BGcolor: string }>`
+export const GroupHeaderContainerS = styled.header<{ bgcolor: string }>`
+  background-color: ${(props) => (props.bgcolor ? props.bgcolor : '')};
   position: fixed;
   display: flex;
   align-items: center;
@@ -76,7 +77,6 @@ export const GroupHeaderContainerS = styled.header<{ BGcolor: string }>`
   width: 100vw;
   justify-content: space-between;
   z-index: 100;
-  background-color: ${(props) => (props.BGcolor ? props.BGcolor : '')};
   .title {
     font-size: 1.25rem;
     font-weight: 500;
