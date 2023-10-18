@@ -27,7 +27,6 @@ const CarreselContainerS = styled.section`
   flex-wrap: wrap;
   padding: 0 1rem;
   margin-top: 0.5rem;
-  margin-bottom: 1.25rem;
 
   /* overscroll-behavior: contain; */
   overflow-x: scroll;
