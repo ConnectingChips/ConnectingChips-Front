@@ -1,22 +1,18 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
 import { ConfirmModal, Mylist } from './MypageBarrel';
-import { getEndList, getMindAFinished } from '../../API/Mind';
 import { putMindExit } from '../../API/joinedMinds';
-
-type ListBind = {
-  myList: Mylist[];
-  setMyList: React.Dispatch<React.SetStateAction<Mylist[]>>;
-};
+import Bind from '../../Type/Bind';
 
 /** 참여중인 작심 */
-export const CurrentMind = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
+// export const CurrentMind = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
+export const CurrentMind = ({ ListBind }: { ListBind: Bind<Mylist[]> }): JSX.Element => {
   const [confirmExitMind, setConfirmExitMind] = useState<boolean>(false);
   const [mindId, setMindId] = useState<number>(0);
 
-  const { myList, setMyList } = ListBind;
+  const { state: myList, Setter: setMyList } = ListBind;
   const isExist = myList.length > 0;
 
   return (
@@ -95,31 +91,24 @@ export interface EndMindType {
   boardCount: number;
 }
 
-export const EndMindList = ({ myListLen }: { myListLen: number }): JSX.Element => {
-  const [endList, setEndList] = useState<EndMindType[]>();
-
-  useEffect(() => {
-    getEndList().then((endMind: EndMindType[]) => setEndList(endMind));
-  }, []);
-
+export const EndMindList = ({
+  myListLen,
+  endList,
+}: {
+  myListLen: number;
+  endList: EndMindType[];
+}): JSX.Element => {
   const isExist = endList && endList.length > 0;
 
   return (
     <CurrentMindListS>
-      {isExist ? <EndMind myListLen={myListLen} /> : <NoneExistComp />}
+      {isExist ? <EndMind myListLen={myListLen} endList={endList} /> : <NoneExistComp />}
     </CurrentMindListS>
   );
 };
 
-const initEndList: EndMindType[] = [];
-
-const EndMind = ({ myListLen }: { myListLen: number }) => {
-  const [endList, setEndList] = useState<EndMindType[]>(initEndList);
+const EndMind = ({ myListLen, endList }: { myListLen: number; endList: EndMindType[] }) => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    (async () => await getMindAFinished().then((list: EndMindType[]) => setEndList(list)))();
-  }, []);
 
   const ReMindButton = ({ list }: { list: EndMindType }) => {
     return myListLen < 3 && myListLen >= 0 && list.canJoin === 1 ? (

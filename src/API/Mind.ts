@@ -191,17 +191,6 @@ export const getMyListSingle = async (mindID: number): Promise<Mylist> => {
   }
 };
 
-// 나의 참여했던 작심 반환
-export const getEndList = async (): Promise<EndMindType[]> => {
-  try {
-    const { tockenHeader } = getToken();
-    const response = await getData<EndMindType[]>('/minds/my-joined-mind-list', tockenHeader);
-    return response.data;
-  } catch (error) {
-    throw new Error('나의 작심 리스트를 호출하는 데 실패했습니다.');
-  }
-};
-
 // 글쓰기 예시 이미지 가져오기
 interface ExampleImage {
   exampleImage: string;
