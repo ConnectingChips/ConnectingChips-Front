@@ -14,28 +14,21 @@ interface GroupHeaderType {
   backBtnColor?: 'black' | 'white';
   text?: string;
 }
-// 그룹페이지 헤더
-// 배경색 : blur or color
-// 글쓰기 아이콘 유무
-// 뒤로가기 버튼 white or black
-// 중앙 텍스트
+
+// BGcolor: 헤더배경색(blur가능), upload: 업로드 아이콘 유무, backBtnColor: 뒤로가기 버튼(white,black), text : 중앙텍스트
 const GroupHeader = ({ BGcolor, upload, backBtnColor, text }: GroupHeaderType): JSX.Element => {
   const { mindId } = useParams();
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
   const [refresh] = useRecoilState<number>(refreshState);
 
-  if (!BGcolor) {
-    BGcolor = 'white';
-  } else if (BGcolor === 'blur') {
-    BGcolor = '';
-  }
-
+  // 당일 작심 여부 api
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
       setIsDoneToday(data.isDoneToday);
     });
   }, [refresh, mindId]);
 
+  // 작심 여부에 따른 uploadIcon 활성화 유무 함수
   const UploadIcon = (): JSX.Element => {
     return !isDoneToday ? (
       <Link to={`/uploadPost/${mindId}`}>
@@ -46,7 +39,14 @@ const GroupHeader = ({ BGcolor, upload, backBtnColor, text }: GroupHeaderType): 
     );
   };
 
-  const goBack = (): void => window.history.back();
+  // BGcolor 타입처리 및 블러처리
+  if (!BGcolor) {
+    BGcolor = 'white';
+  } else if (BGcolor === 'blur') {
+    BGcolor = '';
+  }
+
+  //뒤로가기버튼 색 바꾸는 함수
   const BackIcon = () => (
     <img
       src={backBtnColor === 'white' ? Arrow_Left_W : Arrow_Left_B}
