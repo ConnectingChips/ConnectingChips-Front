@@ -1,8 +1,8 @@
-import { goBack, GroupHeader } from '../../Component/Mission/GroupHeader';
+import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import TermsValue from '../../Type/TermsValue';
 import { DivideBaS } from '../GroupPage/GroupPageBarrel';
 import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
-import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
+import { Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal, TermsModal } from './MypageBarrel';
 import { scrollTop, getUser } from './MypageBarrel';
 import type { GetUser, Mylist } from './MypageBarrel';
@@ -101,32 +101,6 @@ const MyPageS = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const MyPageHeaderS = styled.header`
-  z-index: 10;
-  position: sticky;
-  top: 0;
-
-  width: 100%;
-  min-width: var(--width-min);
-
-  height: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 0;
-
-  background-color: white;
-
-  img {
-    position: absolute;
-    left: 1.67rem;
-  }
-
-  h2 {
-    font-size: 1.25rem;
-  }
 `;
 
 const ProfileHeaderS = styled.div`
