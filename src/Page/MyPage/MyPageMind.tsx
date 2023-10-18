@@ -7,7 +7,6 @@ import { putMindExit } from '../../API/joinedMinds';
 import Bind from '../../Type/Bind';
 
 /** 참여중인 작심 */
-// export const CurrentMind = ({ ListBind }: { ListBind: ListBind }): JSX.Element => {
 export const CurrentMind = ({ ListBind }: { ListBind: Bind<Mylist[]> }): JSX.Element => {
   const [confirmExitMind, setConfirmExitMind] = useState<boolean>(false);
   const [mindId, setMindId] = useState<number>(0);

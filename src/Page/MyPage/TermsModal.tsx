@@ -41,7 +41,7 @@ export default TermsModal;
 const Container = styled.div`
   width: 100%;
   height: 100dvh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
