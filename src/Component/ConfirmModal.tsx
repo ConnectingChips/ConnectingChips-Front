@@ -18,10 +18,7 @@ const ConfirmModal = ({
 }: ConfirmProps): JSX.Element => {
   const navigate = useNavigate();
 
-  const onClickMethod = async () =>
-    await method()
-      .then(() => routeUrl && navigate(routeUrl))
-      .catch(() => {});
+  const onClickMethod = async () => await method().then(() => routeUrl && navigate(routeUrl));
 
   return (
     <ConfirmBGS onClick={() => setConfirm(false)}>

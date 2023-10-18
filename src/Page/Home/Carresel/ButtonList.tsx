@@ -21,10 +21,14 @@ const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
   const navigate = useNavigate();
   const [keepJoinReg, setKeepJoinReg] = useState<boolean>(false);
 
-
-  const { count, isDoneToday, mindId, boardCount } = mind;
+  const { isDoneToday, mindId } = mind;
   (async () => {
-    return await getkeepJoin(mindId).then((res) => setKeepJoinReg(res.keepJoin));
+    return await getkeepJoin(mindId)
+      .then((res) => setKeepJoinReg(res.keepJoin))
+      .catch((err) => {
+        if (err.code === 'ERR_BAD_REQUEST')
+          console.log('나의 작심 현황을 호출하는 데 실패했습니다.');
+      });
   })();
 
   return (

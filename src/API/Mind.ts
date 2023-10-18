@@ -163,7 +163,8 @@ export const getkeepJoin = async (mindId: number): Promise<GetkeepJoin> => {
     const response = await getData<GetkeepJoin>(`/minds/keep-join/${mindId}`, tockenHeader);
     return response.data;
   } catch (error) {
-    throw new Error('작심 활동 현황을 호출하는 데 실패했습니다.');
+    // throw new Error('작심 활동 현황을 호출하는 데 실패했습니다.');
+    return Promise.reject(error);
   }
 };
 

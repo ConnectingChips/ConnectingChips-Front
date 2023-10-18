@@ -24,7 +24,7 @@ const Home = (): JSX.Element => {
   const [myList, setMyList] = useRecoilState<Mylist[]>(myListState);
 
   const [istodayDone, setIsDone] = useState<boolean>(false);
-  const isLogin = myInfo !== initUser;
+  const isLogin = myInfo !== initUser && localStorage.getItem('access_token');
 
   useEffect(() => {
     scrollTop();
@@ -103,24 +103,18 @@ const setHome = async (
   const isLogin = localStorage.getItem('access_token') || '';
 
   if (isLogin !== '') {
-    await getUser()
-      .then((userInfo: GetUser) => setMyInfo(userInfo))
-      .catch(() => {});
-    await getMyList()
-      .then((list: Mylist[]) => {
-        list.map((list) => {
-          if (list.count > 3) list.count = 3;
-          if (list.count < 0) list.count = 0;
-        });
-        setMyList(list);
-      })
-      .catch(() => {});
-    await getisDoneAll()
-      .then((isDone: isDone[]) => {
-        const doneValid = isDone.some((data) => data.isDoneToday);
-        setIsDone(doneValid);
-      })
-      .catch(() => {});
+    await getUser().then((userInfo: GetUser) => setMyInfo(userInfo));
+    await getMyList().then((list: Mylist[]) => {
+      list.map((list) => {
+        if (list.count > 3) list.count = 3;
+        if (list.count < 0) list.count = 0;
+      });
+      setMyList(list);
+    });
+    await getisDoneAll().then((isDone: isDone[]) => {
+      const doneValid = isDone.some((data) => data.isDoneToday);
+      setIsDone(doneValid);
+    });
   } else {
     setMyInfo(initUser);
     setMyList(initMyList);
