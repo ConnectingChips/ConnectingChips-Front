@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { getkeepJoin } from '../../API/Mind';
-import { useRecoilState } from 'recoil';
-import { refreshState } from '../../data/initialData';
 import { Arrow_Left_B, Arrow_Left_W } from '../ArrowBarrel';
 import post_Icon from '../../image/Icon/post_Icon.svg';
 import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
@@ -19,17 +17,16 @@ interface GroupHeaderType {
 const GroupHeader = ({ BGcolor, upload, backBtnColor, text }: GroupHeaderType): JSX.Element => {
   const { mindId } = useParams();
   const [isDoneToday, setIsDoneToday] = useState<boolean>(false);
-  const [refresh] = useRecoilState<number>(refreshState);
-
-  // 당일 작심 여부 api
-  useEffect(() => {
-    getkeepJoin(Number(mindId)).then((data) => {
-      setIsDoneToday(data.isDoneToday);
-    });
-  }, [refresh, mindId]);
 
   // 작심 여부에 따른 uploadIcon 활성화 유무 함수
   const UploadIcon = (): JSX.Element => {
+    // 당일 작심 여부 api
+    useEffect(() => {
+      getkeepJoin(Number(mindId)).then((data) => {
+        setIsDoneToday(data.isDoneToday);
+      });
+    }, []);
+
     return !isDoneToday ? (
       <Link to={`/uploadPost/${mindId}`}>
         <img src={post_Icon} alt='post icon' />
