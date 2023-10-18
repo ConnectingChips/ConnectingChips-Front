@@ -5,17 +5,6 @@ import { Mylist, useState } from '../HomeBarrel';
 import { getCheckedJoined } from '../../../API/joinedMinds';
 import { getkeepJoin } from '../../../API/Mind';
 
-const ButtonList = ({ myList }: { myList: Mylist[] }): JSX.Element => {
-  return (
-    <ul>
-      {myList.map((mind, idx) => (
-        <CarreselBtnList mind={mind} key={idx} />
-      ))}
-    </ul>
-  );
-};
-export default ButtonList;
-
 /** 2023-08-22 ButtonList.tsx - 캐러셀 버튼 영역 - Kadesti */
 const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
   const navigate = useNavigate();
@@ -53,6 +42,8 @@ const CarreselBtnList = ({ mind }: { mind: Mylist }) => {
     </>
   );
 };
+
+export default CarreselBtnList;
 
 const goPost = async (mindId: number): Promise<boolean> => await getCheckedJoined(mindId);
 

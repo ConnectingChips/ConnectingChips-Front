@@ -1,20 +1,20 @@
+import CarreselBtnList from './ButtonList';
 import { ChipList, styled, MissionSingleWideS } from './CarreselBarrel';
 import type { Mylist } from './CarreselBarrel';
 
 /** 2023-08-29 Carresel.tsx - 캐러셀 컨텐츠 리스트 */
 const Carresel = ({ myList }: { myList: Mylist[] }) => {
   return (
-    <MissionListS>
-      <ul>
-        {myList.map((mygroup, idx) => {
-          return (
-            <li key={idx}>
-              <CarreselItem mygroup={mygroup} />
-            </li>
-          );
-        })}
-      </ul>
-    </MissionListS>
+    <CarreselULS>
+      {myList.map((mygroup, idx) => {
+        return (
+          <li key={idx}>
+            <CarreselItem mygroup={mygroup} />
+            <CarreselBtnList mind={mygroup} key={idx} />
+          </li>
+        );
+      })}
+    </CarreselULS>
   );
 };
 
@@ -41,11 +41,15 @@ const CarreselItem = ({ mygroup }: { mygroup: Mylist }) => {
 };
 
 /** 2023-09-02 Carresel.tsx - 캐러샐 영역 - Kadesti */
-const MissionListS = styled.div`
+const CarreselULS = styled.ul`
   display: flex;
-  position: relative;
+  gap: 0.75rem;
 
-  margin-bottom: 0.5rem;
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 `;
 
 /** 2023-08-21 MyMisson.tsx - 나의 작심 현황 항목 정보 */

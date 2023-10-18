@@ -1,6 +1,5 @@
 import { styled } from './Carresel/CarreselBarrel';
 import Carresel from './Carresel/Carresel';
-import ButtonList from './Carresel/ButtonList';
 import { Mylist } from '../../Type/Mind';
 
 const MyMisson = ({ myList }: { myList: Mylist[] }): JSX.Element => {
@@ -8,10 +7,7 @@ const MyMisson = ({ myList }: { myList: Mylist[] }): JSX.Element => {
     <article>
       <h2 style={{ margin: '0 1rem' }}>나의 작심 현황({myList.length}/3)</h2>
       <CarreselContainerS>
-        <div className='myMission'>
-          <Carresel myList={myList} />
-          <ButtonList myList={myList} />
-        </div>
+        <Carresel myList={myList} />
       </CarreselContainerS>
     </article>
   );
@@ -32,10 +28,5 @@ const CarreselContainerS = styled.section`
   overflow-x: scroll;
   &::-webkit-scrollbar {
     display: none;
-  }
-
-  ul {
-    display: flex;
-    gap: 0.75rem;
   }
 `;
