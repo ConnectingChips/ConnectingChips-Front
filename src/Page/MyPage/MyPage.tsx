@@ -1,33 +1,31 @@
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { getMindAFinished } from '../../API/Mind';
 import { goBack } from '../../Component/Mission/GroupHeader';
 import TermsValue from '../../Type/TermsValue';
 import { DivideBaS } from '../GroupPage/GroupPageBarrel';
 import { EndMindType } from './MyPageMind';
-import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
+import { styled, useEffect, useState, logoutUser } from './MypageBarrel';
 import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal, TermsModal } from './MypageBarrel';
-import { scrollTop, getUser } from './MypageBarrel';
+import { scrollTop } from './MypageBarrel';
 import type { GetUser, Mylist } from './MypageBarrel';
-import { initUser, initMyList } from './MypageBarrel';
 import { CurrentMind, EndMindList } from './MypageBarrel';
+import { myListState, userDataState } from '../../data/initialData';
 
 const MyPage = (): JSX.Element => {
-  const [myInfo, setMyInfo] = useState<GetUser>(initUser);
-  const [myList, setMyList] = useState<Mylist[]>(initMyList);
+  const myInfo = useRecoilValue<GetUser>(userDataState);
+  const [myList, setMyList] = useRecoilState<Mylist[]>(myListState);
   const [endList, setEndList] = useState<EndMindType[]>([]);
 
   const ListBind = { state: myList, Setter: setMyList };
   const compArr: JSX.Element[] = [
     <CurrentMind ListBind={ListBind} />,
-    <EndMindList myListLen={myList.length} endList={endList}/>,
+    <EndMindList myListLen={myList.length} endList={endList} />,
   ];
   const tabText: string[] = [`참여중인 작심(${myList.length}/3)`, '참여했던 작심'];
 
   useEffect(() => {
     scrollTop();
-
-    getUser().then((myInfo: GetUser) => setMyInfo(myInfo));
-    getMyList().then((res: Mylist[]) => setMyList(res));
     getMindAFinished().then((endMind: EndMindType[]) => setEndList(endMind));
   }, []);
 

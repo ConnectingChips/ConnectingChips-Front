@@ -13,13 +13,16 @@ import {
 import { Banner as BannerImage, Logo_002, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
 import React from 'react';
+import { useRecoilState } from 'recoil';
+import { myListState, userDataState } from '../../data/initialData';
 
 const { Kakao } = window;
 
 /** 2023-08-20 Home.tsx - 메인 컴프 */
 const Home = (): JSX.Element => {
-  const [myInfo, setMyInfo] = useState<GetUser>(initUser);
-  const [myList, setMyList] = useState<Mylist[]>(initMyList);
+  const [myInfo, setMyInfo] = useRecoilState<GetUser>(userDataState);
+  const [myList, setMyList] = useRecoilState<Mylist[]>(myListState);
+
   const [istodayDone, setIsDone] = useState<boolean>(false);
   const isLogin = myInfo !== initUser;
 
