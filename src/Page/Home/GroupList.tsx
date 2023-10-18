@@ -26,11 +26,11 @@ const GroupList = (): JSX.Element => {
     <GroupListS>
       <h2>작심 그룹 리스트</h2>
       <MissonTab missionTab={missionTab} focusbind={curFocusBind} />
-        <GroupItemListS>
-          {showList.map((mind, idx) => (
-            <GroupListItem mind={mind} key={idx} />
-          ))}
-        </GroupItemListS>
+      <GroupItemListS>
+        {showList.map((mind, idx) => (
+          <GroupListItem mind={mind} key={idx} />
+        ))}
+      </GroupItemListS>
     </GroupListS>
   );
 };
@@ -38,8 +38,10 @@ const GroupList = (): JSX.Element => {
 export default GroupList;
 
 const GroupListItem = ({ mind }: { mind: TotalMind }): JSX.Element => {
+  const savePosition = () => sessionStorage.setItem('Home_ScrollY', String(window.scrollY));
+
   return (
-    <Link to={`/groupIntro/${mind.mindId}`}>
+    <Link to={`/groupIntro/${mind.mindId}`} onClick={() => savePosition()}>
       <GroupListItemS key={mind.mindId} img={mind.totalListImage}>
         <ItemContent mind={mind} />
         <button>참여하기</button>

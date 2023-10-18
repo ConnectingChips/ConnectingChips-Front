@@ -12,7 +12,7 @@ import {
 } from './HomeBarrel';
 import { Banner as BannerImage, Logo_002, Share_Icon } from './HomeImageBarrel';
 import { GNB } from '../../AppBarral';
-import React from 'react';
+import React, { useRef } from 'react';
 
 const { Kakao } = window;
 
@@ -23,9 +23,20 @@ const Home = (): JSX.Element => {
   const [istodayDone, setIsDone] = useState<boolean>(false);
   const isLogin = myInfo !== initUser;
 
+  const scrollRef = useRef<HTMLInputElement | null>(null);
+
+  const scrollPosition = Number(sessionStorage.getItem('Home_ScrollY'));
+
   useEffect(() => {
-    scrollTop();
     setHome(setMyInfo, setMyList, setIsDone);
+
+    console.log('Home_ScrollY: ', scrollPosition);
+    window.scrollTo(0, scrollPosition);
+    // window.scrollY = scrollPosition;
+    // scrollRef.current.scrollTo(0, scrollPosition);
+    // if (scrollRef.current) scrollRef.current.scrollTop = scrollPosition;
+
+    // sessionStorage.removeItem('Home_ScrollY')
   }, []);
 
   // 카카오 공유하기
@@ -46,7 +57,7 @@ const Home = (): JSX.Element => {
   const WelcomeProps: WelcomeProps = { myInfo, istodayDone, myList };
 
   return (
-    <HomeS>
+    <HomeS ref={scrollRef}>
       <HomeHeaderS>
         <img src={Logo_002} alt='logo' className='Logo' />
         <UserInfoS>
@@ -74,7 +85,7 @@ const Home = (): JSX.Element => {
 export default Home;
 
 /** 2023-08-20 Home.tsx - 메인 컴프 스타일 */
-const HomeS = styled.section`
+const HomeS = styled.div`
   width: 100%;
   max-width: var(--width-max);
   min-width: 20rem;
@@ -83,10 +94,6 @@ const HomeS = styled.section`
   .CTA {
     position: sticky;
     bottom: 0;
-  }
-
-  &::-webkit-scrollbar {
-    display: block;
   }
 `;
 
