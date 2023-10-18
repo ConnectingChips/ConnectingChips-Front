@@ -1,4 +1,4 @@
-import { goBack } from '../../Component/Mission/GroupHeader';
+import { goBack, GroupHeader } from '../../Component/Mission/GroupHeader';
 import TermsValue from '../../Type/TermsValue';
 import { DivideBaS } from '../GroupPage/GroupPageBarrel';
 import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
@@ -32,7 +32,7 @@ const MyPage = (): JSX.Element => {
 
   return (
     <MyPageS>
-      <MyPageHeader />
+      <GroupHeader text='MY' />
       <ProfileHeaderS>
         <h2>
           {myInfo.nickname}칩스’s
@@ -60,15 +60,6 @@ const MyPage = (): JSX.Element => {
 };
 
 export default MyPage;
-
-const MyPageHeader = (): JSX.Element => {
-  return (
-    <MyPageHeaderS>
-      <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      <h2>MY</h2>
-    </MyPageHeaderS>
-  );
-};
 
 const MyPageSetting = (): JSX.Element => {
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
@@ -143,7 +134,7 @@ const ProfileHeaderS = styled.div`
   width: 100%;
   min-width: var(--width-min);
   height: 6.3125rem;
-
+  margin-top: var(--height-header);
   display: flex;
   align-items: center;
   padding: 0 1rem;
