@@ -1,12 +1,15 @@
-import axios from 'axios';
-import { styled } from 'styled-components';
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-
-import { getBoards, initUser, getUser, refreshState, GroupPost } from './PostListBarrel';
-import type { BoardsType, GetUser } from './PostListBarrel';
-import { INVALID_TOKEN, EXPIRED_TOKEN } from './PostListBarrel';
+import {
+  axios,
+  styled,
+  useState,
+  useEffect,
+  useParams,
+  useNavigate,
+  useRecoilState,
+} from '../GroupPageBarrel';
+import { getBoards, initUser, getUser, refreshState, GroupPost } from '../GroupPageBarrel';
+import type { BoardsType, GetUser } from '../GroupPageBarrel';
+import { INVALID_TOKEN, EXPIRED_TOKEN } from '../GroupPageBarrel';
 
 const GroupPostList = () => {
   const { mindId } = useParams<string>();
@@ -48,19 +51,15 @@ const GroupPostList = () => {
     <GroupPostListContainerS>
       <GroupPostListS>
         <h2 className='headLine'>작심 인증글</h2>
-        {mindData.length === 0 ? (
-          <EmptyPost />
-        ) : (
+        {mindData.length !== 0 ? (
           <>
             {mindData.map((postData) => {
               const postProps = { postData, userInfo };
-              return (
-                <PostContainerS key={postData.boardId}>
-                  <GroupPost postProps={postProps} sort='groupPage' />
-                </PostContainerS>
-              );
+              return <GroupPost postProps={postProps} sort='groupPage' />;
             })}
           </>
+        ) : (
+          <EmptyPost />
         )}
       </GroupPostListS>
     </GroupPostListContainerS>
@@ -84,19 +83,14 @@ const GroupPostListContainerS = styled.div`
 `;
 
 const GroupPostListS = styled.div`
-  margin: 0 auto;
+  margin: 0 auto 2.5rem auto;
   max-width: var(--width-max);
   display: flex;
   flex-direction: column;
-  padding: 1.25rem 0;
-  h2.headLine {
-    font-size: 1.125rem;
-    margin: 0 1rem 1.25rem 1rem;
+  .headLine {
+    font-size: var(--head-b);
+    margin: 1.25rem 1rem 1.25rem 1rem;
   }
-`;
-
-const PostContainerS = styled.article`
-  margin-bottom: 2.5rem;
 `;
 
 const EmptyPostS = styled.div`

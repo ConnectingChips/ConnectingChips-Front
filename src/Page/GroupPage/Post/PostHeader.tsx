@@ -7,12 +7,18 @@ import { deleteBoard } from '../../../API/Boards';
 import Bind from '../../../Type/Bind';
 import { refreshState } from '../../../data/initialData';
 import { useRecoilState } from 'recoil';
+
 interface PostHeaderProps {
-  setToggleContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
   postProps: PostProps;
 }
 
-const PostHeader: React.FC<PostHeaderProps> = ({ setToggleContentEdit, postProps }) => {
+interface PostEditBtnProps {
+  setIsContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalBtn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const PostHeader: React.FC<PostHeaderProps> = ({ setIsContentEdit, postProps }) => {
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
   const [modalBtn, setModalBtn] = useState<boolean>(false);
   const modalBind: Bind<boolean> = { state: modalBtn, Setter: setModalBtn };
@@ -26,28 +32,23 @@ const PostHeader: React.FC<PostHeaderProps> = ({ setToggleContentEdit, postProps
     });
 
   return (
-    <PostHeaderWrapper>
+    <PostHeaderContainer>
       <PostProfileS>
         <PostProfileImageS src={profileImage} alt='프로필 사진' />
         <PostProfileNickNameS>
           <p className='nickname'>{nickname}</p>
           <p className='date'>{createDate}</p>
         </PostProfileNickNameS>
+        {userInfo.userId === postData.userId && (
+          <PostEditBtn setIsContentEdit={setIsContentEdit} setModalBtn={setModalBtn} />
+        )}
       </PostProfileS>
-      {userInfo.userId === postData.userId && (
-        <PostEditBtn setToggleContentEdit={setToggleContentEdit} setModalBtn={setModalBtn} />
-      )}
       <DeleteModal modalBind={modalBind} deleteAction={deletePostHandler} />
-    </PostHeaderWrapper>
+    </PostHeaderContainer>
   );
 };
 
-interface PostEditBtnProps {
-  setToggleContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  setModalBtn: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const PostEditBtn: React.FC<PostEditBtnProps> = ({ setToggleContentEdit, setModalBtn }) => {
+const PostEditBtn: React.FC<PostEditBtnProps> = ({ setIsContentEdit, setModalBtn }) => {
   const [toggleEditBtn, setToggleEditBtn] = useState(false);
   const ToogleHandler = () => {
     setToggleEditBtn((prev) => !prev);
@@ -55,12 +56,12 @@ const PostEditBtn: React.FC<PostEditBtnProps> = ({ setToggleContentEdit, setModa
 
   return (
     <PostEditBtnS onClick={ToogleHandler}>
-      <img src={point3} alt='point3_icon' />
+      <img src={point3} alt='postEditButton' />
       {toggleEditBtn && (
         <PostEditS>
           <div
             onClick={() => {
-              setToggleContentEdit(true);
+              setIsContentEdit(true);
             }}
           >
             수정하기
@@ -80,7 +81,7 @@ const PostEditBtn: React.FC<PostEditBtnProps> = ({ setToggleContentEdit, setModa
 
 export default PostHeader;
 
-const PostHeaderWrapper = styled.div`
+const PostHeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -89,6 +90,7 @@ const PostHeaderWrapper = styled.div`
 
 const PostProfileS = styled.div`
   display: flex;
+  flex-grow: 1;
 `;
 
 const PostProfileImageS = styled.img`
@@ -103,6 +105,7 @@ const PostProfileImageS = styled.img`
 const PostProfileNickNameS = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   .nickname {
     font-size: 0.875rem;
     font-weight: 500;
@@ -115,7 +118,6 @@ const PostProfileNickNameS = styled.div`
 
 const PostEditBtnS = styled.div`
   z-index: 20;
-  height: 3rem;
   display: flex;
   align-items: center;
   position: relative;
@@ -124,7 +126,7 @@ const PostEditBtnS = styled.div`
 const PostEditS = styled.div`
   position: absolute;
   top: 3.31rem;
-  right: 0rem;
+  right: 0;
   background-color: white;
   width: 8.8125rem;
   border-radius: 0.63rem;

@@ -18,7 +18,7 @@ import {
   boardsEmptyValue,
 } from '../GroupPageBarrel';
 import GroupPost from '../Post/GroupPost';
-import { refreshState } from '../Post/PostListBarrel';
+import { refreshState } from '../GroupPageBarrel';
 import Comment from './Comment';
 import { CommentInput } from './CommentInput';
 import { CommentToolbar } from './CommentToolbar';
