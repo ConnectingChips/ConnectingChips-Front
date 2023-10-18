@@ -220,12 +220,9 @@ const UserInfoS = styled.div`
 
 /** 2023-09-02 Home.tsx - 인사말과 캐릭터 - Kadesti */
 const WelcomeHeadS = styled.div`
-  margin: 0 1rem;
   display: flex;
   justify-content: space-between;
-  margin-top: var(--height-header);
-  padding: 1.25rem 0;
-  height: 7.8125rem;
+  padding: 0 1rem;
   gap: 0.63rem;
 
   img.noLogin {
@@ -274,7 +271,7 @@ const BannerS = styled.a`
   background-color: var(--color-line);
 
   padding: 1rem;
-  margin: 0 1rem 1.25em 1rem;
+  margin: 0 1rem;
   border-radius: 0.63rem;
 
   .bannerText {
@@ -296,6 +293,10 @@ const BannerS = styled.a`
 
 /** 2023-08-20 Home.tsx - WelcomeTextS, MyMisson, CurrentMission 컨테이너 */
 const HomeContentS = styled.div`
-  margin-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0;
+  gap: 1.25rem;
+
   margin-top: var(--height-header);
 `;

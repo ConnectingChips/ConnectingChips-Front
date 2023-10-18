@@ -61,7 +61,6 @@ const MissionSingle = ({ text, focusBind, index }: MissionSingleProps) => {
 export { MissonTab, MissionSingle };
 
 const MissonTabContainerS = styled.div`
-  margin: 0 1rem;
   margin-top: 1rem;
   overflow-x: scroll;
   padding: 0.5px 0;
