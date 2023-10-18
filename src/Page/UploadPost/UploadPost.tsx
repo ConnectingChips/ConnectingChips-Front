@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { styled, keyframes } from 'styled-components';
 import axios from 'axios';
 
-import { CreateExample } from '../../Component/UploadPost/CreateExample';
+import CreateExampleImage from '../../Component/UploadPost/CreateExampleImage';
 import UploadPostHeader from '../../Component/UploadPost/UploadPostHeader';
 import UploadImage from '../../Component/UploadPost/UploadImage';
 import UploadText from '../../Component/UploadPost/UploadText';
@@ -178,7 +178,7 @@ const UploadPost = () => {
         <HeadLine getMindInfoData={getMindInfoData} passsort={'Create'} />
         <MissionRule getMindInfoData={getMindInfoData} passsort={'Create'} />
       </GroupArticleS>
-      <CreateExample />
+      <CreateExampleImage />
       <DivideBaS />
       <CreateFormS onSubmit={handleFormSubmit}>
         {isLoading ? (

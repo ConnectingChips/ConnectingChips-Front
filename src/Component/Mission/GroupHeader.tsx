@@ -52,10 +52,11 @@ const GroupIntroHeader = (): JSX.Element => {
 
 const goBack = (): void => window.history.back();
 const BackIcon = () => <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />;
+
 export { GroupHeader, GroupIntroHeader, goBack, BackIcon };
 
 /** 2023-08-22 GroupHeader.tsx - 그룹 인트로 뒤로가기 */
-const GroupHeaderS = styled.header`
+export const GroupHeaderS = styled.header`
   position: fixed;
   display: flex;
   align-items: center;
@@ -71,6 +72,6 @@ export const GroupHeaderContainerS = styled(GroupHeaderS)`
   height: var(--height-header);
   justify-content: space-between;
   background-color: white;
-  z-index: 20;
+  z-index: 100;
   top: 0;
 `;

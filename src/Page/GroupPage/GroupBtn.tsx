@@ -21,8 +21,6 @@ const GroupBtn = () => {
 
   useEffect(() => {
     getkeepJoin(Number(mindId)).then((data) => {
-      console.log(`keepJoin :`, data.keepJoin);
-      console.log(`isDoneToday :`, data.isDoneToday);
       setKeepJoin(data.keepJoin);
       setIsDoneToday(data.isDoneToday);
     });
@@ -69,6 +67,7 @@ const GroupBtnContainerS = styled.button<{ buttonText: string }>`
   background: var(--color-white);
   font-size: var(--button-mid);
   color: #000;
+  margin-bottom: 1.19rem;
   ${(props) =>
     props.buttonText === '성공' &&
     `

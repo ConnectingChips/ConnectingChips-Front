@@ -15,7 +15,6 @@ import {
 } from '../../Component/Mission/GroupArticle';
 import { MindPageInfo, MindsType } from '../../Type/Mind';
 
-import Comment from './Comment/CommentList';
 import GroupPost from './Post/GroupPost';
 
 import { getBoards, BoardsType } from '../../API/Boards';
@@ -28,6 +27,18 @@ import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
 import { getkeepJoin } from '../../API/Mind';
 
 import { PostProps } from './PostPropsType';
+
+const boardsEmptyValue = {
+  boardId: 0,
+  userId: 0,
+  nickname: '',
+  content: '',
+  profileImage: '',
+  createDate: '',
+  image: '',
+  commentCount: 0,
+  commentList: [],
+};
 
 export {
   axios,
@@ -50,7 +61,8 @@ export {
   IntroduceS,
   initMind,
 };
-export { Comment, GroupPost, getBoards, getUser, initUser };
+export { GroupPost, getBoards, getUser, initUser };
 export type { MindPageInfo, MindsType, GetUser, BoardsType, PostProps };
 export { INVALID_TOKEN, EXPIRED_TOKEN };
 export { post_Icon, post_Icon_locked, getkeepJoin };
+export { boardsEmptyValue };

@@ -5,6 +5,7 @@ import {
   GroupIntro,
   Feed,
   GroupPage,
+  CommentPage,
   LogIn,
   UploadPost,
   SignUp,
@@ -39,6 +40,10 @@ function App() {
           <Route
             path='/groupPage/:mindId'
             element={<GroupCheck component={<GroupPage />} sort='Page' />}
+          />
+          <Route
+            path='/groupPage/:mindId/:postId'
+            element={<GroupCheck component={<CommentPage />} sort='Page' />}
           />
           <Route
             path='/uploadPost/:mindId'
