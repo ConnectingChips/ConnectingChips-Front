@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import EmailVerificationMessage from './EmailVerificationMessage';
 import ExclamationMarkChips from '../../image/exclamation-mark-chips.png';
 
-const EmailVerificationContents = () => {
+const EmailVerificationContents = ({ email }: { email: string }) => {
   return (
     <ContainerS>
       <TextS>
         인증 메일이 발송되었어요! <br />
-        sdfasfd@naver.com의 <br />
+        {email}의 <br />
         메일함을 확인해 주세요.
       </TextS>
       <div>
