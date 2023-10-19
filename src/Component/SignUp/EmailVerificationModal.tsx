@@ -1,13 +1,27 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import EmailVerificationContents from './EmailVerificationContents';
+import { notifySignUp } from '../../Component/Toast/SignUpMsg';
+import { postSignup } from '../../API/signup';
 import { ReactComponent as CloseIcon } from '../../image/Icon/close_icon.svg';
 
 interface EmailVerificationModalProps {
+  id: string;
   email: string;
+  nickname: string;
+  password: string;
+  handleCloseIconClick: () => void;
 }
 
-const EmailVerificationModal = ({ email }: EmailVerificationModalProps) => {
+const EmailVerificationModal = ({
+  id,
+  email,
+  nickname,
+  password,
+  handleCloseIconClick,
+}: EmailVerificationModalProps) => {
+  const navigate = useNavigate();
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -15,17 +29,25 @@ const EmailVerificationModal = ({ email }: EmailVerificationModalProps) => {
     };
   }, []);
 
-  const handleCloseButtonClick = () => {
-    // TODO: add modal close code...
+  const handleSubmitButtonClick = async () => {
+    // TODO: 모달 내부에서 회원가입 요청 보내기
+    const signupData = { id, email, nickname, password };
+    try {
+      await postSignup(signupData);
+      notifySignUp();
+      return navigate('/LogIn');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <ContainerS>
       <ModalHeaderS>
-        <CloseIcon onClick={handleCloseButtonClick} />
+        <CloseIcon onClick={handleCloseIconClick} />
         <h2>메일 인증하기</h2>
       </ModalHeaderS>
-      <EmailVerificationContents />
+      <EmailVerificationContents email={email} />
       <ButtonWrapperS>
         <button>인증 완료</button>
       </ButtonWrapperS>
