@@ -24,8 +24,10 @@ const ContainerS = styled.div`
   background-color: var(--color-bg);
 `;
 
-const TitleS = styled.h2`
+const TitleS = styled.p`
   margin-bottom: 0.5rem;
+  font-size: var(--head-b);
+  font-weight: 500;
 `;
 
 const OrderedListS = styled.ol`
