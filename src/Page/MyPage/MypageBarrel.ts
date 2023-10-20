@@ -5,7 +5,7 @@ import { Arrow_Left_B } from '../../Component/ArrowBarrel';
 import 기본프로필 from '../../image/예시사진모음/default_profile_W_MyPage.png';
 
 import Info_icon_B from '../../image/Icon/Info_icon_B.svg';
-import ArticleTab from '../../Component/ArticleTab';
+import MyPageArticle from '../../Component/MyPageArticle';
 import { CurrentMind, EndMindList } from './MyPageMind';
 
 import ConfirmModal from '../../Component/ConfirmModal';
@@ -19,7 +19,7 @@ import TermsModal from './TermsModal';
 
 export { styled, useEffect, useState, useNavigate };
 export { Arrow_Left_B, 기본프로필, Info_icon_B };
-export { ArticleTab, CurrentMind, EndMindList, ConfirmModal };
+export { MyPageArticle, CurrentMind, EndMindList, ConfirmModal };
 export { scrollTop, getUser, getMyList, logoutUser };
 export { initUser, initMyList, TermsModal };
 export type { GetUser, Mylist };

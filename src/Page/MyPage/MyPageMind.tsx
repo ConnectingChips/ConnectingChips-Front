@@ -5,6 +5,7 @@ import Arrow_Right from '../../image/Icon/Arrow/Arrow_icon_Right.svg';
 import { ConfirmModal, Mylist } from './MypageBarrel';
 import { putMindExit } from '../../API/joinedMinds';
 import Bind from '../../Type/Bind';
+import { getkeepJoin } from '../GroupPage/GroupPageBarrel';
 
 /** 참여중인 작심 */
 export const CurrentMind = ({ ListBind }: { ListBind: Bind<Mylist[]> }): JSX.Element => {
@@ -90,46 +91,42 @@ export interface EndMindType {
   boardCount: number;
 }
 
-export const EndMindList = ({
-  myListLen,
-  endList,
-}: {
-  myListLen: number;
-  endList: EndMindType[];
-}): JSX.Element => {
-  const isExist = endList && endList.length > 0;
-
+export const EndMindList = ({ endList }: { endList: EndMindType[] }): JSX.Element => {
   return (
     <CurrentMindListS>
-      {isExist ? <EndMind myListLen={myListLen} endList={endList} /> : <NoneExistComp />}
+      {endList.length > 0 ? (
+        endList.map((list, index) => <EndMind key={index} list={list} />)
+      ) : (
+        <NoneExistComp />
+      )}
     </CurrentMindListS>
   );
 };
 
-const EndMind = ({ myListLen, endList }: { myListLen: number; endList: EndMindType[] }) => {
+const EndMind = ({ list }: { list: EndMindType }) => {
   const navigate = useNavigate();
+  const [keepJoinReg, setKeepJoinReg] = useState<boolean>(false);
 
-  const ReMindButton = ({ list }: { list: EndMindType }) => {
-    return myListLen < 3 && myListLen >= 0 && list.canJoin === 1 ? (
-      <ReMindButtonS onClick={() => navigate(`/groupIntro/${list.mindId}`)}>
-        다시 참여하기
-      </ReMindButtonS>
-    ) : (
-      <FullJoinButtonS>다시 참여하기</FullJoinButtonS>
-    );
-  };
+  (async () => {
+    return await getkeepJoin(list.mindId)
+      .then((res) => setKeepJoinReg(res.keepJoin))
+      .catch((err) => {
+        if (err.code === 'ERR_BAD_REQUEST')
+          console.log('나의 작심 현황을 호출하는 데 실패했습니다.');
+      });
+  })();
 
   return (
-    <>
-      {endList.map((list, index) => {
-        return (
-          <MindS key={index}>
-            <p className='main'>{list.name}</p>
-            <ReMindButton list={list} />
-          </MindS>
-        );
-      })}
-    </>
+    <MindS>
+      <p className='main'>{list.name}</p>
+      {keepJoinReg ? (
+        <ReMindButtonS onClick={() => navigate(`/groupIntro/${list.mindId}`)}>
+          다시 참여하기
+        </ReMindButtonS>
+      ) : (
+        <FullJoinButtonS>다시 참여하기</FullJoinButtonS>
+      )}
+    </MindS>
   );
 };
 
