@@ -20,7 +20,7 @@ export const GroupArticleS = styled.article<{ passsort: PageSort }>`
     props.passsort === 'Intro'
       ? '0 1rem'
       : props.passsort === 'Create'
-      ? '3.75rem 1rem 0.5rem 1rem'
+      ? '0.75rem 1rem 0 1rem'
       : '0.87rem 1rem 1.25rem 1rem'};
 `;
 
@@ -53,6 +53,7 @@ const HeadLineS = styled.div<{ passsort: string }>`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  margin-bottom: 0.75rem;
 
   h1 {
     font-size: 1.5rem;
@@ -93,6 +94,7 @@ const MissionRuleS = styled.div<{ passsort: PageSort }>`
   background-color: ${(props) =>
     props.passsort === 'Create' ? 'var(--color-bg)' : 'rgba(255, 255, 255, 0.7)'};
   color: black;
+  margin-bottom: 0.5rem;
   padding: 1rem;
   margin-top: ${(props) => (props.passsort === 'Create' ? '' : '1.25rem')};
   border-radius: 1rem;

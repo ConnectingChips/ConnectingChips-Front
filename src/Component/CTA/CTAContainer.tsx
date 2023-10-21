@@ -69,9 +69,11 @@ const BackButton = (): JSX.Element => {
 /** 2023-08-22 CTAContainer.tsx - 인증하기 버튼 */
 const SubmitButtonCTA = ({ hasImage }: { hasImage: boolean }): JSX.Element => {
   return (
-    <CTAButtonS valid={String(hasImage)} disabled={!hasImage}>
-      인증하기
-    </CTAButtonS>
+    <SubmitButtonWrapperS>
+      <CTAButtonS valid={String(hasImage)} disabled={!hasImage}>
+        인증하기
+      </CTAButtonS>
+    </SubmitButtonWrapperS>
   );
 };
 
@@ -80,11 +82,11 @@ const ErrorCTA = (): JSX.Element => {
   const navigate = useNavigate();
 
   return (
-    <ErrorCTAS>
+    <ErrorButtonWrapperS>
       <CTAButtonS valid={'true'} onClick={() => navigate('/')}>
         메인으로
       </CTAButtonS>
-    </ErrorCTAS>
+    </ErrorButtonWrapperS>
   );
 };
 
@@ -97,7 +99,20 @@ const CTAContainerS = styled.div`
   flex-direction: column-reverse;
 `;
 
-const ErrorCTAS = styled.div`
+const SubmitButtonWrapperS = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+  background-color: #fff;
+
+  button {
+    width: 100%;
+  }
+`;
+
+const ErrorButtonWrapperS = styled.div`
   position: absolute;
   bottom: 0rem;
   display: flex;

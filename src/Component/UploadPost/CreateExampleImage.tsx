@@ -46,7 +46,6 @@ const PostS = styled.article`
   gap: var(--height-gap);
   padding: 1rem;
   border-radius: 1rem;
-  margin: 0 1rem;
   color: var(--font-color1);
   background-color: var(--color-bg);
 `;

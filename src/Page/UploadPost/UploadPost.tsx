@@ -171,35 +171,36 @@ const UploadPost = () => {
     }
   };
 
+  const UploadArea = () => {
+    return isLoading ? (
+      <LoadingSpinnerContainer>
+        <LoadingSpinner />
+      </LoadingSpinnerContainer>
+    ) : (
+      <>
+        <UploadImage
+          imageUrl={imageUrl}
+          handleDeleteIconClick={handleDeleteIconClick}
+          handleFileInputChange={handleFileInputChange}
+          handleFileInputClick={handleFileInputClick}
+        />
+        <UploadText initialText={INITIAL_TEXT} handleTextareaChange={handleTextareaChange} />
+      </>
+    );
+  };
+
   return (
     <CreatePostS>
       <UploadPostHeader />
       <GroupArticleS passsort={'Create'}>
         <HeadLine getMindInfoData={getMindInfoData} passsort={'Create'} />
         <MissionRule getMindInfoData={getMindInfoData} passsort={'Create'} />
+        <CreateExampleImage />
       </GroupArticleS>
-      <CreateExampleImage />
       <DivideBaS />
       <CreateFormS onSubmit={handleFormSubmit}>
-        {isLoading ? (
-          <LoadingSpinnerContainer>
-            <LoadingSpinner />
-          </LoadingSpinnerContainer>
-        ) : (
-          <>
-            <UploadImage
-              imageUrl={imageUrl}
-              handleDeleteIconClick={handleDeleteIconClick}
-              handleFileInputChange={handleFileInputChange}
-              handleFileInputClick={handleFileInputClick}
-            />
-            <UploadText initialText={INITIAL_TEXT} handleTextareaChange={handleTextareaChange} />
-          </>
-        )}
-
-        <SubmitButtonWrapperS>
-          <SubmitButtonCTA hasImage={image.file !== null} />
-        </SubmitButtonWrapperS>
+        <UploadArea />
+        <SubmitButtonCTA hasImage={image.file !== null} />
       </CreateFormS>
     </CreatePostS>
   );
@@ -216,19 +217,6 @@ const CreateFormS = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`;
-
-const SubmitButtonWrapperS = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: sticky;
-  bottom: 0;
-  background-color: #fff;
-
-  button {
-    width: 100%;
-  }
 `;
 
 const spin = keyframes`
