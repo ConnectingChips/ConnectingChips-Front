@@ -9,8 +9,8 @@ import LogIn from './Page/LogIn/LogIn';
 import UploadPost from './Page/UploadPost/UploadPost';
 import SignUp from './Page/SignUp/SignUp';
 import NotFound from './Page/NotFound/NotFound';
-import OAuthPage from './Component/OAuthPage';
-import GroupCheck from './Component/GroupCheck';
+import OAuthPage from './Component/Routing/OAuthPage';
+import GroupCheck from './Component/Routing/GroupCheck';
 
 import RouteChangeTracker from './RouteChangeTracker';
 

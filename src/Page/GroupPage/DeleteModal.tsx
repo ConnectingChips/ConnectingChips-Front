@@ -1,5 +1,5 @@
-import ConfirmModal from './ConfirmModal';
-import Bind from '../Type/Bind';
+import ConfirmModal from '../MyPage/ConfirmModal';
+import Bind from '../../Type/Bind';
 
 const DeleteModal = ({
   modalBind,

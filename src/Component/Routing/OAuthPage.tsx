@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { getIsLogined } from '../API/Users';
-import { NotFound } from '../AppBarral';
+import { getIsLogined } from '../../API/Users';
+import { NotFound } from '../../AppBarral';
 
 type OAuthPageProps = {
   component: JSX.Element;

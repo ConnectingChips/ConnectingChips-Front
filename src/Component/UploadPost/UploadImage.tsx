@@ -26,9 +26,7 @@ const UploadImage = ({
       <UploadImageTitle />
       {imageUrl ? (
         <AddedImageS>
-          <ImageS>
-            <img src={imageUrl} alt='추가된 이미지' />
-          </ImageS>
+          <img src={imageUrl} alt='추가된 이미지' />
           <DeleteIcon className='delete_icon' onClick={handleDeleteIconClick} />
         </AddedImageS>
       ) : (
@@ -57,10 +55,22 @@ const UploadImageWrapperS = styled(UploadWrapperS)`
   }
 `;
 
-const AddedImageS = styled.div`
+const commonImageS = styled.label`
   width: 5rem;
   height: 5rem;
   position: relative;
+
+  img {
+    width: 5rem;
+    height: 5rem;
+  }
+`;
+
+const AddedImageS = styled(commonImageS)`
+  img {
+    object-fit: cover;
+    border-radius: 0.625rem;
+  }
 
   .delete_icon {
     position: absolute;
@@ -69,29 +79,7 @@ const AddedImageS = styled.div`
   }
 `;
 
-const ImageS = styled.div`
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.625rem;
-  overflow: hidden;
-
-  img {
-    width: 5rem;
-    height: 5rem;
-    object-fit: cover;
-  }
-`;
-
-const UploadImageS = styled.label`
-  width: 5rem;
-  height: 5rem;
-  position: relative;
-
-  img {
-    width: 5rem;
-    height: 5rem;
-  }
-
+const UploadImageS = styled(commonImageS)`
   .add_icon {
     position: absolute;
     bottom: -11.28px;

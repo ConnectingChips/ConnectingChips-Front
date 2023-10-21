@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { CommentType } from '../../../API/Boards';
 import { GetUser } from '../GroupPageBarrel';
 import { deleteComment, deleteReply } from '../../../API/Comment';
-import DeleteModal from '../../../Component/DeleteModal';
+import DeleteModal from '../DeleteModal';
 import { useRecoilState } from 'recoil';
 import { isCommentInputFocused, refreshState } from '../../../data/initialData';
 

@@ -15,6 +15,7 @@ export default UploadPostHeader;
 const UploadPostHeaderS = styled(GroupHeaderContainerS)`
   justify-content: center;
   left: 0;
+  position: sticky;
 
   h1 {
     font-size: var(--header);
