@@ -171,24 +171,6 @@ const UploadPost = () => {
     }
   };
 
-  const UploadArea = () => {
-    return isLoading ? (
-      <LoadingSpinnerContainer>
-        <LoadingSpinner />
-      </LoadingSpinnerContainer>
-    ) : (
-      <>
-        <UploadImage
-          imageUrl={imageUrl}
-          handleDeleteIconClick={handleDeleteIconClick}
-          handleFileInputChange={handleFileInputChange}
-          handleFileInputClick={handleFileInputClick}
-        />
-        <UploadText initialText={INITIAL_TEXT} handleTextareaChange={handleTextareaChange} />
-      </>
-    );
-  };
-
   return (
     <CreatePostS>
       <UploadPostHeader />
@@ -199,7 +181,21 @@ const UploadPost = () => {
       </GroupArticleS>
       <DivideBaS />
       <CreateFormS onSubmit={handleFormSubmit}>
-        <UploadArea />
+        {isLoading ? (
+          <LoadingSpinnerContainer>
+            <LoadingSpinner />
+          </LoadingSpinnerContainer>
+        ) : (
+          <>
+            <UploadImage
+              imageUrl={imageUrl}
+              handleDeleteIconClick={handleDeleteIconClick}
+              handleFileInputChange={handleFileInputChange}
+              handleFileInputClick={handleFileInputClick}
+            />
+            <UploadText initialText={INITIAL_TEXT} handleTextareaChange={handleTextareaChange} />
+          </>
+        )}
         <SubmitButtonCTA hasImage={image.file !== null} />
       </CreateFormS>
     </CreatePostS>
