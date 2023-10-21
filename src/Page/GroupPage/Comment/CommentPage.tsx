@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { Arrow_Left_B } from '../../../Component/ArrowBarrel';
+import { Arrow_Left_B } from '../../../Component/IconBarrel/ArrowBarrel';
 import { isCommentInputFocused } from '../../../data/initialData';
 import Bind from '../../../Type/Bind';
 import {

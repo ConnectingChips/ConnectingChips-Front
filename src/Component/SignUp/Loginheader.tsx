@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { Arrow_Left_B } from '../../Component/ArrowBarrel';
+import { Arrow_Left_B } from '../IconBarrel/ArrowBarrel';
 import { goBack } from '../Mission/GroupHeader';
 
 /** 2023-08-27 Loginheader.tsx - 로그인/회원가입 헤더 */

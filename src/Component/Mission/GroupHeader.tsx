@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
-import { Arrow_Left_B, Arrow_Left_W } from '../ArrowBarrel';
+import { Arrow_Left_B, Arrow_Left_W } from '../IconBarrel/ArrowBarrel';
 import post_Icon from '../../image/Icon/post_Icon.svg';
 import post_Icon_locked from '../../image/Icon/post_Icon_locked.svg';
 import { Link, useLocation, useParams } from 'react-router-dom';

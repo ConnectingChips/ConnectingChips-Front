@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { getExampleImage } from '../../API/Mind';
-import { Arrow_Down } from '../ArrowBarrel';
+import { Arrow_Down } from '../IconBarrel/ArrowBarrel';
 import defaultImage from '../../image/error-example-image.png';
 
 const CreateExampleImage = (): JSX.Element => {
