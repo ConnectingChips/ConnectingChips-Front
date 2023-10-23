@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 import EmailVerificationContents from './EmailVerificationContents';
 import { notifySignUp } from '../../Component/Toast/SignUpMsg';
+import { emailErr } from '../../Component/Toast/EmailErrorMsg';
 import { postSignup } from '../../API/signup';
 import { ReactComponent as CloseIcon } from '../../image/Icon/close_icon.svg';
+import { UNAUTHENTICATED_EMAIL } from '../../constant/error';
 
 interface EmailVerificationModalProps {
   id: string;
@@ -30,7 +33,6 @@ const EmailVerificationModal = ({
   }, []);
 
   const handleSubmitButtonClick = async () => {
-    // TODO: 모달 내부에서 회원가입 요청 보내기
     const signupData = { id, email, nickname, password };
     try {
       await postSignup(signupData);
@@ -38,6 +40,10 @@ const EmailVerificationModal = ({
       return navigate('/LogIn');
     } catch (error) {
       console.error(error);
+      if (!axios.isAxiosError(error)) return;
+      if (error.response?.data.code === UNAUTHENTICATED_EMAIL) {
+        return emailErr();
+      }
     }
   };
 
@@ -49,7 +55,7 @@ const EmailVerificationModal = ({
       </ModalHeaderS>
       <EmailVerificationContents email={email} />
       <ButtonWrapperS>
-        <button>인증 완료</button>
+        <button onClick={handleSubmitButtonClick}>인증 완료</button>
       </ButtonWrapperS>
     </ContainerS>
   );
