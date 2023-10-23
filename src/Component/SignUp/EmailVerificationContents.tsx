@@ -2,7 +2,12 @@ import styled from 'styled-components';
 import EmailVerificationMessage from './EmailVerificationMessage';
 import ExclamationMarkChips from '../../image/exclamation-mark-chips.png';
 
-const EmailVerificationContents = ({ email }: { email: string }) => {
+interface Props {
+  email: string;
+  authenticationEmailRequest: () => void;
+}
+
+const EmailVerificationContents = ({ email, authenticationEmailRequest }: Props) => {
   return (
     <ContainerS>
       <TextS>
@@ -14,7 +19,7 @@ const EmailVerificationContents = ({ email }: { email: string }) => {
         <ImageS>
           <img src={ExclamationMarkChips} alt='깜짝 놀란 칩스' />
         </ImageS>
-        <EmailVerificationMessage />
+        <EmailVerificationMessage authenticationEmailRequest={authenticationEmailRequest} />
       </div>
     </ContainerS>
   );

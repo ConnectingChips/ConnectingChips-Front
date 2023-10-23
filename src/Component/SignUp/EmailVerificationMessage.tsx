@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 
-const EmailVerificationMessage = () => {
+interface Props {
+  authenticationEmailRequest: () => void;
+}
+
+const EmailVerificationMessage = ({ authenticationEmailRequest }: Props) => {
+  const handleResendButtonClick = () => {
+    authenticationEmailRequest();
+  };
+
   return (
     <ContainerS>
       <TitleS>인증 메일이 오지 않았나요?</TitleS>
@@ -8,8 +16,11 @@ const EmailVerificationMessage = () => {
         <li>메일 주소가 정확한지 확인해 주세요.</li>
         <li>스팸 메일함/휴지통을 확인해 주세요.</li>
         <li>
-          3분이 지나도 오지 않았다면 <ResendButtonS type='submit'>재전송</ResendButtonS>을
-          눌러주세요.
+          3분이 지나도 오지 않았다면{' '}
+          <ResendButtonS type='submit' onClick={handleResendButtonClick}>
+            재전송
+          </ResendButtonS>
+          을 눌러주세요.
         </li>
       </OrderedListS>
     </ContainerS>

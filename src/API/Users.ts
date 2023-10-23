@@ -68,3 +68,13 @@ export const putUserEdit = async (): Promise<GetUser> => {
     throw new Error('Failed to get user');
   }
 };
+
+// 이메일 인증 요청
+export const postAuthenticationEmail = async (email: string) => {
+  try {
+    const response = await postData('/users/authentication-email', { toEmail: email });
+    return response;
+  } catch (error) {
+    return Promise.reject();
+  }
+};

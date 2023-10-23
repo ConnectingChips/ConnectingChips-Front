@@ -11,13 +11,15 @@ import {
 } from './SignUpBarrel';
 import { type handlerBind, useSignup } from './SignUpBarrel';
 import { idDuplicateCheck } from '../../API/signup';
+import { postAuthenticationEmail } from '../../API/Users';
 
 import { SquareButton } from '../../Component/SignUp/SquareButton';
-import { ReactComponent as CheckIcon } from '../../image/Icon/check-icon.svg';
 import EmailVerificationModal from '../../Component/SignUp/EmailVerificationModal';
+import { ReactComponent as CheckIcon } from '../../image/Icon/check-icon.svg';
 
 const SignUp = (): JSX.Element => {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [inputState, setInputState] = useState('default');
   const [isAllAgreed, setIsAllAgreed] = useState(false);
@@ -97,9 +99,23 @@ const SignUp = (): JSX.Element => {
     }
   };
 
+  const authenticationEmailRequest = async () => {
+    if (isLoading) return;
+    try {
+      setIsLoading(true);
+      const data = await postAuthenticationEmail(email);
+      if (data.statusCode === 200) {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmitButtonClick = () => {
     setIsEmailModalOpen(true);
-    // TODO: 이메일 인증 요청 보내기
+    authenticationEmailRequest();
   };
 
   const handleCloseIconClick = () => {
@@ -199,6 +215,7 @@ const SignUp = (): JSX.Element => {
           nickname={nickname}
           password={password}
           handleCloseIconClick={handleCloseIconClick}
+          authenticationEmailRequest={authenticationEmailRequest}
         />
       )}
       <BtnWrapperS>

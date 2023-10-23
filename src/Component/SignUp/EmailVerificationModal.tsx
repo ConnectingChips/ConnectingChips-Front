@@ -15,6 +15,7 @@ interface EmailVerificationModalProps {
   nickname: string;
   password: string;
   handleCloseIconClick: () => void;
+  authenticationEmailRequest: () => void;
 }
 
 const EmailVerificationModal = ({
@@ -23,6 +24,7 @@ const EmailVerificationModal = ({
   nickname,
   password,
   handleCloseIconClick,
+  authenticationEmailRequest,
 }: EmailVerificationModalProps) => {
   const navigate = useNavigate();
   useEffect(() => {
@@ -53,7 +55,10 @@ const EmailVerificationModal = ({
         <CloseIcon onClick={handleCloseIconClick} />
         <h2>메일 인증하기</h2>
       </ModalHeaderS>
-      <EmailVerificationContents email={email} />
+      <EmailVerificationContents
+        email={email}
+        authenticationEmailRequest={authenticationEmailRequest}
+      />
       <ButtonWrapperS>
         <button onClick={handleSubmitButtonClick}>인증 완료</button>
       </ButtonWrapperS>
