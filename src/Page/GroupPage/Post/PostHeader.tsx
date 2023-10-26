@@ -7,6 +7,7 @@ import { deleteBoard } from '../../../API/Boards';
 import Bind from '../../../Type/Bind';
 import { refreshState } from '../../../data/initialData';
 import { useRecoilState } from 'recoil';
+import { ConfirmModal } from '../../MyPage/MypageBarrel';
 
 interface PostHeaderProps {
   setIsContentEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,7 +44,14 @@ const PostHeader: React.FC<PostHeaderProps> = ({ setIsContentEdit, postProps }) 
           <PostEditBtn setIsContentEdit={setIsContentEdit} setModalBtn={setModalBtn} />
         )}
       </PostProfileS>
-      <DeleteModal modalBind={modalBind} deleteAction={deletePostHandler} />
+      {modalBtn ? (
+        <ConfirmModal
+          setConfirm={setModalBtn}
+          confirmText='이 게시글을 삭제할까요?'
+          action='삭제'
+          method={deletePostHandler}
+        />
+      ) : null}
     </PostHeaderContainer>
   );
 };
