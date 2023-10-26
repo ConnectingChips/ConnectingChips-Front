@@ -5,7 +5,6 @@ import {
   LoginInputS,
   SignClearBtnS,
   SignNotClearBtnS,
-  Loginheader,
   infoIcon,
   Terms,
 } from './SignUpBarrel';
@@ -14,6 +13,7 @@ import { postSignup, idDuplicateCheck } from '../../API/signup';
 import { notifySignUp } from '../../Component/Toast/SignUpMsg';
 import { SquareButton } from '../../Component/SignUp/SquareButton';
 import { ReactComponent as CheckIcon } from '../../image/Icon/check-icon.svg';
+import { GroupHeader } from '../../Component/Mission/GroupHeader';
 
 const SignUp = (): JSX.Element => {
   const [isValid, setIsValid] = useState(true);
@@ -108,7 +108,7 @@ const SignUp = (): JSX.Element => {
 
   return (
     <LogInS>
-      <Loginheader type='회원가입' />
+      <GroupHeader text='회원가입' />
       <Banner />
       <LoginFormS>
         <LoginInputContainerS>
