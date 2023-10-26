@@ -6,26 +6,6 @@ const LogInS = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-
-  /* border: 1px solid; */
-
-  header {
-    width: calc(var(--width-mobile) - 1rem);
-    height: var(--height-header);
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    background-color: var(--color-white);
-
-    h2 {
-      font-size: 1.25rem;
-    }
-  }
 `;
 
 /** 2023-08-24 LoginInputS.tsx - 로그인 아이디 */
