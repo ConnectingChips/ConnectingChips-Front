@@ -75,6 +75,6 @@ export const postAuthenticationEmail = async (email: string) => {
     const response = await postData('/users/authentication-email', { toEmail: email });
     return response;
   } catch (error) {
-    return Promise.reject();
+    return Promise.reject(error);
   }
 };
