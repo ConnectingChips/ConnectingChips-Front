@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { CommentType } from '../../../API/Boards';
 import { GetUser } from '../GroupPageBarrel';
 import { deleteComment, deleteReply } from '../../../API/Comment';
-import DeleteModal from '../../../Component/DeleteModal';
 import { useRecoilState } from 'recoil';
 import { isCommentInputFocused, refreshState } from '../../../data/initialData';
+import { ConfirmModal } from '../../MyPage/MypageBarrel';
 
 interface CommentProps {
   commentData: CommentType;
@@ -79,7 +79,6 @@ const CommentBox = ({ CommentData, userInfo, setIsComment }: CommentBoxProps) =>
   };
 
   const [modalBtn, setModalBtn] = useState(false);
-  const modalBind = { state: modalBtn, Setter: setModalBtn };
 
   return (
     <CommentBoxContainerS isReply={isReply}>
@@ -101,7 +100,14 @@ const CommentBox = ({ CommentData, userInfo, setIsComment }: CommentBoxProps) =>
           </CommentBoxOptionS>
         </div>
       </CommentBoxS>
-      <DeleteModal modalBind={modalBind} deleteAction={deleteCommentHandler} />
+      {modalBtn ? (
+        <ConfirmModal
+          setConfirm={setModalBtn}
+          confirmText={`이 ${isReply ? '답글' : '댓글'}을 삭제할까요?`}
+          action='삭제'
+          method={deleteCommentHandler}
+        />
+      ) : null}
     </CommentBoxContainerS>
   );
 };
