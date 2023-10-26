@@ -3,7 +3,6 @@ import { styled } from 'styled-components';
 import point3 from '../../../image/Icon/3point_icon.svg';
 import { PostProps } from '../PostPropsType';
 import { deleteBoard } from '../../../API/Boards';
-import Bind from '../../../Type/Bind';
 import { refreshState } from '../../../data/initialData';
 import { useRecoilState } from 'recoil';
 import { ConfirmModal } from '../../MyPage/MypageBarrel';
@@ -21,7 +20,6 @@ interface PostEditBtnProps {
 const PostHeader: React.FC<PostHeaderProps> = ({ setIsContentEdit, postProps }) => {
   const [refresh, setRefresh] = useRecoilState<number>(refreshState);
   const [modalBtn, setModalBtn] = useState<boolean>(false);
-  const modalBind: Bind<boolean> = { state: modalBtn, Setter: setModalBtn };
   const { postData, userInfo } = postProps;
   const { profileImage, nickname, createDate } = postData;
 
