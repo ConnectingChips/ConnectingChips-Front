@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { ReactComponent as CloseIcon } from '../../image/Icon/close_icon.svg';
 import MarkDown from '../../Component/Markdown/Markdown';
 import { personalInfoCollection, privacyPolicy, terms } from '../../data/termsPolicyData';
 import Bind from '../../Type/Bind';
 import TermsValue from '../../Type/TermsValue';
-
+import { GroupHeader } from '../../Component/Mission/GroupHeader';
 interface TermsModalProps {
   termsBind: Bind<TermsValue>;
 }
@@ -27,10 +26,11 @@ const TermsModal = ({ termsBind }: TermsModalProps) => {
 
   return (
     <Container>
-      <ModalHeaderS>
+      {/* <ModalHeaderS>
         <CloseIcon onClick={handleCloseButtonClick} />
         <h2>{termType.title}</h2>
-      </ModalHeaderS>
+      </ModalHeaderS> */}
+      <GroupHeader btnType='close' text={showTerms} btnState={handleCloseButtonClick} />
       <MarkDown source={termType.contents} className='modal_contents' />
     </Container>
   );
@@ -46,24 +46,6 @@ const Container = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 20;
+  z-index: 120;
   background-color: var(--color-white);
-`;
-
-const ModalHeaderS = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3.5rem;
-  font-size: 1.25rem;
-  font-weight: 500;
-  background-color: var(--color-white);
-  position: relative;
-
-  svg {
-    position: absolute;
-    top: 50%;
-    left: 1rem;
-    transform: translateY(-50%);
-  }
 `;

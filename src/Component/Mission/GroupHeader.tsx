@@ -12,7 +12,7 @@ interface GroupHeaderType {
   backBtnColor?: 'black' | 'white';
   text?: string;
   btnType?: 'close';
-  btnState?: React.Dispatch<React.SetStateAction<boolean>>;
+  btnState?: any;
 }
 
 // BGcolor: 헤더배경색(blur가능), upload: 업로드 아이콘 유무, backBtnColor: 뒤로가기 버튼(white,black), text : 중앙텍스트
