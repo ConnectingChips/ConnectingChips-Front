@@ -55,7 +55,7 @@ const GroupPostList = () => {
           <>
             {mindData.map((postData) => {
               const postProps = { postData, userInfo };
-              return <GroupPost postProps={postProps} sort='groupPage' />;
+              return <GroupPost postProps={postProps} sort='groupPage' key={postData.boardId} />;
             })}
           </>
         ) : (
