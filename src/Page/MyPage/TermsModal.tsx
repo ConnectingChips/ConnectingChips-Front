@@ -26,10 +26,6 @@ const TermsModal = ({ termsBind }: TermsModalProps) => {
 
   return (
     <Container>
-      {/* <ModalHeaderS>
-        <CloseIcon onClick={handleCloseButtonClick} />
-        <h2>{termType.title}</h2>
-      </ModalHeaderS> */}
       <GroupHeader btnType='close' text={showTerms} btnState={handleCloseButtonClick} />
       <MarkDown source={termType.contents} className='modal_contents' />
     </Container>
