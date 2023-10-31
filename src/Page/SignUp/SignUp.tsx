@@ -9,13 +9,17 @@ import {
   Terms,
 } from './SignUpBarrel';
 import { type handlerBind, useSignup } from './SignUpBarrel';
-import { postSignup, idDuplicateCheck } from '../../API/signup';
-import { notifySignUp } from '../../Component/Toast/SignUpMsg';
+import { idDuplicateCheck } from '../../API/signup';
+import { postAuthenticationEmail } from '../../API/Users';
+
 import { SquareButton } from '../../Component/SignUp/SquareButton';
+import EmailVerificationModal from '../../Component/SignUp/EmailVerificationModal';
 import { ReactComponent as CheckIcon } from '../../image/Icon/check-icon.svg';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 
 const SignUp = (): JSX.Element => {
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [inputState, setInputState] = useState('default');
   const [isAllAgreed, setIsAllAgreed] = useState(false);
@@ -95,15 +99,27 @@ const SignUp = (): JSX.Element => {
     }
   };
 
-  const handleSubmitButtonClick = async () => {
-    const signupData = { id, email, nickname, password };
+  const authenticationEmailRequest = async () => {
+    if (isLoading) return;
     try {
-      await postSignup(signupData);
-      notifySignUp();
-      return navigate('/LogIn');
+      setIsLoading(true);
+      const data = await postAuthenticationEmail(email);
+      if (data.statusCode === 200) {
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
+  };
+
+  const handleSubmitButtonClick = () => {
+    setIsEmailModalOpen(true);
+    authenticationEmailRequest();
+  };
+
+  const handleCloseIconClick = () => {
+    setIsEmailModalOpen(false);
   };
 
   return (
@@ -192,10 +208,20 @@ const SignUp = (): JSX.Element => {
         </LoginInputContainerS>
       </LoginFormS>
       <Terms isAllAgreed={isAllAgreed} setIsAllAgreed={setIsAllAgreed} />
+      {isEmailModalOpen && (
+        <EmailVerificationModal
+          id={id}
+          email={email}
+          nickname={nickname}
+          password={password}
+          handleCloseIconClick={handleCloseIconClick}
+          authenticationEmailRequest={authenticationEmailRequest}
+        />
+      )}
       <BtnWrapperS>
         {isValid && isAllAgreed && !isDuplicateId ? (
           <SignClearBtnS type='submit' className='btn_width' onClick={handleSubmitButtonClick}>
-            회원가입
+            메일 인증하고 회원가입
           </SignClearBtnS>
         ) : (
           <SignNotClearBtnS
@@ -203,7 +229,7 @@ const SignUp = (): JSX.Element => {
             className='btn_width'
             disabled={isValid && isAllAgreed && !isDuplicateId}
           >
-            회원가입
+            메일 인증하고 회원가입
           </SignNotClearBtnS>
         )}
       </BtnWrapperS>

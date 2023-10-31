@@ -50,19 +50,19 @@ const TermsModal = ({ setIsOpen, termsData, setIsAgreed }: TermsModalProps) => {
   };
 
   return (
-    <Container>
+    <ContainerS>
       <GroupHeader btnType='close' text={termsData.title} btnState={setIsOpen} />
       <MarkDown source={termsData.contents} className='modal_contents' />
       <ButtonWrapperS>
         <button onClick={handleAgreeButtonClick}>동의</button>
       </ButtonWrapperS>
-    </Container>
+    </ContainerS>
   );
 };
 
 export default TermsModal;
 
-const Container = styled.div`
+const ContainerS = styled.div`
   width: 100%;
   height: 100dvh;
   position: sticky;
