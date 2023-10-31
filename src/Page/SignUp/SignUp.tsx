@@ -5,7 +5,6 @@ import {
   LoginInputS,
   SignClearBtnS,
   SignNotClearBtnS,
-  Loginheader,
   infoIcon,
   Terms,
 } from './SignUpBarrel';
@@ -16,6 +15,7 @@ import { postAuthenticationEmail } from '../../API/Users';
 import { SquareButton } from '../../Component/SignUp/SquareButton';
 import EmailVerificationModal from '../../Component/SignUp/EmailVerificationModal';
 import { ReactComponent as CheckIcon } from '../../image/Icon/check-icon.svg';
+import { GroupHeader } from '../../Component/Mission/GroupHeader';
 
 const SignUp = (): JSX.Element => {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
@@ -124,7 +124,7 @@ const SignUp = (): JSX.Element => {
 
   return (
     <LogInS>
-      <Loginheader type='회원가입' />
+      <GroupHeader text='회원가입' />
       <Banner />
       <LoginFormS>
         <LoginInputContainerS>

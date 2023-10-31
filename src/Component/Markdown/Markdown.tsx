@@ -28,8 +28,9 @@ export default function MarkDown({
 }
 
 const ModalContentS = styled.div`
+  margin-top: 3.5rem;
   max-height: calc(100dvh - 88px);
-  overflow-y: auto;
+  overflow-y: scroll;
   div,
   p,
   ol,
