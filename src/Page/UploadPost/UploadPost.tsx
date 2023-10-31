@@ -4,7 +4,6 @@ import { styled, keyframes } from 'styled-components';
 import axios from 'axios';
 
 import CreateExampleImage from '../../Component/UploadPost/CreateExampleImage';
-import UploadPostHeader from '../../Component/UploadPost/UploadPostHeader';
 import UploadImage from '../../Component/UploadPost/UploadImage';
 import UploadText from '../../Component/UploadPost/UploadText';
 import { SubmitButtonCTA } from '../../Component/CTA/CTAContainer';
@@ -33,6 +32,7 @@ import {
   EXPIRED_TOKEN,
   AXIOS_NETWORK_ERROR,
 } from '../../constant/error';
+import { GroupHeader } from '../GroupPage/GroupPageBarrel';
 
 interface Image {
   name: string;
@@ -173,7 +173,7 @@ const UploadPost = () => {
 
   return (
     <CreatePostS>
-      <UploadPostHeader />
+      <GroupHeader text='작심 글쓰기' />
       <GroupArticleS passsort={'Create'}>
         <HeadLine getMindInfoData={getMindInfoData} passsort={'Create'} />
         <MissionRule getMindInfoData={getMindInfoData} passsort={'Create'} />

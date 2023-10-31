@@ -50,6 +50,7 @@ const CommentInput = ({ userInfo, postData, isCommentBind }: commentInputProps) 
   // 엔터 키를 감지하는 함수
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      setIsInputFocused(false);
       inputBtnHandler(e as any);
     }
   };
@@ -59,7 +60,7 @@ const CommentInput = ({ userInfo, postData, isCommentBind }: commentInputProps) 
   // 0이아니면 답글추가인데 여기에 들어가는 숫자는 답글이 붙을 댓글의 id (commentid)
   const inputBtnHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    setIsInputFocused(true);
+    setIsInputFocused(false);
     if (commentInputText.length === 0) return;
     try {
       if (isComment === 0) {

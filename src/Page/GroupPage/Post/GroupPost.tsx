@@ -1,11 +1,15 @@
-import { styled } from 'styled-components';
-import { useState } from 'react';
+import {
+  styled,
+  useState,
+  useNavigate,
+  useParams,
+  useRecoilState,
+  PostProps,
+  BoardsType,
+} from '../GroupPageBarrel';
 import PostHeader from './PostHeader';
 import PostContent from './PostContent';
-import { PostProps } from '../PostPropsType';
 import comment_icon from '../../../image/Icon/comment_icon.svg';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import { isCommentInputFocused } from '../../../data/initialData';
 
 const GroupPost = ({
@@ -15,21 +19,21 @@ const GroupPost = ({
   postProps: PostProps;
   sort: 'groupPage' | 'commentPage';
 }): JSX.Element => {
-  const [toggleContentEdit, setToggleContentEdit] = useState<boolean>(false);
-  const toggleContentEditbind = {
-    toggleContentEdit,
-    setToggleContentEdit,
+  const [isContentEdit, setIsContentEdit] = useState<boolean>(false);
+  const isContentEditBind = {
+    isContentEdit,
+    setIsContentEdit,
   };
   const { postData } = postProps;
 
   return (
     <GroupPostS>
-      <PostHeader setToggleContentEdit={setToggleContentEdit} postProps={postProps} />
+      <PostHeader setIsContentEdit={setIsContentEdit} postProps={postProps} />
       <PostImageS src={postData.image} alt='업로드 사진' />
-      <PostContent toggleContentEditbind={toggleContentEditbind} postProps={postProps} />
+      <PostContent isContentEditBind={isContentEditBind} postData={postData} />
       {sort === 'groupPage' ? (
         <>
-          <CommentOptionsBar postProps={postProps} />
+          <CommentOptionsBar postData={postData} />
           <CommentPreview postProps={postProps} />
           <CommentInputBar postProps={postProps} />
         </>
@@ -42,32 +46,23 @@ const GroupPost = ({
 
 export default GroupPost;
 
-const CommentOptionsBar = ({ postProps }: { postProps: PostProps }) => {
-  const navigate = useNavigate();
-  const { mindId } = useParams();
-  const { boardId } = postProps.postData;
-  const navigateCommentsPage = () => {
-    navigate(`/grouppage/${mindId}/${boardId}`);
-  };
+const CommentOptionsBar = ({ postData }: { postData: BoardsType }) => {
+  const navigateCommentsPage = useNavigateCommentsPage(postData.boardId);
   return (
     <CommentOptionsBarS>
       <img src={comment_icon} alt='comment-icon' onClick={navigateCommentsPage}></img>
-      <div onClick={navigateCommentsPage}>댓글 {postProps.postData.commentCount}</div>
+      <div onClick={navigateCommentsPage}>댓글 {postData.commentCount}</div>
     </CommentOptionsBarS>
   );
 };
 
 const CommentPreview = ({ postProps }: { postProps: PostProps }) => {
-  const navigate = useNavigate();
-  const { mindId } = useParams();
-  const { boardId } = postProps.postData;
   const { commentList } = postProps.postData;
+  const navigateCommentsPage = useNavigateCommentsPage(postProps.postData.boardId);
   const lastComment = commentList[commentList.length - 1];
+
   if (!commentList.length) return null;
 
-  const navigateCommentsPage = () => {
-    navigate(`/grouppage/${mindId}/${boardId}`);
-  };
   return (
     <CommentPreviewS onClick={navigateCommentsPage}>
       <img src={lastComment.profileImage} alt='profileImage' />
@@ -78,35 +73,38 @@ const CommentPreview = ({ postProps }: { postProps: PostProps }) => {
 };
 
 const CommentInputBar = ({ postProps }: { postProps: PostProps }) => {
-  const navigate = useNavigate();
-  const { mindId } = useParams();
-  const { boardId } = postProps.postData;
+  const navigateCommentsPage = useNavigateCommentsPage(postProps.postData.boardId);
   const [isInputFocused, setIsInputFocused] = useRecoilState(isCommentInputFocused);
-  const navigateCommentsPage = () => {
-    navigate(`/grouppage/${mindId}/${boardId}`);
-    setIsInputFocused(true);
-  };
 
-  const commentInputText = () => {
-    if (postProps.postData.commentCount === 0) {
-      return '가장 먼저 응원의 댓글을 적어주세요!';
-    } else {
-      return '응원의 댓글을 적어주세요!';
-    }
+  const commentInputText =
+    postProps.postData.commentCount === 0
+      ? '가장 먼저 응원의 댓글을 적어주세요!'
+      : '응원의 댓글을 적어주세요!';
+
+  // 댓글페이지 이동시 input focus되도록하는 함수
+  const handleCommentClick = () => {
+    navigateCommentsPage();
+    setIsInputFocused(true);
   };
 
   return (
     <CommentInputBarContainer>
-      <CommentInputBarS onClick={navigateCommentsPage}>
-        <div>{commentInputText()}</div>
+      <CommentInputBarS onClick={handleCommentClick}>
+        <div>{commentInputText}</div>
         <img src={`${process.env.PUBLIC_URL}/commentInputButtonoff.svg`} alt='sendIcon' />
       </CommentInputBarS>
     </CommentInputBarContainer>
   );
 };
+// 댓글페이지로 이동시키는 함수
+const useNavigateCommentsPage = (boardId: number) => {
+  const navigate = useNavigate();
+  const { mindId } = useParams();
+  return () => navigate(`/grouppage/${mindId}/${boardId}`);
+};
 
 const GroupPostS = styled.div`
-  margin: 0 1rem;
+  margin: 0 1rem 0.69rem 1rem;
   background-color: var(--color-white);
   border-radius: 0.625rem;
   border: 1px solid var(--color-line);
@@ -117,11 +115,6 @@ const GroupPostS = styled.div`
 
 export const PostImageS = styled.img`
   width: 100%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-size: cover;
 `;
 
 const CommentOptionsBarS = styled.div`

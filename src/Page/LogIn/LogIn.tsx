@@ -1,10 +1,9 @@
 import { useState, Link, styled, useNavigate } from './LoginBarrel';
 import { LogInS, LoginInputS, SignClearBtnS, Arrow_Right } from './LoginBarrel';
 import Banner from '../../Component/SignUp/Banner';
-import Loginheader from '../../Component/SignUp/Loginheader';
 // import useLoginCheck from '../../Hooks/useLoginCheck';
-
 import { postLogin } from '../../API/login';
+import { GroupHeader } from '../../Component/Mission/GroupHeader';
 
 type bindValue = {
   value: string;
@@ -39,7 +38,7 @@ const LogIn = (): JSX.Element => {
 
   return (
     <LogInS>
-      <Loginheader type='로그인' />
+      <GroupHeader text='로그인' />
       <Banner />
       <LoginOuterContainerS>
         <LoginFormS onSubmit={handleLoginSubmit}>
