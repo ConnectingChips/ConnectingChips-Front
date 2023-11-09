@@ -1,14 +1,10 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { EXPIRED_TOKEN } from '../constant/error';
 
 axios.defaults.baseURL = 'https://dev.samchips.com';
-// axios.defaults.baseURL = 'http://ec2-13-209-105-30.ap-northeast-2.compute.amazonaws.com:8080';
 axios.defaults.withCredentials = true;
 
 const client: AxiosInstance = axios.create();
-
-// 인스턴스를 만든 후 기본값 변경하기
-// client.defaults.headers.common['withCredentials'] = true;
 
 client.interceptors.response.use(
   (response) => {
