@@ -1,21 +1,16 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "작심삼칩",
+  "name": "작심삼칩",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "samchips_favicon.png",
+      "sizes": "144x144",
+      "type": "image/png"
     },
     {
-      "src": "logo192.png",
+      "src": "apple_touch_icon.png",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "114x114"
     }
   ],
   "start_url": ".",
