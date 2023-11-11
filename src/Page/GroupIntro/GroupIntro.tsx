@@ -1,5 +1,5 @@
 import { styled, useEffect, useState, useParams } from './IntroBarrel';
-import { CTAContainer, GroupIntroHeader, scrollTop, getMind_IntroImage } from './IntroBarrel';
+import { CTAContainer, scrollTop, getMind_IntroImage } from './IntroBarrel';
 import {
   HeadLine,
   MissionRule,
@@ -9,6 +9,7 @@ import {
   getMindInfo_Intro,
 } from './IntroBarrel';
 import type { MindIntroInfo, MindsType } from './IntroBarrel';
+import { GroupHeader } from '../GroupPage/GroupPageBarrel';
 
 /** 2023-08-21 GroupIntro.tsx - 메인 컴프 */
 const GroupIntro = (): JSX.Element => {
@@ -24,7 +25,7 @@ const GroupIntro = (): JSX.Element => {
 
   return (
     <GroupIntroImgS img={groupIntroImg}>
-      <GroupIntroHeader />
+      <GroupHeader upload={false} backBtnColor='white' BGcolor='blur' />
       <BGDarkS>
         <GroupContainerS>
           <CTAContainer />

@@ -1,0 +1,22 @@
+{
+  "short_name": "작심삼칩",
+  "name": "작심삼칩",
+  "icons": [
+    {
+      "src": "chips192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "chips512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#111111",
+  "background_color": "#ffffff"
+}

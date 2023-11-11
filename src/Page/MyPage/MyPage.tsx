@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { goBack } from '../../Component/Mission/GroupHeader';
+import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import TermsValue from '../../Type/TermsValue';
 import { DivideBaS } from '../GroupPage/GroupPageBarrel';
 import { styled, useEffect, useState, logoutUser } from './MypageBarrel';
@@ -14,7 +14,7 @@ const MyPage = (): JSX.Element => {
 
   return (
     <MyPageS>
-      <MyPageHeader />
+      <GroupHeader text='MY' />
       <MyPageInfo />
 
       <MyPageArticle />
@@ -25,15 +25,6 @@ const MyPage = (): JSX.Element => {
 };
 
 export default MyPage;
-
-const MyPageHeader = (): JSX.Element => {
-  return (
-    <MyPageHeaderS>
-      <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      <h2>MY</h2>
-    </MyPageHeaderS>
-  );
-};
 
 const MyPageInfo = () => {
   const myInfo = useRecoilValue<GetUser>(userDataState);
@@ -105,38 +96,12 @@ const MyPageS = styled.div`
   align-items: center;
 `;
 
-const MyPageHeaderS = styled.header`
-  z-index: 10;
-  position: sticky;
-  top: 0;
-
-  width: 100%;
-  min-width: var(--width-min);
-
-  height: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 0;
-
-  background-color: white;
-
-  img {
-    position: absolute;
-    left: 1.67rem;
-  }
-
-  h2 {
-    font-size: 1.25rem;
-  }
-`;
-
 const ProfileHeaderS = styled.div`
   box-sizing: border-box;
   width: 100%;
   min-width: var(--width-min);
   height: 6.3125rem;
-
+  margin-top: var(--height-header);
   display: flex;
   align-items: center;
   padding: 0 1rem;

@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import { DivideBaS } from '../../Component/Mission/GroupArticle';
-
+import { refreshState } from '../../data/initialData';
 import { getMindInfo_Page, getMind_PageImage } from '../../API/Mind';
+import { useRecoilState } from 'recoil';
 import GroupBtn from './GroupBtn';
 import {
   GroupArticleS,
@@ -51,6 +52,7 @@ export {
   useParams,
   GroupHeader,
   DivideBaS,
+  useRecoilState,
 };
 export {
   getMindInfo_Page,
@@ -60,6 +62,7 @@ export {
   HeadLine,
   IntroduceS,
   initMind,
+  refreshState,
 };
 export { GroupPost, getBoards, getUser, initUser };
 export type { MindPageInfo, MindsType, GetUser, BoardsType, PostProps };
