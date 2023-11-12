@@ -4,7 +4,6 @@ import { styled } from 'styled-components';
 import { getMind_IntroImage, getMindInfo_Intro } from '../../API/Mind';
 import { MindIntroInfo, MindsType } from '../../Type/Mind';
 import { CTAContainer } from '../../Component/CTA/CTAContainer';
-import { GroupIntroHeader } from '../../Component/Mission/GroupHeader';
 import {
   HeadLine,
   MissionRule,
@@ -15,6 +14,6 @@ import {
 import scrollTop from '../../Hooks/scrollTop';
 
 export { styled, useEffect, useState, useParams };
-export { CTAContainer, GroupIntroHeader, scrollTop, getMind_IntroImage };
+export { CTAContainer, scrollTop, getMind_IntroImage };
 export { HeadLine, MissionRule, GroupArticleS, IntroduceS, initMind, getMindInfo_Intro };
 export type { MindIntroInfo, MindsType };

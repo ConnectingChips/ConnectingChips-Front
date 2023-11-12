@@ -3,46 +3,42 @@ import { useRecoilState } from 'recoil';
 import { BoardsType, GetUser, useState } from '../GroupPageBarrel';
 import { postAddComment } from '../../../API/Comment';
 import { postAddReply } from '../../../API/Comment';
-import { refreshState } from '../../../data/initialData';
+import { isCommentInputFocused, refreshState } from '../../../data/initialData';
 import Bind from '../../../Type/Bind';
+import { useEffect, useRef } from 'react';
 
 interface commentInputProps {
   userInfo: GetUser;
   postData: BoardsType;
-  setCommentFlip: React.Dispatch<React.SetStateAction<boolean>>;
-  inputToggleBind: Bind<boolean>;
   isCommentBind: Bind<number>;
 }
 
-const CommentInput = ({
-  userInfo,
-  postData,
-  setCommentFlip,
-  inputToggleBind,
-  isCommentBind,
-}: commentInputProps) => {
-  const { state: inputToggle, Setter: setInputToggle } = inputToggleBind;
+const CommentInput = ({ userInfo, postData, isCommentBind }: commentInputProps) => {
   const { state: isComment, Setter: setIsComment } = isCommentBind;
   const [commentInputText, setCommentInputText] = useState<string>('');
+  const [isInputFocused, setIsInputFocused] = useRecoilState(isCommentInputFocused);
+  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
-  // input에 들어갈 내용 CommentInput에 넣는 함수
+  // CommentInput의 content저장하는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentInputText(e.target.value);
   };
 
   // input 바깥쪽누르면 되돌아감
   const handleFormClickTrue = () => {
-    !inputToggle && setInputToggle(true);
-    setIsComment(0);
+    if (isInputFocused) {
+      setIsInputFocused(false);
+      setIsComment(0);
+    }
   };
 
   // 댓글에 붙은 input누르면 하단에 붙음
   const handleFormClickFalse = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    inputToggle && setInputToggle(false);
+    if (!isInputFocused) {
+      setIsInputFocused(true);
+    }
   };
-
-  const [refresh, setRefresh] = useRecoilState<number>(refreshState);
 
   const placeholderText = (): string => {
     if (isComment !== 0) return '답글을 적어주세요';
@@ -54,6 +50,7 @@ const CommentInput = ({
   // 엔터 키를 감지하는 함수
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      setIsInputFocused(false);
       inputBtnHandler(e as any);
     }
   };
@@ -63,7 +60,7 @@ const CommentInput = ({
   // 0이아니면 답글추가인데 여기에 들어가는 숫자는 답글이 붙을 댓글의 id (commentid)
   const inputBtnHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    setInputToggle(true);
+    setIsInputFocused(false);
     if (commentInputText.length === 0) return;
     try {
       if (isComment === 0) {
@@ -83,7 +80,6 @@ const CommentInput = ({
         setIsComment(0);
       }
       setCommentInputText('');
-      setCommentFlip(false);
       setRefresh((prevRefresh) => prevRefresh + 1);
     } catch (error) {
       console.error('오류 발생:', error);
@@ -93,72 +89,65 @@ const CommentInput = ({
   // input에 글 적으면 화살표 노란색으로 변경
   const isTyping = commentInputText.trimStart().length === 0 ? 'off' : 'on';
 
-  const CommentInputContent = (
-    <CommentInputContainerS inputToggle={inputToggle} onClick={handleFormClickFalse}>
-      <CommentInputS inputToggle={inputToggle}>
-        <input
-          placeholder={placeholderText()}
-          value={commentInputText}
-          onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
-          type='text'
-          maxLength={400}
-        />
-        <button onClick={inputBtnHandler}>
-          {
-            <img
-              src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
-              alt='sendIcon'
-            />
-          }
-        </button>
-      </CommentInputS>
-    </CommentInputContainerS>
-  );
+  // 페이지 진입시 input focus생기는 코드
 
-  return inputToggle ? (
-    CommentInputContent
-  ) : (
-    <CommentInputBGS inputToggle={inputToggle} onClick={handleFormClickTrue}>
-      {CommentInputContent}
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [isInputFocused]);
+
+  return (
+    <CommentInputBGS isInputFocused={isInputFocused} onClick={handleFormClickTrue}>
+      <CommentInputContainerS isInputFocused={isInputFocused} onClick={handleFormClickFalse}>
+        <CommentInputS isInputFocused={isInputFocused}>
+          <input
+            placeholder={placeholderText()}
+            value={commentInputText}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
+            type='text'
+            maxLength={400}
+            ref={isInputFocused ? inputRef : null}
+          />
+          <button onClick={inputBtnHandler}>
+            {
+              <img
+                src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
+                alt='sendIcon'
+              />
+            }
+          </button>
+        </CommentInputS>
+      </CommentInputContainerS>
     </CommentInputBGS>
   );
 };
 
 export { CommentInput };
 
-const CommentInputBGS = styled.div<{ inputToggle: boolean }>`
+const CommentInputBGS = styled.div<{ isInputFocused: boolean }>`
   ${(props) =>
-    props.inputToggle
-      ? ''
-      : 'position: fixed; display: flex; flex-direction: column-reverse; top: 0;left: 0;right: 0;bottom: 0;z-index: 100;overflow:auto;'}
+    props.isInputFocused
+      ? 'position: fixed; display: flex; flex-direction: column-reverse; top: 0;left: 0;right: 0;bottom: 0; z-index: 100;'
+      : ''}
 `;
 
-const CommentInputContainerS = styled.div<{ inputToggle: boolean }>`
-  position: ${(props) => (props.inputToggle ? '' : 'fixed')};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: static;
+export const CommentInputContainerS = styled.div<{ isInputFocused: boolean }>`
   background-color: white;
-  height: 4.5rem;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: ${(props) => (props.inputToggle ? '0.5rem 0' : '')};
+  padding: 0 1rem 0.5rem 1rem;
+  margin-top: 0.75rem;
 `;
 
-const CommentInputS = styled.div<{ inputToggle: boolean }>`
-  position: ${(props) => (props.inputToggle ? '' : 'fixed')};
-  background-color: #fff;
-  border: 1px solid #e3e3e3;
+const CommentInputS = styled.div<{ isInputFocused: boolean }>`
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-line);
   border-radius: 0.5rem;
   width: 100%;
   box-sizing: border-box;
   padding: 1.06rem 1rem;
   display: flex;
   align-items: center;
-  justify-content: ${(props) => (props.inputToggle ? 'center' : 'space-around')};
+  justify-content: ${(props) => (props.isInputFocused ? 'center' : 'space-around')};
   z-index: 10;
   input {
     font-size: 1rem;
@@ -167,6 +156,9 @@ const CommentInputS = styled.div<{ inputToggle: boolean }>`
     border: none;
     background-color: transparent;
     color: var(--font-color3);
+    &:focus {
+      outline: none;
+    }
   }
   button {
     padding: 0;

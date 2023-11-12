@@ -30,7 +30,7 @@ const UploadImageTitleS = styled.div`
   position: relative;
 
   .required {
-    color: #04b014;
+    color: var(--system-green);
   }
 
   svg {

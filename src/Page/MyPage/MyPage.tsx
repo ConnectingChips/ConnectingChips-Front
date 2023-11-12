@@ -1,8 +1,8 @@
-import { goBack } from '../../Component/Mission/GroupHeader';
+import { GroupHeader } from '../../Component/Mission/GroupHeader';
 import TermsValue from '../../Type/TermsValue';
 import { DivideBaS } from '../GroupPage/GroupPageBarrel';
 import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
-import { Arrow_Left_B, Info_icon_B } from './MypageBarrel';
+import { Info_icon_B } from './MypageBarrel';
 import { ArticleTab, ConfirmModal, TermsModal } from './MypageBarrel';
 import { scrollTop, getUser } from './MypageBarrel';
 import type { GetUser, Mylist } from './MypageBarrel';
@@ -32,7 +32,7 @@ const MyPage = (): JSX.Element => {
 
   return (
     <MyPageS>
-      <MyPageHeader />
+      <GroupHeader text='MY' />
       <ProfileHeaderS>
         <h2>
           {myInfo.nickname}칩스’s
@@ -60,15 +60,6 @@ const MyPage = (): JSX.Element => {
 };
 
 export default MyPage;
-
-const MyPageHeader = (): JSX.Element => {
-  return (
-    <GroupBGHeaderS>
-      <img src={Arrow_Left_B} onClick={goBack} alt='Arrow icon' />
-      <h2>MY</h2>
-    </GroupBGHeaderS>
-  );
-};
 
 const MyPageSetting = (): JSX.Element => {
   const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
@@ -112,42 +103,12 @@ const MyPageS = styled.div`
   align-items: center;
 `;
 
-const MyPageHeaderS = styled.header`
-  position: sticky;
-  top: 0;
-
-  width: 100%;
-  height: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-`;
-
-const GroupBGHeaderS = styled(MyPageHeaderS)`
-  z-index: 10;
-  justify-content: center;
-  background-color: white;
-  min-width: var(--width-min);
-
-  padding: 1rem 0;
-
-  img {
-    position: absolute;
-    left: 1.67rem;
-  }
-
-  h2 {
-    font-size: 1.25rem;
-  }
-`;
-
 const ProfileHeaderS = styled.div`
   box-sizing: border-box;
   width: 100%;
   min-width: var(--width-min);
   height: 6.3125rem;
-
+  margin-top: var(--height-header);
   display: flex;
   align-items: center;
   padding: 0 1rem;
@@ -191,7 +152,7 @@ const MyPageSetS = styled.div`
   min-width: var(--width-min);
 
   ul {
-    margin-top: 1.06rem;
+    margin: 1.06rem 0;
     display: flex;
     flex-direction: column;
     gap: 2.125rem;

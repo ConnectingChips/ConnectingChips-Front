@@ -1,5 +1,5 @@
 import { styled, useState, useEffect, useParams } from './GroupPageBarrel';
-import { GroupHeader, DivideBaS } from './GroupPageBarrel';
+import { GroupHeader } from './GroupPageBarrel';
 import {
   getMindInfo_Page,
   getMind_PageImage,
@@ -11,12 +11,13 @@ import {
 } from './GroupPageBarrel';
 import type { MindPageInfo, MindsType } from './GroupPageBarrel';
 import GroupPostList from './Post/GroupPostList';
-import React from 'react';
 
 const GroupPage = (): JSX.Element => {
   const { mindId } = useParams<string>();
   const [groupPageImg, setGroupPageImg] = useState<string>('');
   const [getMindInfoData, setGetMindInfoData] = useState<MindsType>(initMind);
+
+  // 그룹페이지 이미지와 소개글 데이터를 가져오는 api
   useEffect(() => {
     getMind_PageImage(Number(mindId)).then((data) => setGroupPageImg(data.pageImage));
     getMindInfo_Page(Number(mindId)).then((data: MindPageInfo) => setGetMindInfoData(data));
@@ -24,11 +25,9 @@ const GroupPage = (): JSX.Element => {
 
   return (
     <GroupPageS>
-      <GroupHeader />
+      <GroupHeader upload={true} />
       <GroupImageS url={groupPageImg} />
       <GroupInfo mindData={getMindInfoData} />
-      <DivideBaS />
-
       <GroupPostList />
     </GroupPageS>
   );
