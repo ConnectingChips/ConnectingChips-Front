@@ -112,7 +112,7 @@ const CommentInput = ({ userInfo, postData, isCommentBind }: commentInputProps) 
           <button onClick={inputBtnHandler}>
             {
               <img
-                src={`${process.env.PUBLIC_URL}/commentInputButton${isTyping}.svg`}
+                src={`${process.env.PUBLIC_URL}/assets/commentInputButton${isTyping}.svg`}
                 alt='sendIcon'
               />
             }

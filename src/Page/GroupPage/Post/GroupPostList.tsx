@@ -69,7 +69,7 @@ const GroupPostList = () => {
 const EmptyPost = () => {
   return (
     <EmptyPostS>
-      <img src={`${process.env.PUBLIC_URL}/noMind.png`} alt='noMind'></img>
+      <img src={`${process.env.PUBLIC_URL}/assets/noMind.png`} alt='noMind'></img>
       <h2>등록된 인증글이 없습니다.</h2>
       <p>가장 먼저 작심을 인증해 보세요!</p>
     </EmptyPostS>
