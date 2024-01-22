@@ -1,6 +1,6 @@
 import { getData, postData, putData } from './axiosConfig';
 import getToken from '../data/tocken';
-import { Mylist } from '../Type/Mind';
+import { Mylist } from '../type/Mind';
 
 // 참여중인 작심인지 반환
 export const getCheckedJoined = async (mind_id: number): Promise<boolean> => {

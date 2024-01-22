@@ -10,9 +10,9 @@ import { CurrentMind, EndMindList } from './MyPageMind';
 
 import ConfirmModal from '../../Component/ConfirmModal';
 import scrollTop from '../../Hooks/scrollTop';
-import { GetUser } from '../../Type/User';
+import { GetUser } from '../../type/User';
 import { getMyList } from '../../API/Mind';
-import { Mylist } from '../../Type/Mind';
+import { Mylist } from '../../type/Mind';
 import { initUser, initMyList } from '../../data/initialData';
 import { getUser, logoutUser } from '../../API/Users';
 import TermsModal from './TermsModal';

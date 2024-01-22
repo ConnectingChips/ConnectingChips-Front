@@ -1,5 +1,5 @@
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
-import TermsValue from '../../Type/TermsValue';
+import TermsValue from '../../type/TermsValue';
 import { DivideBaS } from '../GroupPage/GroupPageBarrel';
 import { styled, useEffect, useState, logoutUser, getMyList } from './MypageBarrel';
 import { Info_icon_B } from './MypageBarrel';

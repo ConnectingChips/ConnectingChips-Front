@@ -9,7 +9,7 @@ import chip_Active from '../../../image/Home/chip_Active.png';
 import chip_NoneActive from '../../../image/Home/chip_NoneActive.png';
 import ChipList from './ChipList';
 import { MissionSingleWideS } from '../../../Component/Mission/MissionTab';
-import { Mylist } from '../../../Type/Mind';
+import { Mylist } from '../../../type/Mind';
 
 export { ChipList, MissionSingleWideS };
 export { styled, Link, useEffect, useRef, useState };

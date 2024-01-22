@@ -1,5 +1,5 @@
 import { getData, postData } from './axiosConfig';
-import { GetUser, User } from '../Type/User';
+import { GetUser, User } from '../type/User';
 import logText from './logText';
 import getToken from '../data/tocken';
 

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import MarkDown from '../../Component/Markdown/Markdown';
 import { personalInfoCollection, privacyPolicy, terms } from '../../data/termsPolicyData';
-import Bind from '../../Type/Bind';
-import TermsValue from '../../Type/TermsValue';
+import Bind from '../../type/Bind';
+import TermsValue from '../../type/TermsValue';
 import { GroupHeader } from '../../Component/Mission/GroupHeader';
 interface TermsModalProps {
   termsBind: Bind<TermsValue>;

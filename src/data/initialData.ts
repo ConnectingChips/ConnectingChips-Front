@@ -1,5 +1,5 @@
-import { GetUser } from '../Type/User';
-import { Mylist } from '../Type/Mind';
+import { GetUser } from '../type/User';
+import { Mylist } from '../type/Mind';
 import { atom } from 'recoil';
 
 export const initMyList: Mylist[] = [];

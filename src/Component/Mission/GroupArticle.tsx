@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { MindsType, PageSort } from '../../Type/Mind';
+import { MindsType, PageSort } from '../../type/Mind';
 import { MissionSingleWideS } from './MissionTab';
 
 export const initMind: MindsType = {

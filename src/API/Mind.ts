@@ -1,8 +1,8 @@
 import { getData } from './axiosConfig';
-import { MindIntroInfo, isDoneSingle, isDone, Mylist, TotalMind } from '../Type/Mind';
+import { MindIntroInfo, isDoneSingle, isDone, Mylist, TotalMind } from '../type/Mind';
 import { EndMindType } from '../Page/MyPage/MyPageMind';
 import logText from './logText';
-import { MindPageInfo } from '../Type/Mind';
+import { MindPageInfo } from '../type/Mind';
 import getToken from '../data/tocken';
 import { getIsLogined } from './Users';
 

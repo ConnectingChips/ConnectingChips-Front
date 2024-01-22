@@ -24,7 +24,7 @@ import { postCreateBoard } from '../../API/Boards';
 import { getMindInfo_Intro } from '../../API/Mind';
 
 import { ReactComponent as LoadingSpinner } from '../../image/loading.svg';
-import { MindsType } from '../../Type/Mind';
+import { MindsType } from '../../type/Mind';
 import {
   BAD_REQUEST,
   SERVER_ERROR,

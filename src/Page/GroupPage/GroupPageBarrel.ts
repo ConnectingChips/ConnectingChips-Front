@@ -14,13 +14,13 @@ import {
   IntroduceS,
   initMind,
 } from '../../Component/Mission/GroupArticle';
-import { MindPageInfo, MindsType } from '../../Type/Mind';
+import { MindPageInfo, MindsType } from '../../type/Mind';
 
 import GroupPost from './Post/GroupPost';
 
 import { getBoards, BoardsType } from '../../API/Boards';
 import { getUser } from '../../API/Users';
-import { GetUser } from '../../Type/User';
+import { GetUser } from '../../type/User';
 import { initUser } from '../../data/initialData';
 import { INVALID_TOKEN, EXPIRED_TOKEN } from '../../constant/error';
 import post_Icon from '../../image/Icon/post_Icon.svg';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { isCommentInputFocused } from '../../../data/initialData';
-import Bind from '../../../Type/Bind';
+import Bind from '../../../type/Bind';
 import {
   axios,
   BoardsType,

@@ -2,7 +2,7 @@ import { styled, useEffect, useState, Link } from './HomeBarrel';
 import { MissonTab } from '../../Component/Mission/MissionTab';
 import { missionTab } from '../../data/missionTab';
 import { getMindAll, getMindFilter } from '../../API/Mind';
-import { TotalMind } from '../../Type/Mind';
+import { TotalMind } from '../../type/Mind';
 
 /** 23-08-20 GroupList.tsx - 메인 컴프 */
 const GroupList = (): JSX.Element => {
@@ -26,11 +26,11 @@ const GroupList = (): JSX.Element => {
     <GroupListS>
       <h2>작심 그룹 리스트</h2>
       <MissonTab missionTab={missionTab} focusbind={curFocusBind} />
-        <GroupItemListS>
-          {showList.map((mind, idx) => (
-            <GroupListItem mind={mind} key={idx} />
-          ))}
-        </GroupItemListS>
+      <GroupItemListS>
+        {showList.map((mind, idx) => (
+          <GroupListItem mind={mind} key={idx} />
+        ))}
+      </GroupItemListS>
     </GroupListS>
   );
 };

@@ -1,7 +1,7 @@
 import { styled } from './Carresel/CarreselBarrel';
 import Carresel from './Carresel/Carresel';
 import ButtonList from './Carresel/ButtonList';
-import { Mylist } from '../../Type/Mind';
+import { Mylist } from '../../type/Mind';
 
 const MyMisson = ({ myList }: { myList: Mylist[] }): JSX.Element => {
   return (

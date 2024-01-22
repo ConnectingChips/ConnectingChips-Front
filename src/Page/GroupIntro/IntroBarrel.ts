@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { getMind_IntroImage, getMindInfo_Intro } from '../../API/Mind';
-import { MindIntroInfo, MindsType } from '../../Type/Mind';
+import { MindIntroInfo, MindsType } from '../../type/Mind';
 import { CTAContainer } from '../../Component/CTA/CTAContainer';
 import {
   HeadLine,

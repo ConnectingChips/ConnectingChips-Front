@@ -4,7 +4,7 @@ import { BoardsType, GetUser, useState } from '../GroupPageBarrel';
 import { postAddComment } from '../../../API/Comment';
 import { postAddReply } from '../../../API/Comment';
 import { isCommentInputFocused, refreshState } from '../../../data/initialData';
-import Bind from '../../../Type/Bind';
+import Bind from '../../../type/Bind';
 import { useEffect, useRef } from 'react';
 
 interface commentInputProps {
