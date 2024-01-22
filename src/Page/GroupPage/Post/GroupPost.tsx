@@ -91,7 +91,7 @@ const CommentInputBar = ({ postProps }: { postProps: PostProps }) => {
     <CommentInputBarContainer>
       <CommentInputBarS onClick={handleCommentClick}>
         <div>{commentInputText}</div>
-        <img src={`${process.env.PUBLIC_URL}/commentInputButtonoff.svg`} alt='sendIcon' />
+        <img src={`${process.env.PUBLIC_URL}/assets/commentInputButtonoff.svg`} alt='sendIcon' />
       </CommentInputBarS>
     </CommentInputBarContainer>
   );

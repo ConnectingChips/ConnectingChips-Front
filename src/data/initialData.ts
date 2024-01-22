@@ -7,7 +7,7 @@ export const initMyList: Mylist[] = [];
 export const initUser: GetUser = {
   userId: 0,
   nickname: '',
-  profileImage: `${process.env.PUBLIC_URL}/Chips_signout.png`,
+  profileImage: `${process.env.PUBLIC_URL}/assets/Chips_signout.png`,
   roles: '',
 };
 

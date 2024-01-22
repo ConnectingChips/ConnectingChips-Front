@@ -162,7 +162,11 @@ const WelComeHead = ({ WelcomeProps }: { WelcomeProps: WelcomeProps }): JSX.Elem
         )}
       </WelcomeTextS>
       {!isLogin && (
-        <img src={`${process.env.PUBLIC_URL}/oneChip.png`} alt='원칩이' className='noLogin' />
+        <img
+          src={`${process.env.PUBLIC_URL}/assets/oneChip.png`}
+          alt='원칩이'
+          className='noLogin'
+        />
       )}
     </WelcomeHeadS>
   );
