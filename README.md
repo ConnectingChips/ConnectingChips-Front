@@ -14,9 +14,8 @@
 <br />
 
 ## 프로젝트 정보
-* 기간: 23.08.14 ~ 진행중
+* 기간: 23.08.14 ~ 23.11.30
 * 링크: https://samchips.com
-* 테스트 계정: khtest / 111111111q (10자리) 
 
 <br />
 
@@ -24,7 +23,7 @@
 <table>
 <!-- 팀 -->
   <tr>
-    <td align="center" colspan="2"><strong>PM</strong></td>
+    <td align="center" colspan="1"><strong>PM</strong></td>
     <td align="center" colspan="1"><strong>디자이너</strong></td>
     <td align="center" colspan="3"><strong>프론트엔드</strong></td>
     <td align="center" colspan="3"><strong>백엔드</strong></td>
@@ -35,10 +34,6 @@
     <!-- PM (준형) -->
     <td>
       <img src="https://github.com/ConnectingChips/.github/assets/77181642/f81ca037-251f-47af-ac9c-63e46fa9f17d" width="200px"/>
-    </td>
-    <!-- PM (효진) -->
-    <td>
-      <img src="https://github.com/ConnectingChips/.github/assets/77181642/41dd8999-d805-4e8f-b3bd-b1c991c965f8" width="200px"/>
     </td>
     <!-- 디자이너 (세림) -->
     <td>
@@ -89,10 +84,6 @@
     <!-- PM (준형) -->
     <td align="center">
       준형
-    </td>
-    <!-- PM (효진) -->
-    <td align="center">
-      효진
     </td>
     <!-- 디자이너 (세림)-->
     <td align="center">
